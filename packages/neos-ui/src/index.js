@@ -17,6 +17,7 @@ import {handleActions} from '@neos-project/utils-redux';
 
 import * as system from './System';
 import localStorageMiddleware from './localStorageMiddleware';
+import clipboardMiddleware from './clipboardMiddleware';
 import Root from './Containers/Root';
 import apiExposureMap from './apiExposureMap';
 import DelegatingReducer from './DelegatingReducer';
@@ -29,7 +30,7 @@ const sagaMiddleWare = createSagaMiddleware();
 
 const delegatingReducer = new DelegatingReducer();
 const store = createStore(delegatingReducer.reducer(), new Map(), compose(
-    applyMiddleware(sagaMiddleWare, localStorageMiddleware),
+    applyMiddleware(sagaMiddleWare, localStorageMiddleware, clipboardMiddleware),
     devToolsStoreEnhancer()
 ));
 
@@ -49,6 +50,7 @@ require('@neos-project/neos-ui-ckeditor-bindings');
 require('@neos-project/neos-ui-ckeditor5-bindings');
 require('@neos-project/neos-ui-validators');
 require('@neos-project/neos-ui-i18n/src/manifest');
+require('@neos-project/neos-ui-sagas/src/manifest');
 
 //
 // The main application
