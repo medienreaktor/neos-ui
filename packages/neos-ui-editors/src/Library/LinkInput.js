@@ -1,5 +1,6 @@
 import React, {PureComponent, Fragment} from 'react';
 import PropTypes from 'prop-types';
+import pick from 'lodash.pick';
 import {connect} from 'react-redux';
 import {$get, $transform} from 'plow-js';
 
@@ -47,7 +48,8 @@ export default class LinkInput extends PureComponent {
             targetBlank: PropTypes.bool,
             relNofollow: PropTypes.bool,
             assets: PropTypes.bool,
-            nodes: PropTypes.bool
+            nodes: PropTypes.bool,
+            startingPoint: PropTypes.string
         }),
         setFocus: PropTypes.bool,
         linkValue: PropTypes.string,
@@ -79,11 +81,16 @@ export default class LinkInput extends PureComponent {
     };
 
     getDataLoaderOptions() {
+        const contextNode = $get('options.startingPoint', this.props) ?
+            this.props.contextForNodeLinking.set('contextNode', $get('options.startingPoint', this.props)) :
+            this.props.contextForNodeLinking;
+
         return {
             nodeTypes: $get('options.nodeTypes', this.props) || ['Neos.Neos:Document'],
             asset: $get('options.assets', this.props),
             node: $get('options.nodes', this.props),
-            contextForNodeLinking: this.props.contextForNodeLinking.toJS()
+            startingPoint: $get('options.startingPoint', this.props),
+            contextForNodeLinking: contextNode.toJS()
         };
     }
 
@@ -353,7 +360,8 @@ export default class LinkInput extends PureComponent {
     }
 
     render() {
-        const linkingOptions = this.props.options;
+        const linkingOptions = pick(this.props.options, ['anchor', 'title', 'targetBlank', 'relNofollow']);
+
         const optionsPanelEnabled = Boolean(linkingOptions && Object.values(linkingOptions).filter(i => i).length);
         return (
             <div>
