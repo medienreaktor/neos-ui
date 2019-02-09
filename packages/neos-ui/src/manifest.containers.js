@@ -15,6 +15,7 @@ import UnappliedChangesDialog from './Containers/Modals/UnappliedChangesDialog/i
 
 import PrimaryToolbar from './Containers/PrimaryToolbar/index';
 import UserDropDown from './Containers/PrimaryToolbar/UserDropDown/index';
+import WorkspaceSelector from './Containers/PrimaryToolbar/WorkspaceSelector/index';
 import PublishDropDown from './Containers/PrimaryToolbar/PublishDropDown/index';
 import MenuToggler from './Containers/PrimaryToolbar/MenuToggler/index';
 import LeftSideBarToggler from './Containers/PrimaryToolbar/LeftSideBarToggler/index';
@@ -62,6 +63,7 @@ manifest('main.containers', {}, globalRegistry => {
     containerRegistry.set('PrimaryToolbar/Left/LeftSideBarToggler', LeftSideBarToggler);
     containerRegistry.set('PrimaryToolbar/Left/EditModePanelToggler', EditModePanelToggler);
     containerRegistry.set('PrimaryToolbar/Right/UserDropDown', UserDropDown);
+    containerRegistry.set('PrimaryToolbar/Right/WorkspaceSelector', WorkspaceSelector);
     containerRegistry.set('PrimaryToolbar/Right/PublishDropDown', PublishDropDown);
 
     containerRegistry.set('EditModePanel', EditModePanel);

@@ -17,7 +17,6 @@ import {neos} from '@neos-project/neos-ui-decorators';
 const {publishableNodesSelector, publishableNodesInDocumentSelector, baseWorkspaceSelector, isWorkspaceReadOnlySelector, personalWorkspaceNameSelector} = selectors.CR.Workspaces;
 
 import AbstractButton from './AbstractButton/index';
-import WorkspaceSelector from './WorkspaceSelector/index';
 import style from './style.css';
 
 @connect($transform({
@@ -152,14 +151,6 @@ export default class PublishDropDown extends PureComponent {
                     <DropDown.Contents
                         className={style.dropDown__contents}
                         >
-                        { Object.keys(allowedWorkspaces).length > 1 && <li className={style.dropDown__item}>
-                            <WorkspaceSelector
-                                baseWorkspace={baseWorkspace}
-                                allowedWorkspaces={allowedWorkspaces}
-                                changeBaseWorkspaceAction={changeBaseWorkspaceAction}
-                                changingWorkspaceAllowed={changingWorkspaceAllowed}
-                                />
-                        </li> }
                         <li className={style.dropDown__item}>
                             <AbstractButton
                                 id="neos-PublishDropDown-PublishAll"
