@@ -2,18 +2,18 @@
     display: inline-block;
     position: relative;
     vertical-align: top;
-    padding-right: 47px;
+    padding-right: 46px;
     height: var(--spacing-GoldenUnit);
 }
 
 .publishBtn {
-    min-width: 212px;
+    min-width: 274px;
 }
 .dropDown {
     position: static;
 }
 .dropDown__contents {
-    padding: 2px !important;
+    padding: 0 2px 2px 2px !important;
     background: var(--colors-Success);
 }
 .dropDown__btn {
@@ -28,7 +28,7 @@
     border-radius: 0;
     line-height: var(--spacing-GoldenUnit);
     background: var(--colors-Success);
-    text-align: center;
+    text-align: right;
     vertical-align: top;
     cursor: pointer;
 }
