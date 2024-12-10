@@ -218,6 +218,15 @@
       <trans-unit id="discard.document.success.acknowledge" xml:space="preserve">
         <source>OK</source>
       </trans-unit>
+      <trans-unit id="partialPublishFailed.title" xml:space="preserve">
+        <source>Could not publish all changes in "{scopeTitle}"</source>
+      </trans-unit>
+      <trans-unit id="partialPublishFailed.message" xml:space="preserve">
+        <source>Some changes in this document are dependant on changes in other documents. Do you want to publish all changes to the workspace "{targetWorkspaceName}"?</source>
+      </trans-unit>
+      <trans-unit id="partialPublishFailed.publishAll" xml:space="preserve">
+        <source>Yes, publish all changes</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

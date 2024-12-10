@@ -34,6 +34,11 @@ type PublishingResponse =
             numberOfAffectedChanges: number;
         }
     }
+    | {
+        partialPublishFail: {
+            numberOfAffectedChanges: number;
+        }
+    }
     | { conflicts: Conflict[] }
     | { error: AnyError };
 
@@ -131,6 +136,8 @@ export function * watchPublishing({routes}: {routes: Routes}) {
                 }
             } else if ('error' in result) {
                 yield put(actions.CR.Publishing.fail(result.error));
+            } else if ('partialPublishFail' in result) {
+                yield put(actions.CR.Publishing.partialFail());
             } else {
                 yield put(actions.CR.Publishing.fail(null));
             }

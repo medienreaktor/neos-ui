@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Neos\Neos\Ui\Application\PublishChangesInDocument;
 
 use Neos\ContentRepository\Core\Feature\WorkspaceRebase\Exception\WorkspaceRebaseFailed;
+use Neos\ContentRepository\Core\Feature\WorkspaceRebase\Exception\PartialWorkspaceRebaseFailed;
 use Neos\ContentRepository\Core\SharedModel\Exception\NodeAggregateCurrentlyDoesNotExist;
 use Neos\ContentRepository\Core\SharedModel\Exception\NodeAggregateDoesCurrentlyNotCoverDimensionSpacePoint;
 use Neos\ContentRepositoryRegistry\ContentRepositoryRegistry;
@@ -23,6 +24,7 @@ use Neos\Neos\Domain\NodeLabel\NodeLabelGeneratorInterface;
 use Neos\Neos\Domain\Service\WorkspacePublishingService;
 use Neos\Neos\Ui\Application\Shared\ConflictsOccurred;
 use Neos\Neos\Ui\Application\Shared\PublishSucceeded;
+use Neos\Neos\Ui\Application\Shared\PartialPublishFailed;
 use Neos\Neos\Ui\Controller\TranslationTrait;
 use Neos\Neos\Ui\Infrastructure\ContentRepository\ConflictsFactory;
 
@@ -51,7 +53,8 @@ final class PublishChangesInDocumentCommandHandler
      */
     public function handle(
         PublishChangesInDocumentCommand $command
-    ): PublishSucceeded|ConflictsOccurred {
+    ): PublishSucceeded|ConflictsOccurred|PartialPublishFailed
+    {
         try {
             $publishingResult = $this->workspacePublishingService->publishChangesInDocument(
                 $command->contentRepositoryId,
@@ -67,18 +70,6 @@ final class PublishChangesInDocumentCommandHandler
                 numberOfAffectedChanges: $publishingResult->numberOfPublishedChanges,
                 baseWorkspaceName: $workspace?->baseWorkspaceName?->value
             );
-        } catch (NodeAggregateCurrentlyDoesNotExist $e) {
-            throw new \RuntimeException(
-                $this->getLabel('NodeNotPublishedMissingParentNode'),
-                1705053430,
-                $e
-            );
-        } catch (NodeAggregateDoesCurrentlyNotCoverDimensionSpacePoint $e) {
-            throw new \RuntimeException(
-                $this->getLabel('NodeNotPublishedParentNodeNotInCurrentDimension'),
-                1705053432,
-                $e
-            );
         } catch (WorkspaceRebaseFailed $e) {
             $conflictsFactory = new ConflictsFactory(
                 contentRepository: $this->contentRepositoryRegistry
@@ -91,6 +82,26 @@ final class PublishChangesInDocumentCommandHandler
             return new ConflictsOccurred(
                 conflicts: $conflictsFactory->fromWorkspaceRebaseFailed($e)
             );
+        } catch (PartialWorkspaceRebaseFailed $e) {
+            $workspace = $this->contentRepositoryRegistry->get($command->contentRepositoryId)->findWorkspaceByName(
+                $command->workspaceName
+            );
+            return new PartialPublishFailed(
+                baseWorkspaceName: $workspace?->baseWorkspaceName?->value
+            );
+        } catch (NodeAggregateCurrentlyDoesNotExist $e) {
+            throw new \RuntimeException(
+                $this->getLabel('NodeNotPublishedMissingParentNode'),
+                1705053430,
+                $e
+            );
+        } catch (NodeAggregateDoesCurrentlyNotCoverDimensionSpacePoint $e) {
+            throw new \RuntimeException(
+                $this->getLabel('NodeNotPublishedParentNodeNotInCurrentDimension'),
+                1705053432,
+                $e
+            );
+
         }
     }
 }

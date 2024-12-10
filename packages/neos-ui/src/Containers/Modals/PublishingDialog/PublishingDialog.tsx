@@ -23,6 +23,7 @@ import {
 import {ConfirmationDialog} from './ConfirmationDialog';
 import {ProcessIndicator} from './ProcessIndicator';
 import {ResultDialog} from './ResultDialog';
+import {PublishAllConfirmationDialog} from './PublishAllConfirmationDialog';
 
 const {
     publishableNodesSelector,
@@ -46,6 +47,7 @@ type PublishingDialogHandlers = {
     confirm: () => void;
     retry: () => void;
     acknowledge: () => void;
+    start: (mode: PublishingMode, scope: PublishingScope) => void;
 }
 
 type PublishingDialogProps =
@@ -63,6 +65,11 @@ const PublishingDialog: React.FC<PublishingDialogProps> = (props) => {
     }, []);
     const handleAcknowledge = React.useCallback(() => {
         props.acknowledge();
+    }, []);
+
+    const handlePublishAllClick = React.useCallback(() => {
+        props.start(PublishingMode.PUBLISH, PublishingScope.SITE);
+        props.confirm();
     }, []);
 
     if (props.publishingState === null) {
@@ -114,6 +121,19 @@ const PublishingDialog: React.FC<PublishingDialogProps> = (props) => {
                     onAcknowledge={handleAcknowledge}
                     />
             );
+        case PublishingPhase.PARTIALLYFAILED:
+            return (
+                <PublishAllConfirmationDialog
+                    mode={props.publishingState.mode}
+                    scope={props.publishingState.scope}
+                    scopeTitle={props.scopeTitle}
+                    sourceWorkspaceName={props.sourceWorkspaceName}
+                    targetWorkspaceName={props.targetWorkspaceName}
+                    numberOfChanges={props.numberOfChanges}
+                    onAbort={handleCancel}
+                    onConfirm={handlePublishAllClick}
+                />
+            );
     }
 };
 
@@ -160,5 +180,6 @@ export default connect((state: GlobalState): PublishingDialogProperties => {
     confirm: (actions as any).CR.Publishing.confirm,
     cancel: (actions as any).CR.Publishing.cancel,
     retry: (actions as any).CR.Publishing.retry,
-    acknowledge: (actions as any).CR.Publishing.acknowledge
+    acknowledge: (actions as any).CR.Publishing.acknowledge,
+    start: (actions as any).CR.Publishing.start
 })(PublishingDialog);
