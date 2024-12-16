@@ -64,15 +64,17 @@ class CopyAfter extends AbstractStructuralChange
             try {
                 $succeedingSibling = $this->findChildNodes($parentNodeOfPreviousSibling)->next($previousSibling);
             } catch (\InvalidArgumentException $e) {
-                // do nothing; $succeedingSibling is null.
+                // do nothing; $succeedingSibling is null. Todo add Nodes::contain()
             }
-
+            if (!$subject->dimensionSpacePoint->equals($parentNodeOfPreviousSibling->dimensionSpacePoint)) {
+                throw new \RuntimeException('Copying across dimensions is not supported yet (https://github.com/neos/neos-development-collection/issues/5054)', 1733586265);
+            }
             $this->nodeDuplicationService->copyNodesRecursively(
                 $subject->contentRepositoryId,
                 $subject->workspaceName,
                 $subject->dimensionSpacePoint,
                 $subject->aggregateId,
-                OriginDimensionSpacePoint::fromDimensionSpacePoint($subject->dimensionSpacePoint),
+                OriginDimensionSpacePoint::fromDimensionSpacePoint($parentNodeOfPreviousSibling->dimensionSpacePoint),
                 $parentNodeOfPreviousSibling->aggregateId,
                 $succeedingSibling?->aggregateId,
                 NodeAggregateIdMapping::createEmpty()

@@ -455,12 +455,25 @@ export const makeCanBeMovedAlongsideSelector = (nodeTypesRegistry: NodeTypesRegi
     (canBeInsertedInto, referenceIsDescendantOfSubject) => canBeInsertedInto && !referenceIsDescendantOfSubject
 );
 
+const makeNodeIsOfCurrentDimension = (_: GlobalState, {subject, reference}: {subject: NodeContextPath | null, reference: NodeContextPath | null}) => {
+    if (subject === null || reference === null) {
+        return false;
+    }
+
+    // todo centralise client side NodeAddress logic
+    const subjectDimension = JSON.parse(subject).dimensionSpacePoint;
+    const referenceDimension = JSON.parse(reference).dimensionSpacePoint;
+
+    return JSON.stringify(subjectDimension) === JSON.stringify(referenceDimension);
+};
+
 export const makeCanBeCopiedSelector = (nodeTypesRegistry: NodeTypesRegistry) => createSelector(
     [
+        makeNodeIsOfCurrentDimension,
         makeCanBeCopiedAlongsideSelector(nodeTypesRegistry),
         makeCanBeCopiedIntoSelector(nodeTypesRegistry)
     ],
-    (canBeInsertedAlongside, canBeInsertedInto) => (canBeInsertedAlongside || canBeInsertedInto)
+    (nodeIsOfCurrentDimension, canBeInsertedAlongside, canBeInsertedInto) => nodeIsOfCurrentDimension && (canBeInsertedAlongside || canBeInsertedInto)
 );
 
 export const makeCanBeMovedSelector = (nodeTypesRegistry: NodeTypesRegistry) => createSelector(

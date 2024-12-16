@@ -72,12 +72,15 @@ class CopyInto extends AbstractStructuralChange
         $subject = $this->getSubject();
         $parentNode = $this->getParentNode();
         if ($parentNode && $this->canApply()) {
+            if (!$subject->dimensionSpacePoint->equals($parentNode->dimensionSpacePoint)) {
+                throw new \RuntimeException('Copying across dimensions is not supported yet (https://github.com/neos/neos-development-collection/issues/5054)', 1733586265);
+            }
             $this->nodeDuplicationService->copyNodesRecursively(
                 $subject->contentRepositoryId,
                 $subject->workspaceName,
                 $subject->dimensionSpacePoint,
                 $subject->aggregateId,
-                OriginDimensionSpacePoint::fromDimensionSpacePoint($subject->dimensionSpacePoint),
+                OriginDimensionSpacePoint::fromDimensionSpacePoint($parentNode->dimensionSpacePoint),
                 $parentNode->aggregateId,
                 null,
                 NodeAggregateIdMapping::createEmpty()

@@ -738,23 +738,23 @@ class BackendServiceController extends ActionController
         )->aggregateId->value;
         $query['ancestorsOfDocumentIds'] = array_map(
             fn (string $nodeAddress) =>
-                 NodeAddress::fromJsonString(
-                     $nodeAddress
-                 )->aggregateId->value,
+            NodeAddress::fromJsonString(
+                $nodeAddress
+            )->aggregateId->value,
             $query['ancestorsOfDocumentIds']
         );
         $query['toggledNodesIds'] = array_map(
             fn (string $nodeAddress) =>
-                 NodeAddress::fromJsonString(
-                     $nodeAddress
-                 )->aggregateId->value,
+            NodeAddress::fromJsonString(
+                $nodeAddress
+            )->aggregateId->value,
             $query['toggledNodesIds']
         );
         $query['clipboardNodesIds'] = array_map(
             fn (string $nodeAddress) =>
-                 NodeAddress::fromJsonString(
-                     $nodeAddress
-                 )->aggregateId->value,
+            NodeAddress::fromJsonString(
+                $nodeAddress
+            )->aggregateId->value,
             $query['clipboardNodesIds']
         );
         $query = ReloadNodesQuery::fromArray($query);

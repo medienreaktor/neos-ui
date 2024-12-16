@@ -62,12 +62,15 @@ class CopyBefore extends AbstractStructuralChange
         if ($this->canApply() && !is_null($succeedingSibling)
             && !is_null($parentNodeOfSucceedingSibling)
         ) {
+            if (!$subject->dimensionSpacePoint->equals($succeedingSibling->dimensionSpacePoint)) {
+                throw new \RuntimeException('Copying across dimensions is not supported yet (https://github.com/neos/neos-development-collection/issues/5054)', 1733586265);
+            }
             $this->nodeDuplicationService->copyNodesRecursively(
                 $subject->contentRepositoryId,
                 $subject->workspaceName,
                 $subject->dimensionSpacePoint,
                 $subject->aggregateId,
-                OriginDimensionSpacePoint::fromDimensionSpacePoint($subject->dimensionSpacePoint),
+                OriginDimensionSpacePoint::fromDimensionSpacePoint($succeedingSibling->dimensionSpacePoint),
                 $parentNodeOfSucceedingSibling->aggregateId,
                 $succeedingSibling->aggregateId,
                 NodeAggregateIdMapping::createEmpty()
