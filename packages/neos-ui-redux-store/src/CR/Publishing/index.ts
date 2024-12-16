@@ -26,7 +26,6 @@ export enum PublishingPhase {
     START,
     ONGOING,
     CONFLICTS,
-    PARTIALLYFAILED,
     SUCCESS,
     ERROR
 }
@@ -38,7 +37,6 @@ export type State = null | {
         | { phase: PublishingPhase.START }
         | { phase: PublishingPhase.ONGOING }
         | { phase: PublishingPhase.CONFLICTS }
-        | { phase: PublishingPhase.PARTIALLYFAILED }
         | {
               phase: PublishingPhase.ERROR;
               error: null | AnyError;
@@ -58,9 +56,7 @@ export enum actionTypes {
     CONFLICTS_OCCURRED = '@neos/neos-ui/CR/Publishing/CONFLICTS_OCCURRED',
     CONFLICTS_RESOLVED = '@neos/neos-ui/CR/Publishing/CONFLICTS_RESOLVED',
     FAILED = '@neos/neos-ui/CR/Publishing/FAILED',
-    PARTIALLYFAILED = '@neos/neos-ui/CR/Publishing/PARTIALLYFAILED',
     RETRIED = '@neos/neos-ui/CR/Publishing/RETRIED',
-    RETRIEDWITHSTATE = '@neos/neos-ui/CR/Publishing/RETRIEDWITHSTATE',
     SUCEEDED = '@neos/neos-ui/CR/Publishing/SUCEEDED',
     ACKNOWLEDGED = '@neos/neos-ui/CR/Publishing/ACKNOWLEDGED',
     FINISHED = '@neos/neos-ui/CR/Publishing/FINISHED'
@@ -99,11 +95,6 @@ const fail = (error: null | AnyError) =>
     createAction(actionTypes.FAILED, {error});
 
 /**
- * Signal that the ongoing publish/discard workflow has partially failed
- */
-const partialFail = () => createAction(actionTypes.PARTIALLYFAILED);
-
-/**
  * Attempt to retry a failed publish/discard workflow
  */
 const retry = () => createAction(actionTypes.RETRIED);
@@ -134,7 +125,6 @@ export const actions = {
     conflicts,
     resolveConflicts,
     fail,
-    partialFail,
     retry,
     succeed,
     acknowledge,
@@ -191,13 +181,6 @@ export const reducer = (state: State = defaultState, action: Action): State => {
                 process: {
                     phase: PublishingPhase.ERROR,
                     error: action.payload.error
-                }
-            };
-        case actionTypes.PARTIALLYFAILED:
-            return {
-                ...state,
-                process: {
-                    phase: PublishingPhase.PARTIALLYFAILED
                 }
             };
         case actionTypes.RETRIED:

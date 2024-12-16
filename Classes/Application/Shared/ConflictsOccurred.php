@@ -23,7 +23,8 @@ use Neos\Flow\Annotations as Flow;
 final readonly class ConflictsOccurred implements \JsonSerializable
 {
     public function __construct(
-        public readonly Conflicts $conflicts
+        public readonly Conflicts $conflicts,
+        public readonly bool $isPartialPublish = true
     ) {
     }
 

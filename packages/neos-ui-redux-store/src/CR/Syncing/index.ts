@@ -24,7 +24,8 @@ export enum SyncingPhase {
 
 export enum ResolutionStrategy {
     FORCE,
-    DISCARD_ALL
+    DISCARD_ALL,
+    PUBLISH_ALL
 }
 
 export enum ReasonForConflict {
@@ -106,8 +107,8 @@ const confirm = () => createAction(actionTypes.CONFIRMED);
 /**
  * Signal that conflicts occurred during the ongoing syncing (rebasing) workflow
  */
-const resolve = (conflicts: Conflict[]) =>
-    createAction(actionTypes.CONFLICTS_DETECTED, {conflicts});
+const resolve = (conflicts: Conflict[], strategy: ResolutionStrategy) =>
+    createAction(actionTypes.CONFLICTS_DETECTED, {conflicts, strategy});
 
 /**
  * Initiates the process of resolving a conflict that occurred
@@ -192,7 +193,7 @@ export const reducer = (state: State = defaultState, action: Action): State => {
                 process: {
                     phase: SyncingPhase.CONFLICT,
                     conflicts: action.payload.conflicts,
-                    strategy: null
+                    strategy: action.payload.strategy
                 }
             };
         }

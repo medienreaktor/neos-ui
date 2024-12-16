@@ -36,10 +36,10 @@ type PublishingResponse =
     }
     | {
         partialPublishFail: {
-            numberOfAffectedChanges: number;
+            conflicts: Conflict[];
         }
     }
-    | { conflicts: Conflict[] }
+    | { conflicts: Conflict[], isPartialPublish: boolean }
     | { error: AnyError };
 
 export function * watchPublishing({routes}: {routes: Routes}) {
@@ -109,7 +109,7 @@ export function * watchPublishing({routes}: {routes: Routes}) {
             } else if ('conflicts' in result) {
                 yield put(actions.CR.Publishing.conflicts());
                 const conflictsWereResolved: boolean =
-                    yield * resolveConflicts(result.conflicts);
+                    yield * resolveConflicts(result.conflicts, result.isPartialPublish);
 
                 if (conflictsWereResolved) {
                     yield put(actions.CR.Publishing.resolveConflicts());

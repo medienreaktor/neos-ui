@@ -29,6 +29,7 @@ use Neos\ContentRepository\Core\Feature\NodeVariation\Event\NodePeerVariantWasCr
 use Neos\ContentRepository\Core\Feature\SubtreeTagging\Event\SubtreeWasTagged;
 use Neos\ContentRepository\Core\Feature\SubtreeTagging\Event\SubtreeWasUntagged;
 use Neos\ContentRepository\Core\Feature\WorkspaceRebase\ConflictingEvent;
+use Neos\ContentRepository\Core\Feature\WorkspaceRebase\Exception\PartialWorkspaceRebaseFailed;
 use Neos\ContentRepository\Core\Feature\WorkspaceRebase\Exception\WorkspaceRebaseFailed;
 use Neos\ContentRepository\Core\NodeType\NodeTypeManager;
 use Neos\ContentRepository\Core\Projection\ContentGraph\ContentSubgraphInterface;
@@ -77,6 +78,23 @@ final class ConflictsFactory
         $conflictsByKey = [];
 
         foreach ($workspaceRebaseFailed->conflictingEvents as $conflictingEvent) {
+            $conflict = $this->createConflict($conflictingEvent);
+            if (!array_key_exists($conflict->key, $conflictsByKey)) {
+                // deduplicate if the conflict affects the same node
+                $conflictsByKey[$conflict->key] = $conflict;
+            }
+        }
+
+        return new Conflicts(...$conflictsByKey);
+    }
+
+    public function fromPartialWorkspaceRebaseFailed(
+        PartialWorkspaceRebaseFailed $partialWorkspaceRebaseFailed
+    ): Conflicts {
+        /** @var array<string,Conflict> */
+        $conflictsByKey = [];
+
+        foreach ($partialWorkspaceRebaseFailed->conflictingEvents as $conflictingEvent) {
             $conflict = $this->createConflict($conflictingEvent);
             if (!array_key_exists($conflict->key, $conflictsByKey)) {
                 // deduplicate if the conflict affects the same node

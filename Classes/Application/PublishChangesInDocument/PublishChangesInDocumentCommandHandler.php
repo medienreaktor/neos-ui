@@ -24,7 +24,6 @@ use Neos\Neos\Domain\NodeLabel\NodeLabelGeneratorInterface;
 use Neos\Neos\Domain\Service\WorkspacePublishingService;
 use Neos\Neos\Ui\Application\Shared\ConflictsOccurred;
 use Neos\Neos\Ui\Application\Shared\PublishSucceeded;
-use Neos\Neos\Ui\Application\Shared\PartialPublishFailed;
 use Neos\Neos\Ui\Controller\TranslationTrait;
 use Neos\Neos\Ui\Infrastructure\ContentRepository\ConflictsFactory;
 
@@ -80,14 +79,21 @@ final class PublishChangesInDocumentCommandHandler
             );
 
             return new ConflictsOccurred(
-                conflicts: $conflictsFactory->fromWorkspaceRebaseFailed($e)
+                conflicts: $conflictsFactory->fromWorkspaceRebaseFailed($e),
+                isPartialPublish: false
             );
         } catch (PartialWorkspaceRebaseFailed $e) {
-            $workspace = $this->contentRepositoryRegistry->get($command->contentRepositoryId)->findWorkspaceByName(
-                $command->workspaceName
+            $conflictsFactory = new ConflictsFactory(
+                contentRepository: $this->contentRepositoryRegistry
+                    ->get($command->contentRepositoryId),
+                nodeLabelGenerator: $this->nodeLabelGenerator,
+                workspaceName: $command->workspaceName,
+                preferredDimensionSpacePoint: $command->preferredDimensionSpacePoint
             );
-            return new PartialPublishFailed(
-                baseWorkspaceName: $workspace?->baseWorkspaceName?->value
+
+            return new ConflictsOccurred(
+                conflicts: $conflictsFactory->fromPartialWorkspaceRebaseFailed($e),
+                isPartialPublish: true
             );
         } catch (NodeAggregateCurrentlyDoesNotExist $e) {
             throw new \RuntimeException(
