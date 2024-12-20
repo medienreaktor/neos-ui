@@ -93,7 +93,7 @@ export const makeResolveConflicts = (deps: {
     syncPersonalWorkspace: ReturnType<typeof makeSyncPersonalWorkspace>
 }) => {
     const discardAll = makeDiscardAll(deps);
-    const publishAll = makePublishAll(deps);
+    const publishAll = makePublishAll();
 
     function * resolveConflicts(conflicts: Conflict[], isPartialPublish: boolean): any {
         while (true) {
@@ -107,10 +107,8 @@ export const makeResolveConflicts = (deps: {
                 cancelled: take(actionTypes.CR.Syncing.CANCELLED),
                 started: take(actionTypes.CR.Syncing.RESOLUTION_STARTED)
             });
-
             if (started) {
                 const {payload: {strategy}} = started;
-
                 if (strategy === ResolutionStrategy.FORCE) {
                     if (yield * waitForResolutionConfirmation()) {
                         yield * deps.syncPersonalWorkspace(true);
@@ -121,13 +119,21 @@ export const makeResolveConflicts = (deps: {
                 }
 
                 if (strategy === ResolutionStrategy.DISCARD_ALL) {
-                    yield * discardAll();
-                    return true;
+                    if (yield * waitForResolutionConfirmation()) {
+                        yield * discardAll();
+                        return true;
+                    }
+
+                    continue;
                 }
 
                 if (strategy === ResolutionStrategy.PUBLISH_ALL) {
-                    yield * publishAll();
-                    return true;
+                    if (yield * waitForResolutionConfirmation()) {
+                        yield * publishAll();
+                        return true;
+                    }
+
+                    continue;
                 }
             }
 
@@ -170,7 +176,7 @@ const makeDiscardAll = (deps: {
             PublishingMode.DISCARD,
             PublishingScope.ALL
         ));
-
+        yield put(actions.CR.Publishing.confirm());
         const {cancelled, failed}: {
             cancelled: null | ReturnType<typeof actions.CR.Publishing.cancel>;
             failed: null | ReturnType<typeof actions.CR.Publishing.fail>;
@@ -186,7 +192,7 @@ const makeDiscardAll = (deps: {
         } else if (failed) {
             yield put(actions.CR.Syncing.finish());
         } else {
-            yield put(actions.CR.Syncing.confirmResolution());
+            yield put(actions.CR.Syncing.finish());
             yield * deps.syncPersonalWorkspace(false);
         }
     }
@@ -194,16 +200,14 @@ const makeDiscardAll = (deps: {
     return discardAll;
 }
 
-const makePublishAll = (deps: {
-    syncPersonalWorkspace: ReturnType<typeof makeSyncPersonalWorkspace>;
-}) => {
+const makePublishAll = () => {
     function * publishAll() {
         yield put(actions.CR.Publishing.start(
             PublishingMode.PUBLISH,
-            PublishingScope.ALL
+            PublishingScope.SITE
         ));
-
-        const {cancelled, failed}: {
+        yield put(actions.CR.Publishing.confirm());
+        const {cancelled, failed, finished}: {
             cancelled: null | ReturnType<typeof actions.CR.Publishing.cancel>;
             failed: null | ReturnType<typeof actions.CR.Publishing.fail>;
             finished: null | ReturnType<typeof actions.CR.Publishing.finish>;
@@ -212,14 +216,12 @@ const makePublishAll = (deps: {
             failed: take(actionTypes.CR.Publishing.FAILED),
             finished: take(actionTypes.CR.Publishing.FINISHED)
         });
-
         if (cancelled) {
             yield put(actions.CR.Syncing.cancelResolution());
         } else if (failed) {
             yield put(actions.CR.Syncing.finish());
         } else {
-            yield put(actions.CR.Syncing.confirmResolution());
-            yield * deps.syncPersonalWorkspace(false);
+            yield put(actions.CR.Syncing.finish());
         }
     }
 

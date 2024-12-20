@@ -187,6 +187,7 @@ const DiscardAllConfirmationDialog: React.FC<{
 }
 const PublishAllConfirmationDialog: React.FC<{
     workspaceName: WorkspaceName;
+    baseWorkspaceName: WorkspaceName;
     totalNumberOfChangesInWorkspace: number;
     onCancelConflictResolution: () => void;
     onConfirmResolutionStrategy: () => void;
@@ -214,7 +215,7 @@ const PublishAllConfirmationDialog: React.FC<{
                     onClick={props.onConfirmResolutionStrategy}
                     className={style.button}
                 >
-                    <Icon icon="trash" className={style.icon} />
+                    <Icon icon="check-double" className={style.icon} />
                     <I18n
                         id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.PUBLISH_ALL.confirmation.confirm"
                         fallback="Yes, publish everything"
@@ -242,7 +243,7 @@ const PublishAllConfirmationDialog: React.FC<{
                 <DiscardDiagram
                     numberOfChanges={props.totalNumberOfChangesInWorkspace}
                     sourceWorkspaceName={props.workspaceName}
-                    targetWorkspaceName={null}
+                    targetWorkspaceName={props.baseWorkspaceName}
                     phase={PublishingPhase.START}
                 />
                 <I18n

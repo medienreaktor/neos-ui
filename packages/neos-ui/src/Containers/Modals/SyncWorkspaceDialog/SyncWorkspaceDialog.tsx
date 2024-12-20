@@ -93,7 +93,6 @@ const SyncWorkspaceDialog: React.FC<SyncWorkspaceDialogProps> = (props) => {
     const handleRetry = React.useCallback(() => {
         props.retry();
     }, []);
-
     switch (props.syncingState?.process.phase) {
         case SyncingPhase.START:
             return (
@@ -124,21 +123,18 @@ const SyncWorkspaceDialog: React.FC<SyncWorkspaceDialogProps> = (props) => {
                     />
             );
         case SyncingPhase.RESOLVING:
-            if (props.syncingState.process.strategy === ResolutionStrategy.FORCE) {
-                return (
-                    <ResolutionStrategyConfirmationDialog
-                        workspaceName={props.personalWorkspaceName}
-                        baseWorkspaceName={props.baseWorkspaceName}
-                        totalNumberOfChangesInWorkspace={props.totalNumberOfChangesInWorkspace}
-                        strategy={props.syncingState.process.strategy}
-                        conflicts={props.syncingState.process.conflicts}
-                        i18n={props.i18nRegistry}
-                        onCancelConflictResolution={handleCancelConflictResolution}
-                        onConfirmResolutionStrategy={handleConfirmResolutionStrategy}
-                        />
-                );
-            }
-            return null;
+            return (
+                <ResolutionStrategyConfirmationDialog
+                    workspaceName={props.personalWorkspaceName}
+                    baseWorkspaceName={props.baseWorkspaceName}
+                    totalNumberOfChangesInWorkspace={props.totalNumberOfChangesInWorkspace}
+                    strategy={props.syncingState.process.strategy}
+                    conflicts={props.syncingState.process.conflicts}
+                    i18n={props.i18nRegistry}
+                    onCancelConflictResolution={handleCancelConflictResolution}
+                    onConfirmResolutionStrategy={handleConfirmResolutionStrategy}
+                    />
+            );
         case SyncingPhase.ERROR:
         case SyncingPhase.SUCCESS:
             return (

@@ -34,11 +34,6 @@ type PublishingResponse =
             numberOfAffectedChanges: number;
         }
     }
-    | {
-        partialPublishFail: {
-            conflicts: Conflict[];
-        }
-    }
     | { conflicts: Conflict[], isPartialPublish: boolean }
     | { error: AnyError };
 
@@ -80,6 +75,7 @@ export function * watchPublishing({routes}: {routes: Routes}) {
 
     yield takeEvery(actionTypes.CR.Publishing.STARTED, function * publishingWorkflow(action: ReturnType<typeof actions.CR.Publishing.start>) {
         const confirmed = yield * waitForConfirmation();
+
         if (!confirmed) {
             return;
         }
@@ -97,7 +93,6 @@ export function * watchPublishing({routes}: {routes: Routes}) {
         const ancestorId: NodeContextPath = ancestorIdSelector
             ? yield select(ancestorIdSelector)
             : null;
-
         function * attemptToPublishOrDiscard(): Generator<any, any, any> {
             const result: PublishingResponse = scope === PublishingScope.ALL
                 ? yield call(endpoint as any, workspaceName)
@@ -136,8 +131,6 @@ export function * watchPublishing({routes}: {routes: Routes}) {
                 }
             } else if ('error' in result) {
                 yield put(actions.CR.Publishing.fail(result.error));
-            } else if ('partialPublishFail' in result) {
-                yield put(actions.CR.Publishing.partialFail());
             } else {
                 yield put(actions.CR.Publishing.fail(null));
             }
