@@ -18,6 +18,7 @@ export enum SyncingPhase {
     ONGOING,
     CONFLICT,
     RESOLVING,
+    IDLE,
     ERROR,
     SUCCESS
 }
@@ -65,6 +66,7 @@ export type State = null | {
             strategy: ResolutionStrategy;
             conflicts: Conflict[];
         }
+        | { phase: SyncingPhase.IDLE }
         | {
               phase: SyncingPhase.ERROR;
               error: null | AnyError;
@@ -247,7 +249,7 @@ export const reducer = (state: State = defaultState, action: Action): State => {
             return {
                 ...state,
                 process: {
-                    phase: SyncingPhase.ONGOING
+                    phase: SyncingPhase.IDLE
                 }
             };
         case actionTypes.FAILED:

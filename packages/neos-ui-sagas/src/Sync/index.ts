@@ -93,7 +93,7 @@ export const makeResolveConflicts = (deps: {
     syncPersonalWorkspace: ReturnType<typeof makeSyncPersonalWorkspace>
 }) => {
     const discardAll = makeDiscardAll(deps);
-    const publishAll = makePublishAll();
+    const publishAll = makePublishAll(deps);
 
     function * resolveConflicts(conflicts: Conflict[], isPartialPublish: boolean): any {
         while (true) {
@@ -132,7 +132,6 @@ export const makeResolveConflicts = (deps: {
                         yield * publishAll();
                         return true;
                     }
-
                     continue;
                 }
             }
@@ -186,7 +185,6 @@ const makeDiscardAll = (deps: {
             failed: take(actionTypes.CR.Publishing.FAILED),
             finished: take(actionTypes.CR.Publishing.FINISHED)
         });
-
         if (cancelled) {
             yield put(actions.CR.Syncing.cancelResolution());
         } else if (failed) {
@@ -200,14 +198,16 @@ const makeDiscardAll = (deps: {
     return discardAll;
 }
 
-const makePublishAll = () => {
+const makePublishAll = (deps: {
+    syncPersonalWorkspace: ReturnType<typeof makeSyncPersonalWorkspace>;
+}) => {
     function * publishAll() {
         yield put(actions.CR.Publishing.start(
             PublishingMode.PUBLISH,
             PublishingScope.SITE
         ));
         yield put(actions.CR.Publishing.confirm());
-        const {cancelled, failed, finished}: {
+        const {cancelled, failed}: {
             cancelled: null | ReturnType<typeof actions.CR.Publishing.cancel>;
             failed: null | ReturnType<typeof actions.CR.Publishing.fail>;
             finished: null | ReturnType<typeof actions.CR.Publishing.finish>;
@@ -222,6 +222,7 @@ const makePublishAll = () => {
             yield put(actions.CR.Syncing.finish());
         } else {
             yield put(actions.CR.Syncing.finish());
+            yield * deps.syncPersonalWorkspace(false);
         }
     }
 
