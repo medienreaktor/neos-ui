@@ -10,7 +10,7 @@
 import React from 'react';
 
 import {WorkspaceName} from '@neos-project/neos-ts-interfaces';
-import {I18nRegistry, translate} from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 import {Button, Dialog, Icon} from '@neos-project/react-ui-components';
 import {PublishingPhase} from '@neos-project/neos-ui-redux-store/src/CR/Publishing';
 import {Conflict, ResolutionStrategy} from '@neos-project/neos-ui-redux-store/src/CR/Syncing';
@@ -27,7 +27,6 @@ export const ResolutionStrategyConfirmationDialog: React.FC<{
     baseWorkspaceName: WorkspaceName;
     strategy: ResolutionStrategy;
     conflicts: Conflict[];
-    i18n: I18nRegistry;
     onCancelConflictResolution: () => void;
     onConfirmResolutionStrategy: () => void;
 }> = (props) => {
@@ -44,7 +43,6 @@ const ForceConfirmationDialog: React.FC<{
     workspaceName: WorkspaceName;
     baseWorkspaceName: WorkspaceName;
     conflicts: Conflict[];
-    i18n: I18nRegistry;
     onCancelConflictResolution: () => void;
     onConfirmResolutionStrategy: () => void;
 }> = (props) => {
@@ -89,7 +87,6 @@ const ForceConfirmationDialog: React.FC<{
                 {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.FORCE.confirmation.conflicts.label', 'You are about to drop the following changes:')}
                 <ConflictList
                     conflicts={props.conflicts}
-                    i18n={props.i18n}
                     />
                 {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.FORCE.confirmation.message', 'Do you wish to proceed? Be careful: This cannot be undone!')}
             </div>

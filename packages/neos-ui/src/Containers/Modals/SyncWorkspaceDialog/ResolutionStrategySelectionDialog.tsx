@@ -9,7 +9,7 @@
  */
 import React from 'react';
 
-import {I18nRegistry, translate} from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 import {WorkspaceName} from '@neos-project/neos-ts-interfaces';
 import {Button, Dialog, Icon, SelectBox, SelectBox_Option_MultiLineWithThumbnail} from '@neos-project/react-ui-components';
 import {Conflict, ResolutionStrategy, SyncingPhase} from '@neos-project/neos-ui-redux-store/src/CR/Syncing';
@@ -63,7 +63,6 @@ export const ResolutionStrategySelectionDialog: React.FC<{
     baseWorkspaceName: WorkspaceName;
     conflicts: Conflict[];
     defaultStrategy: null | ResolutionStrategy;
-    i18n: I18nRegistry;
     onCancel: () => void;
     onSelectResolutionStrategy: (strategy: ResolutionStrategy) => void;
 }> = (props) => {
@@ -93,7 +92,7 @@ export const ResolutionStrategySelectionDialog: React.FC<{
                     )
                 };
             })
-    }, [props.i18n, props.workspaceName]);
+    }, [props.workspaceName]);
     const handleSelectResolutionStrategy = React.useCallback((value: string) => {
         setSelectedResolutionStrategy(parseInt(value, 10));
     }, []);
@@ -151,7 +150,6 @@ export const ResolutionStrategySelectionDialog: React.FC<{
                     </summary>
                     <ConflictList
                         conflicts={props.conflicts}
-                        i18n={props.i18n}
                         />
                 </details>
                 {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.prompt', 'In order to proceed, you need to decide what to do with the conflicting changes:')}

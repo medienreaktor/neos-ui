@@ -9,7 +9,7 @@
  */
 import React from 'react';
 
-import {I18nRegistry, translate} from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 import {Icon} from '@neos-project/react-ui-components';
 import {Conflict, ReasonForConflict} from '@neos-project/neos-ui-redux-store/src/CR/Syncing';
 import {TypeOfChange} from '@neos-project/neos-ui-redux-store/src/CR/Workspaces';
@@ -18,7 +18,6 @@ import style from './style.module.css';
 
 export const ConflictList: React.FC<{
     conflicts: Conflict[];
-    i18n: I18nRegistry;
 }> = (props) => {
     return (
         <ul className={style.conflictList}>
@@ -26,7 +25,6 @@ export const ConflictList: React.FC<{
                 <ConflictItem
                     key={conflict.key}
                     conflict={conflict}
-                    i18n={props.i18n}
                     />
             ))}
         </ul>
@@ -76,7 +74,6 @@ const VARIANTS_BY_REASON_FOR_CONFLICT = {
 
 const ConflictItem: React.FC<{
     conflict: Conflict;
-    i18n: I18nRegistry;
 }> = (props) => {
     const changeVariant = props.conflict.typeOfChange === null
         ? null
@@ -86,24 +83,15 @@ const ConflictItem: React.FC<{
         : VARIANTS_BY_REASON_FOR_CONFLICT[props.conflict.reasonForConflict];
     const affectedNode = props.conflict.affectedNode ?? {
         icon: 'question',
-        label: props.i18n.translate(
-            'Neos.Neos.Ui:SyncWorkspaceDialog:conflictList.unknownNode',
-            'Unknown Node'
-        )
+        label: translate('Neos.Neos.Ui:SyncWorkspaceDialog:conflictList.unknownNode', 'Unknown Node')
     };
     const affectedDocument = props.conflict.affectedDocument ?? {
         icon: 'question',
-        label: props.i18n.translate(
-            'Neos.Neos.Ui:SyncWorkspaceDialog:conflictList.unknownDocument',
-            'Unknown Document'
-        )
+        label: translate('Neos.Neos.Ui:SyncWorkspaceDialog:conflictList.unknownDocument', 'Unknown Document')
     };
     const affectedSite = props.conflict.affectedSite ?? {
         icon: 'question',
-        label: props.i18n.translate(
-            'Neos.Neos.Ui:SyncWorkspaceDialog:conflictList.unknownSite',
-            'Unknown Site'
-        )
+        label: translate('Neos.Neos.Ui:SyncWorkspaceDialog:conflictList.unknownSite', 'Unknown Site')
     };
 
     return (
