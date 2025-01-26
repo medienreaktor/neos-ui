@@ -9,7 +9,7 @@
  */
 import React from 'react';
 
-import I18n, {I18nRegistry} from '@neos-project/neos-ui-i18n';
+import I18n, {I18nRegistry, translate} from '@neos-project/neos-ui-i18n';
 import {Icon} from '@neos-project/react-ui-components';
 import {Conflict, ReasonForConflict} from '@neos-project/neos-ui-redux-store/src/CR/Syncing';
 import {TypeOfChange} from '@neos-project/neos-ui-redux-store/src/CR/Workspaces';
@@ -38,32 +38,28 @@ const VARIANTS_BY_TYPE_OF_CHANGE = {
         icon: 'pencil',
         label: {
             id: 'Neos.Neos.Ui:SyncWorkspaceDialog:conflictList.typeOfChange.NODE_HAS_BEEN_CHANGED.label',
-            fallback: (props: { label: string }) =>
-                `"${props.label}" has been edited.`
+            fallback: '"{label}" has been edited.'
         }
     },
     [TypeOfChange.NODE_HAS_BEEN_CREATED]: {
         icon: 'plus',
         label: {
             id: 'Neos.Neos.Ui:SyncWorkspaceDialog:conflictList.typeOfChange.NODE_HAS_BEEN_CREATED.label',
-            fallback: (props: { label: string }) =>
-                `"${props.label}" has been created.`
+            fallback: '"{label}" has been created.'
         }
     },
     [TypeOfChange.NODE_HAS_BEEN_DELETED]: {
         icon: 'times',
         label: {
             id: 'Neos.Neos.Ui:SyncWorkspaceDialog:conflictList.typeOfChange.NODE_HAS_BEEN_DELETED.label',
-            fallback: (props: { label: string }) =>
-                `"${props.label}" has been deleted.`
+            fallback: '"{label}" has been deleted.'
         }
     },
     [TypeOfChange.NODE_HAS_BEEN_MOVED]: {
         icon: 'long-arrow-right',
         label: {
             id: 'Neos.Neos.Ui:SyncWorkspaceDialog:conflictList.typeOfChange.NODE_HAS_BEEN_MOVED.label',
-            fallback: (props: { label: string }) =>
-                `"${props.label}" has been moved.`
+            fallback: '"{label}" has been moved.'
         }
     }
 } as const;
@@ -73,8 +69,7 @@ const VARIANTS_BY_REASON_FOR_CONFLICT = {
         icon: 'times',
         label: {
             id: 'Neos.Neos.Ui:SyncWorkspaceDialog:conflictList.reasonForConflict.NODE_HAS_BEEN_DELETED.label',
-            fallback: (props: { label: string }) =>
-                `"${props.label}" or one of its ancestor nodes has been deleted.`
+            fallback: '"{label}" or one of its ancestor nodes has been deleted.'
         }
     }
 } as const;
@@ -159,15 +154,7 @@ const ConflictItem: React.FC<{
                                     className={style.conflict__changeIcon}
                                     icon={changeVariant.icon}
                                     />
-                                <I18n
-                                    id={changeVariant.label.id}
-                                    fallback={changeVariant.label.fallback({
-                                        label: affectedNode.label
-                                    })}
-                                    params={{
-                                        label: affectedNode.label
-                                    }}
-                                    />
+                                {translate(changeVariant.label.id, changeVariant.label.fallback, {label: affectedNode.label})}
                             </dd>
                         ) : (
                             <dd className={style.conflict__descriptionList__description}>
@@ -189,15 +176,7 @@ const ConflictItem: React.FC<{
                         {reasonVariant ? (
                             <dd className={style.conflict__descriptionList__description}>
                                 <Icon icon={reasonVariant.icon} />
-                                <I18n
-                                    id={reasonVariant.label.id}
-                                    fallback={reasonVariant.label.fallback({
-                                        label: affectedNode.label
-                                    })}
-                                    params={{
-                                        label: affectedNode.label
-                                    }}
-                                    />
+                                {translate(reasonVariant.label.id, reasonVariant.label.fallback, {label: affectedNode.label})}
                             </dd>
                         ) : (
                             <dd className={style.conflict__descriptionList__description}>

@@ -10,7 +10,7 @@
 import React from 'react';
 
 import {Button, Dialog, Icon} from '@neos-project/react-ui-components';
-import I18n from '@neos-project/neos-ui-i18n';
+import I18n, {translate} from '@neos-project/neos-ui-i18n';
 import {PublishingMode, PublishingPhase, PublishingScope} from '@neos-project/neos-ui-redux-store/src/CR/Publishing';
 
 import {Diagram} from './Diagram';
@@ -29,13 +29,11 @@ const ConfirmationDialogVariants = {
             label: {
                 title: {
                     id: 'Neos.Neos.Ui:PublishingDialog:publish.all.confirmation.title',
-                    fallback: (props: { scopeTitle: string; }) =>
-                        `Publish all changes in workspace "${props.scopeTitle}"`
+                    fallback: 'Publish all changes in workspace "{scopeTitle}"'
                 },
                 message: {
                     id: 'Neos.Neos.Ui:PublishingDialog:publish.all.confirmation.message',
-                    fallback: (props: { numberOfChanges: number; scopeTitle: string; targetWorkspaceName: null | string; }) =>
-                        `Are you sure that you want to publish all ${props.numberOfChanges} change(s) in workspace "${props.scopeTitle}" to workspace "${props.targetWorkspaceName}"? Be careful: This cannot be undone!`
+                    fallback: 'Are you sure that you want to publish all {numberOfChanges} change(s) in workspace "{scopeTitle}"  to workspace "{targetWorkspaceName}"? Be careful: This cannot be undone!'
                 },
                 cancel: {
                     id: 'Neos.Neos.Ui:PublishingDialog:publish.all.confirmation.cancel',
@@ -51,13 +49,11 @@ const ConfirmationDialogVariants = {
             label: {
                 title: {
                     id: 'Neos.Neos.Ui:PublishingDialog:publish.site.confirmation.title',
-                    fallback: (props: { scopeTitle: string; }) =>
-                        `Publish all changes in site "${props.scopeTitle}"`
+                    fallback: 'Publish all changes in site "{scopeTitle}"'
                 },
                 message: {
                     id: 'Neos.Neos.Ui:PublishingDialog:publish.site.confirmation.message',
-                    fallback: (props: { numberOfChanges: number; scopeTitle: string; sourceWorkspaceName: string; targetWorkspaceName: null | string; }) =>
-                        `Are you sure that you want to publish all ${props.numberOfChanges} change(s) in site "${props.scopeTitle}" from workspace "${props.sourceWorkspaceName}" to workspace "${props.targetWorkspaceName}"? Be careful: This cannot be undone!`
+                    fallback: 'Are you sure that you want to publish all {numberOfChanges} change(s) in site "{scopeTitle}" from workspace "{sourceWorkspaceName}" to workspace "{targetWorkspaceName}"? Be careful: This cannot be undone!'
                 },
                 cancel: {
                     id: 'Neos.Neos.Ui:PublishingDialog:publish.site.confirmation.cancel',
@@ -74,13 +70,11 @@ const ConfirmationDialogVariants = {
             label: {
                 title: {
                     id: 'Neos.Neos.Ui:PublishingDialog:publish.document.confirmation.title',
-                    fallback: (props: { scopeTitle: string; }) =>
-                        `Publish all changes in document "${props.scopeTitle}"`
+                    fallback: 'Publish all changes in document "{scopeTitle}"'
                 },
                 message: {
                     id: 'Neos.Neos.Ui:PublishingDialog:publish.document.confirmation.message',
-                    fallback: (props: { numberOfChanges: number; scopeTitle: string; sourceWorkspaceName: string; targetWorkspaceName: null | string; }) =>
-                        `Are you sure that you want to publish all ${props.numberOfChanges} change(s) in document "${props.scopeTitle}" from workspace "${props.sourceWorkspaceName}" to workspace "${props.targetWorkspaceName}"? Be careful: This cannot be undone!`
+                    fallback: 'Are you sure that you want to publish all {numberOfChanges} change(s) in document "{scopeTitle}" from workspace "{sourceWorkspaceName}" to workspace "{targetWorkspaceName}"? Be careful: This cannot be undone!'
                 },
                 cancel: {
                     id: 'Neos.Neos.Ui:PublishingDialog:publish.document.confirmation.cancel',
@@ -104,13 +98,11 @@ const ConfirmationDialogVariants = {
             label: {
                 title: {
                     id: 'Neos.Neos.Ui:PublishingDialog:discard.all.confirmation.title',
-                    fallback: (props: { scopeTitle: string; }) =>
-                        `Discard all changes in workspace "${props.scopeTitle}"`
+                    fallback: 'Discard all changes in workspace "{scopeTitle}"'
                 },
                 message: {
                     id: 'Neos.Neos.Ui:PublishingDialog:discard.all.confirmation.message',
-                    fallback: (props: { numberOfChanges: number; scopeTitle: string; }) =>
-                        `Are you sure that you want to discard all ${props.numberOfChanges} change(s) in workspace "${props.scopeTitle}"? Be careful: This cannot be undone!`
+                    fallback: 'Are you sure that you want to discard all {numberOfChanges} change(s) in workspace "{scopeTitle}"? Be careful: This cannot be undone!'
                 },
                 cancel: {
                     id: 'Neos.Neos.Ui:PublishingDialog:discard.all.confirmation.cancel',
@@ -126,13 +118,11 @@ const ConfirmationDialogVariants = {
             label: {
                 title: {
                     id: 'Neos.Neos.Ui:PublishingDialog:discard.site.confirmation.title',
-                    fallback: (props: { scopeTitle: string; }) =>
-                        `Discard all changes in site "${props.scopeTitle}"`
+                    fallback: 'Discard all changes in site "{scopeTitle}"'
                 },
                 message: {
                     id: 'Neos.Neos.Ui:PublishingDialog:discard.site.confirmation.message',
-                    fallback: (props: { numberOfChanges: number; scopeTitle: string; sourceWorkspaceName: string; }) =>
-                        `Are you sure that you want to discard all ${props.numberOfChanges} change(s) in site "${props.scopeTitle}" from workspace "${props.sourceWorkspaceName}"? Be careful: This cannot be undone!`
+                    fallback: 'Are you sure that you want to discard all {numberOfChanges} change(s) in site "{scopeTitle}" from workspace "{sourceWorkspaceName}"? Be careful: This cannot be undone!'
                 },
                 cancel: {
                     id: 'Neos.Neos.Ui:PublishingDialog:discard.site.confirmation.cancel',
@@ -148,13 +138,11 @@ const ConfirmationDialogVariants = {
             label: {
                 title: {
                     id: 'Neos.Neos.Ui:PublishingDialog:discard.document.confirmation.title',
-                    fallback: (props: { scopeTitle: string; }) =>
-                        `Discard all changes in document "${props.scopeTitle}"`
+                    fallback: 'Discard all changes in document "{scopeTitle}"'
                 },
                 message: {
                     id: 'Neos.Neos.Ui:PublishingDialog:discard.document.confirmation.message',
-                    fallback: (props: { numberOfChanges: number; scopeTitle: string; sourceWorkspaceName: string; }) =>
-                        `Are you sure that you want to discard all ${props.numberOfChanges} change(s) in document "${props.scopeTitle}" from workspace "${props.sourceWorkspaceName}"? Be careful: This cannot be undone!`
+                    fallback: 'Are you sure that you want to discard all {numberOfChanges} change(s) in document "{scopeTitle}" from workspace "{sourceWorkspaceName}"? Be careful: This cannot be undone!'
                 },
                 cancel: {
                     id: 'Neos.Neos.Ui:PublishingDialog:discard.document.confirmation.cancel',
@@ -209,11 +197,7 @@ export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (props) => 
             title={<div>
                 <Icon icon={variant.icon.title} />
                 <span className={style.modalTitle}>
-                    <I18n
-                        id={variant[props.scope].label.title.id}
-                        params={props}
-                        fallback={variant[props.scope].label.title.fallback(props)}
-                        />
+                    {translate(variant[props.scope].label.title.id, variant[props.scope].label.title.fallback, props as any)}
                 </span>
             </div>}
             onRequestClose={props.onAbort}
@@ -230,11 +214,7 @@ export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (props) => 
                     targetWorkspaceName={props.targetWorkspaceName}
                     numberOfChanges={props.numberOfChanges}
                     />
-                <I18n
-                    id={variant[props.scope].label.message.id}
-                    params={props}
-                    fallback={variant[props.scope].label.message.fallback(props)}
-                    />
+                {translate(variant[props.scope].label.message.id, variant[props.scope].label.message.fallback, props as any)}
             </div>
         </Dialog>
     );

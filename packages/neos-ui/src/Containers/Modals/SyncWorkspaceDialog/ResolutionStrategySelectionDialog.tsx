@@ -9,7 +9,7 @@
  */
 import React from 'react';
 
-import I18n, {I18nRegistry} from '@neos-project/neos-ui-i18n';
+import I18n, {I18nRegistry, translate} from '@neos-project/neos-ui-i18n';
 import {WorkspaceName} from '@neos-project/neos-ts-interfaces';
 import {Button, Dialog, Icon, SelectBox, SelectBox_Option_MultiLineWithThumbnail} from '@neos-project/react-ui-components';
 import {Conflict, ResolutionStrategy, SyncingPhase} from '@neos-project/neos-ui-redux-store/src/CR/Syncing';
@@ -26,7 +26,7 @@ const VARIANTS_BY_RESOLUTION_STRATEGY = {
         labels: {
             label: {
                 id: 'Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.option.FORCE.label',
-                fallback: () => 'Drop conflicting changes'
+                fallback: 'Drop conflicting changes'
             },
             description: {
                 id: 'Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.option.FORCE.description',
@@ -39,8 +39,7 @@ const VARIANTS_BY_RESOLUTION_STRATEGY = {
         labels: {
             label: {
                 id: 'Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.option.DISCARD_ALL.label',
-                fallback: (props: {workspaceName: WorkspaceName}) =>
-                    `Discard workspace "${props.workspaceName}"`
+                fallback: 'Discard workspace "{workspaceName}"'
             },
             description: {
                 id: 'Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.option.DISCARD_ALL.description',
@@ -83,12 +82,12 @@ export const ResolutionStrategySelectionDialog: React.FC<{
                 return {
                     value: String(value),
                     icon: variant.icon,
-                    label: props.i18n.translate(
+                    label: translate(
                         variant.labels.label.id,
-                        variant.labels.label.fallback(params),
+                        variant.labels.label.fallback,
                         params
                     ),
-                    description: props.i18n.translate(
+                    description: translate(
                         variant.labels.description.id,
                         variant.labels.description.fallback
                     )
