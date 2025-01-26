@@ -6,6 +6,7 @@ import {Button, Dialog, Icon} from '@neos-project/react-ui-components';
 
 import {selectors, actions} from '@neos-project/neos-ui-redux-store';
 import {neos} from '@neos-project/neos-ui-decorators';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 import style from './style.module.css';
 
@@ -51,7 +52,7 @@ export default class DeleteNodeModal extends PureComponent {
             const nodeType = node?.nodeType;
             const nodeTypeLabel = nodeTypesRegistry.get(nodeType)?.ui?.label || 'Neos.Neos:Main:node';
             const nodeTypeLabelText = i18nRegistry.translate(nodeTypeLabel, 'Node')
-            const deleteLabel = i18nRegistry.translate('delete', 'Delete')
+            const deleteLabel = translate('Neos.Neos:Main:delete', 'Delete')
             return (
                 <div className={style.modalTitleContainer}>
                     <Icon icon="exclamation-triangle"/>
@@ -84,7 +85,7 @@ export default class DeleteNodeModal extends PureComponent {
     }
 
     renderAbort() {
-        const abortLabel = this.props.i18nRegistry.translate('cancel', 'Cancel')
+        const abortLabel = translate('Neos.Neos:Main:cancel', 'Cancel')
         return (
             <Button
                 id="neos-DeleteNodeModal-Cancel"
@@ -99,7 +100,7 @@ export default class DeleteNodeModal extends PureComponent {
     }
 
     renderConfirm() {
-        const confirmationLabel = this.props.i18nRegistry.translate('deleteConfirm', 'Confirm')
+        const confirmationLabel = translate('Neos.Neos:Main:deleteConfirm', 'Confirm')
         return (
             <Button
                 id="neos-DeleteNodeModal-Confirm"
@@ -147,7 +148,7 @@ export default class DeleteNodeModal extends PureComponent {
                 >
                 <div className={style.modalContents}>
                     <p>
-                        {i18nRegistry.translate('content.navigate.deleteNodeDialog.header')}
+                        {translate('Neos.Neos:Main:content.navigate.deleteNodeDialog.header')}
                         &nbsp; {nodesToBeDeletedContextPaths.length > 1 ? `${nodesToBeDeletedContextPaths.length} ${i18nRegistry.translate('nodes', 'nodes', {}, 'Neos.Neos.Ui', 'Main')}` : `"$${node?.label}"`}?
                     </p>
                     {warnings.length > 0 ? <hr /> : ''}

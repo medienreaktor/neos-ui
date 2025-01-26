@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-
+import {translate} from '@neos-project/neos-ui-i18n';
 import IconButton from '@neos-project/react-ui-components/src/IconButton/';
 
 export default class AddNode extends PureComponent {
@@ -9,8 +9,7 @@ export default class AddNode extends PureComponent {
         id: PropTypes.string,
         onClick: PropTypes.func.isRequired,
         focusedNodeContextPath: PropTypes.string,
-        disabled: PropTypes.bool.isRequired,
-        i18nRegistry: PropTypes.object.isRequired
+        disabled: PropTypes.bool.isRequired
     };
 
     handleClick = () => {
@@ -20,7 +19,7 @@ export default class AddNode extends PureComponent {
     }
 
     render() {
-        const {focusedNodeContextPath, disabled, className, id, i18nRegistry} = this.props;
+        const {focusedNodeContextPath, disabled, className, id} = this.props;
 
         return (
             <span>
@@ -31,7 +30,7 @@ export default class AddNode extends PureComponent {
                     icon="plus"
                     onClick={this.handleClick}
                     hoverStyle="brand"
-                    title={i18nRegistry.translate('createNew')}
+                    title={translate('Neos.Neos:Main:createNew')}
                     />
             </span>
         );

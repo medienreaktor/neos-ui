@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import IconButton from '@neos-project/react-ui-components/src/IconButton/';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 export default class CutSelectedNode extends PureComponent {
     static propTypes = {
@@ -11,8 +12,7 @@ export default class CutSelectedNode extends PureComponent {
         disabled: PropTypes.bool.isRequired,
         isActive: PropTypes.bool.isRequired,
 
-        onClick: PropTypes.func.isRequired,
-        i18nRegistry: PropTypes.object.isRequired
+        onClick: PropTypes.func.isRequired
     };
 
     handleClick = () => {
@@ -22,7 +22,7 @@ export default class CutSelectedNode extends PureComponent {
     }
 
     render() {
-        const {className, id, disabled, isActive, i18nRegistry} = this.props;
+        const {className, id, disabled, isActive} = this.props;
 
         return (
             <IconButton
@@ -33,7 +33,7 @@ export default class CutSelectedNode extends PureComponent {
                 onClick={this.handleClick}
                 icon="cut"
                 hoverStyle="brand"
-                title={i18nRegistry.translate('cut')}
+                title={translate('Neos.Neos:Main:cut')}
                 />
         );
     }

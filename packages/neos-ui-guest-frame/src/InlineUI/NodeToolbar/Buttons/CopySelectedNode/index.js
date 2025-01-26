@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-
+import {translate} from '@neos-project/neos-ui-i18n';
 import {Icon, Button} from '@neos-project/react-ui-components';
 
 import {actions} from '@neos-project/neos-ui-redux-store';
@@ -26,7 +26,7 @@ export default class CopySelectedNode extends PureComponent {
     }
 
     render() {
-        const {destructiveOperationsAreDisabled, className, isCopied, i18nRegistry} = this.props;
+        const {destructiveOperationsAreDisabled, className, isCopied} = this.props;
 
         return (
             <Button
@@ -38,7 +38,7 @@ export default class CopySelectedNode extends PureComponent {
                 hoverStyle="brand"
                 style="transparent"
                 size="small"
-                title={i18nRegistry.translate('copy')}
+                title={translate('Neos.Neos:Main:copy')}
             >
                 {i18nRegistry.translate('copy')}
                 <Icon icon="far copy" />

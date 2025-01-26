@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import mergeClassNames from 'classnames';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 import IconButton from '@neos-project/react-ui-components/src/IconButton/';
 import style from './style.module.css';
@@ -13,9 +14,7 @@ export default class RefreshPageTree extends PureComponent {
 
         isLoading: PropTypes.bool.isRequired,
 
-        onClick: PropTypes.func.isRequired,
-
-        i18nRegistry: PropTypes.object.isRequired
+        onClick: PropTypes.func.isRequired
     };
 
     handleClick = () => {
@@ -25,7 +24,7 @@ export default class RefreshPageTree extends PureComponent {
     }
 
     render() {
-        const {isLoading, className, id, i18nRegistry} = this.props;
+        const {isLoading, className, id} = this.props;
         const finalClassName = mergeClassNames({
             [style.spinning]: isLoading,
             [className]: className && className.length
@@ -39,7 +38,7 @@ export default class RefreshPageTree extends PureComponent {
                 onClick={this.handleClick}
                 icon="sync"
                 hoverStyle="brand"
-                title={i18nRegistry.translate('refresh')}
+                title={translate('Neos.Neos:Main:refresh')}
                 />
         );
     }

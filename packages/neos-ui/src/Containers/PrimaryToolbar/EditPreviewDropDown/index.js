@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {neos} from '@neos-project/neos-ui-decorators';
-import I18n from '@neos-project/neos-ui-i18n';
+import I18n, {translate} from '@neos-project/neos-ui-i18n';
 
 import style from './style.module.css';
 import {actions, selectors} from '@neos-project/neos-ui-redux-store/src';
@@ -16,14 +16,10 @@ import {getConfiguration} from '@neos-project/neos-ui-configuration';
 }), {
     setEditPreviewMode: actions.UI.EditPreviewMode.set
 })
-@neos(globalRegistry => ({
-    i18nRegistry: globalRegistry.get('i18n')
-}))
 export default class EditPreviewModeDropDown extends PureComponent {
     static propTypes = {
         editPreviewMode: PropTypes.string.isRequired,
         setEditPreviewMode: PropTypes.func.isRequired,
-        i18nRegistry: PropTypes.object.isRequired
     };
 
     handleEditPreviewModeClick = memoize(mode => () => {
@@ -45,8 +41,7 @@ export default class EditPreviewModeDropDown extends PureComponent {
 
     render() {
         const {
-            editPreviewMode,
-            i18nRegistry
+            editPreviewMode
         } = this.props;
 
         const editPreviewModes = getConfiguration(configuration => configuration.editPreviewModes);
@@ -73,7 +68,7 @@ export default class EditPreviewModeDropDown extends PureComponent {
                     </DropDown.Header>
                     <DropDown.Contents className={style.dropDown__contents}>
                         <div className={style.dropDown__groupHeader}>
-                            <Icon className={style.dropDown__btnIcon} icon={'pencil'}/> {i18nRegistry.translate('content.components.editPreviewPanel.modes', 'Editing Modes')}
+                            <Icon className={style.dropDown__btnIcon} icon={'pencil'}/> {translate('Neos.Neos:Main:content.components.editPreviewPanel.modes', 'Editing Modes')}
                         </div>
                         <ul>
                             {editingModes.map(editingMode => (
@@ -91,7 +86,7 @@ export default class EditPreviewModeDropDown extends PureComponent {
                         {previewModes.length > 0 && (
                             <>
                                 <div className={style.dropDown__groupHeader}>
-                                    <Icon className={style.dropDown__btnIcon} icon={'eye'}/> {i18nRegistry.translate('content.components.editPreviewPanel.previewCentral', 'Preview Central')}
+                                    <Icon className={style.dropDown__btnIcon} icon={'eye'}/> {translate('Neos.Neos:Main:content.components.editPreviewPanel.previewCentral', 'Preview Central')}
                                 </div>
                                 <ul>
                                     {previewModes.map(previewMode => (

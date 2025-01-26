@@ -2,7 +2,6 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
 import {ButtonGroup, Button, ResourceIcon} from '@neos-project/react-ui-components';
-import {neos} from '@neos-project/neos-ui-decorators';
 import I18n, {translate} from '@neos-project/neos-ui-i18n';
 
 import style from './style.module.css';
@@ -38,17 +37,12 @@ const calculatePreferredInitialMode = props => {
     return null;
 };
 
-@neos(globalRegistry => ({
-    i18nRegistry: globalRegistry.get('i18n')
-}))
 export default class InsertModeSelector extends PureComponent {
     static propTypes = {
         mode: PropTypes.string,
         enableAlongsideModes: PropTypes.bool.isRequired,
         enableIntoMode: PropTypes.bool.isRequired,
-        onSelect: PropTypes.func.isRequired,
-
-        i18nRegistry: PropTypes.object.isRequired
+        onSelect: PropTypes.func.isRequired
     };
 
     options = [];
@@ -83,7 +77,7 @@ export default class InsertModeSelector extends PureComponent {
     }
 
     render() {
-        const {mode, enableIntoMode, enableAlongsideModes, i18nRegistry} = this.props;
+        const {mode, enableIntoMode, enableAlongsideModes} = this.props;
 
         if (!mode) {
             return null;
@@ -100,7 +94,7 @@ export default class InsertModeSelector extends PureComponent {
                         disabled={!enableAlongsideModes}
                         style="lighter"
                         size="small"
-                        title={`${translate('Neos.Neos:Main:insert')} ${i18nRegistry.translate('above')}`}
+                        title={`${translate('Neos.Neos:Main:insert')} ${translate('Neos.Neos:Main:above')}`}
                     >
                         <ResourceIcon source={createAboveIcon} className={style.iconAlignment}/>
                         {translate('Neos.Neos.Ui:Main:above', 'Above')}
@@ -111,7 +105,7 @@ export default class InsertModeSelector extends PureComponent {
                         disabled={!enableAlongsideModes}
                         style="lighter"
                         size="small"
-                        title={`${translate('Neos.Neos:Main:insert')} ${i18nRegistry.translate('below')}`}
+                        title={`${translate('Neos.Neos:Main:insert')} ${translate('Neos.Neos:Main:below')}`}
                     >
                         <ResourceIcon source={createBelowIcon} className={style.iconAlignment}/>
                         {translate('Neos.Neos.Ui:Main:below', 'Below')}
@@ -122,7 +116,7 @@ export default class InsertModeSelector extends PureComponent {
                         disabled={!enableIntoMode}
                         style="lighter"
                         size="small"
-                        title={`${translate('Neos.Neos:Main:insert')} ${i18nRegistry.translate('into')}`}
+                        title={`${translate('Neos.Neos:Main:insert')} ${translate('Neos.Neos:Main:into')}`}
                     >
                         <ResourceIcon source={createInsideIcon} className={style.iconAlignment}/>
                         {translate('Neos.Neos.Ui:Main:inside', 'Inside')}
