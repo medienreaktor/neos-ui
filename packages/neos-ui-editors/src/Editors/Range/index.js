@@ -1,19 +1,13 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {neos} from '@neos-project/neos-ui-decorators';
 import style from './style.module.css';
+import {translate} from '@neos-project/neos-ui-i18n';
 
-@neos(globalRegistry => {
-    return {
-        i18nRegistry: globalRegistry.get('i18n')
-    };
-})
 class RangeEditor extends PureComponent {
     static propTypes = {
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         commit: PropTypes.func.isRequired,
-        i18nRegistry: PropTypes.object.isRequired,
         options: PropTypes.shape({
             min: PropTypes.number,
             max: PropTypes.number,
@@ -89,12 +83,12 @@ class RangeEditor extends PureComponent {
                     disabled={options.disabled}
                 />
                 <div className={style.rangeEditorValue}>
-                    <span title={this.props.i18nRegistry.translate('Neos.Neos.Ui:Main:rangeEditorMinimum')}>
+                    <span title={translate('Neos.Neos.Ui:Main:rangeEditorMinimum')}>
                         {options.minLabel ? options.minLabel : options.min + options.unit}
                     </span>
                     <span>
                         <input
-                            title={this.props.i18nRegistry.translate('Neos.Neos.Ui:Main:rangeEditorCurrentValue')}
+                            title={translate('Neos.Neos.Ui:Main:rangeEditorCurrentValue')}
                             type="text"
                             onKeyPress={this.onKeyPress}
                             onChange={this.handleChange}
@@ -104,7 +98,7 @@ class RangeEditor extends PureComponent {
                         />
                         {options.unit}
                     </span>
-                    <span title={this.props.i18nRegistry.translate('Neos.Neos.Ui:Main:rangeEditorMaximum')}>
+                    <span title={translate('Neos.Neos.Ui:Main:rangeEditorMaximum')}>
                         {options.maxLabel ? options.maxLabel : options.max + options.unit}
                     </span>
                 </div>

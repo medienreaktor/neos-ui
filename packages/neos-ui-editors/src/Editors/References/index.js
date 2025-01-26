@@ -8,6 +8,7 @@ import {dndTypes} from '@neos-project/neos-ui-constants';
 import {neos} from '@neos-project/neos-ui-decorators';
 import {connect} from 'react-redux';
 import {actions} from '@neos-project/neos-ui-redux-store';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 import {sanitizeOptions} from '../../Library';
 
@@ -59,14 +60,14 @@ export default class ReferencesEditor extends PureComponent {
             className={className}
             dndType={dndTypes.MULTISELECT}
             optionValueField="identifier"
-            loadingLabel={i18nRegistry.translate('Neos.Neos:Main:loading')}
+            loadingLabel={translate('Neos.Neos:Main:loading')}
             displaySearchBox={true}
             ListPreviewElement={NodeOption}
-            createNewLabel={i18nRegistry.translate('Neos.Neos:Main:createNew')}
+            createNewLabel={translate('Neos.Neos:Main:createNew')}
             placeholder={i18nRegistry.translate(placeholder)}
             threshold={threshold}
-            noMatchesFoundLabel={i18nRegistry.translate('Neos.Neos:Main:noMatchesFound')}
-            searchBoxLeftToTypeLabel={i18nRegistry.translate('Neos.Neos:Main:searchBoxLeftToType')}
+            noMatchesFoundLabel={translate('Neos.Neos:Main:noMatchesFound')}
+            searchBoxLeftToTypeLabel={translate('Neos.Neos:Main:searchBoxLeftToType')}
             options={sanitizeOptions(options)}
             values={value}
             onValuesChange={this.handleValueChange}

@@ -4,12 +4,9 @@ import {connect} from 'react-redux';
 
 import IconButton from '@neos-project/react-ui-components/src/IconButton/';
 import {actions} from '@neos-project/neos-ui-redux-store';
-import {neos} from '@neos-project/neos-ui-decorators';
 import style from './style.module.css';
+import {translate} from '@neos-project/neos-ui-i18n';
 
-@neos(globalRegistry => ({
-    i18nRegistry: globalRegistry.get('i18n')
-}))
 @connect(state => ({
     isFullScreen: state?.ui?.fullScreen?.isFullScreen
 }), {
@@ -18,28 +15,27 @@ import style from './style.module.css';
 export default class FullScreenButton extends PureComponent {
     static propTypes = {
         toggleFullScreen: PropTypes.func,
-        i18nRegistry: PropTypes.object.isRequired,
         isFullScreen: PropTypes.bool.isRequired
     };
 
     render() {
-        const {toggleFullScreen, i18nRegistry, isFullScreen} = this.props;
+        const {toggleFullScreen, isFullScreen} = this.props;
 
         return isFullScreen ? (
             <IconButton
                 icon="expand"
                 className={style.fullScreenClose}
                 onClick={toggleFullScreen}
-                aria-label={i18nRegistry.translate('Neos.Neos:Main:deactivateFullscreen', 'Deactivate Fullscreen edit mode')}
-                title={i18nRegistry.translate('Neos.Neos:Main:deactivateFullscreen', 'Deactivate Fullscreen edit mode')}
+                aria-label={translate('Neos.Neos:Main:deactivateFullscreen', 'Deactivate Fullscreen edit mode')}
+                title={translate('Neos.Neos:Main:deactivateFullscreen', 'Deactivate Fullscreen edit mode')}
                 />
             ) : (
                 <IconButton
                     id="neos-FullScreenButton"
                     icon="expand"
                     onClick={toggleFullScreen}
-                    aria-label={i18nRegistry.translate('Neos.Neos:Main:activateFullscreen', 'Activate Fullscreen edit mode')}
-                    title={i18nRegistry.translate('Neos.Neos:Main:activateFullscreen', 'Activate Fullscreen edit mode')}
+                    aria-label={translate('Neos.Neos:Main:activateFullscreen', 'Activate Fullscreen edit mode')}
+                    title={translate('Neos.Neos:Main:activateFullscreen', 'Activate Fullscreen edit mode')}
                     />
             );
     }

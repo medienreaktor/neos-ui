@@ -2,7 +2,6 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {neos} from '@neos-project/neos-ui-decorators';
 import {actions, selectors} from '@neos-project/neos-ui-redux-store';
 import backend from '@neos-project/neos-ui-backend-connector';
 import fetchWithErrorHandling from '@neos-project/neos-ui-backend-connector/src/FetchWithErrorHandling/index';
@@ -11,9 +10,6 @@ import {Button, Dialog, TextInput, Tooltip} from '@neos-project/react-ui-compone
 import {translate} from '@neos-project/neos-ui-i18n';
 import style from './style.module.css';
 
-@neos(globalRegistry => ({
-    i18nRegistry: globalRegistry.get('i18n')
-}))
 @connect(state => ({
     authenticationTimeout: selectors.System.authenticationTimeout(state)
 }), {
@@ -30,7 +26,6 @@ export default class ReloginDialog extends PureComponent {
     state = {...this.defaultState};
 
     static propTypes = {
-        i18nRegistry: PropTypes.object.isRequired,
         authenticationTimeout: PropTypes.bool.isRequired,
         reauthenticationSucceeded: PropTypes.func.isRequired
     };
@@ -53,7 +48,7 @@ export default class ReloginDialog extends PureComponent {
                 this.setState(this.defaultState);
             } else {
                 this.setState({
-                    message: this.props.i18nRegistry.translate('Neos.Neos:Main:wrongCredentials', 'The entered username or password was wrong'),
+                    message: translate('Neos.Neos:Main:wrongCredentials', 'The entered username or password was wrong'),
                     isLoading: false
                 });
             }
@@ -61,7 +56,7 @@ export default class ReloginDialog extends PureComponent {
     };
 
     render() {
-        const {authenticationTimeout, i18nRegistry} = this.props;
+        const {authenticationTimeout} = this.props;
 
         if (!authenticationTimeout) {
             return null;
@@ -80,7 +75,7 @@ export default class ReloginDialog extends PureComponent {
                         containerClassName={style.inputFieldWrapper}
                         value={this.state.username}
                         name="__authentication[Neos][Flow][Security][Authentication][Token][UsernamePassword][username]"
-                        placeholder={i18nRegistry.translate('Neos.Neos:Main:username', 'Username')}
+                        placeholder={translate('Neos.Neos:Main:username', 'Username')}
                         onChange={this.handleUsernameChange}
                         onEnterKey={this.handleTryLogin}
                         setFocus={true}
@@ -91,7 +86,7 @@ export default class ReloginDialog extends PureComponent {
                         containerClassName={style.inputFieldWrapper}
                         value={this.state.password}
                         name="__authentication[Neos][Flow][Security][Authentication][Token][UsernamePassword][password]"
-                        placeholder={i18nRegistry.translate('Neos.Neos:Main:password', 'Password')}
+                        placeholder={translate('Neos.Neos:Main:password', 'Password')}
                         onChange={this.handlePasswordChange}
                         onEnterKey={this.handleTryLogin}
                         />

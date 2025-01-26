@@ -196,15 +196,15 @@ export default class SelectNodeType extends PureComponent {
 
         const nodeTypeLabel = nodeTypesRegistry.get(referenceNodeType)?.ui?.label
         const nodeTypeLabelText = i18nRegistry.translate(nodeTypeLabel, 'Node')
-        const addLabel = i18nRegistry.translate('Neos.Neos.Ui:Main:add', 'Add')
+        const addLabel = translate('Neos.Neos.Ui:Main:add', 'Add')
         const insertModeLabel = (function () {
             switch (insertMode) {
                 case 'into':
-                    return i18nRegistry.translate('Neos.Neos.Ui:Main:InsertModeTitleInto', 'inside');
+                    return translate('Neos.Neos.Ui:Main:InsertModeTitleInto', 'inside');
                 case 'before':
-                    return i18nRegistry.translate('Neos.Neos.Ui:Main:InsertModeTitleBefore', 'above');
+                    return translate('Neos.Neos.Ui:Main:InsertModeTitleBefore', 'above');
                 case 'after':
-                    return i18nRegistry.translate('Neos.Neos.Ui:Main:InsertModeTitleAfter', 'below');
+                    return translate('Neos.Neos.Ui:Main:InsertModeTitleAfter', 'below');
                 default:
                     return 'to';
             }

@@ -2,11 +2,8 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import style from './style.module.css';
 import IconButton from '@neos-project/react-ui-components/src/IconButton/';
-import {neos} from '@neos-project/neos-ui-decorators';
+import {translate} from '@neos-project/neos-ui-i18n';
 
-@neos(globalRegistry => ({
-    i18nRegistry: globalRegistry.get('i18n')
-}))
 export default class Controls extends PureComponent {
     static propTypes = {
         onChooseFromMedia: PropTypes.func.isRequired,
@@ -16,9 +13,7 @@ export default class Controls extends PureComponent {
         disabled: PropTypes.bool,
 
         isUploadEnabled: PropTypes.bool.isRequired,
-        isMediaBrowserEnabled: PropTypes.bool.isRequired,
-
-        i18nRegistry: PropTypes.object.isRequired
+        isMediaBrowserEnabled: PropTypes.bool.isRequired
     };
 
     render() {
@@ -37,7 +32,6 @@ export default class Controls extends PureComponent {
             isUploadEnabled,
             isMediaBrowserEnabled,
             onRemove,
-            i18nRegistry,
             disabled
         } = this.props;
 
@@ -54,7 +48,7 @@ export default class Controls extends PureComponent {
                     style="lighter"
                     onClick={handleChooseFromMedia()}
                     className={style.button}
-                    title={i18nRegistry.translate('Neos.Neos:Main:media')}
+                    title={translate('Neos.Neos:Main:media')}
                     disabled={disabled}
                     />
                 }
@@ -65,7 +59,7 @@ export default class Controls extends PureComponent {
                     style="lighter"
                     onClick={handleChooseFromLocalFileSystem()}
                     className={style.button}
-                    title={i18nRegistry.translate('Neos.Media.Browser:Main:chooseFile')}
+                    title={translate('Neos.Media.Browser:Main:chooseFile')}
                     disabled={disabled}
                     />
                 }
@@ -76,14 +70,14 @@ export default class Controls extends PureComponent {
                     onClick={handleRemove()}
                     disabled={!onRemove || disabled}
                     className={style.button}
-                    title={i18nRegistry.translate('Neos.Neos:Main:remove')}
+                    title={translate('Neos.Neos:Main:remove')}
                     />
             </span>
         );
     }
 
     renderisCropperVisibleButton() {
-        const {onCrop, i18nRegistry, disabled} = this.props;
+        const {onCrop, disabled} = this.props;
 
         const handleCrop = () => disabled ? null : onCrop;
 
@@ -95,7 +89,7 @@ export default class Controls extends PureComponent {
                     style="lighter"
                     className={style.cropButton}
                     onClick={handleCrop()}
-                    title={i18nRegistry.translate('Neos.Neos:Main:crop')}
+                    title={translate('Neos.Neos:Main:crop')}
                     disabled={disabled}
                     />
             );

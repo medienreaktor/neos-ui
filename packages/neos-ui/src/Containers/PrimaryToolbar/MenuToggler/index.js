@@ -5,13 +5,9 @@ import mergeClassNames from 'classnames';
 
 import Button from '@neos-project/react-ui-components/src/Button/';
 import {actions} from '@neos-project/neos-ui-redux-store';
-import {neos} from '@neos-project/neos-ui-decorators';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 import style from './style.module.css';
-
-@neos(globalRegistry => ({
-    i18nRegistry: globalRegistry.get('i18n')
-}))
 
 @connect(state => ({
     isMenuHidden: state?.ui?.drawer?.isHidden
@@ -20,8 +16,6 @@ import style from './style.module.css';
 })
 export default class MenuToggler extends PureComponent {
     static propTypes = {
-        i18nRegistry: PropTypes.object.isRequired,
-
         className: PropTypes.string,
         isMenuHidden: PropTypes.bool.isRequired,
         toggleDrawer: PropTypes.func.isRequired
@@ -34,7 +28,7 @@ export default class MenuToggler extends PureComponent {
     }
 
     render() {
-        const {className, isMenuHidden, i18nRegistry} = this.props;
+        const {className, isMenuHidden} = this.props;
         const isMenuVisible = !isMenuHidden;
         const classNames = mergeClassNames({
             [style.menuToggler]: true,
@@ -53,7 +47,7 @@ export default class MenuToggler extends PureComponent {
                 hoverStyle="clean"
                 isFocused={isMenuVisible}
                 onClick={this.handleToggle}
-                title={i18nRegistry.translate('Neos.Neos:Main:toggleMenu', 'Toggle menu')}
+                title={translate('Neos.Neos:Main:toggleMenu', 'Toggle menu')}
                 aria-label="Menu"
                 aria-controls="navigation"
                 aria-expanded={isMenuHidden ? 'false' : 'true'}

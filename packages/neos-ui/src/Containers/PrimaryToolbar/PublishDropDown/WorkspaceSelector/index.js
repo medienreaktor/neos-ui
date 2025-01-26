@@ -1,21 +1,16 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 import SelectBox from '@neos-project/react-ui-components/src/SelectBox/';
-import {neos} from '@neos-project/neos-ui-decorators';
 import style from './style.module.css';
-
-@neos(globalRegistry => ({
-    i18nRegistry: globalRegistry.get('i18n')
-}))
 
 export default class WorkspaceSelector extends PureComponent {
     static propTypes = {
         baseWorkspace: PropTypes.string.isRequired,
         allowedWorkspaces: PropTypes.object.isRequired,
         changeBaseWorkspaceAction: PropTypes.func.isRequired,
-        changingWorkspaceAllowed: PropTypes.bool,
-        i18nRegistry: PropTypes.object.isRequired
+        changingWorkspaceAllowed: PropTypes.bool
     };
 
     static contextTypes = {
@@ -23,7 +18,7 @@ export default class WorkspaceSelector extends PureComponent {
     };
 
     render() {
-        const {allowedWorkspaces, baseWorkspace, changeBaseWorkspaceAction, changingWorkspaceAllowed, i18nRegistry} = this.props;
+        const {allowedWorkspaces, baseWorkspace, changeBaseWorkspaceAction, changingWorkspaceAllowed} = this.props;
 
         const {context} = this;
         const workspacesOptions = Object.keys(allowedWorkspaces).map(i => ({label: allowedWorkspaces[i]?.title, value: allowedWorkspaces[i]?.name}));
@@ -42,8 +37,8 @@ export default class WorkspaceSelector extends PureComponent {
                     value={baseWorkspace}
                     onValueChange={onWorkspaceSelect}
                     /> :
-                <div className={style.notAllowed} title={i18nRegistry.translate('Neos.Neos:Main:content.components.dirtyWorkspaceDialog.dirtyWorkspaceContainsChanges')}>
-                    {baseWorkspaceTitle} – {i18nRegistry.translate('Neos.Neos:Main:content.components.dirtyWorkspaceDialog.dirtyWorkspaceHeader')}
+                <div className={style.notAllowed} title={translate('Neos.Neos:Main:content.components.dirtyWorkspaceDialog.dirtyWorkspaceContainsChanges')}>
+                    {baseWorkspaceTitle} – {translate('Neos.Neos:Main:content.components.dirtyWorkspaceDialog.dirtyWorkspaceHeader')}
                 </div>
             )}
         </div>);

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import ReactCrop from 'react-image-crop';
 
 import {Icon, IconButton, TextInput} from '@neos-project/react-ui-components';
-import {neos} from '@neos-project/neos-ui-decorators';
 
 import AspectRatioDropDown from './AspectRatioDropDown/index';
 import CropConfiguration, {CustomAspectRatioOption, LockedAspectRatioStrategy} from './model.js';
@@ -11,6 +10,7 @@ import dummyImage from '../../Editors/Image/resource/dummy-image.dataurl.svg';
 import style from './style.module.css';
 
 import './react_crop.vanilla-css';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 /**
  * Calculates the greatest common divisor for given numbers a, b
@@ -70,9 +70,6 @@ class AspectRatioItem extends PureComponent {
     }
 }
 
-@neos(globalRegistry => ({
-    i18nRegistry: globalRegistry.get('i18n')
-}))
 export default class ImageCropper extends PureComponent {
     state = {
         cropConfiguration: CropConfiguration.fromNeosConfiguration(
@@ -84,8 +81,7 @@ export default class ImageCropper extends PureComponent {
     static propTypes = {
         onComplete: PropTypes.func.isRequired,
         sourceImage: PropTypes.object.isRequired,
-        options: PropTypes.object,
-        i18nRegistry: PropTypes.object.isRequired
+        options: PropTypes.object
     };
 
     componentDidMount() {
@@ -181,7 +177,7 @@ export default class ImageCropper extends PureComponent {
         const {cropConfiguration} = this.state;
         const aspectRatioLocked = cropConfiguration.aspectRatioStrategy instanceof LockedAspectRatioStrategy;
         const allowCustomRatios = cropConfiguration.aspectRatioOptions.some(option => option instanceof CustomAspectRatioOption);
-        const {sourceImage, i18nRegistry} = this.props;
+        const {sourceImage} = this.props;
         const src = sourceImage.previewUri || dummyImage;
 
         const toolbarRef = el => {
@@ -207,7 +203,7 @@ export default class ImageCropper extends PureComponent {
                     </div>
 
                     {!aspectRatioLocked && <AspectRatioDropDown
-                        placeholder={`${i18nRegistry.translate('Neos.Neos:Main:imageCropper__aspect-ratio-placeholder')}`}
+                        placeholder={`${translate('Neos.Neos:Main:imageCropper__aspect-ratio-placeholder')}`}
                         current={cropConfiguration.aspectRatioStrategy}
                         allowCustomRatios={allowCustomRatios}
                         options={cropConfiguration.aspectRatioOptions}

@@ -13,6 +13,7 @@ import {PageTreeNode, ContentTreeNode} from './Node/index';
 
 import style from './style.module.css';
 import {neos} from '@neos-project/neos-ui-decorators';
+import {translate} from '@neos-project/neos-ui-i18n';
 import {getConfiguration} from '@neos-project/neos-ui-configuration';
 
 const ConnectedDragLayer = connect((state, {currentlyDraggedNodes}) => {
@@ -36,8 +37,7 @@ export default class NodeTree extends PureComponent {
         setActiveContentCanvasContextPath: PropTypes.func,
         moveNodes: PropTypes.func,
         allCollapsibleNodes: PropTypes.object,
-        loadingDepth: PropTypes.number,
-        i18nRegistry: PropTypes.object.isRequired
+        loadingDepth: PropTypes.number
     };
 
     state = {
@@ -132,7 +132,7 @@ export default class NodeTree extends PureComponent {
     }
 
     render() {
-        const {rootNode, ChildRenderer, i18nRegistry} = this.props;
+        const {rootNode, ChildRenderer} = this.props;
         if (!rootNode) {
             return (
                 <div className={style.loader}>
@@ -150,7 +150,7 @@ export default class NodeTree extends PureComponent {
                 <button
                     onClick={this.handleCollapseAll}
                     className={style.collapseAll}
-                    title={i18nRegistry.translate('Neos.Neos.Ui:Main:collapseAll')}
+                    title={translate('Neos.Neos.Ui:Main:collapseAll')}
                 >
                     <Icon className={style.collapseAllIcon} icon="compress-alt"/>
                 </button>
@@ -178,12 +178,11 @@ export default class NodeTree extends PureComponent {
     }
 }
 
-const withNodeTypeRegistryAndI18nRegistry = neos(globalRegistry => ({
-    nodeTypesRegistry: globalRegistry.get('@neos-project/neos-ui-contentrepository'),
-    i18nRegistry: globalRegistry.get('i18n')
+const withNodeTypeRegistry = neos(globalRegistry => ({
+    nodeTypesRegistry: globalRegistry.get('@neos-project/neos-ui-contentrepository')
 }));
 
-export const PageTree = withNodeTypeRegistryAndI18nRegistry(connect(
+export const PageTree = withNodeTypeRegistry(connect(
     (state, {nodeTypesRegistry}) => {
         const documentNodesSelector = selectors.CR.Nodes.makeGetCollapsibleDocumentNodes(nodeTypesRegistry);
         return ({
@@ -208,7 +207,7 @@ export const PageTree = withNodeTypeRegistryAndI18nRegistry(connect(
     }
 )(NodeTree));
 
-export const ContentTree = withNodeTypeRegistryAndI18nRegistry(connect(
+export const ContentTree = withNodeTypeRegistry(connect(
     (state, {nodeTypesRegistry}) => {
         const contentNodesSelector = selectors.CR.Nodes.makeGetCollapsibleContentNodes(nodeTypesRegistry);
         return ({
