@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {Icon} from '@neos-project/react-ui-components';
-import {neos} from '@neos-project/neos-ui-decorators';
 import {connect} from 'react-redux';
 import {actions} from '@neos-project/neos-ui-redux-store';
-import I18n from '@neos-project/neos-ui-i18n';
+import I18n, {translate} from '@neos-project/neos-ui-i18n';
 
 import buttonTheme from './style.module.css';
 
@@ -17,25 +16,15 @@ import buttonTheme from './style.module.css';
         impersonateRestore: actions.User.Impersonate.restore
     }
 )
-@neos(globalRegistry => ({
-    i18nRegistry: globalRegistry.get('i18n')
-}))
 export default class RestoreButtonItem extends React.PureComponent {
     static propTypes = {
         originUser: PropTypes.object,
-        impersonateRestore: PropTypes.func.isRequired,
-        i18nRegistry: PropTypes.object.isRequired
+        impersonateRestore: PropTypes.func.isRequired
     };
 
     render() {
-        const {originUser, i18nRegistry, impersonateRestore} = this.props;
-        const title = i18nRegistry.translate(
-            'impersonate.title.restoreUserButton',
-            'Switch back to the orginal user account',
-            {},
-            'Neos.Neos',
-            'Main'
-        );
+        const {originUser, impersonateRestore} = this.props;
+        const title = translate('Neos.Neos:Main:impersonate.title.restoreUserButton', 'Switch back to the orginal user account',);
 
         return (originUser ? (
             <li className={buttonTheme.dropDown__item}>

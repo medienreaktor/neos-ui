@@ -67,13 +67,7 @@ export default class DeleteNodeModal extends PureComponent {
             );
         }
 
-        const deleteMultipleNodesLabel = i18nRegistry.translate(
-            'deleteXNodes',
-            'Delete multiple nodes',
-            {amount: nodesToBeDeletedContextPaths.length},
-            'Neos.Neos.Ui',
-            'Main'
-        )
+        const deleteMultipleNodesLabel = translate('Neos.Neos.Ui:Main:deleteXNodes', 'Delete multiple nodes', {amount: nodesToBeDeletedContextPaths.length})
         return (
             <div>
                 <Icon icon="exclamation-triangle"/>

@@ -7,6 +7,7 @@ import {neos} from '@neos-project/neos-ui-decorators';
 import {selectors} from '@neos-project/neos-ui-redux-store';
 import {TextInput, IconButton} from '@neos-project/react-ui-components';
 import style from './style.module.css';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 const defaultOptions = {
     autoFocus: false,
@@ -117,9 +118,7 @@ export default class UriPathSegment extends PureComponent {
                             disabled={this.state.isBusy}
                             style="neutral"
                             hoverStyle="clean"
-                            title={i18nRegistry.translate(
-                                'Neos.Neos.Ui:Main:syncUriPathSegment'
-                            )}
+                            title={translate('Neos.Neos.Ui:Main:syncUriPathSegment')}
                         />
                     </div>
                 ) : null}
