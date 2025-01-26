@@ -1,5 +1,6 @@
 import type {I18nRegistry} from '@neos-project/neos-ui-i18n';
 import {isNil} from '@neos-project/utils-helpers';
+import {translate} from '@neos-project/neos-ui-i18n';
 import {
     createSelectBoxValueStringFromPossiblyStrangeNodePropertyValue
 } from './createSelectBoxValueStringFromPossiblyStrangeNodePropertyValue';
@@ -77,7 +78,7 @@ export const processSelectBoxOptions = (i18nRegistry: I18nRegistry, selectBoxOpt
         // Mismatch detected. Thus we add an option to the schema so the value is displayable: https://github.com/neos/neos-ui/issues/3520
         processedSelectBoxOptions.push({
             value: singleValue,
-            label: `${i18nRegistry.translate('Neos.Neos.Ui:Main:invalidValue')}: "${singleValue}"`,
+            label: `${translate('Neos.Neos.Ui:Main:invalidValue', 'Invalid value')}: "${singleValue}"`,
             icon: 'exclamation-triangle'
         });
     }
