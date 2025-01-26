@@ -6,7 +6,7 @@ import TestBackend from 'react-dnd-test-backend';
 import {DndProvider as DragDropContextProvider} from 'react-dnd';
 import SelectBoxEditor from './index.js';
 import {WrapWithMockGlobalRegistry, MockDataSourceDataLoader} from '../../_lib/testUtils';
-import {setupI18n} from "@neos-project/neos-ui-i18n";
+import {setupI18n} from '@neos-project/neos-ui-i18n';
 
 const optionValues = {
     foo: {

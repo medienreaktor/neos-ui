@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
 import {ButtonGroup, Button, ResourceIcon} from '@neos-project/react-ui-components';
-import I18n, {translate} from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 import style from './style.module.css';
 
@@ -86,7 +86,7 @@ export default class InsertModeSelector extends PureComponent {
         return (
             <div className={style.root}>
                 <span className={style.label}>
-                    <I18n id="Neos.Neos:Main:insertMode"/>&nbsp;
+                    {translate('Neos.Neos:Main:insertMode')}&nbsp;
                 </span>
                 <ButtonGroup value={mode} onSelect={this.handleSelect} className={style.buttonGroup}>
                     <Button

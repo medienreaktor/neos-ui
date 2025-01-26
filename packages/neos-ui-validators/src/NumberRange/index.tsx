@@ -1,5 +1,5 @@
 import React from 'react';
-import I18n from '@neos-project/neos-ui-i18n';
+import I18n, {translate} from '@neos-project/neos-ui-i18n';
 import logger from '@neos-project/utils-logger';
 
 /**
@@ -33,7 +33,7 @@ const NumberRange = (value: any, validatorOptions: NumberRangeOptions) => {
     }
 
     if (value.length > 0 && !Number.isSafeInteger(number)) {
-        return <I18n id="content.inspector.validators.numberRangeValidator.validNumberExpected"/>;
+        return translate('Neos.Neos:Main:content.inspector.validators.numberRangeValidator.validNumberExpected', '');
     }
     if (number < minimum || number > maximum) {
         const label = validatorOptions?.validationErrorMessage ?? 'content.inspector.validators.numberRangeValidator.numberShouldBeInRange';

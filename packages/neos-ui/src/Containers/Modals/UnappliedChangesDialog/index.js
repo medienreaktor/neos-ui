@@ -6,7 +6,7 @@ import {actions, selectors} from '@neos-project/neos-ui-redux-store';
 import {neos} from '@neos-project/neos-ui-decorators';
 
 import {Icon, Dialog, Button} from '@neos-project/react-ui-components';
-import I18n, {translate} from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 import style from './style.module.css';
 
@@ -85,7 +85,7 @@ export default class UnappliedChangesDialog extends PureComponent {
                 className={`${style.button} ${style.discardButton}`}
                 >
                 <Icon icon="ban" className={style.buttonIcon}/>
-                <I18n id="Neos.Neos:Main:content.inspector.unappliedChangesDialog.button.danger"/>
+                {translate('Neos.Neos:Main:content.inspector.unappliedChangesDialog.button.danger')}
             </Button>
         );
     }
@@ -100,7 +100,7 @@ export default class UnappliedChangesDialog extends PureComponent {
                 onClick={this.handleResume}
                 className={`${style.button} ${style.resumeButton}`}
                 >
-                <I18n id="Neos.Neos:Main:content.inspector.unappliedChangesDialog.button.default"/>
+                {translate('Neos.Neos:Main:content.inspector.unappliedChangesDialog.button.default')}
             </Button>
         );
     }
@@ -119,7 +119,7 @@ export default class UnappliedChangesDialog extends PureComponent {
                 className={`${style.button} ${style.publishButton}`}
                 >
                 <Icon icon="check" className={style.buttonIcon}/>
-                <I18n id="Neos.Neos:Main:content.inspector.unappliedChangesDialog.button.success"/>
+                {translate('Neos.Neos:Main:content.inspector.unappliedChangesDialog.button.success')}
             </Button>
         );
     }

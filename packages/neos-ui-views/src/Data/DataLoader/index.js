@@ -5,9 +5,9 @@ import {neos} from '@neos-project/neos-ui-decorators';
 import {selectors} from '@neos-project/neos-ui-redux-store';
 import Widget from '../../Widget/index';
 import Icon from '@neos-project/react-ui-components/src/Icon/';
-import I18n from '@neos-project/neos-ui-i18n';
 import style from './style.module.css';
 import isEqual from 'lodash.isequal';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 /*
  * This HOC is responsible for fetching data for Data views and wraping
@@ -91,7 +91,7 @@ export default () => WrappedComponent => {
             }
 
             if (!this.state.data) {
-                return (<div><I18n id="Neos.Neos:Main:loading"/></div>);
+                return (<div>{translate('Neos.Neos:Main:loading')}</div>);
             }
 
             return (<WrappedComponent data={this.state.data} {...this.props}/>);
