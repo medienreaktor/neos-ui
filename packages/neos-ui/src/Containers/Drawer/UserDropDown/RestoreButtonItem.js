@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {Icon} from '@neos-project/react-ui-components';
 import {connect} from 'react-redux';
 import {actions} from '@neos-project/neos-ui-redux-store';
-import I18n, {translate} from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 import buttonTheme from './style.module.css';
 
@@ -39,13 +39,7 @@ export default class RestoreButtonItem extends React.PureComponent {
                         aria-hidden="true"
                         className={buttonTheme.dropDown__itemIcon}
                     />
-                    <I18n
-                        id="impersonate.label.restoreUserButton"
-                        sourceName="Main"
-                        packageKey="Neos.Neos"
-                        fallback={`Back to user "${originUser.fullName}"`}
-                        params={{0: originUser.fullName}}
-                    />
+                    {translate('Neos.Neos:Main:impersonate.label.restoreUserButton', 'Back to user "{0}"', {0: originUser.fullName})}
                 </button>
             </li>
         ) : null);

@@ -220,7 +220,7 @@ export default class NodeCreationDialog extends PureComponent {
 
         return (
             <span>
-                <I18n fallback="Create new" id="createNew"/>&nbsp;
+                {translate('Neos.Neos:Main:createNew', 'Create new')}&nbsp;
                 <I18n id={label} fallback={label}/>
             </span>
         );

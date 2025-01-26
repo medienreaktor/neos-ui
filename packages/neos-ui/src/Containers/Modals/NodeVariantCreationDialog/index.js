@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {Button, Dialog} from '@neos-project/react-ui-components';
-import I18n, {translate} from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 import {selectors, actions} from '@neos-project/neos-ui-redux-store';
 import {neos} from '@neos-project/neos-ui-decorators';
@@ -147,14 +147,16 @@ export default class NodeVariantCreationDialog extends PureComponent {
                 >
                 <div className={style.modalContents}>
                     <div>
-                        <I18n id="Neos.Neos:Main:content.dimension.createDialog.nodeTypeDoesNotExistInDimension" fallback="TODO" params={i18nParams}/>
+                        {translate('Neos.Neos:Main:content.dimension.createDialog.nodeTypeDoesNotExistInDimension', '', i18nParams)}
                     </div>
 
                     <div>
-                        <I18n id="Neos.Neos:Main:content.dimension.createDialog.createEmptyOrCopy" fallback="TODO" params={i18nParams}/>
+                        {translate('Neos.Neos:Main:content.dimension.createDialog.createEmptyOrCopy', '', i18nParams)}
                     </div>
                     {numberOfParentNodesToBeCreated > 0 ?
-                        <div><I18n id="Neos.Neos:Main:content.dimension.createDialog.existingAncestorDocuments" fallback="TODO" params={{numberOfNodesMissingInRootline: numberOfParentNodesToBeCreated}}/></div> : null
+                        <div>
+                            {translate('Neos.Neos:Main:content.dimension.createDialog.existingAncestorDocuments', '', {numberOfNodesMissingInRootline: numberOfParentNodesToBeCreated})}
+                        </div> : null
                     }
                 </div>
             </Dialog>
