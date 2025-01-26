@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import debounce from 'lodash.debounce';
 import mergeClassNames from 'classnames';
 
-import {neos} from '@neos-project/neos-ui-decorators';
+import {translate} from '@neos-project/neos-ui-i18n';
 import {actions, selectors} from '@neos-project/neos-ui-redux-store';
 
 import {IconButton} from '@neos-project/react-ui-components';
@@ -14,10 +14,6 @@ import style from './style.module.css';
 
 const searchDelay = 300;
 
-@neos(globalRegistry => ({
-    i18nRegistry: globalRegistry.get('i18n')
-}))
-
 @connect(state => ({
     isSearchBarVisible: state?.ui?.leftSideBar?.searchBar?.isVisible
 }), {
@@ -26,7 +22,6 @@ const searchDelay = 300;
 
 class NodeTreeSearchBar extends PureComponent {
     static propTypes = {
-        i18nRegistry: PropTypes.object.isRequired,
         rootNode: PropTypes.object,
         commenceSearch: PropTypes.func.isRequired,
         isSearchBarVisible: PropTypes.bool.isRequired,
@@ -83,9 +78,9 @@ class NodeTreeSearchBar extends PureComponent {
     }
 
     render() {
-        const {i18nRegistry, isSearchBarVisible} = this.props;
+        const {isSearchBarVisible} = this.props;
         const {searchValue, searchFocused, filterNodeType} = this.state;
-        const searchLabel = i18nRegistry.translate('search', 'Search', {}, 'Neos.Neos', 'Main');
+        const searchLabel = translate('Neos.Neos:Main:search', 'Search');
 
         const searchToggleClassName = mergeClassNames({
             [style.searchToggleButton]: true,

@@ -149,7 +149,7 @@ export default class DeleteNodeModal extends PureComponent {
                 <div className={style.modalContents}>
                     <p>
                         {translate('Neos.Neos:Main:content.navigate.deleteNodeDialog.header')}
-                        &nbsp; {nodesToBeDeletedContextPaths.length > 1 ? `${nodesToBeDeletedContextPaths.length} ${i18nRegistry.translate('nodes', 'nodes', {}, 'Neos.Neos.Ui', 'Main')}` : `"$${node?.label}"`}?
+                        &nbsp; {nodesToBeDeletedContextPaths.length > 1 ? `${nodesToBeDeletedContextPaths.length} ${translate('Neos.Neos.Ui:Main:nodes', 'nodes')}` : `"$${node?.label}"`}?
                     </p>
                     {warnings.length > 0 ? <hr /> : ''}
                     {warnings.map((warning, index) => <p key={index}>

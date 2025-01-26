@@ -1,26 +1,21 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {neos} from '@neos-project/neos-ui-decorators';
 import {selectors} from '@neos-project/neos-ui-redux-store';
 import {IconButton} from '@neos-project/react-ui-components';
 import {showFlashMessage} from '@neos-project/neos-ui-error';
 import style from './style.module.css';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 @connect(state => ({
     focusedNodeContextPath: selectors.CR.Nodes.focusedNodePathSelector(state),
     getNodeByContextPath: selectors.CR.Nodes.nodeByContextPath(state)
 }))
-@neos(globalRegistry => ({
-    i18nRegistry: globalRegistry.get('i18n')
-}))
 export default class NodeInfoView extends PureComponent {
     static propTypes = {
         commit: PropTypes.func.isRequired,
         focusedNodeContextPath: PropTypes.string,
-        getNodeByContextPath: PropTypes.func.isRequired,
-
-        i18nRegistry: PropTypes.object.isRequired
+        getNodeByContextPath: PropTypes.func.isRequired
     }
 
     nodeTypeNameRef = React.createRef();
@@ -45,7 +40,7 @@ export default class NodeInfoView extends PureComponent {
     }
 
     render() {
-        const {focusedNodeContextPath, getNodeByContextPath, i18nRegistry} = this.props;
+        const {focusedNodeContextPath, getNodeByContextPath} = this.props;
 
         const node = getNodeByContextPath(focusedNodeContextPath);
         const properties = {
@@ -64,34 +59,34 @@ export default class NodeInfoView extends PureComponent {
         return (
             <ul className={style.nodeInfoView}>
                 <li className={style.nodeInfoView__item} title={new Date(properties.created).toLocaleString()}>
-                    <div className={style.nodeInfoView__title}>{i18nRegistry.translate('created', 'Created', {}, 'Neos.Neos')}</div>
+                    <div className={style.nodeInfoView__title}>{translate('Neos.Neos:Main:created', 'Created')}</div>
                     <NodeInfoViewContent>{new Date(properties.created).toLocaleString()}</NodeInfoViewContent>
                 </li>
                 <li className={style.nodeInfoView__item} title={new Date(properties.lastModification).toLocaleString()}>
-                    <div className={style.nodeInfoView__title}>{i18nRegistry.translate('lastModification', 'Last modification', {}, 'Neos.Neos')}</div>
-                    <NodeInfoViewContent>{properties.lastModification ? new Date(properties.lastModification).toLocaleString() : i18nRegistry.translate('unavailable', 'unavailable', {}, 'Neos.Neos')}</NodeInfoViewContent>
+                    <div className={style.nodeInfoView__title}>{translate('Neos.Neos:Main:lastModification', 'Last modification')}</div>
+                    <NodeInfoViewContent>{properties.lastModification ? new Date(properties.lastModification).toLocaleString() : translate('Neos.Neos:Main:unavailable', 'unavailable')}</NodeInfoViewContent>
                 </li>
                 <li className={style.nodeInfoView__item} title={new Date(properties.lastPublication).toLocaleString()}>
-                    <div className={style.nodeInfoView__title}>{i18nRegistry.translate('lastPublication', 'Last publication', {}, 'Neos.Neos')}</div>
-                    <NodeInfoViewContent>{properties.lastPublication ? new Date(properties.lastPublication).toLocaleString() : i18nRegistry.translate('unavailable', 'unavailable', {}, 'Neos.Neos')}</NodeInfoViewContent>
+                    <div className={style.nodeInfoView__title}>{translate('Neos.Neos:Main:lastPublication', 'Last publication')}</div>
+                    <NodeInfoViewContent>{properties.lastPublication ? new Date(properties.lastPublication).toLocaleString() : translate('Neos.Neos:Main:unavailable', 'unavailable')}</NodeInfoViewContent>
                 </li>
                 <li className={style.nodeInfoView__item} title={properties.identifier}>
-                    <div className={style.nodeInfoView__title}>{i18nRegistry.translate('identifier', 'Identifier', {}, 'Neos.Neos')}</div>
+                    <div className={style.nodeInfoView__title}>{translate('Neos.Neos:Main:identifier', 'Identifier')}</div>
                     <NodeInfoViewContent>{properties.identifier}</NodeInfoViewContent>
                 </li>
                 <li className={style.nodeInfoView__item} title={properties.nodeAddress}>
-                    <div className={style.nodeInfoView__title}>{i18nRegistry.translate('nodeAddress', 'Node Address', {}, 'Neos.Neos')}</div>
+                    <div className={style.nodeInfoView__title}>{translate('Neos.Neos:Main:nodeAddress', 'Node Address')}</div>
                     <NodeInfoViewContent>{properties.nodeAddress}</NodeInfoViewContent>
                 </li>
                 {properties.name ? (
                     <li className={style.nodeInfoView__item} title={properties.name}>
-                        <div className={style.nodeInfoView__title}>{i18nRegistry.translate('name', 'Name', {}, 'Neos.Neos')}</div>
-                        <NodeInfoViewContent>{properties.name ?? i18nRegistry.translate('unavailable', 'unavailable', {}, 'Neos.Neos')}</NodeInfoViewContent>
+                        <div className={style.nodeInfoView__title}>{translate('Neos.Neos:Main:name', 'Name')}</div>
+                        <NodeInfoViewContent>{properties.name ?? translate('Neos.Neos:Main:unavailable', 'unavailable')}</NodeInfoViewContent>
                     </li>
                 ) : ''}
                 <li className={style.nodeInfoView__item} title={nodeType}>
                     <div
-                        className={style.nodeInfoView__title}>{i18nRegistry.translate('type', 'Type', {}, 'Neos.Neos')}</div>
+                        className={style.nodeInfoView__title}>{translate('Neos.Neos:Main:type', 'Type')}</div>
                     <textarea ref={this.nodeTypeNameRef} className={style.nodeInfoView__nodeTypeTextarea} value={nodeType} readOnly></textarea>
                     <NodeInfoViewContent>
                         <span dangerouslySetInnerHTML={{__html: wrappingNodeTypeName}}></span>
@@ -99,7 +94,7 @@ export default class NodeInfoView extends PureComponent {
                     <IconButton
                         className={style.nodeInfoView__copyButton}
                         icon="copy"
-                        title={i18nRegistry.translate('copyNodeTypeNameToClipboard', 'Copy node type to clipboard', {}, 'Neos.Neos.Ui')}
+                        title={translate('Neos.Neos.Ui:Main:copyNodeTypeNameToClipboard', 'Copy node type to clipboard')}
                         onClick={this.copyNodeToClipboard}
                     />
                 </li>

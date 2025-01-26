@@ -5,6 +5,7 @@ import moment from 'moment';
 import {neos} from '@neos-project/neos-ui-decorators';
 import convertPhpDateFormatToMoment, {has24HourFormat, hasDateFormat, hasTimeFormat} from './helpers';
 import {connect} from 'react-redux';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 @neos(globalRegistry => ({
     i18nRegistry: globalRegistry.get('i18n')
@@ -61,7 +62,7 @@ class DateTime extends PureComponent {
                 timeOnly={!hasDateFormat(options.format)}
                 is24Hour={hasTimeFormat(options.format) && has24HourFormat(options.format)}
                 placeholder={i18nRegistry.translate(options?.placeholder || 'Neos.Neos:Main:content.inspector.editors.dateTimeEditor.noDateSet')}
-                todayLabel={i18nRegistry.translate('content.inspector.editors.dateTimeEditor.today', 'Today', {}, 'Neos.Neos', 'Main')}
+                todayLabel={translate('Neos.Neos:Main:content.inspector.editors.dateTimeEditor.today', 'Today')}
                 locale={interfaceLanguage}
                 disabled={options.disabled}
                 timeConstraints={timeConstraints}

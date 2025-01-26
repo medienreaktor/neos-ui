@@ -33,7 +33,7 @@ export default class NodeTreeFilter extends PureComponent {
 
     render() {
         const {i18nRegistry, nodeTypesRegistry, onChange, value} = this.props;
-        const label = i18nRegistry.translate('filter', 'Filter', {}, 'Neos.Neos', 'Main');
+        const label = translate('Neos.Neos:Main:filter', 'Filter');
 
         const presets = getConfiguration(configuration => configuration?.nodeTree?.presets);
         let options = Object.keys(presets)

@@ -68,7 +68,7 @@ export default class InsertModeModal extends PureComponent {
     renderNodeLabel(contextPaths) {
         const {getNodeByContextPath, nodeTypesRegistry, i18nRegistry} = this.props;
         if (contextPaths.length > 1) {
-            return `${contextPaths.length} ${i18nRegistry.translate('nodes', 'nodes', {}, 'Neos.Neos.Ui', 'Main')}`;
+            return `${contextPaths.length} ${translate('Neos.Neos.Ui:Main:nodes', 'nodes')}`;
         }
         const contextPath = contextPaths[0];
         const node = getNodeByContextPath(contextPath);

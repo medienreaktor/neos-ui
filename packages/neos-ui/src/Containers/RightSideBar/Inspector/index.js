@@ -333,20 +333,20 @@ export default class Inspector extends PureComponent {
         if (focusedContentNodesContextPaths.length > 1) {
             return (
                 <div
-                    title={i18nRegistry.translate('inspectorMutlipleContentNodesSelectedTooltip', 'Select a single document in order to be able to edit its properties', {}, 'Neos.Neos.Ui', 'Main')}
+                    title={translate('Neos.Neos.Ui:Main:inspectorMutlipleContentNodesSelectedTooltip', 'Select a single document in order to be able to edit its properties')}
                     className={style.centeredInspector}
                     >
-                    <div>{focusedContentNodesContextPaths.length} {i18nRegistry.translate('contentElementsSelected', 'content elements selected', {}, 'Neos.Neos.Ui', 'Main')}</div>
+                    <div>{focusedContentNodesContextPaths.length} {translate('Neos.Neos.Ui:Main:contentElementsSelected', 'content elements selected')}</div>
                 </div>
             );
         }
         if (focusedDocumentNodesContextPaths.length > 1) {
             return (
                 <div
-                    title={i18nRegistry.translate('inspectorMutlipleDocumentNodesSelectedTooltip', 'Select a single content element in order to be able to edit its properties', {}, 'Neos.Neos.Ui', 'Main')}
+                    title={translate('Neos.Neos.Ui:Main:inspectorMutlipleDocumentNodesSelectedTooltip', 'Select a single content element in order to be able to edit its properties')}
                     className={style.centeredInspector}
                     >
-                    <div>{focusedDocumentNodesContextPaths.length} {i18nRegistry.translate('documentsSelected', 'documents selected', {}, 'Neos.Neos.Ui', 'Main')}</div>
+                    <div>{focusedDocumentNodesContextPaths.length} {translate('Neos.Neos.Ui:Main:documentsSelected', 'documents selected')}</div>
                 </div>
             );
         }

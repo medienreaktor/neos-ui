@@ -40,7 +40,7 @@ export default class CopySelectedNode extends PureComponent {
                 size="small"
                 title={translate('Neos.Neos:Main:copy')}
             >
-                {i18nRegistry.translate('copy')}
+                {translate('Neos.Neos:Main:copy')}
                 <Icon icon="far copy" />
             </Button>
         );
