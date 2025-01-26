@@ -397,20 +397,7 @@ export default class Inspector extends PureComponent {
                             const notifications = validationErrors ?
                                 this.getAmountOfValidationErrors(tab, validationErrors) : 0;
                             const tabLabel = i18nRegistry.translate(tab?.label);
-                            const notificationTooltipLabelPieces = i18nRegistry.translate(
-                                'UI.RightSideBar.tabs.validationErrorTooltip',
-                                '',
-                                {
-                                    tabName: tabLabel,
-                                    amountOfErrors: notifications
-                                },
-                                'Neos.Neos.Ui',
-                                'Main',
-                                notifications
-                            );
-                            // @todo remove that when substitutePlaceholders of I18nRegistry returns strings
-                            const notificationTooltipLabel = Array.isArray(notificationTooltipLabelPieces) ?
-                                notificationTooltipLabelPieces.join('') : notificationTooltipLabelPieces;
+                            const notificationTooltipLabel = translate('Neos.Neos.Ui:Main:UI.RightSideBar.tabs.validationErrorTooltip', {tabName: tabLabel, amountOfErrors: notifications}, notifications);
 
                             return (
                                 <TabPanel
