@@ -6,7 +6,7 @@ import {actions, selectors} from '@neos-project/neos-ui-redux-store';
 import {neos} from '@neos-project/neos-ui-decorators';
 
 import {Icon, Dialog, Button} from '@neos-project/react-ui-components';
-import I18n from '@neos-project/neos-ui-i18n';
+import I18n, {translate} from '@neos-project/neos-ui-i18n';
 
 import style from './style.module.css';
 
@@ -64,10 +64,7 @@ export default class UnappliedChangesDialog extends PureComponent {
             <div>
                 <Icon icon="exclamation-triangle"/>
                 <span className={style.modalTitle}>
-                    <I18n
-                        id="Neos.Neos:Main:content.inspector.unappliedChangesDialog.header"
-                        fallback="You still have changes. What do you want to do with them?"
-                        />
+                    {translate('Neos.Neos:Main:content.inspector.unappliedChangesDialog.header', 'You still have changes. What do you want to do with them?')}
                 </span>
             </div>
 
@@ -143,10 +140,7 @@ export default class UnappliedChangesDialog extends PureComponent {
                 id="neos-UnappliedChangesDialog"
                 >
                 <div className={style.modalContents}>
-                    <I18n
-                        id="Neos.Neos:Main:content.inspector.unappliedChangesDialog.header"
-                        fallback="You still have changes. What do you want to do with them?"
-                        />
+                    {translate('Neos.Neos:Main:content.inspector.unappliedChangesDialog.header', 'You still have changes. What do you want to do with them?')}
                 </div>
             </Dialog>
         );

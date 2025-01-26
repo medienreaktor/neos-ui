@@ -6,7 +6,7 @@ import mapValues from 'lodash.mapvalues';
 import {connect} from 'react-redux';
 import debounce from 'lodash.debounce';
 
-import I18n from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 import {Bar, Button, Tabs, Icon, Badge} from '@neos-project/react-ui-components';
 
 import {SecondaryInspector} from '@neos-project/neos-ui-inspector';
@@ -435,10 +435,10 @@ export default class Inspector extends PureComponent {
                 </Tabs>
                 <Bar position="bottom" className={style.actions}>
                     <Button id="neos-Inspector-Discard" style="lighter" disabled={isDiscardDisabled} onClick={this.handleDiscard} className={`${style.button} ${style.discardButton}`}>
-                        <I18n id="Neos.Neos:Main:discard" fallback="discard"/>
+                        {translate('Neos.Neos:Main:discard', 'discard')}
                     </Button>
                     <Button id="neos-Inspector-Apply" style="lighter" disabled={isApplyDisabled || isWorkspaceReadOnly} onClick={this.handleApply} className={`${style.button} ${style.publishButton}`}>
-                        <I18n id="Neos.Neos:Main:apply" fallback="apply"/>
+                        {translate('Neos.Neos:Main:apply', 'apply')}
                     </Button>
                 </Bar>
                 {

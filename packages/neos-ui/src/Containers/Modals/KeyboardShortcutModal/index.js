@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import {neos} from '@neos-project/neos-ui-decorators';
 import {actions} from '@neos-project/neos-ui-redux-store';
-import I18n from '@neos-project/neos-ui-i18n';
+import I18n, {translate} from '@neos-project/neos-ui-i18n';
 
 import {Dialog, Button} from '@neos-project/react-ui-components';
 import style from './style.module.css';
@@ -41,7 +41,7 @@ class KeyboardShortcutModal extends PureComponent {
                 hoverStyle="brand"
                 onClick={() => this.props.close()}
                 >
-                <I18n id="Neos.Neos:Main:close" fallback="Close"/>
+                {translate('Neos.Neos:Main:close', 'Close')}
             </Button>
         );
     }

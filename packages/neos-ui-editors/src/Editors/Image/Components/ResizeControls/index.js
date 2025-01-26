@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {TextInput, CheckBox} from '@neos-project/react-ui-components';
-import I18n from '@neos-project/neos-ui-i18n';
 
 import style from './style.module.css';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 const buildResizeAdjustment = (width, height) => ({
     allowUpScaling: null,
@@ -49,7 +49,7 @@ const ResizeControls = props => {
     return (
         <div>
             <div className={style.resizeControls__item}>
-                <div className={style.resizeControls__label}><I18n id="width" fallback="Width"/>:</div>
+                <div className={style.resizeControls__label}>{translate('width', 'Width')}:</div>
                 <div className={style.resizeControls}>
                     <span className={style.resizeControls__before}>
                         <CheckBox
@@ -74,7 +74,7 @@ const ResizeControls = props => {
                 </div>
             </div>
             <div>
-                <div className={style.resizeControls__label}><I18n id="height" fallback="Height"/>:</div>
+                <div className={style.resizeControls__label}>{translate('height', 'Height')}:</div>
                 <div className={style.resizeControls}>
                     <span className={style.resizeControls__before}>
                         <CheckBox

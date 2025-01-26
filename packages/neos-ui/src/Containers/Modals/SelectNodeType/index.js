@@ -8,7 +8,7 @@ import {neos} from '@neos-project/neos-ui-decorators';
 import {actions, selectors} from '@neos-project/neos-ui-redux-store';
 
 import {Button, Dialog} from '@neos-project/react-ui-components';
-import I18n from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 import {InsertModeSelector} from '@neos-project/neos-ui-containers';
 import NodeTypeGroupPanel from './nodeTypeGroupPanel';
@@ -185,7 +185,7 @@ export default class SelectNodeType extends PureComponent {
                 hoverStyle="brand"
                 onClick={this.handleCancel}
                 >
-                <I18n id="Neos.Neos:Main:cancel" fallback="Cancel"/>
+                {translate('Neos.Neos:Main:cancel', 'Cancel')}
             </Button>
         );
     }

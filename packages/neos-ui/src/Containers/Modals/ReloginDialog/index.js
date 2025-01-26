@@ -8,7 +8,7 @@ import backend from '@neos-project/neos-ui-backend-connector';
 import fetchWithErrorHandling from '@neos-project/neos-ui-backend-connector/src/FetchWithErrorHandling/index';
 
 import {Button, Dialog, TextInput, Tooltip} from '@neos-project/react-ui-components';
-import I18n from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 import style from './style.module.css';
 
 @neos(globalRegistry => ({
@@ -69,7 +69,7 @@ export default class ReloginDialog extends PureComponent {
 
         return (
             <Dialog
-                title={<I18n id="Neos.Neos:Main:login.expired" fallback="Your login has expired. Please log in again."/>}
+                title={translate('Neos.Neos:Main:login.expired', 'Your login has expired. Please log in again.')}
                 style="narrow"
                 isOpen
                 id="neos-ReloginDialog"
@@ -103,9 +103,9 @@ export default class ReloginDialog extends PureComponent {
                         disabled={this.state.isLoading}
                         className={style.loginButton}
                         >
-                        {this.state.isLoading ?
-                            <I18n id="Neos.Neos:Main:authenticating" fallback="Authenticating"/> :
-                            <I18n id="Neos.Neos:Main:login" fallback="Login"/>
+                        {this.state.isLoading
+                            ? translate('Neos.Neos:Main:authenticating', 'Authenticating')
+                            : translate('Neos.Neos:Main:login', 'Login')
                         }
 
                     </Button>

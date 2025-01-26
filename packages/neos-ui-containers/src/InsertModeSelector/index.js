@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import {ButtonGroup, Button, ResourceIcon} from '@neos-project/react-ui-components';
 import {neos} from '@neos-project/neos-ui-decorators';
-import I18n from '@neos-project/neos-ui-i18n';
+import I18n, {translate} from '@neos-project/neos-ui-i18n';
 
 import style from './style.module.css';
 
@@ -103,7 +103,7 @@ export default class InsertModeSelector extends PureComponent {
                         title={`${i18nRegistry.translate('Neos.Neos:Main:insert')} ${i18nRegistry.translate('above')}`}
                     >
                         <ResourceIcon source={createAboveIcon} className={style.iconAlignment}/>
-                        <I18n id="Neos.Neos.Ui:Main:above" fallback="Above"/>
+                        {translate('Neos.Neos.Ui:Main:above', 'Above')}
                     </Button>
                     <Button
                         id={MODE_AFTER}
@@ -114,7 +114,7 @@ export default class InsertModeSelector extends PureComponent {
                         title={`${i18nRegistry.translate('Neos.Neos:Main:insert')} ${i18nRegistry.translate('below')}`}
                     >
                         <ResourceIcon source={createBelowIcon} className={style.iconAlignment}/>
-                        <I18n id="Neos.Neos.Ui:Main:below" fallback="Below"/>
+                        {translate('Neos.Neos.Ui:Main:below', 'Below')}
                     </Button>
                     <Button
                         id={MODE_INTO}
@@ -125,7 +125,7 @@ export default class InsertModeSelector extends PureComponent {
                         title={`${i18nRegistry.translate('Neos.Neos:Main:insert')} ${i18nRegistry.translate('into')}`}
                     >
                         <ResourceIcon source={createInsideIcon} className={style.iconAlignment}/>
-                        <I18n id="Neos.Neos.Ui:Main:inside" fallback="Inside"/>
+                        {translate('Neos.Neos.Ui:Main:inside', 'Inside')}
                     </Button>
                 </ButtonGroup>
             </div>
