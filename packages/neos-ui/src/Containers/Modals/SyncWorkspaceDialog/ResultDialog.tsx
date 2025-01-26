@@ -9,7 +9,7 @@
  */
 import React from 'react';
 
-import I18n, {translate} from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 import {Button, Dialog, Icon} from '@neos-project/react-ui-components';
 import {AnyError, ErrorView} from '@neos-project/neos-ui-error';
 
@@ -76,10 +76,7 @@ export const ResultDialog: React.FC<{
                     onClick={props.onAcknowledge}
                     className={style.button}
                 >
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:error.acknowledge"
-                        fallback="Cancel"
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:error.acknowledge', 'Cancel')}
                 </Button>,
                 <Button
                     id="neos-SyncWorkspace-Retry"
@@ -90,10 +87,7 @@ export const ResultDialog: React.FC<{
                     className={style.button}
                 >
                     <Icon icon="refresh" className={style.icon} />
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:error.retry"
-                        fallback="Try again"
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:error.retry', 'Try again')}
                 </Button>
             ] : [
                 <Button
@@ -105,10 +99,7 @@ export const ResultDialog: React.FC<{
                     className={style.button}
                 >
                     <Icon icon="check" className={style.icon} />
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:success.acknowledge"
-                        fallback="OK"
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:success.acknowledge', 'OK')}
                 </Button>
             ]}
             title={

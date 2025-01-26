@@ -10,7 +10,7 @@
 import React from 'react';
 
 import {Button, Dialog, Icon} from '@neos-project/react-ui-components';
-import I18n, {translate} from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 import {PublishingMode, PublishingPhase, PublishingScope} from '@neos-project/neos-ui-redux-store/src/CR/Publishing';
 
 import {Diagram} from './Diagram';
@@ -181,7 +181,7 @@ export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (props) => 
                     hoverStyle="brand"
                     onClick={props.onAbort}
                 >
-                    <I18n {...variant[props.scope].label.cancel} />
+                    {translate(variant[props.scope].label.cancel.id, variant[props.scope].label.cancel.fallback)}
                 </Button>,
                 <Button
                     id={`${variant.id}-Confirm`}
@@ -191,7 +191,7 @@ export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (props) => 
                     onClick={props.onConfirm}
                 >
                     <Icon icon={variant.icon.confirm} className={style.buttonIcon} />
-                    <I18n {...variant[props.scope].label.confirm} />
+                    {translate(variant[props.scope].label.confirm.id, variant[props.scope].label.confirm.fallback)}
                 </Button>
             ]}
             title={<div>

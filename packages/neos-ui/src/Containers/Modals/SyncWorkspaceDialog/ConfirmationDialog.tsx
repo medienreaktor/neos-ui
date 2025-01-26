@@ -10,7 +10,7 @@
 import React from 'react';
 
 import {WorkspaceName} from '@neos-project/neos-ts-interfaces';
-import I18n from '@neos-project/neos-ui-i18n';
+import I18n, {translate} from '@neos-project/neos-ui-i18n';
 import {Button, Dialog, Icon} from '@neos-project/react-ui-components';
 import {SyncingPhase} from '@neos-project/neos-ui-redux-store/src/CR/Syncing';
 
@@ -35,10 +35,7 @@ export const ConfirmationDialog: React.FC<{
                     hoverStyle="brand"
                     onClick={props.onCancel}
                     >
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:confirmation.cancel"
-                        fallback="No, cancel"
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:confirmation.cancel', 'No, cancel')}
                 </Button>,
                 <Button
                     id="neos-SyncWorkspace-Confirm"
@@ -49,10 +46,7 @@ export const ConfirmationDialog: React.FC<{
                     className={style.button}
                     >
                     <Icon icon="sync" className={style.icon} />
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:confirmation.confirm"
-                        fallback="Yes, synchronize now"
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:confirmation.confirm', 'Yes, synchronize now')}
                 </Button>
             ]}
             title={

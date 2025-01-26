@@ -10,7 +10,7 @@
 import React from 'react';
 
 import {WorkspaceName} from '@neos-project/neos-ts-interfaces';
-import I18n, {I18nRegistry} from '@neos-project/neos-ui-i18n';
+import I18n, {I18nRegistry, translate} from '@neos-project/neos-ui-i18n';
 import {Button, Dialog, Icon} from '@neos-project/react-ui-components';
 import {PublishingPhase} from '@neos-project/neos-ui-redux-store/src/CR/Publishing';
 import {Conflict, ResolutionStrategy} from '@neos-project/neos-ui-redux-store/src/CR/Syncing';
@@ -58,10 +58,7 @@ const ForceConfirmationDialog: React.FC<{
                     hoverStyle="brand"
                     onClick={props.onCancelConflictResolution}
                     >
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.FORCE.confirmation.cancel"
-                        fallback="No, cancel"
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.FORCE.confirmation.cancel', 'No, cancel')}
                 </Button>,
                 <Button
                     id="neos-ResolutionStrategyConfirmation-Confirm"
@@ -72,10 +69,7 @@ const ForceConfirmationDialog: React.FC<{
                     className={style.button}
                     >
                     <Icon icon="chevron-right" className={style.icon} />
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.FORCE.confirmation.confirm"
-                        fallback="Yes, drop those changes"
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.FORCE.confirmation.confirm', 'Yes, drop those changes')}
                 </Button>
             ]}
             title={
@@ -96,18 +90,12 @@ const ForceConfirmationDialog: React.FC<{
             style={undefined as any}
         >
             <div className={style.modalContents}>
-                <I18n
-                    id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.FORCE.confirmation.conflicts.label"
-                    fallback="You are about to drop the following changes:"
-                    />
+                {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.FORCE.confirmation.conflicts.label', 'You are about to drop the following changes:')}
                 <ConflictList
                     conflicts={props.conflicts}
                     i18n={props.i18n}
                     />
-                <I18n
-                    id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.FORCE.confirmation.message"
-                    fallback="Do you wish to proceed? Be careful: This cannot be undone!"
-                    />
+                {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.FORCE.confirmation.message', 'Do you wish to proceed? Be careful: This cannot be undone!')}
             </div>
         </Dialog>
     );
@@ -129,10 +117,7 @@ const DiscardAllConfirmationDialog: React.FC<{
                     hoverStyle="brand"
                     onClick={props.onCancelConflictResolution}
                     >
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.DISCARD_ALL.confirmation.cancel"
-                        fallback="No, cancel"
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.DISCARD_ALL.confirmation.cancel', 'No, cancel')}
                 </Button>,
                 <Button
                     id="neos-ResolutionStrategyConfirmation-Confirm"
@@ -143,10 +128,7 @@ const DiscardAllConfirmationDialog: React.FC<{
                     className={style.button}
                     >
                     <Icon icon="trash" className={style.icon} />
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.DISCARD_ALL.confirmation.confirm"
-                        fallback="Yes, discard everything"
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.DISCARD_ALL.confirmation.confirm', 'Yes, discard everything')}
                 </Button>
             ]}
             title={

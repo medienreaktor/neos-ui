@@ -10,7 +10,7 @@
 import React from 'react';
 
 import {Button, Dialog, Icon} from '@neos-project/react-ui-components';
-import I18n, {translate} from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 import {PublishingMode, PublishingPhase, PublishingScope} from '@neos-project/neos-ui-redux-store/src/CR/Publishing';
 import {AnyError, ErrorView} from '@neos-project/neos-ui-error';
 
@@ -266,7 +266,7 @@ export const ResultDialog: React.FC<{
                     hoverStyle="brand"
                     onClick={props.onAcknowledge}
                 >
-                    <I18n {...variant[props.result.phase][props.scope].label.acknowledge} />
+                    {translate(variant[props.result.phase][props.scope].label.acknowledge.id, variant[props.result.phase][props.scope].label.acknowledge.fallback)}
                 </Button>,
                 <Button
                     id={`${variant.id}-Retry`}
@@ -276,7 +276,7 @@ export const ResultDialog: React.FC<{
                     onClick={props.onRetry}
                 >
                     <Icon icon="refresh" className={style.buttonIcon} />
-                    <I18n {...variant[props.result.phase][props.scope].label.retry} />
+                    {translate(variant[props.result.phase][props.scope].label.retry.id, variant[props.result.phase][props.scope].label.retry.fallback)}
                 </Button>
             ] : [
                 <Button
@@ -287,7 +287,7 @@ export const ResultDialog: React.FC<{
                     onClick={props.onAcknowledge}
                 >
                     <Icon icon="check" className={style.buttonIcon} />
-                    <I18n {...variant[props.result.phase][props.scope].label.acknowledge} />
+                    {translate(variant[props.result.phase][props.scope].label.acknowledge.id, variant[props.result.phase][props.scope].label.acknowledge.fallback)}
                 </Button>
             ]}
             title={

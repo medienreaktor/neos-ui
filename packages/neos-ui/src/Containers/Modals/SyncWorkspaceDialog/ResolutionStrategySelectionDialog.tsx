@@ -111,10 +111,7 @@ export const ResolutionStrategySelectionDialog: React.FC<{
                     hoverStyle="brand"
                     onClick={props.onCancel}
                     >
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.cancel"
-                        fallback="Cancel Synchronization"
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.cancel', 'Cancel Synchronization')}
                 </Button>,
                 <Button
                     id="neos-SelectResolutionStrategy-Accept"
@@ -124,10 +121,7 @@ export const ResolutionStrategySelectionDialog: React.FC<{
                     onClick={handleConfirm}
                     className={style.button}
                     >
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.accept"
-                        fallback="Accept choice and continue"
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.accept', 'Accept choice and continue')}
                     <Icon icon="chevron-right" className={style.icon} />
                 </Button>
             ]}
@@ -172,10 +166,7 @@ export const ResolutionStrategySelectionDialog: React.FC<{
                         i18n={props.i18n}
                         />
                 </details>
-                <I18n
-                    id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.prompt"
-                    fallback="In order to proceed, you need to decide what to do with the conflicting changes:"
-                    />
+                {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.prompt', 'In order to proceed, you need to decide what to do with the conflicting changes:')}
                 <SelectBox
                     id="neos-SelectResolutionStrategy-SelectBox"
                     options={options}
