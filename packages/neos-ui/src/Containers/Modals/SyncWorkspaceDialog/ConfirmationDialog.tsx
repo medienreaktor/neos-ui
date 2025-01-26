@@ -10,7 +10,7 @@
 import React from 'react';
 
 import {WorkspaceName} from '@neos-project/neos-ts-interfaces';
-import I18n, {translate} from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 import {Button, Dialog, Icon} from '@neos-project/react-ui-components';
 import {SyncingPhase} from '@neos-project/neos-ui-redux-store/src/CR/Syncing';
 
@@ -52,11 +52,7 @@ export const ConfirmationDialog: React.FC<{
             title={
                 <div className={style.modalTitle}>
                     <WorkspaceSyncIcon onDarkBackground />
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:confirmation.title"
-                        fallback={`Synchronize workspace "${props.workspaceName}" with "${props.baseWorkspaceName}"`}
-                        params={props}
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:confirmation.title', 'Synchronize workspace "{workspaceName}" with "{baseWorkspaceName}"', props as any)}
                 </div>
             }
             onRequestClose={props.onCancel}
@@ -72,11 +68,7 @@ export const ConfirmationDialog: React.FC<{
                     baseWorkspaceName={props.baseWorkspaceName}
                     phase={SyncingPhase.START}
                     />
-                <I18n
-                    id="Neos.Neos.Ui:SyncWorkspaceDialog:confirmation.message"
-                    fallback={`Workspace "${props.baseWorkspaceName}" has been modified. You need to synchronize your workspace "${props.workspaceName}" with it in order to see those changes and avoid conflicts. Do you wish to proceed?`}
-                    params={props}
-                    />
+                {translate('Neos.Neos.Ui:SyncWorkspaceDialog:confirmation.message', 'Workspace "{baseWorkspaceName}" has been modified. You need to synchronize your workspace "{workspaceName}" with it in order to see those changes and avoid conflicts. Do you wish to proceed?', props as any)}
             </div>
         </Dialog>
     );

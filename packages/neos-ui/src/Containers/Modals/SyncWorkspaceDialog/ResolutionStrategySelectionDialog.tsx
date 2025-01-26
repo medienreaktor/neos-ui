@@ -9,7 +9,7 @@
  */
 import React from 'react';
 
-import I18n, {I18nRegistry, translate} from '@neos-project/neos-ui-i18n';
+import {I18nRegistry, translate} from '@neos-project/neos-ui-i18n';
 import {WorkspaceName} from '@neos-project/neos-ts-interfaces';
 import {Button, Dialog, Icon, SelectBox, SelectBox_Option_MultiLineWithThumbnail} from '@neos-project/react-ui-components';
 import {Conflict, ResolutionStrategy, SyncingPhase} from '@neos-project/neos-ui-redux-store/src/CR/Syncing';
@@ -128,11 +128,7 @@ export const ResolutionStrategySelectionDialog: React.FC<{
             title={
                 <div className={style.modalTitle}>
                     <WorkspaceSyncIcon hasProblem onDarkBackground />
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.title"
-                        fallback={`Conflicts between workspace "${props.workspaceName}" and "${props.baseWorkspaceName}"`}
-                        params={props}
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.title', 'Conflicts between workspace "{workspaceName}" and "{baseWorkspaceName}"', props as any)}
                 </div>
             }
             onRequestClose={props.onCancel}
@@ -148,18 +144,10 @@ export const ResolutionStrategySelectionDialog: React.FC<{
                     baseWorkspaceName={props.baseWorkspaceName}
                     phase={SyncingPhase.CONFLICT}
                     />
-                <I18n
-                    id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.message"
-                    fallback={`Workspace "${props.baseWorkspaceName}" contains modifications that are in conflict with the changes in workspace "${props.workspaceName}".`}
-                    params={props}
-                    />
+                {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.message', 'Workspace "{baseWorkspaceName}" contains modifications that are in conflict with the changes in workspace "{workspaceName}".', props as any)}
                 <details className={style.details}>
                     <summary className={style.summary}>
-                        <I18n
-                            id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.summary"
-                            fallback={`Show information about ${props.conflicts.length} conflict(s)`}
-                            params={{numberOfConflicts: props.conflicts.length}}
-                            />
+                        {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.summary', 'Show information about {numberOfConflicts} conflict(s)', {numberOfConflicts: props.conflicts.length})}
                     </summary>
                     <ConflictList
                         conflicts={props.conflicts}

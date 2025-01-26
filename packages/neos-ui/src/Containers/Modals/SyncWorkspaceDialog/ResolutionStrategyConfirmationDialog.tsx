@@ -10,7 +10,7 @@
 import React from 'react';
 
 import {WorkspaceName} from '@neos-project/neos-ts-interfaces';
-import I18n, {I18nRegistry, translate} from '@neos-project/neos-ui-i18n';
+import {I18nRegistry, translate} from '@neos-project/neos-ui-i18n';
 import {Button, Dialog, Icon} from '@neos-project/react-ui-components';
 import {PublishingPhase} from '@neos-project/neos-ui-redux-store/src/CR/Publishing';
 import {Conflict, ResolutionStrategy} from '@neos-project/neos-ui-redux-store/src/CR/Syncing';
@@ -75,11 +75,7 @@ const ForceConfirmationDialog: React.FC<{
             title={
                 <div className={style.modalTitle}>
                     <WorkspaceSyncIcon hasProblem onDarkBackground />
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.FORCE.confirmation.title"
-                        fallback={`Drop conflicting changes in workspace "${props.workspaceName}"`}
-                        params={props}
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.FORCE.confirmation.title', 'Drop conflicting changes in workspace "{workspaceName}"', props as any)}
                 </div>
             }
             onRequestClose={props.onCancelConflictResolution}
@@ -134,11 +130,7 @@ const DiscardAllConfirmationDialog: React.FC<{
             title={
                 <div className={style.modalTitle}>
                     <WorkspaceSyncIcon hasProblem onDarkBackground />
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.DISCARD_ALL.confirmation.title"
-                        fallback={`Discard all changes in workspace "${props.workspaceName}"`}
-                        params={props}
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.DISCARD_ALL.confirmation.title', 'Discard all changes in workspace "{workspaceName}"', props as any)}
                 </div>
             }
             onRequestClose={props.onCancelConflictResolution}
@@ -155,11 +147,7 @@ const DiscardAllConfirmationDialog: React.FC<{
                     targetWorkspaceName={null}
                     phase={PublishingPhase.START}
                     />
-                <I18n
-                    id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.DISCARD_ALL.confirmation.message"
-                    fallback={`You are about to discard all ${props.totalNumberOfChangesInWorkspace} change(s) in workspace "${props.workspaceName}". This includes all changes on other sites. Do you wish to proceed? Be careful: This cannot be undone!`}
-                    params={{numberOfChanges: props.totalNumberOfChangesInWorkspace, workspaceName: props.workspaceName}}
-                    />
+                {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.DISCARD_ALL.confirmation.message', 'You are about to discard all {numberOfChanges} change(s) in workspace "{workspaceName}". This includes all changes on other sites. Do you wish to proceed? Be careful: This cannot be undone!', {numberOfChanges: props.totalNumberOfChangesInWorkspace, workspaceName: props.workspaceName})}
             </div>
         </Dialog>
     );
