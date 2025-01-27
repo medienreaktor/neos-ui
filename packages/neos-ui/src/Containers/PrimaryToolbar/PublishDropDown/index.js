@@ -9,6 +9,7 @@ import {Badge, Icon, DropDown} from '@neos-project/react-ui-components';
 import {translate} from '@neos-project/neos-ui-i18n';
 import {actions, selectors} from '@neos-project/neos-ui-redux-store';
 import {PublishingMode, PublishingScope} from '@neos-project/neos-ui-redux-store/src/CR/Publishing';
+import {neos} from '@neos-project/neos-ui-decorators';
 
 const {publishableNodesSelector, publishableNodesInDocumentSelector, baseWorkspaceSelector, isWorkspaceReadOnlySelector, personalWorkspaceNameSelector, allowedTargetWorkspacesSelector} = selectors.CR.Workspaces;
 
@@ -29,6 +30,7 @@ import style from './style.module.css';
     changeBaseWorkspaceAction: actions.CR.Workspaces.changeBaseWorkspace,
     start: actions.CR.Publishing.start
 })
+@neos()
 export default class PublishDropDown extends PureComponent {
     static propTypes = {
         isSaving: PropTypes.bool,
@@ -41,7 +43,6 @@ export default class PublishDropDown extends PureComponent {
         neos: PropTypes.object.isRequired,
         start: PropTypes.func.isRequired,
         changeBaseWorkspaceAction: PropTypes.func.isRequired,
-        routes: PropTypes.object
     };
 
     handlePublishClick = () => {

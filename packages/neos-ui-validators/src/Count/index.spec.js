@@ -1,4 +1,9 @@
 import countValidator from './index';
+import {setupI18n} from "@neos-project/neos-ui-i18n";
+
+beforeAll(() => {
+    setupI18n('en-US', 'one,other', {});
+});
 
 test('2 element object should be valid for min:0 max: 10', () => {
     const validatorOptions = {
