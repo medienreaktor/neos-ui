@@ -17,6 +17,7 @@ use Neos\ContentRepository\Domain\Service as ContentRepository;
 use Neos\Neos\Ui\Domain\Model\Feedback\Operations\RemoveNode;
 use Neos\Flow\Annotations as Flow;
 use Neos\Neos\Ui\Domain\Model\Feedback\Operations\UpdateNodePath;
+use Neos\Neos\Ui\Domain\Model\Feedback\Operations\Redirect;
 
 abstract class AbstractMove extends AbstractStructuralChange
 {
@@ -40,7 +41,11 @@ abstract class AbstractMove extends AbstractStructuralChange
             $updateNodePath->setNewContextPath($this->getSubject()->getContextPath());
             $this->feedbackCollection->add($updateNodePath);
         }
-
+        if ($this->getSubject()->getNodeType()->isOfType('Neos.Neos:Document')) {
+            $redirect = new Redirect();
+            $redirect->setNode($this->getSubject());
+            $this->feedbackCollection->add($redirect);
+        }
         // $this->getSubject() is the moved node at the NEW location!
         parent::finish($this->getSubject());
     }
