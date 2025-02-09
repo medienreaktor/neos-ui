@@ -14,6 +14,7 @@ namespace Neos\Neos\Ui\ContentRepository\Service;
 
 use Neos\ContentRepository\Core\Projection\ContentGraph\Filter\FindClosestNodeFilter;
 use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
+use Neos\ContentRepository\Core\Projection\ContentGraph\VisibilityConstraints;
 use Neos\ContentRepository\Core\SharedModel\ContentRepository\ContentRepositoryId;
 use Neos\ContentRepository\Core\SharedModel\Node\NodeAddress;
 use Neos\ContentRepository\Core\SharedModel\Workspace\WorkspaceName;
@@ -90,11 +91,9 @@ class WorkspaceService
                         ?->occupiedDimensionSpacePoints ?: [];
                 }
 
+                $contentGraph = $contentRepository->getContentGraph($workspaceName);
                 foreach ($originDimensionSpacePoints as $originDimensionSpacePoint) {
-                    $subgraph = $contentRepository->getContentSubgraph(
-                        $workspaceName,
-                        $originDimensionSpacePoint->toDimensionSpacePoint(),
-                    );
+                    $subgraph = $contentGraph->getSubgraph($originDimensionSpacePoint->toDimensionSpacePoint(), VisibilityConstraints::withoutRestrictions());
                     $node = $subgraph->findNodeById($change->nodeAggregateId);
                     if ($node instanceof Node) {
                         $documentNode = $subgraph->findClosestNode($node->aggregateId, FindClosestNodeFilter::create(nodeTypes: NodeTypeNameFactory::NAME_DOCUMENT));
