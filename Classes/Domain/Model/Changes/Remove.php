@@ -63,6 +63,8 @@ class Remove extends AbstractChange
             // otherwise we cannot find the parent nodes anymore.
             $this->updateWorkspaceInfo();
 
+            // Issuing 'real' deletions via 'RemoveNodeAggregate' on a non-live workspace are not desired in Neos
+            // as these changes are not correctly publishable via the neos ui. Instead, we must use tagging to soft-delete nodes.
             $command = TagSubtree::create(
                 $subject->workspaceName,
                 $subject->aggregateId,

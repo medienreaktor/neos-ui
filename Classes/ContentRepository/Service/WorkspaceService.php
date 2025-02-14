@@ -57,61 +57,34 @@ class WorkspaceService
         /** @var array{contextPath:string,documentContextPath:string,typeOfChange:int}[] $unpublishedNodes */
         $unpublishedNodes = [];
         foreach ($pendingChanges as $change) {
-            if ($change->removalAttachmentPoint && $change->originDimensionSpacePoint !== null) {
-                $nodeAddress = NodeAddress::create(
-                    $contentRepositoryId,
-                    $workspaceName,
-                    $change->originDimensionSpacePoint->toDimensionSpacePoint(),
-                    $change->nodeAggregateId
-                );
-
-                /**
-                 * See {@see Remove::apply} -> Removal Attachment Point == closest document node.
-                 */
-                $documentNodeAddress = NodeAddress::create(
-                    $contentRepositoryId,
-                    $workspaceName,
-                    $change->originDimensionSpacePoint->toDimensionSpacePoint(),
-                    $change->removalAttachmentPoint
-                );
-
-                $unpublishedNodes[] = [
-                    'contextPath' => $nodeAddress->toJson(),
-                    'documentContextPath' => $documentNodeAddress->toJson(),
-                    'typeOfChange' => $this->getTypeOfChange($change)
-                ];
+            if ($change->originDimensionSpacePoint !== null) {
+                $originDimensionSpacePoints = [$change->originDimensionSpacePoint];
             } else {
-                if ($change->originDimensionSpacePoint !== null) {
-                    $originDimensionSpacePoints = [$change->originDimensionSpacePoint];
-                } else {
-                    // If originDimensionSpacePoint is null, we have a change to the nodeAggregate. All nodes in the
-                    // occupied dimensionspacepoints shall be marked as changed.
-                    $originDimensionSpacePoints = $contentGraph
-                        ->findNodeAggregateById($change->nodeAggregateId)
-                        ?->occupiedDimensionSpacePoints ?: [];
-                }
+                // If originDimensionSpacePoint is null, we have a change to the nodeAggregate. All nodes in the
+                // occupied dimensionspacepoints shall be marked as changed.
+                $originDimensionSpacePoints = $contentGraph
+                    ->findNodeAggregateById($change->nodeAggregateId)
+                    ?->occupiedDimensionSpacePoints ?: [];
+            }
 
-                $contentGraph = $contentRepository->getContentGraph($workspaceName);
-                foreach ($originDimensionSpacePoints as $originDimensionSpacePoint) {
-                    $subgraph = $contentGraph->getSubgraph($originDimensionSpacePoint->toDimensionSpacePoint(), VisibilityConstraints::withoutRestrictions());
-                    $node = $subgraph->findNodeById($change->nodeAggregateId);
-                    if ($node instanceof Node) {
-                        $documentNode = $subgraph->findClosestNode($node->aggregateId, FindClosestNodeFilter::create(nodeTypes: NodeTypeNameFactory::NAME_DOCUMENT));
-                        if ($documentNode instanceof Node) {
-                            $unpublishedNodes[] = [
-                                'contextPath' => NodeAddress::fromNode($node)->toJson(),
-                                'documentContextPath' => NodeAddress::fromNode($documentNode)->toJson(),
-                                'typeOfChange' => $this->getTypeOfChange($change)
-                            ];
-                        }
+            $contentGraph = $contentRepository->getContentGraph($workspaceName);
+            foreach ($originDimensionSpacePoints as $originDimensionSpacePoint) {
+                $subgraph = $contentGraph->getSubgraph($originDimensionSpacePoint->toDimensionSpacePoint(), VisibilityConstraints::withoutRestrictions());
+                $node = $subgraph->findNodeById($change->nodeAggregateId);
+                if ($node instanceof Node) {
+                    $documentNode = $subgraph->findClosestNode($node->aggregateId, FindClosestNodeFilter::create(nodeTypes: NodeTypeNameFactory::NAME_DOCUMENT));
+                    if ($documentNode instanceof Node) {
+                        $unpublishedNodes[] = [
+                            'contextPath' => NodeAddress::fromNode($node)->toJson(),
+                            'documentContextPath' => NodeAddress::fromNode($documentNode)->toJson(),
+                            'typeOfChange' => $this->getTypeOfChange($change)
+                        ];
                     }
                 }
             }
         }
 
-        return array_values(array_filter($unpublishedNodes, function ($item) {
-            return (bool)$item;
-        }));
+        return $unpublishedNodes;
     }
 
     private function getTypeOfChange(Change $change): int
