@@ -501,11 +501,15 @@
       </trans-unit>
       <trans-unit id="collapseAll" xml:space="preserve">
         <source>Collapse All</source>
-        <target state="needs-translation">Alles inklappen</target>
+        <target state="translated">Alles inklappen</target>
       </trans-unit>
       <trans-unit id="copyNodeTypeNameToClipboard" xml:space="preserve">
         <source>Copy node type to clipboard</source>
-        <target state="needs-translation">Kopieer node type naar klembord</target>
+        <target state="translated">Kopieer node type naar klembord</target>
+      </trans-unit>
+      <trans-unit id="invalidValue" xml:space="preserve">
+        <source>Invalid value</source>
+        <target state="translated">Ongeldige waarde</target>
       </trans-unit>
     </body>
   </file>
