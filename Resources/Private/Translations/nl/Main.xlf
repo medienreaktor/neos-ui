@@ -503,6 +503,10 @@
         <source>Copy node type to clipboard</source>
         <target state="translated">Kopieer node type naar klembord</target>
       </trans-unit>
+      <trans-unit id="invalidValue" xml:space="preserve">
+        <source>Invalid value</source>
+        <target state="translated">Ongeldige waarde</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
