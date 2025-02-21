@@ -38,7 +38,7 @@ make clean && make setup
 NEOS_UI_VERSION="${GIT_TAG:-${GIT_BRANCH#*/}-dev}" make build-production
 
 rm -Rf tmp_compiled_pkg
-git clone --depth 1 git@github.com:neos/neos-ui-compiled.git --single-branch --branch=${GIT_BRANCH} tmp_compiled_pkg
+git clone --depth 1 git@github.com:neos/neos-ui-compiled.git --single-branch --branch=${GIT_BRANCH/origin\//} tmp_compiled_pkg
 
 mkdir -p tmp_compiled_pkg/Resources/Public/Build
 
