@@ -28,7 +28,6 @@ use Neos\ContentRepository\Core\NodeType\NodeType;
 use Neos\ContentRepository\Core\NodeType\NodeTypeName;
 use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
 use Neos\ContentRepository\Core\SharedModel\Exception\ContentStreamDoesNotExistYet;
-use Neos\ContentRepository\Core\SharedModel\Exception\NodeAggregatesTypeIsAmbiguous;
 use Neos\ContentRepository\Core\SharedModel\Node\NodeAggregateIds;
 use Neos\ContentRepository\Core\SharedModel\Node\NodeVariantSelectionStrategy;
 use Neos\ContentRepository\Core\SharedModel\Node\ReferenceName;
@@ -141,7 +140,6 @@ class Property extends AbstractChange
      * Applies this change
      *
      * @throws ContentStreamDoesNotExistYet
-     * @throws NodeAggregatesTypeIsAmbiguous
      * @throws DimensionSpacePointNotFound
      * @throws \Exception
      */
