@@ -13,15 +13,10 @@ namespace Neos\Neos\Ui\Domain\Model\Changes;
  */
 
 use Neos\ContentRepository\Core\DimensionSpace\Exception\DimensionSpacePointNotFound;
-use Neos\ContentRepository\Core\Projection\ContentGraph\Filter\FindClosestNodeFilter;
+use Neos\ContentRepository\Core\Feature\SubtreeTagging\Command\TagSubtree;
 use Neos\ContentRepository\Core\SharedModel\Exception\ContentStreamDoesNotExistYet;
 use Neos\ContentRepository\Core\SharedModel\Node\NodeVariantSelectionStrategy;
-use Neos\ContentRepository\Core\Feature\NodeRemoval\Command\RemoveNodeAggregate;
-use Neos\ContentRepository\Core\SharedModel\Exception\NodeAggregatesTypeIsAmbiguous;
-use Neos\ContentRepository\Core\SharedModel\Node\NodeAggregateId;
-use Neos\Flow\Annotations as Flow;
-use Neos\Neos\Domain\Service\NodeTypeNameFactory;
-use Neos\Neos\Fusion\Cache\ContentCacheFlusher;
+use Neos\Neos\Domain\Service\NeosSubtreeTag;
 use Neos\Neos\Ui\Domain\Model\AbstractChange;
 use Neos\Neos\Ui\Domain\Model\Feedback\Operations\RemoveNode;
 use Neos\Neos\Ui\Domain\Model\Feedback\Operations\UpdateNodeInfo;
@@ -47,7 +42,6 @@ class Remove extends AbstractChange
     /**
      * Applies this change
      *
-     * @throws NodeAggregatesTypeIsAmbiguous
      * @throws ContentStreamDoesNotExistYet
      * @throws DimensionSpacePointNotFound
      */
@@ -67,16 +61,14 @@ class Remove extends AbstractChange
             // otherwise we cannot find the parent nodes anymore.
             $this->updateWorkspaceInfo();
 
-            $command = RemoveNodeAggregate::create(
+            // Issuing 'hard' removals via 'RemoveNodeAggregate' on a non-live workspace is not desired in Neos, see SoftRemovedTag
+            $command = TagSubtree::create(
                 $subject->workspaceName,
                 $subject->aggregateId,
                 $subject->dimensionSpacePoint,
                 NodeVariantSelectionStrategy::STRATEGY_ALL_SPECIALIZATIONS,
+                NeosSubtreeTag::removed()
             );
-            $removalAttachmentPoint = $this->getRemovalAttachmentPoint();
-            if ($removalAttachmentPoint !== null) {
-                $command = $command->withRemovalAttachmentPoint($removalAttachmentPoint);
-            }
 
             $contentRepository = $this->contentRepositoryRegistry->get($subject->contentRepositoryId);
             $contentRepository->handle($command);
@@ -89,18 +81,5 @@ class Remove extends AbstractChange
 
             $this->feedbackCollection->add($updateParentNodeInfo);
         }
-    }
-
-    private function getRemovalAttachmentPoint(): ?NodeAggregateId
-    {
-        $subgraph = $this->contentRepositoryRegistry->subgraphForNode($this->subject);
-
-        if ($this->getNodeType($this->subject)?->isOfType(NodeTypeNameFactory::NAME_DOCUMENT)) {
-            $closestSiteNode = $subgraph->findClosestNode($this->subject->aggregateId, FindClosestNodeFilter::create(nodeTypes: NodeTypeNameFactory::NAME_SITE));
-            return $closestSiteNode?->aggregateId;
-        }
-
-        $closestDocumentParentNode = $subgraph->findClosestNode($this->subject->aggregateId, FindClosestNodeFilter::create(nodeTypes: NodeTypeNameFactory::NAME_DOCUMENT));
-        return $closestDocumentParentNode?->aggregateId;
     }
 }
