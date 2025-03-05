@@ -162,11 +162,10 @@ class BackendController extends ActionController
         if (!$rootNodeAggregate) {
             throw new \RuntimeException(sprintf('No sites root node found in content repository "%s", while fetching site node "%s"', $contentRepository->id->value, $siteDetectionResult->siteNodeName->value), 1724849303);
         }
-        $rootNode = $rootNodeAggregate->getNodeByCoveredDimensionSpacePoint($arbitraryRootDimensionSpacePoint);
 
         $siteNode = $subgraph->findNodeByPath(
             $siteDetectionResult->siteNodeName->toNodeName(),
-            $rootNode->aggregateId
+            $rootNodeAggregate->nodeAggregateId
         );
 
         if (!$nodeAddress) {
