@@ -16,7 +16,7 @@ use Neos\ContentRepository\Core\DimensionSpace\Exception\DimensionSpacePointNotF
 use Neos\ContentRepository\Core\Feature\SubtreeTagging\Command\TagSubtree;
 use Neos\ContentRepository\Core\SharedModel\Exception\ContentStreamDoesNotExistYet;
 use Neos\ContentRepository\Core\SharedModel\Node\NodeVariantSelectionStrategy;
-use Neos\Neos\Domain\SoftRemoval\SoftRemovedTag;
+use Neos\Neos\Domain\Service\NeosSubtreeTag;
 use Neos\Neos\Ui\Domain\Model\AbstractChange;
 use Neos\Neos\Ui\Domain\Model\Feedback\Operations\RemoveNode;
 use Neos\Neos\Ui\Domain\Model\Feedback\Operations\UpdateNodeInfo;
@@ -67,7 +67,7 @@ class Remove extends AbstractChange
                 $subject->aggregateId,
                 $subject->dimensionSpacePoint,
                 NodeVariantSelectionStrategy::STRATEGY_ALL_SPECIALIZATIONS,
-                SoftRemovedTag::getSubtreeTag()
+                NeosSubtreeTag::removed()
             );
 
             $contentRepository = $this->contentRepositoryRegistry->get($subject->contentRepositoryId);
