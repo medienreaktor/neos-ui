@@ -69,7 +69,7 @@ class WorkspaceService
 
             $contentGraph = $contentRepository->getContentGraph($workspaceName);
             foreach ($originDimensionSpacePoints as $originDimensionSpacePoint) {
-                $subgraph = $contentGraph->getSubgraph($originDimensionSpacePoint->toDimensionSpacePoint(), VisibilityConstraints::withoutRestrictions());
+                $subgraph = $contentGraph->getSubgraph($originDimensionSpacePoint->toDimensionSpacePoint(), VisibilityConstraints::createEmpty());
                 $node = $subgraph->findNodeById($change->nodeAggregateId);
                 if ($node instanceof Node) {
                     $documentNode = $subgraph->findClosestNode($node->aggregateId, FindClosestNodeFilter::create(nodeTypes: NodeTypeNameFactory::NAME_DOCUMENT));
