@@ -111,16 +111,9 @@ final readonly class NodeCreationCommands implements \IteratorAggregate
         );
     }
 
-    /**
-     * Its deprecated with Neos 9 Beta 19 to pass CommandInterfaces in here. Please use Commands instead.
-     */
     public function withAdditionalCommands(
-        Commands|CommandInterface $additionalCommands,
-        CommandInterface ...$legacyAdditionalCommandsRest
+        Commands $additionalCommands
     ): self {
-        if ($additionalCommands instanceof CommandInterface) {
-            $additionalCommands = Commands::fromArray([$additionalCommands, ...$legacyAdditionalCommandsRest]);
-        }
         return new self($this->first, $this->additionalCommands->merge($additionalCommands));
     }
 
