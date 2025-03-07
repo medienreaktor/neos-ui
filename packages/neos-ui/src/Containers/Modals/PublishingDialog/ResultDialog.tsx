@@ -60,6 +60,7 @@ const ResultDialogVariants = {
                     }
                 }
             },
+            // NOTE that with https://github.com/neos/neos-ui/pull/3909 this variant is currently effectively not used as confirmation is not required
             [PublishingScope.DOCUMENT]: {
                 label: {
                     title: {

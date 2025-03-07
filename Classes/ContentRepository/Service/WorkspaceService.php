@@ -14,6 +14,7 @@ namespace Neos\Neos\Ui\ContentRepository\Service;
 
 use Neos\ContentRepository\Core\Projection\ContentGraph\Filter\FindClosestNodeFilter;
 use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
+use Neos\ContentRepository\Core\Projection\ContentGraph\VisibilityConstraints;
 use Neos\ContentRepository\Core\SharedModel\ContentRepository\ContentRepositoryId;
 use Neos\ContentRepository\Core\SharedModel\Node\NodeAddress;
 use Neos\ContentRepository\Core\SharedModel\Workspace\WorkspaceName;
@@ -56,7 +57,8 @@ class WorkspaceService
         /** @var array{contextPath:string,documentContextPath:string,typeOfChange:int}[] $unpublishedNodes */
         $unpublishedNodes = [];
         foreach ($pendingChanges as $change) {
-            if ($change->removalAttachmentPoint && $change->originDimensionSpacePoint !== null) {
+            if (method_exists($change, 'getLegacyRemovalAttachmentPoint') && $change->getLegacyRemovalAttachmentPoint() && $change->originDimensionSpacePoint !== null) {
+                // deprecated LegacyRemovalAttachmentPoint handling
                 $nodeAddress = NodeAddress::create(
                     $contentRepositoryId,
                     $workspaceName,
@@ -65,13 +67,13 @@ class WorkspaceService
                 );
 
                 /**
-                 * See {@see Remove::apply} -> Removal Attachment Point == closest document node.
+                 * See {@see Change::getLegacyRemovalAttachmentPoint()} -> Removal Attachment Point == closest document node.
                  */
                 $documentNodeAddress = NodeAddress::create(
                     $contentRepositoryId,
                     $workspaceName,
                     $change->originDimensionSpacePoint->toDimensionSpacePoint(),
-                    $change->removalAttachmentPoint
+                    $change->getLegacyRemovalAttachmentPoint()
                 );
 
                 $unpublishedNodes[] = [
@@ -90,11 +92,9 @@ class WorkspaceService
                         ?->occupiedDimensionSpacePoints ?: [];
                 }
 
+                $contentGraph = $contentRepository->getContentGraph($workspaceName);
                 foreach ($originDimensionSpacePoints as $originDimensionSpacePoint) {
-                    $subgraph = $contentRepository->getContentSubgraph(
-                        $workspaceName,
-                        $originDimensionSpacePoint->toDimensionSpacePoint(),
-                    );
+                    $subgraph = $contentGraph->getSubgraph($originDimensionSpacePoint->toDimensionSpacePoint(), VisibilityConstraints::createEmpty());
                     $node = $subgraph->findNodeById($change->nodeAggregateId);
                     if ($node instanceof Node) {
                         $documentNode = $subgraph->findClosestNode($node->aggregateId, FindClosestNodeFilter::create(nodeTypes: NodeTypeNameFactory::NAME_DOCUMENT));
@@ -110,9 +110,7 @@ class WorkspaceService
             }
         }
 
-        return array_values(array_filter($unpublishedNodes, function ($item) {
-            return (bool)$item;
-        }));
+        return $unpublishedNodes;
     }
 
     private function getTypeOfChange(Change $change): int

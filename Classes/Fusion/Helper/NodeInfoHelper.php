@@ -11,7 +11,6 @@ namespace Neos\Neos\Ui\Fusion\Helper;
  * source code.
  */
 
-use Neos\ContentRepository\Core\Feature\SubtreeTagging\Dto\SubtreeTag;
 use Neos\ContentRepository\Core\Projection\ContentGraph\Filter\CountAncestorNodesFilter;
 use Neos\ContentRepository\Core\Projection\ContentGraph\Filter\FindChildNodesFilter;
 use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
@@ -24,6 +23,7 @@ use Neos\Flow\Mvc\ActionRequest;
 use Neos\Flow\Mvc\Routing\UriBuilder;
 use Neos\Flow\Persistence\PersistenceManagerInterface;
 use Neos\Neos\Domain\NodeLabel\NodeLabelGeneratorInterface;
+use Neos\Neos\Domain\SubtreeTagging\NeosSubtreeTag;
 use Neos\Neos\FrontendRouting\NodeUriBuilderFactory;
 use Neos\Neos\Ui\Domain\Service\NodePropertyConverterService;
 use Neos\Neos\Ui\Domain\Service\UserLocaleService;
@@ -102,7 +102,7 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
             // if we are only rendering the tree state,
             // ensure _isHidden is sent to hidden nodes are correctly shown in the tree.
             // TODO: we should export this correctly named, but that needs changes throughout the JS code as well.
-            '_hidden' => $node->tags->withoutInherited()->contain(SubtreeTag::disabled()),
+            '_hidden' => $node->tags->withoutInherited()->contain(NeosSubtreeTag::disabled()),
             '_hiddenInIndex' => $node->getProperty('hiddenInMenu'),
             '_hasTimeableNodeVisibility' =>
                 $node->getProperty('enableAfterDateTime') instanceof \DateTimeInterface

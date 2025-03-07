@@ -28,7 +28,7 @@ const handleWindowBeforeUnload = (event: BeforeUnloadEvent) => {
 
 type SyncWorkspaceResult =
     | { success: true }
-    | { conflicts: Conflict[], isPartialPublish: false }
+    | { conflicts: Conflict[] }
     | { error: AnyError };
 
 export function * watchSyncing({routes}: {routes: Routes}) {
@@ -75,11 +75,12 @@ export const makeSyncPersonalWorkspace = (deps: {
                 yield * refreshAfterSyncing();
                 yield put(actions.CR.Syncing.succeed());
             } else if ('conflicts' in result) {
-                yield * resolveConflicts(result.conflicts, result.isPartialPublish);
+                yield * resolveConflicts(result.conflicts);
             } else {
                 yield put(actions.CR.Syncing.fail(result.error));
             }
         } catch (error) {
+            console.error(error); // log client site errors
             yield put(actions.CR.Syncing.fail(error as AnyError));
         } finally {
             window.removeEventListener('beforeunload', handleWindowBeforeUnload);
@@ -92,13 +93,11 @@ export const makeSyncPersonalWorkspace = (deps: {
 export const makeResolveConflicts = (deps: {
     syncPersonalWorkspace: ReturnType<typeof makeSyncPersonalWorkspace>
 }) => {
-    const discardAll = makeDiscardAll(deps);
-    const publishAll = makePublishAll(deps);
+    const discardAll = makeDiscardAll();
 
-    function * resolveConflicts(conflicts: Conflict[], isPartialPublish: boolean): any {
+    function * resolveConflicts(conflicts: Conflict[]): any {
         while (true) {
-            const defaultResolutionStrategy = isPartialPublish ? ResolutionStrategy.PUBLISH_ALL : ResolutionStrategy.FORCE
-            yield put(actions.CR.Syncing.resolve(conflicts, defaultResolutionStrategy));
+            yield put(actions.CR.Syncing.resolve(conflicts));
 
             const {started}: {
                 cancelled: null | ReturnType<typeof actions.CR.Syncing.cancel>;
@@ -107,8 +106,10 @@ export const makeResolveConflicts = (deps: {
                 cancelled: take(actionTypes.CR.Syncing.CANCELLED),
                 started: take(actionTypes.CR.Syncing.RESOLUTION_STARTED)
             });
+
             if (started) {
                 const {payload: {strategy}} = started;
+
                 if (strategy === ResolutionStrategy.FORCE) {
                     if (yield * waitForResolutionConfirmation()) {
                         yield * deps.syncPersonalWorkspace(true);
@@ -121,17 +122,9 @@ export const makeResolveConflicts = (deps: {
                 if (strategy === ResolutionStrategy.DISCARD_ALL) {
                     if (yield * waitForResolutionConfirmation()) {
                         yield * discardAll();
-                        return true;
+                        return false; // don't continue publishing as this is a deletes all
                     }
 
-                    continue;
-                }
-
-                if (strategy === ResolutionStrategy.PUBLISH_ALL) {
-                    if (yield * waitForResolutionConfirmation()) {
-                        yield * publishAll();
-                        return true;
-                    }
                     continue;
                 }
             }
@@ -167,16 +160,16 @@ function * waitForRetry() {
     return Boolean(retried);
 }
 
-const makeDiscardAll = (deps: {
-    syncPersonalWorkspace: ReturnType<typeof makeSyncPersonalWorkspace>;
-}) => {
+const makeDiscardAll = () => {
     function * discardAll() {
         yield put(actions.CR.Publishing.start(
             PublishingMode.DISCARD,
-            PublishingScope.ALL
+            PublishingScope.ALL,
+            true
         ));
-        yield put(actions.CR.Publishing.confirm());
-        const {cancelled, failed}: {
+        yield put(actions.CR.Publishing.confirm()); // we auto-confirm this case but do want to display a full result dialog
+        yield put(actions.CR.Syncing.finish()); // stop syncing as discarding takes now over
+        const {cancelled}: {
             cancelled: null | ReturnType<typeof actions.CR.Publishing.cancel>;
             failed: null | ReturnType<typeof actions.CR.Publishing.fail>;
             finished: null | ReturnType<typeof actions.CR.Publishing.finish>;
@@ -185,48 +178,14 @@ const makeDiscardAll = (deps: {
             failed: take(actionTypes.CR.Publishing.FAILED),
             finished: take(actionTypes.CR.Publishing.FINISHED)
         });
+
         if (cancelled) {
-            yield put(actions.CR.Syncing.cancelResolution());
-        } else if (failed) {
-            yield put(actions.CR.Syncing.finish());
-        } else {
-            yield put(actions.CR.Syncing.finish());
-            yield * deps.syncPersonalWorkspace(false);
+            yield put(actions.CR.Publishing.cancel());
         }
+        yield put(actions.CR.Publishing.finish());
     }
 
     return discardAll;
-}
-
-const makePublishAll = (deps: {
-    syncPersonalWorkspace: ReturnType<typeof makeSyncPersonalWorkspace>;
-}) => {
-    function * publishAll() {
-        yield put(actions.CR.Publishing.start(
-            PublishingMode.PUBLISH,
-            PublishingScope.SITE
-        ));
-        yield put(actions.CR.Publishing.confirm());
-        const {cancelled, failed}: {
-            cancelled: null | ReturnType<typeof actions.CR.Publishing.cancel>;
-            failed: null | ReturnType<typeof actions.CR.Publishing.fail>;
-            finished: null | ReturnType<typeof actions.CR.Publishing.finish>;
-        } = yield race({
-            cancelled: take(actionTypes.CR.Publishing.CANCELLED),
-            failed: take(actionTypes.CR.Publishing.FAILED),
-            finished: take(actionTypes.CR.Publishing.FINISHED)
-        });
-        if (cancelled) {
-            yield put(actions.CR.Syncing.cancelResolution());
-        } else if (failed) {
-            yield put(actions.CR.Syncing.finish());
-        } else {
-            yield put(actions.CR.Syncing.finish());
-            yield * deps.syncPersonalWorkspace(false);
-        }
-    }
-
-    return publishAll;
 }
 
 const makeRefreshAfterSyncing = (deps: {

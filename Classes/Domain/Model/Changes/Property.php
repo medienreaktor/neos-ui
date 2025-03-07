@@ -14,8 +14,6 @@ namespace Neos\Neos\Ui\Domain\Model\Changes;
 
 use Neos\ContentRepository\Core\DimensionSpace\Exception\DimensionSpacePointNotFound;
 use Neos\ContentRepository\Core\DimensionSpace\OriginDimensionSpacePoint;
-use Neos\ContentRepository\Core\Feature\NodeDisabling\Command\DisableNodeAggregate;
-use Neos\ContentRepository\Core\Feature\NodeDisabling\Command\EnableNodeAggregate;
 use Neos\ContentRepository\Core\Feature\NodeModification\Command\SetNodeProperties;
 use Neos\ContentRepository\Core\Feature\NodeModification\Dto\PropertyValuesToWrite;
 use Neos\ContentRepository\Core\Feature\NodeReferencing\Command\SetNodeReferences;
@@ -24,15 +22,17 @@ use Neos\ContentRepository\Core\Feature\NodeReferencing\Dto\NodeReferencesToWrit
 use Neos\ContentRepository\Core\Feature\NodeTypeChange\Command\ChangeNodeAggregateType;
 use Neos\ContentRepository\Core\Feature\NodeTypeChange\Dto\NodeAggregateTypeChangeChildConstraintConflictResolutionStrategy;
 use Neos\ContentRepository\Core\Feature\NodeVariation\Command\CreateNodeVariant;
+use Neos\ContentRepository\Core\Feature\SubtreeTagging\Command\TagSubtree;
+use Neos\ContentRepository\Core\Feature\SubtreeTagging\Command\UntagSubtree;
 use Neos\ContentRepository\Core\NodeType\NodeType;
 use Neos\ContentRepository\Core\NodeType\NodeTypeName;
 use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
 use Neos\ContentRepository\Core\SharedModel\Exception\ContentStreamDoesNotExistYet;
-use Neos\ContentRepository\Core\SharedModel\Exception\NodeAggregatesTypeIsAmbiguous;
 use Neos\ContentRepository\Core\SharedModel\Node\NodeAggregateIds;
 use Neos\ContentRepository\Core\SharedModel\Node\NodeVariantSelectionStrategy;
 use Neos\ContentRepository\Core\SharedModel\Node\ReferenceName;
 use Neos\Flow\Annotations as Flow;
+use Neos\Neos\Domain\SubtreeTagging\NeosSubtreeTag;
 use Neos\Neos\Ui\Domain\Model\AbstractChange;
 use Neos\Neos\Ui\Domain\Model\Feedback\Operations\ReloadContentOutOfBand;
 use Neos\Neos\Ui\Domain\Model\Feedback\Operations\UpdateNodeInfo;
@@ -141,7 +141,6 @@ class Property extends AbstractChange
      * Applies this change
      *
      * @throws ContentStreamDoesNotExistYet
-     * @throws NodeAggregatesTypeIsAmbiguous
      * @throws DimensionSpacePointNotFound
      * @throws \Exception
      */
@@ -258,17 +257,19 @@ class Property extends AbstractChange
         $contentRepository = $this->contentRepositoryRegistry->get($subject->contentRepositoryId);
 
         $command = match ($value) {
-            false => EnableNodeAggregate::create(
+            false => UntagSubtree::create(
                 $subject->workspaceName,
                 $subject->aggregateId,
                 $subject->originDimensionSpacePoint->toDimensionSpacePoint(),
-                NodeVariantSelectionStrategy::STRATEGY_ALL_SPECIALIZATIONS
+                NodeVariantSelectionStrategy::STRATEGY_ALL_SPECIALIZATIONS,
+                NeosSubtreeTag::disabled()
             ),
-            true => DisableNodeAggregate::create(
+            true => TagSubtree::create(
                 $subject->workspaceName,
                 $subject->aggregateId,
                 $subject->originDimensionSpacePoint->toDimensionSpacePoint(),
-                NodeVariantSelectionStrategy::STRATEGY_ALL_SPECIALIZATIONS
+                NodeVariantSelectionStrategy::STRATEGY_ALL_SPECIALIZATIONS,
+                NeosSubtreeTag::disabled()
             )
         };
 

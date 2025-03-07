@@ -212,9 +212,9 @@ class BackendServiceController extends ActionController
 
             $this->feedbackCollection->add($success);
         } catch (\Exception $e) {
+            $this->throwableStorage2->logThrowable($e);
             $error = new Error();
             $error->setMessage($e->getMessage());
-
             $this->feedbackCollection->add($error);
         }
 
@@ -435,7 +435,8 @@ class BackendServiceController extends ActionController
 
         try {
             $this->workspacePublishingService->changeBaseWorkspace($documentNodeAddress->contentRepositoryId, $userWorkspace->workspaceName, WorkspaceName::fromString($targetWorkspaceName));
-        } catch (WorkspaceIsNotEmptyException $exception) {
+        } catch (WorkspaceIsNotEmptyException $workspaceIsNotEmptyException) {
+            $this->throwableStorage2->logThrowable($workspaceIsNotEmptyException);
             $error = new Error();
             $error->setMessage(
                 $this->getLabel('workspaceContainsUnpublishedChanges')
@@ -444,9 +445,10 @@ class BackendServiceController extends ActionController
             $this->feedbackCollection->add($error);
             $this->view->assign('value', $this->feedbackCollection);
             return;
-        } catch (\Exception $exception) {
+        } catch (\Exception $e) {
+            $this->throwableStorage2->logThrowable($e);
             $error = new Error();
-            $error->setMessage($error->getMessage());
+            $error->setMessage($e->getMessage());
 
             $this->feedbackCollection->add($error);
             $this->view->assign('value', $this->feedbackCollection);
@@ -710,6 +712,7 @@ class BackendServiceController extends ActionController
 
             $this->view->assign('value', $result);
         } catch (\Exception $e) {
+            $this->throwableStorage2->logThrowable($e);
             $this->view->assign('value', [
                 'error' => [
                     'class' => $e::class,
@@ -766,6 +769,7 @@ class BackendServiceController extends ActionController
                 'success' => $result
             ]);
         } catch (\Exception $e) {
+            $this->throwableStorage2->logThrowable($e);
             $this->view->assign('value', [
                 'error' => [
                     'class' => $e::class,

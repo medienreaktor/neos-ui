@@ -12,7 +12,6 @@ namespace Neos\Neos\Ui\Controller;
  * source code.
  */
 
-use Neos\ContentRepository\Core\Feature\SubtreeTagging\Dto\SubtreeTag;
 use Neos\ContentRepository\Core\SharedModel\Node\NodeAddress;
 use Neos\ContentRepositoryRegistry\ContentRepositoryRegistry;
 use Neos\Flow\Annotations as Flow;
@@ -22,6 +21,7 @@ use Neos\Neos\Domain\Repository\DomainRepository;
 use Neos\Neos\Domain\Repository\SiteRepository;
 use Neos\Neos\Domain\Service\NodeTypeNameFactory;
 use Neos\Neos\Domain\Service\WorkspaceService;
+use Neos\Neos\Domain\SubtreeTagging\NeosSubtreeTag;
 use Neos\Neos\FrontendRouting\NodeUriBuilderFactory;
 use Neos\Neos\FrontendRouting\SiteDetection\SiteDetectionResult;
 use Neos\Neos\Service\UserService;
@@ -162,11 +162,10 @@ class BackendController extends ActionController
         if (!$rootNodeAggregate) {
             throw new \RuntimeException(sprintf('No sites root node found in content repository "%s", while fetching site node "%s"', $contentRepository->id->value, $siteDetectionResult->siteNodeName->value), 1724849303);
         }
-        $rootNode = $rootNodeAggregate->getNodeByCoveredDimensionSpacePoint($arbitraryRootDimensionSpacePoint);
 
         $siteNode = $subgraph->findNodeByPath(
             $siteDetectionResult->siteNodeName->toNodeName(),
-            $rootNode->aggregateId
+            $rootNodeAggregate->nodeAggregateId
         );
 
         if (!$nodeAddress) {
@@ -238,7 +237,7 @@ class BackendController extends ActionController
         $nodeUriBuilder = $this->nodeUriBuilderFactory->forActionRequest($this->request);
 
         $this->redirectToUri(
-            !$nodeInstance || $nodeInstance->tags->contain(SubtreeTag::disabled())
+            !$nodeInstance || $nodeInstance->tags->contain(NeosSubtreeTag::disabled())
                 ? $nodeUriBuilder->previewUriFor($nodeAddressInBaseWorkspace)
                 : $nodeUriBuilder->uriFor($nodeAddressInBaseWorkspace)
         );

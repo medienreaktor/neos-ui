@@ -62,7 +62,7 @@ class ChangeCollectionConverter
 
     /**
      * @Flow\InjectConfiguration(package="Neos.Neos.Ui", path="changes.types")
-     * @var array<string,string>
+     * @var array<string,class-string<ChangeInterface>>
      */
     protected array $typeMap;
 

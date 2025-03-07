@@ -9,7 +9,7 @@
  */
 import {put, call, select, takeEvery, take, race, all} from 'redux-saga/effects';
 
-import {AnyError} from '@neos-project/neos-ui-error';
+import {AnyError, showFlashMessage} from '@neos-project/neos-ui-error';
 import {DimensionCombination, NodeContextPath, WorkspaceName} from '@neos-project/neos-ts-interfaces';
 import {actionTypes, actions, selectors} from '@neos-project/neos-ui-redux-store';
 import {GlobalState} from '@neos-project/neos-ui-redux-store/src/System';
@@ -21,6 +21,7 @@ import backend, {Routes} from '@neos-project/neos-ui-backend-connector';
 import {makeReloadNodes} from '../CR/NodeOperations/reloadNodes';
 import {updateWorkspaceInfo} from '../CR/Workspaces';
 import {makeResolveConflicts, makeSyncPersonalWorkspace} from '../Sync';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 const handleWindowBeforeUnload = (event: BeforeUnloadEvent) => {
     event.preventDefault();
@@ -36,6 +37,21 @@ type PublishingResponse =
     }
     | { conflicts: Conflict[], isPartialPublish: boolean }
     | { error: AnyError };
+
+const PUBLISH_SUCCESS_TRANSLATIONS = {
+    [PublishingScope.ALL]: {
+        id: 'Neos.Neos.Ui:PublishingDialog:publish.all.success.message',
+        fallback: 'All {numberOfChanges} change(s) in workspace "{scopeTitle}" were successfully published to workspace "{targetWorkspaceName}".'
+    },
+    [PublishingScope.SITE]: {
+        id: 'Neos.Neos.Ui:PublishingDialog:publish.site.success.message',
+        fallback: '{numberOfChanges} change(s) in site "{scopeTitle}" were successfully published to workspace "{targetWorkspaceName}".'
+    },
+    [PublishingScope.DOCUMENT]: {
+        id: 'Neos.Neos.Ui:PublishingDialog:publish.document.success.message',
+        fallback: '{numberOfChanges} change(s) in document "{scopeTitle}" were sucessfully published to workspace "{targetWorkspaceName}".'
+    }
+}
 
 export function * watchPublishing({routes}: {routes: Routes}) {
     const {endpoints} = backend.get();
@@ -74,8 +90,7 @@ export function * watchPublishing({routes}: {routes: Routes}) {
     const resolveConflicts = makeResolveConflicts({syncPersonalWorkspace});
 
     yield takeEvery(actionTypes.CR.Publishing.STARTED, function * publishingWorkflow(action: ReturnType<typeof actions.CR.Publishing.start>) {
-        const confirmed = yield * waitForConfirmation();
-
+        const confirmed = action.payload.requireConfirmation ? yield * waitForConfirmation() : true;
         if (!confirmed) {
             return;
         }
@@ -93,13 +108,40 @@ export function * watchPublishing({routes}: {routes: Routes}) {
         const ancestorId: NodeContextPath = ancestorIdSelector
             ? yield select(ancestorIdSelector)
             : null;
+
         function * attemptToPublishOrDiscard(): Generator<any, any, any> {
             const result: PublishingResponse = scope === PublishingScope.ALL
                 ? yield call(endpoint as any, workspaceName)
                 : yield call(endpoint!, ancestorId, workspaceName, dimensionSpacePoint);
 
             if ('success' in result) {
-                yield put(actions.CR.Publishing.succeed(result.success.numberOfAffectedChanges));
+                if (action.payload.requireConfirmation) {
+                    yield put(actions.CR.Publishing.succeed(result.success.numberOfAffectedChanges));
+                } else {
+                    // fixme, this translation logic is duplicated from the PublishingDialog component
+                    let scopeTitle = 'N/A';
+                    if (scope === PublishingScope.ALL) {
+                        scopeTitle = yield select(selectors.CR.Workspaces.personalWorkspaceNameSelector);
+                    } else if (scope === PublishingScope.SITE) {
+                        scopeTitle = (yield select(selectors.CR.Nodes.siteNodeSelector))?.label ?? scopeTitle;
+                    } else if (scope === PublishingScope.DOCUMENT) {
+                        scopeTitle = (yield select(selectors.CR.Nodes.documentNodeSelector))?.label ?? scopeTitle;
+                    }
+
+                    const parameters = {
+                        numberOfChanges: result.success.numberOfAffectedChanges,
+                        scopeTitle,
+                        targetWorkspaceName: yield select(selectors.CR.Workspaces.baseWorkspaceSelector)
+                    };
+
+                    showFlashMessage({
+                        id: 'publishing',
+                        severity: 'success',
+                        message: translate(PUBLISH_SUCCESS_TRANSLATIONS[scope].id, PUBLISH_SUCCESS_TRANSLATIONS[scope].fallback, parameters),
+                        timeout: 2000
+                    });
+                    yield put(actions.CR.Publishing.finish());
+                }
                 yield * reloadAfterPublishing();
             } else if ('conflicts' in result) {
                 yield put(actions.CR.Publishing.conflicts());
@@ -108,17 +150,30 @@ export function * watchPublishing({routes}: {routes: Routes}) {
 
                 if (conflictsWereResolved) {
                     yield put(actions.CR.Publishing.resolveConflicts());
-
                     //
-                    // It may happen that after conflicts are resolved, the
-                    // document we're trying to publish no longer exists.
+                    // There are special cases after conflicts is resolved:
+                    //
+                    // * the document we're trying to publish no longer exists
+                    // * the site we're trying to publish no longer contains changes
+                    // * the document we're trying to publish no longer contains changes
                     //
                     // We need to finish the publishing operation in this
-                    // case, otherwise it'll lead to an error.
+                    // case, otherwise it'll lead to an error as there is nothing to do.
                     //
-                    const publishingShouldContinue = scope === PublishingScope.DOCUMENT
-                        ? Boolean(yield select(selectors.CR.Nodes.byContextPathSelector(ancestorId)))
-                        : true;
+                    // todo possibly add another phase to actively continue publishing and also make it more transparently if publishing cant continue
+                    // see: https://github.com/neos/neos-ui/issues/3908#issuecomment-2608232225
+                    let publishingShouldContinue = true;
+                    if (scope === PublishingScope.DOCUMENT) {
+                        if (!(yield select(selectors.CR.Nodes.byContextPathSelector(ancestorId)))) {
+                            publishingShouldContinue = false;
+                        } else if ((yield select(selectors.CR.Workspaces.publishableNodesInDocumentSelector)).length === 0) {
+                            publishingShouldContinue = false;
+                        }
+                    } else if (scope === PublishingScope.SITE) {
+                        if ((yield select(selectors.CR.Workspaces.publishableNodesSelector)).length === 0) {
+                            publishingShouldContinue = false;
+                        }
+                    }
 
                     if (publishingShouldContinue) {
                         yield * attemptToPublishOrDiscard();
@@ -141,6 +196,7 @@ export function * watchPublishing({routes}: {routes: Routes}) {
                 window.addEventListener('beforeunload', handleWindowBeforeUnload);
                 yield * attemptToPublishOrDiscard();
             } catch (error) {
+                console.error(error); // log client site errors
                 yield put(actions.CR.Publishing.fail(error as AnyError));
             } finally {
                 window.removeEventListener('beforeunload', handleWindowBeforeUnload);

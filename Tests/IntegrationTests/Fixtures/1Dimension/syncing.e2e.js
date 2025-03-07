@@ -20,8 +20,8 @@ fixture`Syncing`
 test('Syncing: Create a conflict state between two editors and choose "Discard all" as a resolution strategy during rebase', async t => {
     await prepareContentElementConflictBetweenAdminAndEditor(t);
     await chooseDiscardAllAsResolutionStrategy(t);
-    await confirmAndPerformDiscardAll(t);
-    await finishSynchronization(t);
+    await performResolutionStrategy(t);
+    await finishDiscard(t);
 
     await assertThatWeAreOnPage(t, 'Home');
     await assertThatWeCannotSeePageInTree(t, 'Sync Demo #1');
@@ -32,7 +32,7 @@ test('Syncing: Create a conflict state between two editors and choose "Discard a
 test('Syncing: Create a conflict state between two editors and choose "Drop conflicting changes" as a resolution strategy during rebase', async t => {
     await prepareContentElementConflictBetweenAdminAndEditor(t);
     await chooseDropConflictingChangesAsResolutionStrategy(t);
-    await confirmDropConflictingChanges(t);
+    await performResolutionStrategy(t);
     await finishSynchronization(t);
 
     await assertThatWeAreOnPage(t, 'Home');
@@ -47,7 +47,7 @@ test('Syncing: Create a conflict state between two editors, start and cancel res
     await startSynchronization(t);
     await assertThatConflictResolutionHasStarted(t);
     await chooseDropConflictingChangesAsResolutionStrategy(t);
-    await confirmDropConflictingChanges(t);
+    await performResolutionStrategy(t);
     await finishSynchronization(t);
 
     await assertThatWeAreOnPage(t, 'Home');
@@ -56,13 +56,18 @@ test('Syncing: Create a conflict state between two editors, start and cancel res
     await assertThatWeCannotSeePageInTree(t, 'Sync Demo #3');
 });
 
-test('Syncing: Create a conflict state between two editors and choose "Drop conflicting changes" as a resolution strategy, then cancel and choose "Discard all" as a resolution strategy during rebase', async t => {
+test('Syncing: Create a conflict state between two editors and switch between "Drop conflicting changes" and "Discard all" as a resolution strategy during rebase', async t => {
     await prepareContentElementConflictBetweenAdminAndEditor(t);
-    await chooseDropConflictingChangesAsResolutionStrategy(t);
-    await cancelDropConflictingChanges(t);
+
+    // switch back and forth
     await chooseDiscardAllAsResolutionStrategy(t);
-    await confirmAndPerformDiscardAll(t);
-    await finishSynchronization(t);
+    await cancelResolutionStrategy(t);
+    await chooseDropConflictingChangesAsResolutionStrategy(t);
+    await cancelResolutionStrategy(t);
+    await chooseDiscardAllAsResolutionStrategy(t);
+
+    await performResolutionStrategy(t);
+    await finishDiscard(t);
 
     await assertThatWeAreOnPage(t, 'Home');
     await assertThatWeCannotSeePageInTree(t, 'Sync Demo #1');
@@ -70,25 +75,37 @@ test('Syncing: Create a conflict state between two editors and choose "Drop conf
     await assertThatWeCannotSeePageInTree(t, 'Sync Demo #3');
 });
 
-test('Publish + Syncing: Create a conflict state between two editors, then try to publish and choose "Drop conflicting changes" as a resolution strategy during automatic rebase', async t => {
+test('Publish + Syncing: Create a conflict state between two editors, then try to publish the site and choose "Drop conflicting changes" as a resolution strategy during automatic rebase', async t => {
     await prepareDocumentConflictBetweenAdminAndEditor(t);
     await startPublishAll(t);
     await assertThatConflictResolutionHasStarted(t);
     await chooseDropConflictingChangesAsResolutionStrategy(t);
-    await confirmDropConflictingChanges(t);
+    await performResolutionStrategy(t);
     await finishPublish(t);
 
     await assertThatWeAreOnPage(t, 'Home');
     await assertThatWeCannotSeePageInTree(t, 'This page will be deleted during sync');
 });
 
-test('Publish + Syncing: Create a conflict state between two editors, then try to publish the document only and choose "Drop conflicting changes" as a resolution strategy during automatic rebase', async t => {
+test('Publish + Syncing: Create a conflict state between two editors, then try to publish the document and choose "Drop conflicting changes" as a resolution strategy during automatic rebase', async t => {
     await prepareDocumentConflictBetweenAdminAndEditor(t);
-    await startPublishDocument(t);
+    await publishDocument(t);
     await assertThatConflictResolutionHasStarted(t);
     await chooseDropConflictingChangesAsResolutionStrategy(t);
-    await confirmDropConflictingChanges(t);
+    await performResolutionStrategy(t);
     await finishPublish(t);
+
+    await assertThatWeAreOnPage(t, 'Home');
+    await assertThatWeCannotSeePageInTree(t, 'This page will be deleted during sync');
+});
+
+test('Publish + Syncing: Create a conflict state between two editors, then try to publish the site and choose "Discard all" as a resolution strategy', async t => {
+    await prepareDocumentConflictBetweenAdminAndEditor(t);
+    await startPublishAll(t);
+    await assertThatConflictResolutionHasStarted(t);
+    await chooseDiscardAllAsResolutionStrategy(t);
+    await performResolutionStrategy(t);
+    await finishDiscard(t);
 
     await assertThatWeAreOnPage(t, 'Home');
     await assertThatWeCannotSeePageInTree(t, 'This page will be deleted during sync');
@@ -306,14 +323,18 @@ async function startPublishAll(t) {
     await t.click(Selector('#neos-PublishDialog-Confirm'));
 }
 
-async function startPublishDocument(t) {
+async function publishDocument(t) {
     await t.click(Selector('#neos-PublishDropDown-Publish'))
-    await t.click(Selector('#neos-PublishDialog-Confirm'));
 }
 
 async function finishPublish(t) {
     await assertThatPublishingHasFinishedWithoutError(t);
     await t.click(Selector('#neos-PublishDialog-Acknowledge'));
+    await t.wait(2000);
+}
+
+async function finishDiscard(t) {
+    await t.click(Selector('#neos-DiscardDialog-Acknowledge'));
     await t.wait(2000);
 }
 
@@ -332,29 +353,17 @@ async function chooseDiscardAllAsResolutionStrategy(t) {
     await t.click(Selector('#neos-SelectResolutionStrategy-Accept'));
 }
 
-async function confirmAndPerformDiscardAll(t) {
-    await t.click(Selector('#neos-DiscardDialog-Confirm'));
-    await t.expect(Selector('#neos-DiscardDialog-Acknowledge').exists)
-        .ok('Acknowledge button for "Discard all" is not available.', {
-            timeout: 30000
-        });
-    // For reasons unknown, we have to press the acknowledge button really
-    // hard for testcafe to realize our intent...
-    await t.wait(500);
-    await t.click(Selector('#neos-DiscardDialog-Acknowledge'));
-}
-
 async function chooseDropConflictingChangesAsResolutionStrategy(t) {
     await t.click(Selector('#neos-SelectResolutionStrategy-SelectBox'));
     await t.click(Selector('[role="button"]').withText('Drop conflicting changes'));
     await t.click(Selector('#neos-SelectResolutionStrategy-Accept'));
 }
 
-async function confirmDropConflictingChanges(t) {
+async function performResolutionStrategy(t) {
     await t.click(Selector('#neos-ResolutionStrategyConfirmation-Confirm'));
 }
 
-async function cancelDropConflictingChanges(t) {
+async function cancelResolutionStrategy(t) {
     await t.click(Selector('#neos-ResolutionStrategyConfirmation-Cancel'));
 }
 
