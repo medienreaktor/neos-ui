@@ -12,6 +12,7 @@ namespace Neos\Neos\Ui\Controller;
  * source code.
  */
 
+use Neos\ContentRepository\Core\Feature\WorkspaceRebase\Exception\WorkspaceRebaseFailed;
 use Neos\ContentRepository\Core\SharedModel\Node\NodeAddress;
 use Neos\ContentRepository\Core\SharedModel\Workspace\WorkspaceStatus;
 use Neos\ContentRepositoryRegistry\ContentRepositoryRegistry;
@@ -152,7 +153,12 @@ class BackendController extends ActionController
         $this->workspaceService->createPersonalWorkspaceForUserIfMissing($siteDetectionResult->contentRepositoryId, $user);
         $workspace = $this->workspaceService->getPersonalWorkspaceForUser($siteDetectionResult->contentRepositoryId, $user->getId());
         if ($workspace->status === WorkspaceStatus::OUTDATED && !$workspace->hasPublishableChanges()) {
-            $this->workspacePublishingService->rebaseWorkspace($siteDetectionResult->contentRepositoryId, $workspace->workspaceName);
+            try {
+                $this->workspacePublishingService->rebaseWorkspace($siteDetectionResult->contentRepositoryId, $workspace->workspaceName);
+            } catch (WorkspaceRebaseFailed) {
+                // currently we don't have a way to provide this rebase error directly to the neos ui and have it solved.
+                // instead we ignore it and have the editor trigger it again via the sync button.
+            }
         }
 
         $contentGraph = $contentRepository->getContentGraph($workspace->workspaceName);
