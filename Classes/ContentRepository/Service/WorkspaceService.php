@@ -113,6 +113,7 @@ class WorkspaceService
         return $unpublishedNodes;
     }
 
+    // todo remove for now lol :D
     private function getTypeOfChange(Change $change): int
     {
         $result = 0;
