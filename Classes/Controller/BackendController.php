@@ -133,6 +133,12 @@ class BackendController extends ActionController
     protected $workspacePublishingService;
 
     /**
+     * @Flow\InjectConfiguration(path="autoSyncPersonalWorkspaces")
+     * @var bool
+     */
+    protected $autoSyncPersonalWorkspaces;
+
+    /**
      * Displays the backend interface
      *
      * @param string $node The node that will be displayed on the first tab
@@ -152,7 +158,11 @@ class BackendController extends ActionController
 
         $this->workspaceService->createPersonalWorkspaceForUserIfMissing($siteDetectionResult->contentRepositoryId, $user);
         $workspace = $this->workspaceService->getPersonalWorkspaceForUser($siteDetectionResult->contentRepositoryId, $user->getId());
-        if ($workspace->status === WorkspaceStatus::OUTDATED && !$workspace->hasPublishableChanges()) {
+        if (
+            $this->autoSyncPersonalWorkspaces
+            && $workspace->status === WorkspaceStatus::OUTDATED
+            && !$workspace->hasPublishableChanges()
+        ) {
             try {
                 $this->workspacePublishingService->rebaseWorkspace($siteDetectionResult->contentRepositoryId, $workspace->workspaceName);
             } catch (WorkspaceRebaseFailed) {
