@@ -91,6 +91,11 @@ Neos:
 
           'CR.Nodes.unfocus': 'u n'
 
+      # If enabled, will automatically synchronize (rebase) personal workspaces when used in the UI
+      # (currently: Neos\Neos\Ui\Controller\BackendController::indexAction())
+      # if necessary (outdated) and possible (no own changes)
+      autoSyncPersonalWorkspaces: true
+
       #################################
       # INTERNAL CONFIG (no API)
       #################################

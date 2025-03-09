@@ -12,7 +12,9 @@ namespace Neos\Neos\Ui\Controller;
  * source code.
  */
 
+use Neos\ContentRepository\Core\Feature\WorkspaceRebase\Exception\WorkspaceRebaseFailed;
 use Neos\ContentRepository\Core\SharedModel\Node\NodeAddress;
+use Neos\ContentRepository\Core\SharedModel\Workspace\WorkspaceStatus;
 use Neos\ContentRepositoryRegistry\ContentRepositoryRegistry;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\Controller\ActionController;
@@ -20,6 +22,7 @@ use Neos\Flow\Persistence\PersistenceManagerInterface;
 use Neos\Neos\Domain\Repository\DomainRepository;
 use Neos\Neos\Domain\Repository\SiteRepository;
 use Neos\Neos\Domain\Service\NodeTypeNameFactory;
+use Neos\Neos\Domain\Service\WorkspacePublishingService;
 use Neos\Neos\Domain\Service\WorkspaceService;
 use Neos\Neos\Domain\SubtreeTagging\NeosSubtreeTag;
 use Neos\Neos\FrontendRouting\NodeUriBuilderFactory;
@@ -124,6 +127,18 @@ class BackendController extends ActionController
     protected $workspaceService;
 
     /**
+     * @Flow\Inject
+     * @var WorkspacePublishingService
+     */
+    protected $workspacePublishingService;
+
+    /**
+     * @Flow\InjectConfiguration(path="autoSyncPersonalWorkspaces")
+     * @var bool
+     */
+    protected $autoSyncPersonalWorkspaces;
+
+    /**
      * Displays the backend interface
      *
      * @param string $node The node that will be displayed on the first tab
@@ -143,6 +158,18 @@ class BackendController extends ActionController
 
         $this->workspaceService->createPersonalWorkspaceForUserIfMissing($siteDetectionResult->contentRepositoryId, $user);
         $workspace = $this->workspaceService->getPersonalWorkspaceForUser($siteDetectionResult->contentRepositoryId, $user->getId());
+        if (
+            $this->autoSyncPersonalWorkspaces
+            && $workspace->status === WorkspaceStatus::OUTDATED
+            && !$workspace->hasPublishableChanges()
+        ) {
+            try {
+                $this->workspacePublishingService->rebaseWorkspace($siteDetectionResult->contentRepositoryId, $workspace->workspaceName);
+            } catch (WorkspaceRebaseFailed) {
+                // currently we don't have a way to provide this rebase error directly to the neos ui and have it solved.
+                // instead we ignore it and have the editor trigger it again via the sync button.
+            }
+        }
 
         $contentGraph = $contentRepository->getContentGraph($workspace->workspaceName);
 
