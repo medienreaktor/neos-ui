@@ -146,7 +146,7 @@ export function * watchPublishing({routes}: {routes: Routes}) {
             } else if ('conflicts' in result) {
                 yield put(actions.CR.Publishing.conflicts());
                 const conflictsWereResolved: boolean =
-                    yield * resolveConflicts(result.conflicts, result.isPartialPublish);
+                    yield * resolveConflicts(result.conflicts);
 
                 if (conflictsWereResolved) {
                     yield put(actions.CR.Publishing.resolveConflicts());

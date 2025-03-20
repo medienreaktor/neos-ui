@@ -34,9 +34,6 @@ export const ResolutionStrategyConfirmationDialog: React.FC<{
     switch (props.strategy) {
         case ResolutionStrategy.FORCE:
             return (<ForceConfirmationDialog {...props} />);
-
-        case ResolutionStrategy.PUBLISH_ALL:
-            return (<PublishAllConfirmationDialog {...props} />);
         case ResolutionStrategy.DISCARD_ALL:
         default:
             return (<DiscardAllConfirmationDialog {...props} />);
@@ -181,76 +178,6 @@ const DiscardAllConfirmationDialog: React.FC<{
                     fallback={`You are about to discard all ${props.totalNumberOfChangesInWorkspace} change(s) in workspace "${props.workspaceName}". This includes all changes on other sites. Do you wish to proceed? Be careful: This cannot be undone!`}
                     params={{numberOfChanges: props.totalNumberOfChangesInWorkspace, workspaceName: props.workspaceName}}
                     />
-            </div>
-        </Dialog>
-    );
-}
-const PublishAllConfirmationDialog: React.FC<{
-    workspaceName: WorkspaceName;
-    baseWorkspaceName: WorkspaceName;
-    totalNumberOfChangesInWorkspace: number;
-    onCancelConflictResolution: () => void;
-    onConfirmResolutionStrategy: () => void;
-}> = (props) => {
-    return (
-        <Dialog
-            actions={[
-                <Button
-                    id="neos-ResolutionStrategyConfirmation-Cancel"
-                    key="cancel"
-                    style="lighter"
-                    hoverStyle="brand"
-                    onClick={props.onCancelConflictResolution}
-                >
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.PUBLISH_ALL.confirmation.cancel"
-                        fallback="No, cancel"
-                    />
-                </Button>,
-                <Button
-                    id="neos-ResolutionStrategyConfirmation-Confirm"
-                    key="confirm"
-                    style="error"
-                    hoverStyle="error"
-                    onClick={props.onConfirmResolutionStrategy}
-                    className={style.button}
-                >
-                    <Icon icon="check-double" className={style.icon} />
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.PUBLISH_ALL.confirmation.confirm"
-                        fallback="Yes, publish everything"
-                    />
-                </Button>
-            ]}
-            title={
-                <div className={style.modalTitle}>
-                    <WorkspaceSyncIcon hasProblem onDarkBackground />
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.PUBLISH_ALL.confirmation.title"
-                        fallback={`Publish all changes in workspace "${props.workspaceName}"`}
-                        params={props}
-                    />
-                </div>
-            }
-            onRequestClose={props.onCancelConflictResolution}
-            type="error"
-            isOpen
-            autoFocus
-            theme={undefined as any}
-            style={undefined as any}
-        >
-            <div className={style.modalContents}>
-                <DiscardDiagram
-                    numberOfChanges={props.totalNumberOfChangesInWorkspace}
-                    sourceWorkspaceName={props.workspaceName}
-                    targetWorkspaceName={props.baseWorkspaceName}
-                    phase={PublishingPhase.START}
-                />
-                <I18n
-                    id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.PUBLISH_ALL.confirmation.message"
-                    fallback={`You are about to publish all changes in workspace "${props.workspaceName}". This includes all changes on other sites. Do you wish to proceed? Be careful: This cannot be undone!`}
-                    params={props}
-                />
             </div>
         </Dialog>
     );

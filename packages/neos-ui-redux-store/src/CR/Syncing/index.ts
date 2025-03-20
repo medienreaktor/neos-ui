@@ -18,7 +18,6 @@ export enum SyncingPhase {
     ONGOING,
     CONFLICT,
     RESOLVING,
-    IDLE,
     ERROR,
     SUCCESS
 }
@@ -66,7 +65,6 @@ export type State = null | {
             strategy: ResolutionStrategy;
             conflicts: Conflict[];
         }
-        | { phase: SyncingPhase.IDLE }
         | {
               phase: SyncingPhase.ERROR;
               error: null | AnyError;
@@ -109,8 +107,8 @@ const confirm = () => createAction(actionTypes.CONFIRMED);
 /**
  * Signal that conflicts occurred during the ongoing syncing (rebasing) workflow
  */
-const resolve = (conflicts: Conflict[], strategy: ResolutionStrategy) =>
-    createAction(actionTypes.CONFLICTS_DETECTED, {conflicts, strategy});
+const resolve = (conflicts: Conflict[]) =>
+    createAction(actionTypes.CONFLICTS_DETECTED, {conflicts});
 
 /**
  * Initiates the process of resolving a conflict that occurred
@@ -195,7 +193,7 @@ export const reducer = (state: State = defaultState, action: Action): State => {
                 process: {
                     phase: SyncingPhase.CONFLICT,
                     conflicts: action.payload.conflicts,
-                    strategy: action.payload.strategy
+                    strategy: null
                 }
             };
         }
@@ -249,7 +247,7 @@ export const reducer = (state: State = defaultState, action: Action): State => {
             return {
                 ...state,
                 process: {
-                    phase: SyncingPhase.IDLE
+                    phase: SyncingPhase.ONGOING
                 }
             };
         case actionTypes.FAILED:

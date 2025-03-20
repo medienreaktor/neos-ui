@@ -47,20 +47,6 @@ const VARIANTS_BY_RESOLUTION_STRATEGY = {
                 fallback: 'This will discard all changes in your workspace, including those on other sites.'
             }
         }
-    },
-    [ResolutionStrategy.PUBLISH_ALL]: {
-        icon: 'check-double',
-        labels: {
-            label: {
-                id: 'Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.option.PUBLISH_ALL.label',
-                fallback: (props: {workspaceName: WorkspaceName}) =>
-                    `Publish all changes in workspace "${props.workspaceName}"`
-            },
-            description: {
-                id: 'Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.option.PUBLISH_ALL.description',
-                fallback: 'This will publish all changes in your workspace, including those on other sites.'
-            }
-        }
     }
 } as const;
 
@@ -70,9 +56,6 @@ const OPTIONS_FOR_RESOLUTION_STRATEGY_SELECTION = [
     },
     {
         value: ResolutionStrategy.DISCARD_ALL
-    },
-    {
-        value: ResolutionStrategy.PUBLISH_ALL
     }
 ] as const;
 

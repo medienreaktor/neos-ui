@@ -124,8 +124,6 @@ export const makeResolveConflicts = (deps: {
                         yield * discardAll();
                         return false; // don't continue publishing as this is a deletes all
                     }
-
-                    continue;
                 }
             }
 
