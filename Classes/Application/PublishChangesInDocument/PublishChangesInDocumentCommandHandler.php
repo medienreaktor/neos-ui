@@ -52,8 +52,7 @@ final class PublishChangesInDocumentCommandHandler
      */
     public function handle(
         PublishChangesInDocumentCommand $command
-    ): PublishSucceeded|ConflictsOccurred|PartialPublishFailed
-    {
+    ): PublishSucceeded|ConflictsOccurred {
         try {
             $publishingResult = $this->workspacePublishingService->publishChangesInDocument(
                 $command->contentRepositoryId,
