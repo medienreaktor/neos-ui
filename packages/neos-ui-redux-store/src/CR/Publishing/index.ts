@@ -26,6 +26,7 @@ export enum PublishingPhase {
     START,
     ONGOING,
     CONFLICTS,
+    PARTIAL_PUBLISH_CONFLICTS,
     SUCCESS,
     ERROR
 }
@@ -40,6 +41,7 @@ export type State = null | {
             autoConfirmed: boolean
           }
         | { phase: PublishingPhase.CONFLICTS }
+        | { phase: PublishingPhase.PARTIAL_PUBLISH_CONFLICTS }
         | {
               phase: PublishingPhase.ERROR;
               error: null | AnyError;
@@ -58,6 +60,8 @@ export enum actionTypes {
     CONFIRMED = '@neos/neos-ui/CR/Publishing/CONFIRMED',
     CONFLICTS_OCCURRED = '@neos/neos-ui/CR/Publishing/CONFLICTS_OCCURRED',
     CONFLICTS_RESOLVED = '@neos/neos-ui/CR/Publishing/CONFLICTS_RESOLVED',
+    PARTIAL_PUBLISH_CONFLICTS_OCCURRED = '@neos/neos-ui/CR/Publishing/PARTIAL_PUBLISH_CONFLICTS_OCCURRED',
+    PARTIAL_PUBLISH_CONFLICTS_RESOLVED = '@neos/neos-ui/CR/Publishing/PARTIAL_PUBLISH_CONFLICTS_RESOLVED',
     FAILED = '@neos/neos-ui/CR/Publishing/FAILED',
     RETRIED = '@neos/neos-ui/CR/Publishing/RETRIED',
     SUCEEDED = '@neos/neos-ui/CR/Publishing/SUCEEDED',
@@ -90,6 +94,16 @@ const conflicts = () => createAction(actionTypes.CONFLICTS_OCCURRED);
  * Signal that conflicts have been resolved during the publish/discard operation
  */
 const resolveConflicts = () => createAction(actionTypes.CONFLICTS_RESOLVED);
+
+/**
+ * Signal that partial publish conflict has occurred during the publish/discard operation
+ */
+const partialPublishConflict = () => createAction(actionTypes.PARTIAL_PUBLISH_CONFLICTS_OCCURRED);
+
+/**
+ * Signal that partial publish conflict has been resolved during the publish/discard operation
+ */
+const resolvePartialPublishConflict = () => createAction(actionTypes.PARTIAL_PUBLISH_CONFLICTS_RESOLVED);
 
 /**
  * Signal that the ongoing publish/discard workflow has failed
@@ -127,6 +141,8 @@ export const actions = {
     confirm,
     conflicts,
     resolveConflicts,
+    partialPublishConflict,
+    resolvePartialPublishConflict,
     fail,
     retry,
     succeed,
@@ -184,6 +200,21 @@ export const reducer = (state: State = defaultState, action: Action): State => {
                 }
             };
         case actionTypes.CONFLICTS_RESOLVED:
+            return {
+                ...state,
+                process: {
+                    phase: PublishingPhase.ONGOING,
+                    autoConfirmed: false
+                }
+            };
+        case actionTypes.PARTIAL_PUBLISH_CONFLICTS_OCCURRED:
+            return {
+                ...state,
+                process: {
+                    phase: PublishingPhase.PARTIAL_PUBLISH_CONFLICTS
+                }
+            };
+        case actionTypes.PARTIAL_PUBLISH_CONFLICTS_RESOLVED:
             return {
                 ...state,
                 process: {

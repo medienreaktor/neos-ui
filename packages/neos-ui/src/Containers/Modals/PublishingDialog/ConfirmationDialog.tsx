@@ -69,18 +69,19 @@ const ConfirmationDialogVariants = {
                 }
             }
         },
-        // NOTE that with https://github.com/neos/neos-ui/pull/3909 this variant is currently effectively not used as confirmation is not required
+        // NOTE that with https://github.com/neos/neos-ui/pull/3909 this variant is currently effectively not used.
+        // If there is a partial publish error, this confirmation dialog is now shown instead
         [PublishingScope.DOCUMENT]: {
             label: {
                 title: {
                     id: 'Neos.Neos.Ui:PublishingDialog:publish.document.confirmation.title',
                     fallback: (props: { scopeTitle: string; }) =>
-                        `Publish all changes in document "${props.scopeTitle}"`
+                        `Could not publish changes to document "${props.scopeTitle}"`
                 },
                 message: {
                     id: 'Neos.Neos.Ui:PublishingDialog:publish.document.confirmation.message',
-                    fallback: (props: { numberOfChanges: number; scopeTitle: string; sourceWorkspaceName: string; targetWorkspaceName: null | string; }) =>
-                        `Are you sure that you want to publish all ${props.numberOfChanges} change(s) in document "${props.scopeTitle}" from workspace "${props.sourceWorkspaceName}" to workspace "${props.targetWorkspaceName}"? Be careful: This cannot be undone!`
+                    fallback: (props: { numberOfSiteChanges: number; scopeTitle: string; sourceWorkspaceName: string; targetWorkspaceName: null | string; }) =>
+                        `Do you want to instead publish ${props.numberOfSiteChanges} change(s) in to workspace "${props.targetWorkspaceName}"? Be careful: This cannot be undone!`
                 },
                 cancel: {
                     id: 'Neos.Neos.Ui:PublishingDialog:publish.document.confirmation.cancel',
@@ -88,7 +89,7 @@ const ConfirmationDialogVariants = {
                 },
                 confirm: {
                     id: 'Neos.Neos.Ui:PublishingDialog:publish.document.confirmation.confirm',
-                    fallback: 'Yes, publish'
+                    fallback: 'Yes, publish all changes in site instead'
                 }
             }
         }
@@ -176,6 +177,7 @@ type ConfirmationDialogProps = {
     sourceWorkspaceName: string;
     targetWorkspaceName: null | string;
     numberOfChanges: number;
+    numberOfSiteChanges: null | number;
     onAbort: () => void;
     onConfirm: () => void;
 }

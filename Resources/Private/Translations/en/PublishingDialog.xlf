@@ -75,16 +75,16 @@
         <source>OK</source>
       </trans-unit>
       <trans-unit id="publish.document.confirmation.title" xml:space="preserve">
-        <source>Publish all changes in document "{scopeTitle}"</source>
+        <source>Could not publish changes to document "{scopeTitle}"</source>
       </trans-unit>
       <trans-unit id="publish.document.confirmation.message" xml:space="preserve">
-        <source>Are you sure that you want to publish all {numberOfChanges} change(s) in document "{scopeTitle}" from workspace "{sourceWorkspaceName}" to workspace "{targetWorkspaceName}"? Be careful: This cannot be undone!</source>
+        <source>Do you want to instead publish {numberOfChanges} change(s) in to workspace "{targetWorkspaceName}"? Be careful: This cannot be undone!</source>
       </trans-unit>
       <trans-unit id="publish.document.confirmation.cancel" xml:space="preserve">
         <source>No, cancel</source>
       </trans-unit>
       <trans-unit id="publish.document.confirmation.confirm" xml:space="preserve">
-        <source>Yes, publish</source>
+        <source>Yes, publish all changes in site instead</source>
       </trans-unit>
       <trans-unit id="publish.document.process.title" xml:space="preserve">
         <source>Publishing all changes in document "{scopeTitle}"...</source>

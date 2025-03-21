@@ -40,18 +40,19 @@ type PublishingDialogProperties =
         sourceWorkspaceName: string;
         targetWorkspaceName: null | string;
         numberOfChanges: number;
+        numberOfSiteChanges: null | number;
     };
 
 type PublishingDialogHandlers = {
     cancel: () => void;
     confirm: () => void;
+    start: (mode: PublishingMode, scope: PublishingScope, requireConfirmation: boolean) => void;
     retry: () => void;
     acknowledge: () => void;
 }
 
 type PublishingDialogProps =
     PublishingDialogProperties & PublishingDialogHandlers;
-
 const PublishingDialog: React.FC<PublishingDialogProps> = (props) => {
     const handleCancel = React.useCallback(() => {
         props.cancel();
@@ -64,6 +65,9 @@ const PublishingDialog: React.FC<PublishingDialogProps> = (props) => {
     }, []);
     const handleAcknowledge = React.useCallback(() => {
         props.acknowledge();
+    }, []);
+    const handleStart = React.useCallback(() => {
+        props.start(PublishingMode.PUBLISH, PublishingScope.SITE, true);
     }, []);
 
     if (props.publishingState === null) {
@@ -80,6 +84,7 @@ const PublishingDialog: React.FC<PublishingDialogProps> = (props) => {
                     sourceWorkspaceName={props.sourceWorkspaceName}
                     targetWorkspaceName={props.targetWorkspaceName}
                     numberOfChanges={props.numberOfChanges}
+                    numberOfSiteChanges={props.numberOfSiteChanges}
                     onAbort={handleCancel}
                     onConfirm={handleConfirm}
                     />
@@ -102,7 +107,21 @@ const PublishingDialog: React.FC<PublishingDialogProps> = (props) => {
 
         case PublishingPhase.CONFLICTS:
             return null;
-
+        case PublishingPhase.PARTIAL_PUBLISH_CONFLICTS:
+            console.log('publishing phase')
+            return (
+                <ConfirmationDialog
+                    mode={props.publishingState.mode}
+                    scope={props.publishingState.scope}
+                    scopeTitle={props.scopeTitle}
+                    sourceWorkspaceName={props.sourceWorkspaceName}
+                    targetWorkspaceName={props.targetWorkspaceName}
+                    numberOfChanges={props.numberOfChanges}
+                    numberOfSiteChanges={props.numberOfSiteChanges}
+                    onAbort={handleCancel}
+                    onConfirm={handleStart}
+                />
+            );
         case PublishingPhase.ERROR:
         case PublishingPhase.SUCCESS:
             return (
@@ -160,6 +179,8 @@ export default connect((state: GlobalState): PublishingDialogProperties => {
         numberOfChanges = publishableNodesInDocumentSelector(state).length;
     }
 
+    const numberOfSiteChanges = publishableNodesSelector(state).length;
+
     let scopeTitle = 'N/A';
     if (scope === PublishingScope.ALL) {
         scopeTitle = sourceWorkspaceName;
@@ -174,10 +195,12 @@ export default connect((state: GlobalState): PublishingDialogProperties => {
         sourceWorkspaceName,
         targetWorkspaceName,
         numberOfChanges,
+        numberOfSiteChanges,
         scopeTitle
     };
 }, {
     confirm: (actions as any).CR.Publishing.confirm,
+    start: (actions as any).CR.Publishing.start,
     cancel: (actions as any).CR.Publishing.cancel,
     retry: (actions as any).CR.Publishing.retry,
     acknowledge: (actions as any).CR.Publishing.acknowledge
