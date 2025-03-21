@@ -44,12 +44,6 @@
       <trans-unit id="resolutionStrategy.selection.option.DISCARD_ALL.description" xml:space="preserve">
         <source>This will discard all changes in your workspace, including those on other sites.</source>
       </trans-unit>
-      <trans-unit id="resolutionStrategy.selection.option.PUBLISH_ALL.label" xml:space="preserve">
-        <source>Publish all changes to workspace "{workspaceName}"</source>
-      </trans-unit>
-      <trans-unit id="resolutionStrategy.selection.option.PUBLISH_ALL.description" xml:space="preserve">
-        <source>This will publish all changes in your workspace, including those on other sites.</source>
-      </trans-unit>
       <trans-unit id="resolutionStrategy.selection.cancel" xml:space="preserve">
         <source>Cancel Synchronization</source>
       </trans-unit>
@@ -64,25 +58,11 @@
 
         Do you wish to proceed? Be careful: This cannot be undone!</source>
       </trans-unit>
-      <trans-unit id="resolutionStrategy.PUBLISH_ALL.confirmation.title" xml:space="preserve">
-        <source>Publish all changes in workspace "{workspaceName}"</source>
-      </trans-unit>
-      <trans-unit id="resolutionStrategy.PUBLISH_ALL.confirmation.message" xml:space="preserve">
-        <source>You are about to publish all changes in workspace "{workspaceName}". This includes all changes on other sites.
-
-        Do you wish to proceed? Be careful: This cannot be undone!</source>
-      </trans-unit>
       <trans-unit id="resolutionStrategy.DISCARD_ALL.confirmation.cancel" xml:space="preserve">
         <source>No, cancel</source>
       </trans-unit>
       <trans-unit id="resolutionStrategy.DISCARD_ALL.confirmation.confirm" xml:space="preserve">
         <source>Yes, discard everything</source>
-      </trans-unit>
-      <trans-unit id="resolutionStrategy.PUBLISH_ALL.confirmation.cancel" xml:space="preserve">
-        <source>No, cancel</source>
-      </trans-unit>
-      <trans-unit id="resolutionStrategy.PUBLISH_ALL.confirmation.confirm" xml:space="preserve">
-        <source>Yes, publish everything</source>
       </trans-unit>
       <trans-unit id="resolutionStrategy.FORCE.confirmation.conflicts.label" xml:space="preserve">
         <source>You are about to drop the following changes:</source>
