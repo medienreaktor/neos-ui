@@ -145,12 +145,12 @@ export function * watchPublishing({routes}: {routes: Routes}) {
                 }
                 yield * reloadAfterPublishing();
             } else if ('conflicts' in result && result.isPartialPublish) {
-                console.log('partial publish');
                 yield put(actions.CR.Publishing.partialPublishConflict());
             } else if ('conflicts' in result && !result.isPartialPublish) {
                 yield put(actions.CR.Publishing.conflicts());
 
-                const conflictsWereResolved = yield * resolveConflicts(result.conflicts);
+                const conflictsWereResolved: boolean =
+                    yield * resolveConflicts(result.conflicts);
 
                 if (conflictsWereResolved) {
                     yield put(actions.CR.Publishing.resolveConflicts());

@@ -75,16 +75,16 @@
         <source>OK</source>
       </trans-unit>
       <trans-unit id="publish.document.confirmation.title" xml:space="preserve">
-        <source>Could not publish changes to document "{scopeTitle}"</source>
+        <source>Publish all changes in document "{scopeTitle}"</source>
       </trans-unit>
       <trans-unit id="publish.document.confirmation.message" xml:space="preserve">
-        <source>Do you want to instead publish {numberOfChanges} change(s) in to workspace "{targetWorkspaceName}"? Be careful: This cannot be undone!</source>
+        <source>Are you sure that you want to publish all {numberOfChanges} change(s) in document "{scopeTitle}" from workspace "{sourceWorkspaceName}" to workspace "{targetWorkspaceName}"? Be careful: This cannot be undone!</source>
       </trans-unit>
       <trans-unit id="publish.document.confirmation.cancel" xml:space="preserve">
         <source>No, cancel</source>
       </trans-unit>
       <trans-unit id="publish.document.confirmation.confirm" xml:space="preserve">
-        <source>Yes, publish all changes in site instead</source>
+        <source>Yes, publish</source>
       </trans-unit>
       <trans-unit id="publish.document.process.title" xml:space="preserve">
         <source>Publishing all changes in document "{scopeTitle}"...</source>
@@ -109,6 +109,19 @@
       </trans-unit>
       <trans-unit id="publish.document.success.acknowledge" xml:space="preserve">
         <source>OK</source>
+      </trans-unit>
+      <trans-unit id="publishAll.document.confirmation.title" xml:space="preserve">
+        <source>Could not publish changes in document "{scopeTitle}"</source>
+      </trans-unit>
+      <trans-unit id="publishAll.document.confirmation.message" xml:space="preserve">
+        <source>There seem to be dependencies to other documents.
+          Do you want to instead publish all changes in site to workspace "{targetWorkspaceName}"? Be careful: This cannot be undone!</source>
+      </trans-unit>
+      <trans-unit id="publishAll.document.confirmation.cancel" xml:space="preserve">
+        <source>No, cancel</source>
+      </trans-unit>
+      <trans-unit id="publishAll.document.confirmation.confirm" xml:space="preserve">
+        <source>Yes, publish all changes in site</source>
       </trans-unit>
       <trans-unit id="discard.all.confirmation.title" xml:space="preserve">
         <source>Discard all changes in workspace "{scopeTitle}"</source>

@@ -61,7 +61,6 @@ export enum actionTypes {
     CONFLICTS_OCCURRED = '@neos/neos-ui/CR/Publishing/CONFLICTS_OCCURRED',
     CONFLICTS_RESOLVED = '@neos/neos-ui/CR/Publishing/CONFLICTS_RESOLVED',
     PARTIAL_PUBLISH_CONFLICTS_OCCURRED = '@neos/neos-ui/CR/Publishing/PARTIAL_PUBLISH_CONFLICTS_OCCURRED',
-    PARTIAL_PUBLISH_CONFLICTS_RESOLVED = '@neos/neos-ui/CR/Publishing/PARTIAL_PUBLISH_CONFLICTS_RESOLVED',
     FAILED = '@neos/neos-ui/CR/Publishing/FAILED',
     RETRIED = '@neos/neos-ui/CR/Publishing/RETRIED',
     SUCEEDED = '@neos/neos-ui/CR/Publishing/SUCEEDED',
@@ -101,11 +100,6 @@ const resolveConflicts = () => createAction(actionTypes.CONFLICTS_RESOLVED);
 const partialPublishConflict = () => createAction(actionTypes.PARTIAL_PUBLISH_CONFLICTS_OCCURRED);
 
 /**
- * Signal that partial publish conflict has been resolved during the publish/discard operation
- */
-const resolvePartialPublishConflict = () => createAction(actionTypes.PARTIAL_PUBLISH_CONFLICTS_RESOLVED);
-
-/**
  * Signal that the ongoing publish/discard workflow has failed
  */
 const fail = (error: null | AnyError) =>
@@ -142,7 +136,6 @@ export const actions = {
     conflicts,
     resolveConflicts,
     partialPublishConflict,
-    resolvePartialPublishConflict,
     fail,
     retry,
     succeed,
@@ -212,14 +205,6 @@ export const reducer = (state: State = defaultState, action: Action): State => {
                 ...state,
                 process: {
                     phase: PublishingPhase.PARTIAL_PUBLISH_CONFLICTS
-                }
-            };
-        case actionTypes.PARTIAL_PUBLISH_CONFLICTS_RESOLVED:
-            return {
-                ...state,
-                process: {
-                    phase: PublishingPhase.ONGOING,
-                    autoConfirmed: false
                 }
             };
         case actionTypes.FAILED:

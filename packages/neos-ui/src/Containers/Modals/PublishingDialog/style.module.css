@@ -91,6 +91,10 @@
     color: var(--colors-Error);
     font-size: 48px;
 }
+.diagram__process__icon--warn {
+    color: var(--colors-Warn);
+    font-size: 48px;
+}
 .diagram__process__icon--success {
     color: var(--colors-Success);
     font-size: 48px;

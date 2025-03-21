@@ -23,6 +23,7 @@ import {
 import {ConfirmationDialog} from './ConfirmationDialog';
 import {ProcessIndicator} from './ProcessIndicator';
 import {ResultDialog} from './ResultDialog';
+import {PublishAllDialog} from './PublishAllDialog';
 
 const {
     publishableNodesSelector,
@@ -40,7 +41,7 @@ type PublishingDialogProperties =
         sourceWorkspaceName: string;
         targetWorkspaceName: null | string;
         numberOfChanges: number;
-        numberOfSiteChanges: null | number;
+        numberOfSiteChanges: number;
     };
 
 type PublishingDialogHandlers = {
@@ -84,7 +85,6 @@ const PublishingDialog: React.FC<PublishingDialogProps> = (props) => {
                     sourceWorkspaceName={props.sourceWorkspaceName}
                     targetWorkspaceName={props.targetWorkspaceName}
                     numberOfChanges={props.numberOfChanges}
-                    numberOfSiteChanges={props.numberOfSiteChanges}
                     onAbort={handleCancel}
                     onConfirm={handleConfirm}
                     />
@@ -110,7 +110,7 @@ const PublishingDialog: React.FC<PublishingDialogProps> = (props) => {
         case PublishingPhase.PARTIAL_PUBLISH_CONFLICTS:
             console.log('publishing phase')
             return (
-                <ConfirmationDialog
+                <PublishAllDialog
                     mode={props.publishingState.mode}
                     scope={props.publishingState.scope}
                     scopeTitle={props.scopeTitle}
