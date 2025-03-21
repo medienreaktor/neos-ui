@@ -106,7 +106,6 @@ final class PublishChangesInDocumentCommandHandler
                 1705053432,
                 $e
             );
-
         }
     }
 }
