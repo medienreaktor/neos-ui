@@ -15,8 +15,8 @@ namespace Neos\Neos\Ui\Controller;
  */
 
 use Neos\ContentRepository\Core\DimensionSpace\DimensionSpacePoint;
-use Neos\ContentRepository\Core\Feature\WorkspaceModification\Exception\WorkspaceIsNotEmptyException;
 use Neos\ContentRepository\Core\Feature\WorkspaceRebase\Dto\RebaseErrorHandlingStrategy;
+use Neos\ContentRepository\Core\SharedModel\Exception\WorkspaceContainsPublishableChanges;
 use Neos\ContentRepository\Core\SharedModel\Node\NodeAddress;
 use Neos\ContentRepository\Core\SharedModel\Workspace\WorkspaceName;
 use Neos\ContentRepositoryRegistry\ContentRepositoryRegistry;
@@ -435,7 +435,7 @@ class BackendServiceController extends ActionController
 
         try {
             $this->workspacePublishingService->changeBaseWorkspace($documentNodeAddress->contentRepositoryId, $userWorkspace->workspaceName, WorkspaceName::fromString($targetWorkspaceName));
-        } catch (WorkspaceIsNotEmptyException $workspaceIsNotEmptyException) {
+        } catch (WorkspaceContainsPublishableChanges $workspaceIsNotEmptyException) {
             $this->throwableStorage2->logThrowable($workspaceIsNotEmptyException);
             $error = new Error();
             $error->setMessage(
