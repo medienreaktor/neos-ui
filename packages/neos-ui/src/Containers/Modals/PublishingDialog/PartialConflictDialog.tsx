@@ -33,8 +33,7 @@ const PartialConfictDialogVariants = {
         message: {
             id: 'Neos.Neos.Ui:PublishingDialog:partialConflict.document.confirmation.message',
             fallback: (props: { scopeTitle: string; sourceWorkspaceName: string; targetWorkspaceName: null | string; }) =>
-                `There seem to be dependencies to other documents.
-                    Do you want to instead publish all changes in site to workspace "${props.targetWorkspaceName}"? Be careful: This cannot be undone!`
+                `There seem to be dependencies to other documents. Do you want to instead publish all changes in site to workspace "${props.targetWorkspaceName}"?`
         },
         cancel: {
             id: 'Neos.Neos.Ui:PublishingDialog:partialConflict.document.confirmation.cancel',

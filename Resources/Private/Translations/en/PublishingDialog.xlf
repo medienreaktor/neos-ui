@@ -114,8 +114,7 @@
         <source>Could not publish changes in document "{scopeTitle}"</source>
       </trans-unit>
       <trans-unit id="partialConflict.document.confirmation.message" xml:space="preserve">
-        <source>There seem to be dependencies to other documents.
-          Do you want to instead publish all changes in site to workspace "{targetWorkspaceName}"? Be careful: This cannot be undone!</source>
+        <source>There seem to be dependencies to other documents. Do you want to instead publish all changes in site to workspace "{targetWorkspaceName}"?</source>
       </trans-unit>
       <trans-unit id="partialConflict.document.confirmation.cancel" xml:space="preserve">
         <source>No, cancel</source>
