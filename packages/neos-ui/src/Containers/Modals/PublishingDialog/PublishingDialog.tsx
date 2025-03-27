@@ -108,7 +108,6 @@ const PublishingDialog: React.FC<PublishingDialogProps> = (props) => {
         case PublishingPhase.CONFLICTS:
             return null;
         case PublishingPhase.PARTIAL_PUBLISH_CONFLICTS:
-            console.log('publishing phase')
             return (
                 <PublishAllDialog
                     mode={props.publishingState.mode}
