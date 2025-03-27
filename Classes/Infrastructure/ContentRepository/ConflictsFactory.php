@@ -88,23 +88,6 @@ final class ConflictsFactory
         return new Conflicts(...$conflictsByKey);
     }
 
-    public function fromPartialWorkspaceRebaseFailed(
-        PartialWorkspaceRebaseFailed $partialWorkspaceRebaseFailed
-    ): Conflicts {
-        /** @var array<string,Conflict> */
-        $conflictsByKey = [];
-
-        foreach ($partialWorkspaceRebaseFailed->conflictingEvents as $conflictingEvent) {
-            $conflict = $this->createConflict($conflictingEvent);
-            if (!array_key_exists($conflict->key, $conflictsByKey)) {
-                // deduplicate if the conflict affects the same node
-                $conflictsByKey[$conflict->key] = $conflict;
-            }
-        }
-
-        return new Conflicts(...$conflictsByKey);
-    }
-
     private function createConflict(
         ConflictingEvent $conflictingEvent
     ): Conflict {

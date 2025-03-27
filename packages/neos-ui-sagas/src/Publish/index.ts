@@ -35,7 +35,8 @@ type PublishingResponse =
             numberOfAffectedChanges: number;
         }
     }
-    | { conflicts: Conflict[], isPartialPublish: boolean }
+    | { conflicts: Conflict[] }
+    | { isPartialPublish: boolean }
     | { error: AnyError };
 
 const PUBLISH_SUCCESS_TRANSLATIONS = {
@@ -144,9 +145,9 @@ export function * watchPublishing({routes}: {routes: Routes}) {
                     yield put(actions.CR.Publishing.finish());
                 }
                 yield * reloadAfterPublishing();
-            } else if ('conflicts' in result && result.isPartialPublish) {
+            } else if ('isPartialPublish' in result) {
                 yield put(actions.CR.Publishing.partialPublishConflict());
-            } else if ('conflicts' in result && !result.isPartialPublish) {
+            } else if ('conflicts' in result) {
                 yield put(actions.CR.Publishing.conflicts());
 
                 const conflictsWereResolved: boolean =

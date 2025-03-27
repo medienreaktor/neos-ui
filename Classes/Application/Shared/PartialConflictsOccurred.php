@@ -20,10 +20,10 @@ use Neos\Flow\Annotations as Flow;
  * @internal for communication within the Neos UI only
  */
 #[Flow\Proxy(false)]
-final readonly class ConflictsOccurred implements \JsonSerializable
+final readonly class PartialConflictsOccurred implements \JsonSerializable
 {
     public function __construct(
-        public readonly Conflicts $conflicts
+        public readonly bool $isPartialPublish = true
     ) {
     }
 

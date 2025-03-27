@@ -23,6 +23,7 @@ use Neos\Flow\Annotations as Flow;
 use Neos\Neos\Domain\NodeLabel\NodeLabelGeneratorInterface;
 use Neos\Neos\Domain\Service\WorkspacePublishingService;
 use Neos\Neos\Ui\Application\Shared\ConflictsOccurred;
+use Neos\Neos\Ui\Application\Shared\PartialConflictsOccurred;
 use Neos\Neos\Ui\Application\Shared\PublishSucceeded;
 use Neos\Neos\Ui\Controller\TranslationTrait;
 use Neos\Neos\Ui\Infrastructure\ContentRepository\ConflictsFactory;
@@ -52,7 +53,7 @@ final class PublishChangesInDocumentCommandHandler
      */
     public function handle(
         PublishChangesInDocumentCommand $command
-    ): PublishSucceeded|ConflictsOccurred {
+    ): PublishSucceeded|ConflictsOccurred|PartialConflictsOccurred {
         try {
             $publishingResult = $this->workspacePublishingService->publishChangesInDocument(
                 $command->contentRepositoryId,
@@ -78,20 +79,10 @@ final class PublishChangesInDocumentCommandHandler
             );
 
             return new ConflictsOccurred(
-                conflicts: $conflictsFactory->fromWorkspaceRebaseFailed($e),
-                isPartialPublish: false
+                conflicts: $conflictsFactory->fromWorkspaceRebaseFailed($e)
             );
         } catch (PartialWorkspaceRebaseFailed $e) {
-            $conflictsFactory = new ConflictsFactory(
-                contentRepository: $this->contentRepositoryRegistry
-                    ->get($command->contentRepositoryId),
-                nodeLabelGenerator: $this->nodeLabelGenerator,
-                workspaceName: $command->workspaceName,
-                preferredDimensionSpacePoint: $command->preferredDimensionSpacePoint
-            );
-
-            return new ConflictsOccurred(
-                conflicts: $conflictsFactory->fromPartialWorkspaceRebaseFailed($e),
+            return new PartialConflictsOccurred(
                 isPartialPublish: true
             );
         } catch (NodeAggregateCurrentlyDoesNotExist $e) {
