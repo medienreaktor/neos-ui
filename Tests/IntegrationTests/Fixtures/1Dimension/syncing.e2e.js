@@ -17,6 +17,8 @@ import {
 fixture`Syncing`
     .afterEach(() => checkPropTypes());
 
+fixture.skip`TODO After soft removals conflict resolution never imposes a conflict, maybe remove conflict resolution in the Neos ui???`;
+
 test('Syncing: Create a conflict state between two editors and choose "Discard all" as a resolution strategy during rebase', async t => {
     await prepareContentElementConflictBetweenAdminAndEditor(t);
     await chooseDiscardAllAsResolutionStrategy(t);

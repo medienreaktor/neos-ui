@@ -187,8 +187,8 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
         $nodeAddress = NodeAddress::fromNode($node);
 
         return [
+            // todo rename eventually rename to nodeAddress
             'contextPath' => $nodeAddress->toJson(),
-            'nodeAddress' => $nodeAddress->toJson(),
             'name' => $node->name?->value ?? '',
             'identifier' => $node->aggregateId->jsonSerialize(),
             'nodeType' => $node->nodeTypeName->value,
