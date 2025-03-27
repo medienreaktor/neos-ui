@@ -24,7 +24,7 @@ export enum SyncingPhase {
 
 export enum ResolutionStrategy {
     FORCE,
-    DISCARD_ALL,
+    DISCARD_ALL
 }
 
 export enum ReasonForConflict {
