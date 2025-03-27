@@ -20,6 +20,7 @@ use Neos\ContentRepository\Core\SharedModel\Exception\NodeAggregateCurrentlyDoes
 use Neos\ContentRepository\Core\SharedModel\Exception\NodeAggregateDoesCurrentlyNotCoverDimensionSpacePoint;
 use Neos\ContentRepositoryRegistry\ContentRepositoryRegistry;
 use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Log\ThrowableStorageInterface;
 use Neos\Neos\Domain\NodeLabel\NodeLabelGeneratorInterface;
 use Neos\Neos\Domain\Service\WorkspacePublishingService;
 use Neos\Neos\Ui\Application\Shared\ConflictsOccurred;
@@ -47,6 +48,9 @@ final class PublishChangesInDocumentCommandHandler
 
     #[Flow\Inject]
     protected NodeLabelGeneratorInterface $nodeLabelGenerator;
+
+    #[Flow\Inject]
+    protected ThrowableStorageInterface $throwableStorage;
 
     /**
      * @throws NodeAggregateCurrentlyDoesNotExist
@@ -82,6 +86,7 @@ final class PublishChangesInDocumentCommandHandler
                 conflicts: $conflictsFactory->fromWorkspaceRebaseFailed($e)
             );
         } catch (PartialWorkspaceRebaseFailed $e) {
+            $this->throwableStorage->logThrowable($e);
             return new PartialConflictsOccurred(
                 isPartialPublish: true
             );
