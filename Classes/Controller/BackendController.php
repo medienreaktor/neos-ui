@@ -144,7 +144,7 @@ class BackendController extends ActionController
      * @param string $node The node that will be displayed on the first tab
      * @return void
      */
-    public function indexAction(string $node = null)
+    public function indexAction(?string $node = null)
     {
         $siteDetectionResult = SiteDetectionResult::fromRequest($this->request->getHttpRequest());
         $contentRepository = $this->contentRepositoryRegistry->get($siteDetectionResult->contentRepositoryId);

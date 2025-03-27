@@ -283,7 +283,7 @@ class NodePropertyConverterService
 
     protected function setTypeConverterForType(
         PropertyMappingConfiguration $propertyMappingConfiguration,
-        string $dataType = null
+        ?string $dataType = null
     ): bool {
         $typeConverterClassName = $this->typesConfiguration[$dataType]['typeConverter'] ?? null;
         if (!is_string($typeConverterClassName)) {

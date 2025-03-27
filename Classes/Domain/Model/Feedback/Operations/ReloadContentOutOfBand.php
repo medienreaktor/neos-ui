@@ -69,7 +69,7 @@ class ReloadContentOutOfBand extends AbstractFeedback
         return $this->node;
     }
 
-    public function setNodeDomAddress(RenderedNodeDomAddress $nodeDomAddress = null): void
+    public function setNodeDomAddress(?RenderedNodeDomAddress $nodeDomAddress = null): void
     {
         $this->nodeDomAddress = $nodeDomAddress;
     }

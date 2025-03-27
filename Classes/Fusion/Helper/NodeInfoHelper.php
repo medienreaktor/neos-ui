@@ -88,8 +88,8 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
      */
     public function renderNodeWithMinimalPropertiesAndChildrenInformation(
         Node $node,
-        ActionRequest $actionRequest = null,
-        string $nodeTypeFilterOverride = null
+        ?ActionRequest $actionRequest = null,
+        ?string $nodeTypeFilterOverride = null
     ): ?array {
         /** @todo implement custom node policy service
         if (!$this->nodePolicyService->isNodeTreePrivilegeGranted($node)) {
@@ -131,8 +131,8 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
      */
     public function renderNodeWithPropertiesAndChildrenInformation(
         Node $node,
-        ActionRequest $actionRequest = null,
-        string $nodeTypeFilterOverride = null
+        ?ActionRequest $actionRequest = null,
+        ?string $nodeTypeFilterOverride = null
     ): ?array {
         /** @todo implement custom node policy service
         if (!$this->nodePolicyService->isNodeTreePrivilegeGranted($node)) {
