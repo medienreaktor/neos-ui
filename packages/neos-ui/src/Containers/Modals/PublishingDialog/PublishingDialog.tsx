@@ -23,7 +23,7 @@ import {
 import {ConfirmationDialog} from './ConfirmationDialog';
 import {ProcessIndicator} from './ProcessIndicator';
 import {ResultDialog} from './ResultDialog';
-import {PublishAllDialog} from './PublishAllDialog';
+import {PartialConflictDialog} from './PartialConflictDialog';
 
 const {
     publishableNodesSelector,
@@ -109,7 +109,7 @@ const PublishingDialog: React.FC<PublishingDialogProps> = (props) => {
             return null;
         case PublishingPhase.PARTIAL_PUBLISH_CONFLICTS:
             return (
-                <PublishAllDialog
+                <PartialConflictDialog
                     mode={props.publishingState.mode}
                     scope={props.publishingState.scope}
                     scopeTitle={props.scopeTitle}

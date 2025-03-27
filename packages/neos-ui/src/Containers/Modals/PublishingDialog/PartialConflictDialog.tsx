@@ -17,8 +17,8 @@ import {Diagram} from './Diagram';
 
 import style from './style.module.css';
 
-const PublishAllDialogVariants = {
-    id: 'neos-PublishAllDialog',
+const PartialConfictDialogVariants = {
+    id: 'neos-partialConflictDialog',
     style: 'warn',
     icon: {
         title: 'share-square-o',
@@ -26,28 +26,28 @@ const PublishAllDialogVariants = {
     },
     label: {
         title: {
-            id: 'Neos.Neos.Ui:PublishingDialog:publishAll.document.confirmation.title',
+            id: 'Neos.Neos.Ui:PublishingDialog:partialConflict.document.confirmation.title',
             fallback: (props: { scopeTitle: string; }) =>
                 `Could not publish changes in document "${props.scopeTitle}"`
         },
         message: {
-            id: 'Neos.Neos.Ui:PublishingDialog:publishAll.document.confirmation.message',
+            id: 'Neos.Neos.Ui:PublishingDialog:partialConflict.document.confirmation.message',
             fallback: (props: { scopeTitle: string; sourceWorkspaceName: string; targetWorkspaceName: null | string; }) =>
                 `There seem to be dependencies to other documents.
                     Do you want to instead publish all changes in site to workspace "${props.targetWorkspaceName}"? Be careful: This cannot be undone!`
         },
         cancel: {
-            id: 'Neos.Neos.Ui:PublishingDialog:publishAll.document.confirmation.cancel',
+            id: 'Neos.Neos.Ui:PublishingDialog:partialConflict.document.confirmation.cancel',
             fallback: 'No, cancel'
         },
         confirm: {
-            id: 'Neos.Neos.Ui:PublishingDialog:publishAll.document.confirmation.confirm',
+            id: 'Neos.Neos.Ui:PublishingDialog:partialConflict.document.confirmation.confirm',
             fallback: 'Yes, publish all changes in site'
         }
     }
 } as const;
 
-type PublishAllDialogProps = {
+type PartialConflictDialogProps = {
     mode: PublishingMode;
     scope: PublishingScope;
     scopeTitle: string;
@@ -59,8 +59,8 @@ type PublishAllDialogProps = {
     onConfirm: () => void;
 }
 
-export const PublishAllDialog: React.FC<PublishAllDialogProps> = (props) => {
-    const variant = PublishAllDialogVariants;
+export const PartialConflictDialog: React.FC<PartialConflictDialogProps> = (props) => {
+    const variant = PartialConfictDialogVariants;
 
     return (
         <Dialog
