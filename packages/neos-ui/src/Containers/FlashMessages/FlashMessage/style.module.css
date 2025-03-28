@@ -26,6 +26,10 @@
     background-color: var(--colors-PrimaryBlue);
 }
 
+.flashMessage--warning {
+    background-color: var(--colors-Warn);
+}
+
 .flashMessage__icon {
     position: absolute;
     left: 0;

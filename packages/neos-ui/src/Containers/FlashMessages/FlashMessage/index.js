@@ -33,18 +33,21 @@ export default class FlashMessage extends PureComponent {
         const isSuccess = severity === 'success';
         const isError = severity === 'error';
         const isInfo = severity === 'info';
+        const isWarning = severity === 'warning';
 
         const flashMessageClasses = mergeClassNames({
             [style.flashMessage]: true,
             [style['flashMessage--success']]: isSuccess,
             [style['flashMessage--error']]: isError,
-            [style['flashMessage--info']]: isInfo
+            [style['flashMessage--info']]: isInfo,
+            [style['flashMessage--warning']]: isWarning
         });
 
         const iconName = mergeClassNames({
             check: isSuccess,
             ban: isError,
-            info: isInfo
+            info: isInfo,
+            warning: isWarning
         }) || 'info';
 
         return (

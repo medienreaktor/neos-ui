@@ -65,7 +65,7 @@ export const reducer = (state: State = defaultState, action: InitAction | Action
     switch (action.type) {
         case actionTypes.ADD: {
             const message = action.payload;
-            const allowedSeverities = ['success', 'error', 'info'];
+            const allowedSeverities = ['success', 'error', 'info', 'warning'];
             const {id, severity} = message;
             const messageContents = message.message;
 

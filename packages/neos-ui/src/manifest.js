@@ -201,6 +201,7 @@ manifest('main', {}, (globalRegistry, {routes}) => {
     };
     serverFeedbackHandlers.set('Neos.Neos.Ui:Success/Main', flashMessageFeedbackHandler);
     serverFeedbackHandlers.set('Neos.Neos.Ui:Error/Main', flashMessageFeedbackHandler);
+    serverFeedbackHandlers.set('Neos.Neos.Ui:Warning/Main', flashMessageFeedbackHandler);
     serverFeedbackHandlers.set('Neos.Neos.Ui:Info/Main', feedbackPayload => {
         switch (feedbackPayload.severity) {
             case 'ERROR':
