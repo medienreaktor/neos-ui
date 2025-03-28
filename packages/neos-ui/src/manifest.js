@@ -196,11 +196,12 @@ manifest('main', {}, (globalRegistry, {routes}) => {
         const {message, severity} = feedbackPayload;
         const timeout = severity.toLowerCase() === 'success' ? 5000 : 0;
         const id = uuid.v4();
-
+        console.log(message);
         store.dispatch(actions.UI.FlashMessages.add(id, message, severity, timeout));
     };
     serverFeedbackHandlers.set('Neos.Neos.Ui:Success/Main', flashMessageFeedbackHandler);
     serverFeedbackHandlers.set('Neos.Neos.Ui:Error/Main', flashMessageFeedbackHandler);
+    serverFeedbackHandlers.set('Neos.Neos.Ui:Warning/Main', flashMessageFeedbackHandler);
     serverFeedbackHandlers.set('Neos.Neos.Ui:Info/Main', feedbackPayload => {
         switch (feedbackPayload.severity) {
             case 'ERROR':
