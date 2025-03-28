@@ -196,7 +196,7 @@ manifest('main', {}, (globalRegistry, {routes}) => {
         const {message, severity} = feedbackPayload;
         const timeout = severity.toLowerCase() === 'success' ? 5000 : 0;
         const id = uuid.v4();
-        console.log(message);
+
         store.dispatch(actions.UI.FlashMessages.add(id, message, severity, timeout));
     };
     serverFeedbackHandlers.set('Neos.Neos.Ui:Success/Main', flashMessageFeedbackHandler);
