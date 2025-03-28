@@ -47,7 +47,7 @@ test(`The "add" action should throw an error if an invalid "severity" was passed
     const fn = () => reducer(undefined, actions.add('myMessageId', 'myMessage', null));
 
     expect(fn).toThrowError(
-        'Invalid "severity" specified while adding a new FlashMessage. Allowed severities are success error info.'
+        'Invalid "severity" specified while adding a new FlashMessage. Allowed severities are success error info warning.'
     );
 });
 
