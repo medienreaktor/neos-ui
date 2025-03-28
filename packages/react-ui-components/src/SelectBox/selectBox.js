@@ -44,6 +44,11 @@ export default class SelectBox extends PureComponent {
         disabled: PropTypes.bool,
 
         /**
+         * Optional id for the element
+         */
+        id: PropTypes.string,
+
+        /**
          * Additional className wich will be applied
          */
         className: PropTypes.string,
@@ -190,6 +195,7 @@ export default class SelectBox extends PureComponent {
 
     render() {
         const {
+            id,
             options,
             theme,
             showDropDownToggle,
@@ -226,11 +232,11 @@ export default class SelectBox extends PureComponent {
         });
 
         return (
-            <DropDown.Stateless className={theme.selectBox} isOpen={isExpanded} onToggle={this.handleToggleExpanded} onClose={this.handleClose}>
-                <DropDown.Header className={headerClassName} shouldKeepFocusState={false} showDropDownToggle={showDropDownToggle && Boolean(options.length)}>
+            <DropDown.Stateless id={id} className={theme.selectBox} isOpen={isExpanded} onToggle={this.handleToggleExpanded} onClose={this.handleClose}>
+                <DropDown.Header id={id ? `${id}-header` : undefined} className={headerClassName} shouldKeepFocusState={false} showDropDownToggle={showDropDownToggle && Boolean(options.length)}>
                     {this.renderHeader()}
                 </DropDown.Header>
-                <DropDown.Contents className={dropDownContentsClassName} scrollable={true}>
+                <DropDown.Contents id={id ? `${id}-contents` : undefined} className={dropDownContentsClassName} scrollable={true}>
                     {!plainInputMode && <ul className={theme.selectBox__list}>
                         <SelectBox_ListPreview
                             {...this.props}
@@ -271,12 +277,11 @@ export default class SelectBox extends PureComponent {
         // Compare selected value less strictly: allow loose comparision and deep equality of objects
         const selectedOption = options.find(option => optionValueAccessor(option) == value || isEqual(optionValueAccessor(option), value)); // eslint-disable-line eqeqeq
 
+        /* eslint-disable no-eq-null, eqeqeq */ // to check for null or undefined, we cannot use the isNil helper as it's not published to npm
+        const valueIsEmpty = value == null || value === '';
         if (
             displaySearchBox && (
-                // check for null or undefined
-                /* eslint-disable no-eq-null, eqeqeq */
-                value == null ||
-                value === '' ||
+                valueIsEmpty ||
                 this.state.isExpanded ||
                 plainInputMode
             )
@@ -292,7 +297,7 @@ export default class SelectBox extends PureComponent {
             );
         }
 
-        const showResetButton = Boolean(allowEmpty && !displayLoadingIndicator && value);
+        const showResetButton = allowEmpty && !displayLoadingIndicator && !valueIsEmpty;
 
         return (
             <SelectBox_Header

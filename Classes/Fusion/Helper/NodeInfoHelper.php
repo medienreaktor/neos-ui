@@ -155,7 +155,7 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
     /**
      * @param NodeInterface $node
      * @param ControllerContext|null $controllerContext
-     * @param string $nodeTypeFilterOverride
+     * @param string|null $nodeTypeFilterOverride
      * @return array|null
      */
     public function renderNodeWithPropertiesAndChildrenInformation(NodeInterface $node, ControllerContext $controllerContext = null, string $nodeTypeFilterOverride = null)
@@ -177,7 +177,7 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
             }
         }
 
-        $baseNodeType = $nodeTypeFilterOverride ? $nodeTypeFilterOverride : (isset($presetBaseNodeType) ? $presetBaseNodeType : $this->defaultBaseNodeType);
+        $baseNodeType = $nodeTypeFilterOverride ?: (isset($presetBaseNodeType) ? $presetBaseNodeType : $this->defaultBaseNodeType);
         $nodeInfo['children'] = $this->renderChildrenInformation($node, $baseNodeType);
 
         $this->userLocaleService->switchToUILocale(true);
@@ -246,10 +246,10 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
         $contentChildNodes = $node->getChildNodes($this->buildContentChildNodeFilterString());
         $childNodes = array_merge($documentChildNodes, $contentChildNodes);
 
-        $mapper = function (NodeInterface $childNode) {
+        $mapper = static function (NodeInterface $childNode) {
             return [
                 'contextPath' => $childNode->getContextPath(),
-                'nodeType' => $childNode->getNodeType()->getName() // TODO: DUPLICATED; should NOT be needed!!!
+                'nodeType' => $childNode->getNodeType()->getName()
             ];
         };
 
@@ -275,9 +275,10 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
     /**
      * @param array $nodes
      * @param ControllerContext $controllerContext
+     * @param null|string $nodeTypeFilter
      * @return array
      */
-    public function renderNodesWithParents(array $nodes, ControllerContext $controllerContext): array
+    public function renderNodesWithParents(array $nodes, ControllerContext $controllerContext, ?string $nodeTypeFilter = null): array
     {
         // For search operation we want to include all nodes, not respecting the "baseNodeType" setting
         $baseNodeTypeOverride = $this->documentNodeTypeRole;
@@ -287,7 +288,7 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
         foreach ($nodes as $node) {
             if (array_key_exists($node->getPath(), $renderedNodes)) {
                 $renderedNodes[$node->getPath()]['matched'] = true;
-            } elseif ($renderedNode = $this->renderNodeWithMinimalPropertiesAndChildrenInformation($node, $controllerContext, $baseNodeTypeOverride)) {
+            } elseif ($renderedNode = $this->renderNodeWithMinimalPropertiesAndChildrenInformation($node, $controllerContext, $nodeTypeFilter ?? $baseNodeTypeOverride)) {
                 $renderedNode['matched'] = true;
                 $renderedNodes[$node->getPath()] = $renderedNode;
             } else {

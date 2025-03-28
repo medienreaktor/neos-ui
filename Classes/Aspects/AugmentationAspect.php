@@ -40,21 +40,9 @@ class AugmentationAspect
 
     /**
      * @Flow\Inject
-     * @var UserLocaleService
-     */
-    protected $userLocaleService;
-
-    /**
-     * @Flow\Inject
      * @var HtmlAugmenter
      */
     protected $htmlAugmenter;
-
-    /**
-     * @Flow\Inject
-     * @var NodeInfoHelper
-     */
-    protected $nodeInfoHelper;
 
     /**
      * @Flow\Inject
@@ -126,16 +114,15 @@ class AugmentationAspect
         $attributes['data-__neos-node-contextpath'] = $node->getContextPath();
         $attributes['data-__neos-fusion-path'] = $fusionPath;
 
-        $this->userLocaleService->switchToUILocale();
-
-        $serializedNode = json_encode($this->nodeInfoHelper->renderNodeWithPropertiesAndChildrenInformation($node, $this->controllerContext));
-
-        $this->userLocaleService->switchToUILocale(true);
-
-        $wrappedContent = $this->htmlAugmenter->addAttributes($content, $attributes, 'div');
-        $wrappedContent .= "<script data-neos-nodedata>(function(){(this['@Neos.Neos.Ui:Nodes'] = this['@Neos.Neos.Ui:Nodes'] || {})['{$node->getContextPath()}'] = {$serializedNode}})()</script>";
-
-        return $wrappedContent;
+        // Define all attribute names as exclusive via the `exclusiveAttributes` parameter, to prevent the data of
+        // two different nodes to be concatenated into the attributes of a single html node.
+        // This way an outer div is added, if the wrapped content already has node related data-attributes set.
+        return $this->htmlAugmenter->addAttributes(
+            $content,
+            $attributes,
+            'div',
+            array_keys($attributes)
+        );
     }
 
     /**
@@ -155,6 +142,10 @@ class AugmentationAspect
         /** @var ContentContext $contentContext */
         $contentContext = $node->getContext();
         if (!$contentContext->isInBackend()) {
+            return $content;
+        }
+
+        if ($this->nodeAuthorizationService->isGrantedToEditNode($node) === false) {
             return $content;
         }
 
@@ -179,6 +170,6 @@ class AugmentationAspect
         /** @var $contentContext ContentContext */
         $contentContext = $node->getContext();
 
-        return ($contentContext->isInBackend() === true && ($renderCurrentDocumentMetadata === true || $this->nodeAuthorizationService->isGrantedToEditNode($node) === true));
+        return $contentContext->isInBackend() === true || $renderCurrentDocumentMetadata === true;
     }
 }

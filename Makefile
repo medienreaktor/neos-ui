@@ -91,10 +91,9 @@ build-watch:
 	node esbuild.js --watch
 
 # clean anything before building for production just to be sure
-## Runs the production build. And also builds the subpackages for standalone use.
+## Runs the production build.
 build-production:
 	node esbuild.js --production
-	make build-subpackages
 
 build-e2e-testing:
 	node esbuild.js --production --e2e-testing
@@ -109,15 +108,15 @@ test:
 
 ## Executes integration tests on saucelabs.
 test-e2e-saucelabs:
-	bash Tests/IntegrationTests/e2e.sh "saucelabs:Firefox@latest:Windows 10"
+	bash Tests/IntegrationTests/e2e.sh --saucelabs
 
 ## Executes integration tests locally.
 test-e2e:
-	bash Tests/IntegrationTests/e2e.sh chrome
+	bash Tests/IntegrationTests/e2e.sh --browser chrome:--disable-search-engine-choice-screen
 
 ## Executes integration tests locally in a docker-compose setup.
 test-e2e-docker: build-e2e-testing
-	@bash Tests/IntegrationTests/e2e-docker.sh $(or $(browser),chrome)
+	@bash Tests/IntegrationTests/e2e-docker.sh $(or $(browser),chrome:--disable-search-engine-choice-screen)
 
 start-neos-dev-instance:
 	bash Tests/IntegrationTests/start-neos-dev-instance.sh
@@ -144,7 +143,7 @@ called-with-version:
 ifeq ($(VERSION),)
 	@echo No version information given.
 	@echo Please run this command like this:
-	@echo VERSION=1.0.0 make bump-version
+	@echo VERSION=9.0.0 make ...
 	@false
 endif
 

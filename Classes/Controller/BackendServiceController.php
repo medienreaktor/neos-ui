@@ -189,11 +189,18 @@ class BackendServiceController extends ActionController
     {
         $updateWorkspaceInfo = new UpdateWorkspaceInfo();
         $documentNode = $this->nodeService->getNodeFromContextPath($documentNodeContextPath, null, null, true);
-        $updateWorkspaceInfo->setWorkspace(
-            $documentNode->getContext()->getWorkspace()
-        );
+        if ($documentNode === null) {
+            $error = new Error();
+            $error->setMessage(sprintf('Could not find node for document node context path "%s"', $documentNodeContextPath));
 
-        $this->feedbackCollection->add($updateWorkspaceInfo);
+            $this->feedbackCollection->add($error);
+        } else {
+            $updateWorkspaceInfo->setWorkspace(
+                $documentNode->getContext()->getWorkspace()
+            );
+
+            $this->feedbackCollection->add($updateWorkspaceInfo);
+        }
     }
 
     /**
@@ -237,6 +244,14 @@ class BackendServiceController extends ActionController
 
             foreach ($nodeContextPaths as $contextPath) {
                 $node = $this->nodeService->getNodeFromContextPath($contextPath, null, null, true);
+                if ($node === null) {
+                    $error = new Info();
+                    $error->setMessage(sprintf('Could not find node for context path "%s"', $contextPath));
+
+                    $this->feedbackCollection->add($error);
+
+                    continue;
+                }
                 $this->publishingService->publishNode($node, $targetWorkspace);
 
                 if ($node->getNodeType()->isAggregate()) {
@@ -532,11 +547,14 @@ class BackendServiceController extends ActionController
         $createContext = array_shift($chain);
         $finisher = array_pop($chain);
 
+        // we deduplicate passed nodes here
+        $nodeContextPaths = array_unique(array_column($createContext['payload'], '$node'));
+
         $flowQuery = new FlowQuery(array_map(
-            function ($envelope) {
-                return $this->nodeService->getNodeFromContextPath($envelope['$node']);
+            function ($contextPath) {
+                return $this->nodeService->getNodeFromContextPath($contextPath);
             },
-            $createContext['payload']
+            $nodeContextPaths
         ));
 
         foreach ($chain as $operation) {
@@ -545,15 +563,28 @@ class BackendServiceController extends ActionController
 
         $nodeInfoHelper = new NodeInfoHelper();
         $result = [];
+
         switch ($finisher['type']) {
             case 'get':
-                $result = $nodeInfoHelper->renderNodes(array_filter($flowQuery->get()), $this->getControllerContext());
+                $result = $nodeInfoHelper->renderNodes(
+                    array_filter($flowQuery->get()),
+                    $this->getControllerContext()
+                );
                 break;
             case 'getForTree':
-                $result = $nodeInfoHelper->renderNodes(array_filter($flowQuery->get()), $this->getControllerContext(), true);
+                $result = $nodeInfoHelper->renderNodes(
+                    array_filter($flowQuery->get()),
+                    $this->getControllerContext(),
+                    true
+                );
                 break;
             case 'getForTreeWithParents':
-                $result = $nodeInfoHelper->renderNodesWithParents(array_filter($flowQuery->get()), $this->getControllerContext());
+                $nodeTypeFilter = $finisher['payload']['nodeTypeFilter'] ?? null;
+                $result = $nodeInfoHelper->renderNodesWithParents(
+                    array_filter($flowQuery->get()),
+                    $this->getControllerContext(),
+                    $nodeTypeFilter
+                );
                 break;
         }
 
