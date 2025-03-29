@@ -46,7 +46,7 @@ abstract class AbstractStructuralChange extends AbstractChange
     protected $nodeService;
 
     /**
-     * @var NodeInterface
+     * @var ?NodeInterface
      */
     protected $cachedSiblingNode = null;
 
@@ -87,10 +87,10 @@ abstract class AbstractStructuralChange extends AbstractChange
     /**
      * Set the parent node dom address
      *
-     * @param RenderedNodeDomAddress $parentDomAddress
+     * @param ?RenderedNodeDomAddress $parentDomAddress
      * @return void
      */
-    public function setParentDomAddress(RenderedNodeDomAddress $parentDomAddress = null)
+    public function setParentDomAddress(?RenderedNodeDomAddress $parentDomAddress = null)
     {
         $this->parentDomAddress = $parentDomAddress;
     }
@@ -110,10 +110,10 @@ abstract class AbstractStructuralChange extends AbstractChange
     /**
      * Set the sibling node dom address
      *
-     * @param RenderedNodeDomAddress $siblingDomAddress
+     * @param ?RenderedNodeDomAddress $siblingDomAddress
      * @return void
      */
-    public function setSiblingDomAddress(RenderedNodeDomAddress $siblingDomAddress = null)
+    public function setSiblingDomAddress(?RenderedNodeDomAddress $siblingDomAddress = null)
     {
         $this->siblingDomAddress = $siblingDomAddress;
     }
@@ -131,7 +131,7 @@ abstract class AbstractStructuralChange extends AbstractChange
     /**
      * Get the sibling node
      *
-     * @return NodeInterface
+     * @return ?NodeInterface
      */
     public function getSiblingNode()
     {

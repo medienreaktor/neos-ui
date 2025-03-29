@@ -91,7 +91,7 @@ abstract class AbstractChange implements ChangeInterface
      *
      * This method will be triggered if [nodeType].properties.[propertyName].ui.reloadIfChanged is TRUE.
      *
-     * @param NodeInterface $node
+     * @param ?NodeInterface $node
      * @return void
      */
     protected function reloadDocument($node = null)
@@ -107,7 +107,7 @@ abstract class AbstractChange implements ChangeInterface
     /**
      * Inform the client that a node has been created, the client decides if and which tree should react to this change.
      *
-     * @param NodeInterface $subject
+     * @param ?NodeInterface $subject
      * @return void
      */
     protected function addNodeCreatedFeedback($subject = null)

@@ -57,7 +57,7 @@ class AugmentationAspect
      * inside the wrapContentObject() advice. It will not be necessary once we implement a custom content element
      * wrapping implementation.
      *
-     * @var \Neos\Flow\Mvc\Controller\ControllerContext
+     * @var ?\Neos\Flow\Mvc\Controller\ControllerContext
      */
     protected $controllerContext = null;
 

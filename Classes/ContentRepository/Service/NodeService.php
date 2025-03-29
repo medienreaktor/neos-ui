@@ -86,7 +86,7 @@ class NodeService
      * @param string $contextPath
      * @return NodeInterface|Error
      */
-    public function getNodeFromContextPath($contextPath, Site $site = null, Domain $domain = null, $includeAll = false)
+    public function getNodeFromContextPath($contextPath, ?Site $site = null, ?Domain $domain = null, $includeAll = false)
     {
         $nodePathAndContext = NodePaths::explodeContextPath($contextPath);
         $nodePath = $nodePathAndContext['nodePath'];
@@ -170,10 +170,10 @@ class NodeService
      * Prepares the context properties for the nodes based on the given workspace and dimensions
      *
      * @param string $workspaceName
-     * @param array $dimensions
+     * @param ?array $dimensions
      * @return array
      */
-    protected function prepareContextProperties($workspaceName, array $dimensions = null)
+    protected function prepareContextProperties($workspaceName, ?array $dimensions = null)
     {
         $contextProperties = [
             'workspaceName' => $workspaceName,
