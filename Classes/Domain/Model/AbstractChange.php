@@ -91,7 +91,7 @@ abstract class AbstractChange implements ChangeInterface
      *
      * This method will be triggered if [nodeType].properties.[propertyName].ui.reloadIfChanged is TRUE.
      */
-    protected function reloadDocument(Node $node = null): void
+    protected function reloadDocument(?Node $node = null): void
     {
         $reloadDocument = new ReloadDocument();
         if ($node) {
@@ -104,7 +104,7 @@ abstract class AbstractChange implements ChangeInterface
     /**
      * Inform the client that a node has been created, the client decides if and which tree should react to this change.
      */
-    final protected function addNodeCreatedFeedback(Node $subject = null): void
+    final protected function addNodeCreatedFeedback(?Node $subject = null): void
     {
         $node = $subject ?? $this->getSubject();
         $nodeCreated = new NodeCreated();
