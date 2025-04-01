@@ -133,7 +133,7 @@ class BackendController extends ActionController
      * @throws \ReflectionException
      * @throws \Neos\Flow\Http\Exception
      */
-    public function indexAction(NodeInterface $node = null): void
+    public function indexAction(?NodeInterface $node = null): void
     {
         $user = $this->userService->getBackendUser();
 
@@ -177,7 +177,7 @@ class BackendController extends ActionController
 
     /**
      * @param NodeInterface $node
-     * @param string $presetBaseNodeType
+     * @param ?string $presetBaseNodeType
      * @throws MissingActionNameException
      * @throws StopActionException
      * @throws UnsupportedRequestTypeException
@@ -187,7 +187,7 @@ class BackendController extends ActionController
      * @throws \Neos\Flow\Security\Exception
      * @throws \Neos\Neos\Exception
      */
-    public function redirectToAction(NodeInterface $node, string $presetBaseNodeType = null): void
+    public function redirectToAction(NodeInterface $node, ?string $presetBaseNodeType = null): void
     {
         $this->response->setHttpHeader('Cache-Control', [
             'no-cache',
