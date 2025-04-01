@@ -99,13 +99,13 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
 
     /**
      * @param NodeInterface $node
-     * @param ControllerContext $controllerContext
+     * @param ?ControllerContext $controllerContext
      * @param bool $omitMostPropertiesForTreeState
-     * @param string $nodeTypeFilterOverride
+     * @param ?string $nodeTypeFilterOverride
      * @return array
      * @deprecated See methods with specific names for different behaviors
      */
-    public function renderNode(NodeInterface $node, ControllerContext $controllerContext = null, $omitMostPropertiesForTreeState = false, $nodeTypeFilterOverride = null)
+    public function renderNode(NodeInterface $node, ?ControllerContext $controllerContext = null, $omitMostPropertiesForTreeState = false, $nodeTypeFilterOverride = null)
     {
         return ($omitMostPropertiesForTreeState ?
             $this->renderNodeWithMinimalPropertiesAndChildrenInformation($node, $controllerContext, $nodeTypeFilterOverride) :
@@ -116,10 +116,10 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
     /**
      * @param NodeInterface $node
      * @param ControllerContext|null $controllerContext
-     * @param string $nodeTypeFilterOverride
+     * @param ?string $nodeTypeFilterOverride
      * @return array|null
      */
-    public function renderNodeWithMinimalPropertiesAndChildrenInformation(NodeInterface $node, ControllerContext $controllerContext = null, string $nodeTypeFilterOverride = null)
+    public function renderNodeWithMinimalPropertiesAndChildrenInformation(NodeInterface $node, ?ControllerContext $controllerContext = null, ?string $nodeTypeFilterOverride = null)
     {
         if (!$this->nodePolicyService->isNodeTreePrivilegeGranted($node)) {
             return null;
@@ -158,7 +158,7 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
      * @param string|null $nodeTypeFilterOverride
      * @return array|null
      */
-    public function renderNodeWithPropertiesAndChildrenInformation(NodeInterface $node, ControllerContext $controllerContext = null, string $nodeTypeFilterOverride = null)
+    public function renderNodeWithPropertiesAndChildrenInformation(NodeInterface $node, ?ControllerContext $controllerContext = null, ?string $nodeTypeFilterOverride = null)
     {
         if (!$this->nodePolicyService->isNodeTreePrivilegeGranted($node)) {
             return null;
@@ -375,7 +375,7 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
      * @param NodeInterface|null $node
      * @return string
      */
-    public function createRedirectToNode(ControllerContext $controllerContext, NodeInterface $node = null)
+    public function createRedirectToNode(ControllerContext $controllerContext, ?NodeInterface $node = null)
     {
         if ($node === null) {
             return '';
@@ -401,12 +401,12 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
     }
 
     /**
-     * @param NodeInterface $node
+     * @param ?NodeInterface $node
      * @param ControllerContext $controllerContext
      * @return string
      * @throws \Neos\Neos\Exception
      */
-    public function uri(NodeInterface $node = null, ControllerContext $controllerContext)
+    public function uri(?NodeInterface $node = null, ControllerContext $controllerContext)
     {
         if ($node === null) {
             // This happens when the document node is not published yet

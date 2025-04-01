@@ -12,11 +12,11 @@ class NodeWithDependingPropertiesDataSource extends AbstractDataSource
     protected static $identifier = 'node-with-depending-properties-data-source';
 
     /**
-     * @param NodeInterface $node The node that is currently edited (optional)
+     * @param ?NodeInterface $node The node that is currently edited (optional)
      * @param array $arguments Additional arguments (key / value)
      * @return array
      */
-    public function getData(NodeInterface $node = null, array $arguments = [])
+    public function getData(?NodeInterface $node = null, array $arguments = [])
     {
         $options = range(1, 10);
 

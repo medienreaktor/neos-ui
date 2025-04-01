@@ -106,10 +106,10 @@ class Property extends AbstractChange
     /**
      * Set the node dom address
      *
-     * @param RenderedNodeDomAddress $nodeDomAddress
+     * @param ?RenderedNodeDomAddress $nodeDomAddress
      * @return void
      */
-    public function setNodeDomAddress(RenderedNodeDomAddress $nodeDomAddress = null)
+    public function setNodeDomAddress(?RenderedNodeDomAddress $nodeDomAddress = null)
     {
         $this->nodeDomAddress = $nodeDomAddress;
     }

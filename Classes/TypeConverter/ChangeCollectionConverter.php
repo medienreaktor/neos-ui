@@ -94,11 +94,11 @@ class ChangeCollectionConverter extends AbstractTypeConverter
      * @param array $source
      * @param string $targetType not used
      * @param array $subProperties not used
-     * @param \Neos\Flow\Property\PropertyMappingConfigurationInterface $configuration not used
+     * @param ?\Neos\Flow\Property\PropertyMappingConfigurationInterface $configuration not used
      * @return mixed An object or \Neos\Error\Messages\Error if the input format is not supported or could not be converted for other reasons
      * @throws \Exception
      */
-    public function convertFrom($source, $targetType, array $subProperties = [], PropertyMappingConfigurationInterface $configuration = null)
+    public function convertFrom($source, $targetType, array $subProperties = [], ?PropertyMappingConfigurationInterface $configuration = null)
     {
         if (!is_array($source)) {
             return new Error(sprintf('Cannot convert %s to ChangeCollection.', gettype($source)));
