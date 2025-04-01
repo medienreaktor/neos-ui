@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Neos\Neos\Ui\Domain\NodeCreation;
 
 use Neos\ContentRepository\Core\SharedModel\Node\NodeAggregateIds;
+use Neos\Flow\Annotations as Flow;
 
 /**
  * Holds the deserialized elements of the submitted node creation dialog form
@@ -51,6 +52,7 @@ use Neos\ContentRepository\Core\SharedModel\Node\NodeAggregateIds;
  *           ui:
  *             showInCreationDialog: true
  *
+ * @Flow\Proxy(false)
  * @implements \IteratorAggregate<string, mixed>
  * @internal Especially the constructor and the serialized data
  */

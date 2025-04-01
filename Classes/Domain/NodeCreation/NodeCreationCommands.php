@@ -19,6 +19,7 @@ use Neos\ContentRepository\Core\Feature\NodeCreation\Dto\NodeAggregateIdsByNodeP
 use Neos\ContentRepository\Core\Feature\NodeModification\Dto\PropertyValuesToWrite;
 use Neos\ContentRepository\Core\Feature\NodeReferencing\Dto\NodeReferencesToWrite;
 use Neos\ContentRepository\Core\NodeType\NodeTypeManager;
+use Neos\Flow\Annotations as Flow;
 
 /**
  * A collection of commands that describe a node creation from the Neos Ui.
@@ -40,6 +41,7 @@ use Neos\ContentRepository\Core\NodeType\NodeTypeManager;
  *     );
  *     $parentNode = $subgraph->findNodeById($commands->first->parentNodeAggregateId);
  *
+ * @Flow\Proxy(false)
  * @implements \IteratorAggregate<int, CommandInterface>
  * @internal Especially the constructors
  */
