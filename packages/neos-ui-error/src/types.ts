@@ -17,7 +17,7 @@ export type ServerSideError = {
 };
 export type StringError = string;
 export type AnyError = ECMAScriptError | ServerSideError | StringError;
-export type Severity = 'success' | 'error' | 'info';
+export type Severity = 'success' | 'error' | 'info' | 'warning';
 
 export function isECMAScriptError(candidate: unknown): candidate is ECMAScriptError {
     return candidate instanceof Error;

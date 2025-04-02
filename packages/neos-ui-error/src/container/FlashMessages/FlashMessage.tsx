@@ -28,6 +28,7 @@ export const FlashMessage: React.FC<{
     const isSuccess = severity === 'success';
     const isError = severity === 'error';
     const isInfo = severity === 'info';
+    const isWarning = severity === 'warning';
     const isClosing = React.useRef(false);
     const handleClose = React.useCallback(() => {
         const {onClose, id} = props;
@@ -42,13 +43,15 @@ export const FlashMessage: React.FC<{
         [style.flashMessage]: true,
         [style['flashMessage--success']]: isSuccess,
         [style['flashMessage--error']]: isError,
-        [style['flashMessage--info']]: isInfo
+        [style['flashMessage--info']]: isInfo,
+        [style['flashMessage--warning']]: isWarning
     });
 
     const iconName = mergeClassNames({
         check: isSuccess,
         ban: isError,
-        info: isInfo
+        info: isInfo,
+        warning: isWarning
     }) || 'info';
 
     React.useEffect(
