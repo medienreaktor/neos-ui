@@ -85,7 +85,7 @@ class Property extends AbstractChange
         return $this->propertyName;
     }
 
-    public function setNodeDomAddress(RenderedNodeDomAddress $nodeDomAddress = null): void
+    public function setNodeDomAddress(?RenderedNodeDomAddress $nodeDomAddress = null): void
     {
         $this->nodeDomAddress = $nodeDomAddress;
     }

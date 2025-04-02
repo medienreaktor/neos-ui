@@ -16,7 +16,7 @@ class NodeWithDependingPropertiesDataSource extends AbstractDataSource
      * @param array $arguments Additional arguments (key / value)
      * @return array
      */
-    public function getData(Node $node = null, array $arguments = []): array
+    public function getData(?Node $node = null, array $arguments = []): array
     {
         $options = range(1, 10);
 

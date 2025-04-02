@@ -72,7 +72,7 @@ abstract class AbstractStructuralChange extends AbstractChange
      */
     abstract public function getMode(): string;
 
-    public function setParentDomAddress(RenderedNodeDomAddress $parentDomAddress = null): void
+    public function setParentDomAddress(?RenderedNodeDomAddress $parentDomAddress = null): void
     {
         $this->parentDomAddress = $parentDomAddress;
     }
@@ -87,7 +87,7 @@ abstract class AbstractStructuralChange extends AbstractChange
         return $this->parentDomAddress;
     }
 
-    public function setSiblingDomAddress(RenderedNodeDomAddress $siblingDomAddress = null): void
+    public function setSiblingDomAddress(?RenderedNodeDomAddress $siblingDomAddress = null): void
     {
         $this->siblingDomAddress = $siblingDomAddress;
     }
