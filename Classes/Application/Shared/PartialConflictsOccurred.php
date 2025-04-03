@@ -22,13 +22,15 @@ use Neos\Flow\Annotations as Flow;
 #[Flow\Proxy(false)]
 final readonly class PartialConflictsOccurred implements \JsonSerializable
 {
-    public function __construct(
-        public readonly bool $isPartialPublish = true
-    ) {
+    public function __construct()
+    {
     }
 
     public function jsonSerialize(): mixed
     {
-        return get_object_vars($this);
+        return [
+            // used to differentiate on js client site
+            'isPartialPublish' => true
+        ];
     }
 }

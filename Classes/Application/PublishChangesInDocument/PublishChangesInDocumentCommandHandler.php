@@ -87,9 +87,7 @@ final class PublishChangesInDocumentCommandHandler
             );
         } catch (PartialWorkspaceRebaseFailed $e) {
             $this->throwableStorage->logThrowable($e);
-            return new PartialConflictsOccurred(
-                isPartialPublish: true
-            );
+            return new PartialConflictsOccurred();
         } catch (NodeAggregateCurrentlyDoesNotExist $e) {
             throw new \RuntimeException(
                 $this->getLabel('NodeNotPublishedMissingParentNode'),
