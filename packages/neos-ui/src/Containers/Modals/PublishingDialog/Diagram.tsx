@@ -91,6 +91,22 @@ const Changes: React.FC<{
                 />
         );
     }
+    if (props.phase === PublishingPhase.PARTIAL_PUBLISH_CONFLICTS) {
+        return (
+            <div className={style.diagram__process__changes}>
+                <Icon
+                    className={cx(
+                        style.diagram__process__icon,
+                        style['diagram__process__icon--warn'],
+                    )}
+                    icon="question"
+                />
+                <span className={style.diagram__process__changes__number}>
+                    {props.numberOfChanges}
+                </span>
+            </div>
+        );
+    }
 
     if (props.phase === PublishingPhase.SUCCESS) {
         return (
