@@ -74,6 +74,8 @@ final class PublishChangesInDocumentCommandHandler
                 baseWorkspaceName: $workspace?->baseWorkspaceName?->value
             );
         } catch (WorkspaceRebaseFailed $e) {
+            $this->throwableStorage->logThrowable($e);
+
             $conflictsFactory = new ConflictsFactory(
                 contentRepository: $this->contentRepositoryRegistry
                     ->get($command->contentRepositoryId),
@@ -87,6 +89,7 @@ final class PublishChangesInDocumentCommandHandler
             );
         } catch (PartialWorkspaceRebaseFailed $e) {
             $this->throwableStorage->logThrowable($e);
+
             return new PartialConflictsOccurred();
         } catch (NodeAggregateCurrentlyDoesNotExist $e) {
             throw new \RuntimeException(
