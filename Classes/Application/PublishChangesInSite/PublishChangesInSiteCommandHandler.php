@@ -17,6 +17,7 @@ namespace Neos\Neos\Ui\Application\PublishChangesInSite;
 use Neos\ContentRepository\Core\Feature\WorkspaceRebase\Exception\WorkspaceRebaseFailed;
 use Neos\ContentRepositoryRegistry\ContentRepositoryRegistry;
 use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Log\ThrowableStorageInterface;
 use Neos\Neos\Domain\NodeLabel\NodeLabelGeneratorInterface;
 use Neos\Neos\Domain\Service\WorkspacePublishingService;
 use Neos\Neos\Ui\Application\Shared\ConflictsOccurred;
@@ -41,6 +42,9 @@ final class PublishChangesInSiteCommandHandler
     #[Flow\Inject]
     protected NodeLabelGeneratorInterface $nodeLabelGenerator;
 
+    #[Flow\Inject]
+    protected ThrowableStorageInterface $throwableStorage;
+
     public function handle(
         PublishChangesInSiteCommand $command
     ): PublishSucceeded|ConflictsOccurred {
@@ -60,6 +64,8 @@ final class PublishChangesInSiteCommandHandler
                 baseWorkspaceName: $workspace?->baseWorkspaceName?->value
             );
         } catch (WorkspaceRebaseFailed $e) {
+            $this->throwableStorage->logThrowable($e);
+
             $conflictsFactory = new ConflictsFactory(
                 contentRepository: $this->contentRepositoryRegistry
                     ->get($command->contentRepositoryId),

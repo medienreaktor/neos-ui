@@ -36,6 +36,7 @@ type PublishingResponse =
         }
     }
     | { conflicts: Conflict[] }
+    | { isPartialPublish: boolean }
     | { error: AnyError };
 
 const PUBLISH_SUCCESS_TRANSLATIONS = {
@@ -51,6 +52,7 @@ const PUBLISH_SUCCESS_TRANSLATIONS = {
         id: 'Neos.Neos.Ui:PublishingDialog:publish.document.success.message',
         fallback: '{numberOfChanges} change(s) in document "{scopeTitle}" were sucessfully published to workspace "{targetWorkspaceName}".'
     }
+
 }
 
 export function * watchPublishing({routes}: {routes: Routes}) {
@@ -143,8 +145,11 @@ export function * watchPublishing({routes}: {routes: Routes}) {
                     yield put(actions.CR.Publishing.finish());
                 }
                 yield * reloadAfterPublishing();
+            } else if ('isPartialPublish' in result) {
+                yield put(actions.CR.Publishing.partialPublishConflict());
             } else if ('conflicts' in result) {
                 yield put(actions.CR.Publishing.conflicts());
+
                 const conflictsWereResolved: boolean =
                     yield * resolveConflicts(result.conflicts);
 

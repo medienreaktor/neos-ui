@@ -141,7 +141,7 @@ class BackendController extends ActionController
     /**
      * Displays the backend interface
      *
-     * @param string $node The node that will be displayed on the first tab
+     * @param string|null $node The node that will be displayed on the first tab
      * @return void
      */
     public function indexAction(?string $node = null)
