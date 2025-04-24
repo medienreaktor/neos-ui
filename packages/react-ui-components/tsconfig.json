@@ -9,6 +9,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "declaration": true,
+    "noEmit": false,
     "emitDeclarationOnly": true,
     "outDir": "types",
     "removeComments": false
