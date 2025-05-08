@@ -14,7 +14,7 @@ export default class LinkTitle extends Plugin {
 
         editor.conversion.for('downcast').attributeToElement({
             model: TITLE,
-            view: (title, writer) => {
+            view: (title, {writer}) => {
                 // the priority has got to be the same as here so the elements would get merged:
                 // https://github.com/ckeditor/ckeditor5-link/blob/20e96361014fd13bfb93620f5eb5f528e6b1fe6d/src/utils.js#L33
                 const linkElement = writer.createAttributeElement('a', {title}, {priority: 5});
