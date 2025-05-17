@@ -29,7 +29,7 @@ interface InitialStateProviderInterface
     /** @return array<mixed> */
     public function getInitialState(
         ActionRequest $actionRequest,
-        ?Node $documentNode,
+        Node $documentNode,
         Node $site,
         User $user,
     ): array;

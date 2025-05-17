@@ -199,10 +199,13 @@ class BackendController extends ActionController
             throw new \RuntimeException(sprintf('Site node "%s" not found in content repository "%s" in dimension space point %s and visibility constraints "%s"', $siteDetectionResult->siteNodeName->value, $contentRepository->id->value, $subgraph->getDimensionSpacePoint()->toJson(), join(' | ', $subgraph->getVisibilityConstraints()->excludedSubtreeTags->toStringArray())), 1747474100);
         }
 
-        if (!$nodeAddress) {
-            $node = $siteNode;
+        if ($nodeAddress === null) {
+            $documentNode = $siteNode;
         } else {
-            $node = $subgraph->findNodeById($nodeAddress->aggregateId);
+            $documentNode = $subgraph->findNodeById($nodeAddress->aggregateId);
+            if ($documentNode === null) {
+                $documentNode = $siteNode;
+            }
         }
 
         $this->view->setOption('title', 'Neos CMS');
@@ -229,7 +232,7 @@ class BackendController extends ActionController
             'initialState' =>
                 $this->initialStateProvider->getInitialState(
                     actionRequest: $this->request,
-                    documentNode: $node,
+                    documentNode: $documentNode,
                     site: $siteNode,
                     user: $user,
                 ),

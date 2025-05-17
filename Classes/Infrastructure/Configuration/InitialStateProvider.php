@@ -40,7 +40,7 @@ final class InitialStateProvider implements InitialStateProviderInterface
 
     public function getInitialState(
         ActionRequest $actionRequest,
-        ?Node $documentNode,
+        Node $documentNode,
         Node $site,
         User $user,
     ): array {
