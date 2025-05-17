@@ -195,6 +195,10 @@ class BackendController extends ActionController
             $rootNodeAggregate->nodeAggregateId
         );
 
+        if ($siteNode === null) {
+            throw new \RuntimeException(sprintf('Site node "%s" not found in content repository "%s" in dimension space point %s and visibility constraints "%s"', $siteDetectionResult->siteNodeName->value, $contentRepository->id->value, $subgraph->getDimensionSpacePoint()->toJson(), join(' | ', $subgraph->getVisibilityConstraints()->excludedSubtreeTags->toStringArray())), 1747474100);
+        }
+
         if (!$nodeAddress) {
             $node = $siteNode;
         } else {
