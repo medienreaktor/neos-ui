@@ -47,6 +47,12 @@ class StyleAndJavascriptInclusionService
     protected $additionalEelDefaultContext;
 
     /**
+     * @Flow\InjectConfiguration(path="resources.cacheBusterParameter")
+     * @var string|null
+     */
+    protected $cacheBusterParameter;
+
+    /**
      * @Flow\InjectConfiguration(path="resources.javascript")
      * @var array
      */
@@ -79,7 +85,7 @@ class StyleAndJavascriptInclusionService
         $result = '';
         foreach ($sortedResources as $element) {
             $resourceExpression = $element['resource'];
-            if (substr($resourceExpression, 0, 2) === '${' && substr($resourceExpression, -1) === '}') {
+            if (str_starts_with($resourceExpression, '${') && str_ends_with($resourceExpression, '}')) {
                 $resourceExpression = Utility::evaluateEelExpression(
                     $resourceExpression,
                     $this->eelEvaluator,
@@ -90,12 +96,14 @@ class StyleAndJavascriptInclusionService
 
             $hash = null;
 
-            if (strpos($resourceExpression, 'resource://') === 0) {
-                // Cache breaker
-                $hash = substr(md5_file($resourceExpression), 0, 8);
+            if (str_starts_with($resourceExpression, 'resource://')) {
+                if ($this->cacheBusterParameter) {
+                    // Calculate cache buster value
+                    $hash = substr(md5_file($resourceExpression), 0, 8);
+                }
                 $resourceExpression = $this->resourceManager->getPublicPackageResourceUriByPath($resourceExpression);
             }
-            $finalUri = $hash ? $resourceExpression . (str_contains($resourceExpression, '?') ? '&' : '?') . $hash : $resourceExpression;
+            $finalUri = $hash ? $resourceExpression . (str_contains($resourceExpression, '?') ? '&' : '?') . $this->cacheBusterParameter . '=' . $hash : $resourceExpression;
             $additionalAttributes = array_merge(
                 // legacy first level 'defer' attribute
                 isset($element['defer']) ? ['defer' => $element['defer']] : [],

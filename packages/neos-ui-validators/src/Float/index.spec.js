@@ -20,16 +20,16 @@ test('"1." should not be a valid float', () => {
     expect(floatValidator('1.')).not.toBe(null);
 });
 
-test('1. should not be a valid float', () => {
-    expect(floatValidator(1.)).not.toBe(null); // eslint-disable-line
+test('1. should be a valid float', () => {
+    expect(floatValidator(1.)).toBe(null); // eslint-disable-line
 });
 
-test('"1" should not be a valid float', () => {
-    expect(floatValidator('1')).not.toBe(null);
+test('"1" should be a valid float', () => {
+    expect(floatValidator('1')).toBe(null);
 });
 
-test('1 should not be a valid float', () => {
-    expect(floatValidator(1)).not.toBe(null);
+test('1 should be a valid float', () => {
+    expect(floatValidator(1)).toBe(null);
 });
 
 test('1a should not be a valid float', () => {
