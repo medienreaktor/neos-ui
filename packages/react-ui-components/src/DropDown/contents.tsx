@@ -188,6 +188,9 @@ export default class ShallowDropDownContents extends PureComponent<ShallowDropDo
     public readonly state = ShallowDropDownContents.getDerivedStateFromProps(this.props);
 
     public readonly recalculateStyle = () => requestAnimationFrame(() => {
+        if (!this.props.isOpen) {
+            return;
+        }
         this.setState({style: ShallowDropDownContents.getCalculatedStyleFromProps(this.props)});
     })
 

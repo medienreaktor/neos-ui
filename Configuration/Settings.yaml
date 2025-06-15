@@ -36,6 +36,8 @@ Neos:
 
       # API: "start 100" and smaller numbers; "no numbers", ...
       resources:
+        # Set to `null` or an empty string, if you provide your own cache buster, e.g. via `flowpack/cachebuster`
+        cacheBusterParameter: 'bust'
 
         javascript:
           'Neos.Neos.UI:Host':

@@ -121,8 +121,12 @@ export default class Inspector extends PureComponent {
         }
     }
 
-    componentDidUpdate() {
-        this.preprocessViewConfigurationDebounced();
+    componentDidUpdate(prevProps) {
+        // Only call the preprocessing if relevant props changed
+        if (prevProps.focusedNode !== this.props.focusedNode ||
+            prevProps.transientValues !== this.props.transientValues) {
+            this.preprocessViewConfigurationDebounced();
+        }
     }
 
     componentWillUnmount() {

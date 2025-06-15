@@ -46,6 +46,11 @@ make install
 # build
 make build-subpackages
 
+# code quality
+# @todo: Improve to return correct response for passing tests in Jenkins
+#make lint
+#make test
+
 # publishing
 VERSION=$VERSION make bump-version
 VERSION=$VERSION NPM_TOKEN=$NPM_TOKEN make publish-npm

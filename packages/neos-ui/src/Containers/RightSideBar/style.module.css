@@ -6,9 +6,14 @@
     right: unset;
     position: relative;
     background-color: var(--colors-ContrastDarkest);
+    direction: rtl;
+    resize: horizontal;
+    overflow: auto hidden;
+    z-index: 1;
 }
 .rightSideBar--isHidden {
     width: 0;
+    overflow: initial;
 }
 .rightSideBar--isHidden > div {
     display: none;
@@ -30,6 +35,7 @@
 .rightSideBar__components {
     background: var(--colors-ContrastDarkest);
     height: 100%;
+    direction: ltr;
 }
 
 .rightSideBar__section {
