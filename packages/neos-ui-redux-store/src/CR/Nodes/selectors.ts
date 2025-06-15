@@ -273,7 +273,7 @@ export const makeGetAllowedChildNodeTypesSelector = (nodeTypesRegistry: NodeType
         (_: GlobalState, {role}: {reference: NodeContextPath | null, role: string, subject: NodeContextPath | null}) => role
     ],
     (referenceNode, referenceParentNode, role) => {
-        if (referenceNode === null || (referenceNode.policy && referenceNode.policy.canEdit === false)) {
+        if (referenceNode === null) {
             return [];
         }
         const isSubjectNodeAutocreated = referenceNode.isAutoCreated;
