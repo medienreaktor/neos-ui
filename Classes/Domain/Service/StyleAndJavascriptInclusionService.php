@@ -103,7 +103,9 @@ class StyleAndJavascriptInclusionService
             if (str_starts_with($resourceExpression, 'resource://')) {
                 if ($this->cacheBusterParameter) {
                     // Calculate cache buster value
-                    $hash = substr(md5_file($resourceExpression), 0, 8);
+                    $resourceExpressionMd5 = md5_file($resourceExpression);
+                    assert($resourceExpressionMd5 !== false);
+                    $hash = substr($resourceExpressionMd5, 0, 8);
                 }
                 $resourceExpression = $this->resourceManager->getPublicPackageResourceUriByPath($resourceExpression);
             }
