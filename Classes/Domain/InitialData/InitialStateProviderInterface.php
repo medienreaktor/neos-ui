@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Neos\Neos\Ui\Domain\InitialData;
 
-use Neos\ContentRepository\Core\SharedModel\ContentRepository\ContentRepositoryId;
 use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
 use Neos\Flow\Mvc\ActionRequest;
 use Neos\Neos\Domain\Model\User;
@@ -30,8 +29,8 @@ interface InitialStateProviderInterface
     /** @return array<mixed> */
     public function getInitialState(
         ActionRequest $actionRequest,
-        ?Node $documentNode,
-        ?Node $site,
+        Node $documentNode,
+        Node $site,
         User $user,
     ): array;
 }

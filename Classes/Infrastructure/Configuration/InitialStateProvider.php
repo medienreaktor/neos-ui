@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Neos\Neos\Ui\Infrastructure\Configuration;
 
-use Neos\ContentRepository\Core\SharedModel\ContentRepository\ContentRepositoryId;
 use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\ActionRequest;
@@ -41,8 +40,8 @@ final class InitialStateProvider implements InitialStateProviderInterface
 
     public function getInitialState(
         ActionRequest $actionRequest,
-        ?Node $documentNode,
-        ?Node $site,
+        Node $documentNode,
+        Node $site,
         User $user,
     ): array {
         return $this->configurationRenderingService->computeConfiguration(

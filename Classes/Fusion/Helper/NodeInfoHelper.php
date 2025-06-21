@@ -329,9 +329,6 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
         Node $documentNode,
         ActionRequest $actionRequest
     ): array {
-        // does not support multiple CRs here yet
-        $contentRepository = $this->contentRepositoryRegistry->get($site->contentRepositoryId);
-
         return [
             (NodeAddress::fromNode($site)->toJson())
             => $this->renderNodeWithPropertiesAndChildrenInformation($site, $actionRequest),
