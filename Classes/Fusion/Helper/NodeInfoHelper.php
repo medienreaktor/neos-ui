@@ -372,7 +372,7 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
                     $renderedParentNode = $this->renderNodeWithMinimalPropertiesAndChildrenInformation(
                         $parentNode,
                         $controllerContext,
-                        $nodeTypeFilterString,
+                        $baseNodeTypeOverride,
                         $includeContentChildNodes
                     );
                     if ($renderedParentNode) {
