@@ -139,8 +139,7 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
         ?ControllerContext $controllerContext = null,
         string $nodeTypeFilter = '',
         bool $includeContentChildNodes = false
-    )
-    {
+    ) {
         if (!$this->nodePolicyService->isNodeTreePrivilegeGranted($node)) {
             return null;
         }
@@ -285,8 +284,7 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
         ControllerContext $controllerContext,
         $omitMostPropertiesForTreeState = false,
         bool $includeContentChildNodes = true
-    ): array
-    {
+    ): array {
         if ($omitMostPropertiesForTreeState) {
             $includedNodeTypes = $this->getIncludedNodeTypes($controllerContext);
             $nodeTypeFilterString = $this->buildNodeTypeFilterString(
@@ -331,8 +329,7 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
         ControllerContext $controllerContext,
         ?string $nodeTypeFilter = null,
         bool $includeContentChildNodes = true
-    ): array
-    {
+    ): array {
         // For search operation we want to include all nodes, not respecting the "baseNodeType" setting
         $baseNodeTypeOverride = $this->documentNodeTypeRole;
         $renderedNodes = [];
