@@ -576,7 +576,7 @@ class BackendServiceController extends ActionController
                     array_filter($flowQuery->get()),
                     $this->getControllerContext(),
                     true,
-                    ($finisher['payload'] ?? 'ALL') !== 'PAGE_TREE',
+                    ($finisher['payload']['usage'] ?? 'ALL') !== 'PAGE_TREE',
                 );
                 break;
             case 'getForTreeWithParents':
