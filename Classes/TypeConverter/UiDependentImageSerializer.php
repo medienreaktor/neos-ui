@@ -37,7 +37,7 @@ class UiDependentImageSerializer extends AbstractTypeConverter
      * @param PropertyMappingConfigurationInterface|null $configuration
      * @return mixed|\Neos\Error\Messages\Error|\Neos\Flow\Validation\Error|string
      */
-    public function convertFrom($source, $targetType, array $convertedChildProperties = [], PropertyMappingConfigurationInterface $configuration = null)
+    public function convertFrom($source, $targetType, array $convertedChildProperties = [], ?PropertyMappingConfigurationInterface $configuration = null)
     {
         $innerConverter = $this->objectManager->get(ImageInterfaceArrayPresenter::class);
         return $innerConverter->convertFrom($source, $targetType, $convertedChildProperties, $configuration);

@@ -12,6 +12,7 @@
     left: var(--spacing-Quarter);
     right: 0;
     bottom: 0;
+    width: auto;
 }
 .discardButton,
 .publishButton {

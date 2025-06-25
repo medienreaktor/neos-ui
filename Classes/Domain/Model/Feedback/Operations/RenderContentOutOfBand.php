@@ -86,10 +86,10 @@ class RenderContentOutOfBand extends AbstractFeedback
     /**
      * Set the parent node dom address
      *
-     * @param RenderedNodeDomAddress $parentDomAddress
+     * @param ?RenderedNodeDomAddress $parentDomAddress
      * @return void
      */
-    public function setParentDomAddress(RenderedNodeDomAddress $parentDomAddress = null)
+    public function setParentDomAddress(?RenderedNodeDomAddress $parentDomAddress = null)
     {
         $this->parentDomAddress = $parentDomAddress;
     }
@@ -107,10 +107,10 @@ class RenderContentOutOfBand extends AbstractFeedback
     /**
      * Set the sibling node dom address
      *
-     * @param RenderedNodeDomAddress $siblingDomAddress
+     * @param ?RenderedNodeDomAddress $siblingDomAddress
      * @return void
      */
-    public function setSiblingDomAddress(RenderedNodeDomAddress $siblingDomAddress = null)
+    public function setSiblingDomAddress(?RenderedNodeDomAddress $siblingDomAddress = null)
     {
         $this->siblingDomAddress = $siblingDomAddress;
     }
