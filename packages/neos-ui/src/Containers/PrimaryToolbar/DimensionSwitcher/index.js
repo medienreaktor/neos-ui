@@ -66,16 +66,6 @@ export default class DimensionSwitcher extends PureComponent {
         loadingPresets: {}
     };
 
-    componentDidMount() {
-        const activePresets = mapValues(
-            this.props.activePresets,
-            dimensionPreset => dimensionPreset.name
-        );
-        this.setState({
-            transientPresets: activePresets
-        });
-    }
-
     getDimensionIcon = (dimensionName, contentDimensionsObject) => {
         const dimensionConfiguration = contentDimensionsObject[dimensionName];
         return dimensionConfiguration?.icon || null;
