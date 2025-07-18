@@ -187,7 +187,7 @@ class BackendController extends ActionController
         $resolvedNodeAddressIsSite = ($nodeAddress === null);
         if ($nodeAddress === null) {
             $site = $this->siteRepository->findOneByNodeName($siteDetectionResult->siteNodeName);
-            $defaultDimensionSpacePoint = $site->getConfiguration()->defaultDimensionSpacePoint;
+            $defaultDimensionSpacePoint = $site?->getConfiguration()->defaultDimensionSpacePoint;
 
             $siteNodeAggregate = $contentGraph->findChildNodeAggregateByName(
                 $rootNodeAggregate->nodeAggregateId,
@@ -202,7 +202,7 @@ class BackendController extends ActionController
                 ), 1752861981);
             }
 
-            if ($siteNodeAggregate->coversDimensionSpacePoint($defaultDimensionSpacePoint)) {
+            if ($defaultDimensionSpacePoint && $siteNodeAggregate->coversDimensionSpacePoint($defaultDimensionSpacePoint)) {
                 $nodeAddress = NodeAddress::create(
                     $siteDetectionResult->contentRepositoryId,
                     $workspace->workspaceName,
@@ -219,16 +219,16 @@ class BackendController extends ActionController
                 if ($eligibleDimensionSpacePoints->isEmpty()) {
                     $eligibleDimensionSpacePoints = $siteNodeAggregate->coveredDimensionSpacePoints;
                 }
-                if ($eligibleDimensionSpacePoints->isEmpty()) {
+
+                $eligibleDimensionSpacePointsArray = $eligibleDimensionSpacePoints->points;
+                $arbitraryEligibleDimensionSpacePoint = array_shift($eligibleDimensionSpacePointsArray);
+                if ($arbitraryEligibleDimensionSpacePoint === null) {
                     throw new \RuntimeException(sprintf(
                         'Site node aggregate named "%s" is in content repository "%s" does not cover any dimension space points',
                         $siteDetectionResult->siteNodeName->value,
                         $contentRepository->id->value,
                     ), 1752861984);
                 }
-
-                $eligibleDimensionSpacePointsArray = $eligibleDimensionSpacePoints->points;
-                $arbitraryEligibleDimensionSpacePoint = array_shift($eligibleDimensionSpacePointsArray);
 
                 $nodeAddress = NodeAddress::create(
                     $siteDetectionResult->contentRepositoryId,
@@ -245,6 +245,9 @@ class BackendController extends ActionController
         );
 
         $documentNode = $subgraph->findNodeById($nodeAddress->aggregateId);
+        if ($documentNode === null) {
+            throw new \RuntimeException('Could not resolve document node for node address ' . $nodeAddress->toJson(), 1752862846);
+        }
         if ($resolvedNodeAddressIsSite) {
             $siteNode = $documentNode;
         } else {
@@ -252,6 +255,9 @@ class BackendController extends ActionController
                 $siteDetectionResult->siteNodeName->toNodeName(),
                 $rootNodeAggregate->nodeAggregateId,
             );
+            if ($siteNode === null) {
+                throw new \RuntimeException('Could not resolve site node for name ' . $siteDetectionResult->siteNodeName->value, 1752862879);
+            }
         }
 
         $this->view->setOption('title', 'Neos CMS');
