@@ -128,6 +128,9 @@ export default ckEditorRegistry => {
         $get('formatting.justify')
     )));
     config.set('heading', addPlugin(Heading, $or(
+        $get('formatting.p'),
+        $get('formatting.pre'),
+        $get('formatting.blockquote'),
         $get('formatting.h1'),
         $get('formatting.h2'),
         $get('formatting.h3'),
