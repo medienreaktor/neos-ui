@@ -1,10 +1,39 @@
 import {I18nRegistry} from '@neos-project/neos-ts-interfaces';
 import {isNil} from '@neos-project/utils-helpers';
+import {
+    createSelectBoxValueStringFromPossiblyStrangeNodePropertyValue
+} from './createSelectBoxValueStringFromPossiblyStrangeNodePropertyValue';
 
-type RawSelectBoxOptions = {value: string, icon?: string; disabled?: boolean; label: string; group?: string;}[]|{[key: string]: {icon?: string; disabled?: boolean; label: string;
-        group?: string;}};
+type SerializedEntity = {
+    __identity: string;
+    [key: string]: string;
+}
 
-type SelectBoxOptions = {value: string, icon?: string; disabled?: boolean; label: string; group?: string;}[];
+type RawSelectBoxOptions = {
+        value: string | SerializedEntity,
+        icon?: string;
+        disabled?: boolean;
+        label: string;
+        group?: string;
+    }[] |
+    {
+        [key: string]: {
+            icon?: string;
+            disabled?: boolean;
+            label: string;
+            group?: string;
+        } | null | Record<string, any>;
+    };
+
+type SelectBoxOption = {
+    value: string,
+    icon ? : string;
+    disabled ? : boolean;
+    label: string;
+    group ? : string;
+}
+
+type SelectBoxOptions = SelectBoxOption[];
 
 export const shouldDisplaySearchBox = (options: any, processedSelectBoxOptions: SelectBoxOptions) => options.minimumResultsForSearch >= 0 && processedSelectBoxOptions.length >= options.minimumResultsForSearch;
 
@@ -20,11 +49,12 @@ export const processSelectBoxOptions = (i18nRegistry: I18nRegistry, selectBoxOpt
             continue;
         }
 
-        const processedSelectBoxOption = {
+        const processedSelectBoxOption: SelectBoxOption = {
             value: key,
             ...selectBoxOption, // a value in here overrules value based on the key above.
             label: i18nRegistry.translate(selectBoxOption.label)
         };
+        processedSelectBoxOption.value = createSelectBoxValueStringFromPossiblyStrangeNodePropertyValue(processedSelectBoxOption.value) as string;
 
         if (selectBoxOption.group) {
             processedSelectBoxOption.group = i18nRegistry.translate(selectBoxOption.group);
