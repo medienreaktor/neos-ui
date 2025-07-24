@@ -27,10 +27,10 @@ type RawSelectBoxOptions = {
 
 type SelectBoxOption = {
     value: string,
-    icon ? : string;
-    disabled ? : boolean;
+    icon?: string;
+    disabled?: boolean;
     label: string;
-    group ? : string;
+    group?: string;
 }
 
 type SelectBoxOptions = SelectBoxOption[];
