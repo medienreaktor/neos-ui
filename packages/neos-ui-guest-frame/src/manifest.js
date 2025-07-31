@@ -11,6 +11,7 @@ import {
     CutSelectedNode,
     DeleteSelectedNode,
     HideSelectedNode,
+    DragSelectedNode,
     PasteClipBoardNode
 } from './InlineUI/NodeToolbar/Buttons/index';
 
@@ -49,6 +50,7 @@ manifest('@neos-project/neos-ui-guestframe', {}, globalRegistry => {
 
     guestFrameRegistry.set('NodeToolbar/Buttons/AddNode', AddNode);
     guestFrameRegistry.set('NodeToolbar/Buttons/PasteClipBoardNode', PasteClipBoardNode);
+    guestFrameRegistry.set('NodeToolbar/Buttons/DragSelectedNode', DragSelectedNode);
     guestFrameRegistry.set('NodeToolbar/SecondaryButtons/HideSelectedNode', HideSelectedNode);
     guestFrameRegistry.set('NodeToolbar/SecondaryButtons/CopySelectedNode', CopySelectedNode);
     guestFrameRegistry.set('NodeToolbar/SecondaryButtons/CutSelectedNode', CutSelectedNode);
