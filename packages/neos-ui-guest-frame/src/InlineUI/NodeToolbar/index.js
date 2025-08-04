@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import mergeClassNames from 'classnames';
 import debounce from 'lodash.debounce';
@@ -10,14 +11,21 @@ import {
     animateScrollToElementInGuestFrame,
     getGuestFrameWindow
 } from '@neos-project/neos-ui-guest-frame/src/dom';
-
 import {neos} from '@neos-project/neos-ui-decorators';
+import {selectors} from '@neos-project/neos-ui-redux-store';
+import {IconButton} from "@neos-project/react-ui-components";
+
 import style from './style.module.css';
 
 @neos(globalRegistry => ({
     nodeTypesRegistry: globalRegistry.get('@neos-project/neos-ui-contentrepository'),
     i18nRegistry: globalRegistry.get('i18n'),
-    guestFrameRegistry: globalRegistry.get('@neos-project/neos-ui-guest-frame')
+    guestFrameRegistry: globalRegistry.get('@neos-project/neos-ui-guest-frame'),
+    inlineEditorRegistry: globalRegistry.get('inlineEditors'),
+}))
+@connect(state => ({
+    currentlyEditedPropertyName: selectors.UI.ContentCanvas.currentlyEditedPropertyName(state),
+    focusedNodeTypeName: selectors.CR.Nodes.focusedNodeTypeSelector(state),
 }))
 export default class NodeToolbar extends PureComponent {
     static propTypes = {
@@ -35,7 +43,10 @@ export default class NodeToolbar extends PureComponent {
         requestScrollIntoView: PropTypes.func.isRequired,
         i18nRegistry: PropTypes.object.isRequired,
         guestFrameRegistry: PropTypes.object.isRequired,
-        visible: PropTypes.bool
+        visible: PropTypes.bool,
+        currentlyEditedPropertyName: PropTypes.string,
+        inlineEditorRegistry: PropTypes.object.isRequired,
+        focusedNodeTypeName: PropTypes.string,
     };
 
     state = {
@@ -100,6 +111,28 @@ export default class NodeToolbar extends PureComponent {
         }
     }
 
+    getToolbarComponent() {
+        const {
+            currentlyEditedPropertyName,
+            hasFocusedContentNode,
+            inlineEditorRegistry,
+            focusedNodeTypeName
+        } = this.props;
+
+        // Focused node is not yet in state, we need to wait a bit
+        if (!focusedNodeTypeName) {
+            return () => null;
+        }
+
+        if (!hasFocusedContentNode && !currentlyEditedPropertyName) {
+            return null;
+        }
+
+        const {ToolbarComponent} = inlineEditorRegistry.get('ckeditor5');
+
+        return ToolbarComponent || null;
+    }
+
     render() {
         const {
             contextPath,
@@ -140,20 +173,12 @@ export default class NodeToolbar extends PureComponent {
             return null;
         }
 
-        const {top, width, rightAsMeasuredFromRightDocumentBorder} = getAbsolutePositionOfElementInGuestFrame(nodeElement);
+        const {top, left} = getAbsolutePositionOfElementInGuestFrame(nodeElement);
 
-        // TODO: hardcoded dimensions
-        const TOOLBAR_WIDTH = 200;
-        const TOOLBAR_HEIGHT = 50;
-
-        const toolbarPosition = {
-            top: top - TOOLBAR_HEIGHT
+        const anchorPosition = {
+            top,
+            left,
         };
-        if (width < TOOLBAR_WIDTH) {
-            toolbarPosition.left = 0;
-        } else {
-            toolbarPosition.right = rightAsMeasuredFromRightDocumentBorder + 'px';
-        }
 
         const {isSticky} = this.state;
         const classNames = mergeClassNames({
@@ -162,17 +187,48 @@ export default class NodeToolbar extends PureComponent {
         });
 
         const NodeToolbarButtons = guestFrameRegistry.getChildren('NodeToolbar/Buttons');
+        const InlineEditorToolbar = this.getToolbarComponent();
 
         // The data attribute data-ignore_click_outside is used to disable the enhanceWithClickOutside
         // handling. For the special case that the outOfBandRender returns an empty rendered content
         // we need to disable the enhanceWithClickOutside handling to prevent hick ups in the event
         // registration after guest frame reload.
         return (
-            <div className={classNames} data-ignore_click_outside="true" style={toolbarPosition}>
-                <div className={style.toolBar__btnGroup}>
-                    {NodeToolbarButtons.map((Item, key) => <Item key={key} {...props} />)}
+            <>
+                <div
+                    className={style.toolBar__anchor}
+                    id="inline-ui-node-anchor"
+                    popovertarget="inline-ui-toolbar-popover"
+                    style={anchorPosition}
+                ></div>
+                <div
+                    className={style.toolBar__popover}
+                    id="inline-ui-toolbar-popover"
+                >
+                    <div className={classNames} data-ignore_click_outside="true">
+                        {InlineEditorToolbar && <InlineEditorToolbar />}
+                        <div className={style.toolBar__btnGroup}>
+                            <IconButton
+                                className={style.toolBar__contextMenuToggle}
+                                popovertarget="inline-ui-toolbar-context-menu"
+                                icon="ellipsis-vertical"
+                                onClick={void 0}
+                                hoverStyle="brand"
+                                title={i18nRegistry.translate('toggleContextMenu', 'Toggle context menu')}
+                            />
+                            <div
+                                id="inline-ui-toolbar-context-menu"
+                                className={style.toolBar__contextMenu}
+                                popover="auto"
+                            >
+                                <div className={style.toolBar__btnGroupVertical}>
+                                    {NodeToolbarButtons.map((Item, key) => <Item key={key} {...props} />)}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </>
         );
     }
 }
