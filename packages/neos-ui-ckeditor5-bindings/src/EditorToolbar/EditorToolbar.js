@@ -36,7 +36,7 @@ export default class EditorToolbar extends PureComponent {
         } = this.props;
 
         const classNames = mergeClassNames({
-            [style.toolBar]: true
+            [style.toolbar]: true
         });
         const renderedToolbarComponents = this.renderToolbarComponents(
             executeCommand,
