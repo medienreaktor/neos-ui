@@ -12,6 +12,7 @@ namespace Neos\Neos\Ui\Controller;
  * source code.
  */
 
+use Neos\ContentRepository\Core\DimensionSpace\DimensionSpacePointSet;
 use Neos\ContentRepository\Core\Feature\WorkspaceRebase\Exception\WorkspaceRebaseFailed;
 use Neos\ContentRepository\Core\SharedModel\Node\NodeAddress;
 use Neos\ContentRepository\Core\SharedModel\Workspace\WorkspaceStatus;
@@ -158,6 +159,7 @@ class BackendController extends ActionController
 
         $this->workspaceService->createPersonalWorkspaceForUserIfMissing($siteDetectionResult->contentRepositoryId, $user);
         $workspace = $this->workspaceService->getPersonalWorkspaceForUser($siteDetectionResult->contentRepositoryId, $user->getId());
+
         if (
             $this->autoSyncPersonalWorkspaces
             && $workspace->status === WorkspaceStatus::OUTDATED
@@ -173,14 +175,6 @@ class BackendController extends ActionController
 
         $contentGraph = $contentRepository->getContentGraph($workspace->workspaceName);
 
-        $rootDimensionSpacePoints = $contentRepository->getVariationGraph()->getRootGeneralizations();
-        $arbitraryRootDimensionSpacePoint = array_shift($rootDimensionSpacePoints);
-
-        $subgraph = $contentRepository->getContentSubgraph(
-            $workspace->workspaceName,
-            $nodeAddress->dimensionSpacePoint ?? $arbitraryRootDimensionSpacePoint,
-        );
-
         // we assume that the ROOT node is always stored in the CR as "physical" node; so it is safe
         // to call the contentGraph here directly.
         $rootNodeAggregate = $contentGraph->findRootNodeAggregateByType(
@@ -190,21 +184,79 @@ class BackendController extends ActionController
             throw new \RuntimeException(sprintf('No sites root node found in content repository "%s", while fetching site node "%s"', $contentRepository->id->value, $siteDetectionResult->siteNodeName->value), 1724849303);
         }
 
-        $siteNode = $subgraph->findNodeByPath(
-            $siteDetectionResult->siteNodeName->toNodeName(),
-            $rootNodeAggregate->nodeAggregateId
-        );
+        $resolvedNodeAddressIsSite = ($nodeAddress === null);
+        if ($nodeAddress === null) {
+            $site = $this->siteRepository->findOneByNodeName($siteDetectionResult->siteNodeName);
+            $defaultDimensionSpacePoint = $site?->getConfiguration()->defaultDimensionSpacePoint;
 
-        if ($siteNode === null) {
-            throw new \RuntimeException(sprintf('Site node "%s" not found in content repository "%s" in dimension space point %s and visibility constraints "%s"', $siteDetectionResult->siteNodeName->value, $contentRepository->id->value, $subgraph->getDimensionSpacePoint()->toJson(), join(' | ', $subgraph->getVisibilityConstraints()->excludedSubtreeTags->toStringArray())), 1747474100);
+            $siteNodeAggregate = $contentGraph->findChildNodeAggregateByName(
+                $rootNodeAggregate->nodeAggregateId,
+                $siteDetectionResult->siteNodeName->toNodeName(),
+            );
+
+            if ($siteNodeAggregate === null) {
+                throw new \RuntimeException(sprintf(
+                    'Site node aggregate named "%s" is missing in content repository "%s"',
+                    $siteDetectionResult->siteNodeName->value,
+                    $contentRepository->id->value,
+                ), 1752861981);
+            }
+
+            if ($defaultDimensionSpacePoint && $siteNodeAggregate->coversDimensionSpacePoint($defaultDimensionSpacePoint)) {
+                $nodeAddress = NodeAddress::create(
+                    $siteDetectionResult->contentRepositoryId,
+                    $workspace->workspaceName,
+                    $defaultDimensionSpacePoint,
+                    $siteNodeAggregate->nodeAggregateId,
+                );
+            } else {
+                $rootDimensionSpacePoints = DimensionSpacePointSet::fromArray($contentRepository->getVariationGraph()->getRootGeneralizations());
+                // first, try to use any of the root dimension space points
+                $eligibleDimensionSpacePoints = $rootDimensionSpacePoints->getIntersection(
+                    $siteNodeAggregate->coveredDimensionSpacePoints
+                );
+                // second, try any covered dimension space point
+                if ($eligibleDimensionSpacePoints->isEmpty()) {
+                    $eligibleDimensionSpacePoints = $siteNodeAggregate->coveredDimensionSpacePoints;
+                }
+
+                $eligibleDimensionSpacePointsArray = $eligibleDimensionSpacePoints->points;
+                $arbitraryEligibleDimensionSpacePoint = array_shift($eligibleDimensionSpacePointsArray);
+                if ($arbitraryEligibleDimensionSpacePoint === null) {
+                    throw new \RuntimeException(sprintf(
+                        'Site node aggregate named "%s" is in content repository "%s" does not cover any dimension space points',
+                        $siteDetectionResult->siteNodeName->value,
+                        $contentRepository->id->value,
+                    ), 1752861984);
+                }
+
+                $nodeAddress = NodeAddress::create(
+                    $siteDetectionResult->contentRepositoryId,
+                    $workspace->workspaceName,
+                    $arbitraryEligibleDimensionSpacePoint,
+                    $siteNodeAggregate->nodeAggregateId,
+                );
+            }
         }
 
-        if ($nodeAddress === null) {
-            $documentNode = $siteNode;
+        $subgraph = $contentRepository->getContentSubgraph(
+            $workspace->workspaceName,
+            $nodeAddress->dimensionSpacePoint,
+        );
+
+        $documentNode = $subgraph->findNodeById($nodeAddress->aggregateId);
+        if ($documentNode === null) {
+            throw new \RuntimeException('Could not resolve document node for node address ' . $nodeAddress->toJson(), 1752862846);
+        }
+        if ($resolvedNodeAddressIsSite) {
+            $siteNode = $documentNode;
         } else {
-            $documentNode = $subgraph->findNodeById($nodeAddress->aggregateId);
-            if ($documentNode === null) {
-                $documentNode = $siteNode;
+            $siteNode = $subgraph->findNodeByPath(
+                $siteDetectionResult->siteNodeName->toNodeName(),
+                $rootNodeAggregate->nodeAggregateId,
+            );
+            if ($siteNode === null) {
+                throw new \RuntimeException('Could not resolve site node for name ' . $siteDetectionResult->siteNodeName->value, 1752862879);
             }
         }
 
