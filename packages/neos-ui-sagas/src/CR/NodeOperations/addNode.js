@@ -85,6 +85,10 @@ function * nodeCreationWorkflow(context, step = STEP_SELECT_NODETYPE, workflowDa
                 // User asked to go back
                 //
                 if (nextAction.type === actionTypes.UI.NodeCreationDialog.BACK) {
+                    // If the nodetype was preselected, we do not allow going back to the node type selection step
+                    if (context.nodeType) {
+                        return;
+                    }
                     return yield call(nodeCreationWorkflow, context, STEP_SELECT_NODETYPE);
                 }
                 if (nextAction.type === actionTypes.UI.NodeCreationDialog.APPLY) {
