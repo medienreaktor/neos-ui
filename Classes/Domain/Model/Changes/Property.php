@@ -117,7 +117,7 @@ class Property extends AbstractChange
     /**
      * Get the node dom address
      *
-     * @return RenderedNodeDomAddress
+     * @return ?RenderedNodeDomAddress
      */
     public function getNodeDomAddress()
     {
@@ -232,7 +232,9 @@ class Property extends AbstractChange
 
             $reloadIfChangedConfigurationPath = sprintf('properties.%s.ui.reloadIfChanged', $propertyName);
             if (!$this->getIsInline() && $node->getNodeType()->getConfiguration($reloadIfChangedConfigurationPath)) {
-                if ($this->getNodeDomAddress() && $this->getNodeDomAddress()->getFusionPath()
+                if (!$this->getNodeDomAddress()) {
+                    $this->reloadDocument($node);
+                } elseif ($this->getNodeDomAddress()->getFusionPath()
                     && $node->getNodeType()->isOfType('Neos.Neos:Content')
                     && $node->getParent()->getNodeType()->isOfType('Neos.Neos:ContentCollection')
                 ) {
