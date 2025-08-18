@@ -133,7 +133,10 @@ export default ckEditorRegistry => {
         || editorOptions?.formatting?.justify
     )));
     config.set('heading', addPlugin(Heading, editorOptions => (
-        editorOptions?.formatting?.h1
+        editorOptions?.formatting?.p
+        || editorOptions?.formatting?.pre
+        || editorOptions?.formatting?.blockquote
+        || editorOptions?.formatting?.h1
         || editorOptions?.formatting?.h2
         || editorOptions?.formatting?.h3
         || editorOptions?.formatting?.h4
