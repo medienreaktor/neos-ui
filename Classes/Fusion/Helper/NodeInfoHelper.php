@@ -11,13 +11,14 @@ namespace Neos\Neos\Ui\Fusion\Helper;
  * source code.
  */
 
+use GuzzleHttp\Psr7\Uri;
 use Neos\ContentRepository\Domain\Model\Node;
 use Neos\ContentRepository\Domain\Model\NodeInterface;
 use Neos\ContentRepository\Domain\Service\ContextFactoryInterface;
 use Neos\ContentRepository\Domain\Service\NodeTypeManager;
-use Neos\ContentRepository\Domain\Utility\NodePaths;
 use Neos\Eel\ProtectedContextAwareInterface;
 use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Http\Helper\UriHelper;
 use Neos\Flow\Mvc\Controller\ControllerContext;
 use Neos\Flow\Persistence\PersistenceManagerInterface;
 use Neos\Neos\Domain\Service\ContentContext;
@@ -103,6 +104,11 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
      * @var NodeTypeManager
      */
     protected $nodeTypeManager;
+
+    /**
+     * @var array<string, string>
+     */
+    protected array $sitePreviewUris = [];
 
     /**
      * @param NodeInterface $node
@@ -213,7 +219,7 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
         }
 
         try {
-            $nodeInfo['uri'] = $this->uri($node, $controllerContext);
+            $nodeInfo['uri'] = $this->previewUri($node, $controllerContext);
         } catch (\Neos\Neos\Exception $exception) {
             // Unless there is a serious problem with routes there shouldn't be an exception ever.
             $nodeInfo['uri'] = '';
@@ -429,6 +435,27 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
             $site->getContextPath() => $this->renderNodeWithPropertiesAndChildrenInformation($site, $controllerContext),
             $documentNode->getContextPath() => $this->renderNodeWithPropertiesAndChildrenInformation($documentNode, $controllerContext)
         ];
+    }
+
+    public function previewUri(
+        NodeInterface $node,
+        ControllerContext $controllerContext
+    ): string {
+        /* @var $contentContext ContentContext */
+        $contentContext = $node->getContext();
+        $siteNode = $contentContext->getCurrentSiteNode();
+
+        $sitePreviewUri = $this->sitePreviewUris[$siteNode->getContextPath()] ?? null;
+        if (!$sitePreviewUri) {
+            $sitePreviewUri = new Uri($this->uri($siteNode, $controllerContext));
+            $this->sitePreviewUris[$siteNode->getContextPath()] = $sitePreviewUri;
+        }
+
+        $arguments = UriHelper::parseQueryIntoArguments($sitePreviewUri);
+        return (string)UriHelper::uriWithArguments(
+            $sitePreviewUri,
+            [...$arguments, 'node' => $node->getContextPath()],
+        );
     }
 
     /**
