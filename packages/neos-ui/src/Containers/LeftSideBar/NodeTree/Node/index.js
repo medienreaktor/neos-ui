@@ -310,7 +310,7 @@ export default class Node extends PureComponent {
                     isLoading={this.isLoading()}
                     isDirty={this.props.isNodeDirty}
                     isHidden={node?.properties?._hidden}
-                    isHiddenInIndex={node?.properties?._hiddenInIndex || this.isIntermediate()}
+                    isHiddenInIndex={node?.properties?.hiddenInMenu || this.isIntermediate()}
                     isDragging={currentlyDraggedNodes.includes(node.contextPath)}
                     hasError={this.hasError()}
                     label={decodeLabel(node?.label)}
