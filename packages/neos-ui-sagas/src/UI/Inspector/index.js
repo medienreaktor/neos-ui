@@ -1,7 +1,7 @@
 import {take, race, put, call, select} from 'redux-saga/effects';
 import {$get} from 'plow-js';
 import escapeRegExp from 'lodash.escaperegexp';
-import {findNodeInGuestFrame} from '@neos-project/neos-ui-guest-frame/src/dom';
+import {findNodeInGuestFrame, markNodeAsHidden, markNodeAsVisible} from '@neos-project/neos-ui-guest-frame/src/dom';
 
 import {actionTypes, actions, selectors} from '@neos-project/neos-ui-redux-store';
 
@@ -152,6 +152,14 @@ function * flushInspector(inspectorRegistry) {
                 const oldUriFragment = oldUri.split('@')[0];
                 const newUriFragment = oldUriFragment.replace(new RegExp(escapeRegExp(oldValue) + '$'), newValue);
                 yield put(actions.CR.Nodes.updateUri(oldUriFragment, newUriFragment));
+            }
+        }
+
+        if (focusedNode && propertyName === '_hidden') {
+            if (value === true) {
+                markNodeAsHidden(focusedNode.contextPath);
+            } else {
+                markNodeAsVisible(focusedNode.contextPath);
             }
         }
     }
