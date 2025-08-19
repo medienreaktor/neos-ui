@@ -5,12 +5,3 @@
     '@controller': 'Backend'
     '@action': 'index'
   appendExceedingArguments: true
-
--
-  name: 'Redirect to frontend URL'
-  uriPattern: 'redirect'
-  defaults:
-    '@controller': 'Backend'
-    '@action': 'redirectTo'
-    '@format': 'html'
-  appendExceedingArguments: true
