@@ -25,7 +25,6 @@ use Neos\Neos\Domain\Repository\SiteRepository;
 use Neos\Neos\Domain\Service\NodeTypeNameFactory;
 use Neos\Neos\Domain\Service\WorkspacePublishingService;
 use Neos\Neos\Domain\Service\WorkspaceService;
-use Neos\Neos\Domain\SubtreeTagging\NeosSubtreeTag;
 use Neos\Neos\FrontendRouting\NodeUriBuilderFactory;
 use Neos\Neos\FrontendRouting\SiteDetection\SiteDetectionResult;
 use Neos\Neos\Service\UserService;
@@ -289,43 +288,5 @@ class BackendController extends ActionController
                     user: $user,
                 ),
         ]);
-    }
-
-    /**
-     * @throws \Neos\Flow\Mvc\Exception\StopActionException
-     */
-    public function redirectToAction(string $node): void
-    {
-        $this->response->setHttpHeader('Cache-Control', [
-            'no-cache',
-            'no-store'
-        ]);
-
-        $nodeAddress = NodeAddress::fromJsonString($node);
-
-        $contentRepository = $this->contentRepositoryRegistry->get($nodeAddress->contentRepositoryId);
-
-        $nodeInstance = $contentRepository->getContentSubgraph(
-            $nodeAddress->workspaceName,
-            $nodeAddress->dimensionSpacePoint
-        )->findNodeById($nodeAddress->aggregateId);
-
-        $workspace = $contentRepository->findWorkspaceByName($nodeAddress->workspaceName);
-
-        // we always want to redirect to the node in the base workspace unless we are on a root workspace in which case we stay on that (currently that will not happen)
-        $nodeAddressInBaseWorkspace = NodeAddress::create(
-            $nodeAddress->contentRepositoryId,
-            $workspace->baseWorkspaceName ?? $nodeAddress->workspaceName,
-            $nodeAddress->dimensionSpacePoint,
-            $nodeAddress->aggregateId
-        );
-
-        $nodeUriBuilder = $this->nodeUriBuilderFactory->forActionRequest($this->request);
-
-        $this->redirectToUri(
-            !$nodeInstance || $nodeInstance->tags->contain(NeosSubtreeTag::disabled())
-                ? $nodeUriBuilder->previewUriFor($nodeAddressInBaseWorkspace)
-                : $nodeUriBuilder->uriFor($nodeAddressInBaseWorkspace)
-        );
     }
 }
