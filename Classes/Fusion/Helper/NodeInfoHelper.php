@@ -129,7 +129,7 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
                     $includedNodeTypes,
                     $this->nodeTypeStringsToList($this->ignoredNodeTypeRole)
                 ),
-                $this->shouldIncludeContentChildNodes($includedNodeTypes)
+                true
             ) :
             $this->renderNodeWithPropertiesAndChildrenInformation($node, $controllerContext, $nodeTypeFilterOverride)
         );
