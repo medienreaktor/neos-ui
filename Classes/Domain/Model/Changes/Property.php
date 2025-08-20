@@ -198,7 +198,9 @@ class Property extends AbstractChange
                 || $this->getNodeType($node)?->getConfiguration($reloadIfChangedConfigurationPathForReference)
             )
         ) {
-            if ($this->getNodeDomAddress() && $this->getNodeDomAddress()->getFusionPath()
+            if (!$this->getNodeDomAddress()) {
+                $this->reloadDocument($node);
+            } elseif ($this->getNodeDomAddress()->getFusionPath()
                 && $parentNode
                 && $this->getNodeType($parentNode)?->isOfType('Neos.Neos:ContentCollection')) {
                 $reloadContentOutOfBand = new ReloadContentOutOfBand();

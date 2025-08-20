@@ -649,12 +649,14 @@ class BackendServiceController extends ActionController
             'getForTree' => $nodeInfoHelper->renderNodes(
                 array_filter($flowQuery->get()),
                 $this->request,
-                true
+                true,
+                includeContentChildNodes: ($finisher['payload']['usage'] ?? 'ALL') !== 'PAGE_TREE',
             ),
             'getForTreeWithParents' => $nodeInfoHelper->renderNodesWithParents(
                 array_filter($flowQuery->get()),
                 $this->request,
-                $finisher['payload']['nodeTypeFilter'] ?? null
+                $finisher['payload']['nodeTypeFilter'] ?? null,
+                ($finisher['payload']['usage'] ?? 'ALL') !== 'PAGE_TREE',
             ),
             default => []
         };

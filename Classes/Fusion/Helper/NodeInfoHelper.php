@@ -89,7 +89,8 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
     public function renderNodeWithMinimalPropertiesAndChildrenInformation(
         Node $node,
         ?ActionRequest $actionRequest = null,
-        ?string $nodeTypeFilterOverride = null
+        ?string $nodeTypeFilterOverride = null,
+        bool $includeContentChildNodes = false
     ): ?array {
         /** @todo implement custom node policy service
         if (!$this->nodePolicyService->isNodeTreePrivilegeGranted($node)) {
@@ -119,7 +120,7 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
             $this->nodeTypeStringsToList($this->ignoredNodeTypeRole)
         );
 
-        $nodeInfo['children'] = $this->renderChildrenInformation($node, $nodeTypeFilter);
+        $nodeInfo['children'] = $this->renderChildrenInformation($node, $nodeTypeFilter, $includeContentChildNodes);
 
         $this->userLocaleService->switchToUILocale(true);
 
@@ -215,27 +216,30 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
      * @param string $nodeTypeFilterString
      * @return array<int,array<string,string>>
      */
-    protected function renderChildrenInformation(Node $node, string $nodeTypeFilterString): array
+    protected function renderChildrenInformation(Node $node, string $nodeTypeFilterString, bool $includeContentChildNodes = true): array
     {
-        $contentRepository = $this->contentRepositoryRegistry->get($node->contentRepositoryId);
         $subgraph = $this->contentRepositoryRegistry->subgraphForNode($node);
 
         $documentChildNodes = $subgraph->findChildNodes(
             $node->aggregateId,
             FindChildNodesFilter::create(nodeTypes: $nodeTypeFilterString)
         );
-        // child nodes for content tree, must not include those nodes filtered out by `baseNodeType`
-        $contentChildNodes = $subgraph->findChildNodes(
-            $node->aggregateId,
-            FindChildNodesFilter::create(
-                nodeTypes: $this->buildContentChildNodeFilterString()
-            )
-        );
-        $childNodes = $documentChildNodes->merge($contentChildNodes);
+
+        if ($includeContentChildNodes) {
+            // child nodes for content tree, must not include those nodes filtered out by `baseNodeType`
+            $contentChildNodes = $subgraph->findChildNodes(
+                $node->aggregateId,
+                FindChildNodesFilter::create(
+                    nodeTypes: $this->buildContentChildNodeFilterString()
+                )
+            );
+            $childNodes = $documentChildNodes->merge($contentChildNodes);
+        } else {
+            $childNodes = $documentChildNodes;
+        }
 
         $infos = [];
         foreach ($childNodes as $childNode) {
-            $contentRepository = $this->contentRepositoryRegistry->get($childNode->contentRepositoryId);
             $infos[] = [
                 'contextPath' => NodeAddress::fromNode($childNode)->toJson(),
                 'nodeType' => $childNode->nodeTypeName->value
@@ -251,11 +255,12 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
     public function renderNodes(
         array $nodes,
         ActionRequest $actionRequest,
-        bool $omitMostPropertiesForTreeState = false
+        bool $omitMostPropertiesForTreeState = false,
+        bool $includeContentChildNodes = true
     ): array {
-        $mapper = function (Node $node) use ($actionRequest, $omitMostPropertiesForTreeState) {
+        $mapper = function (Node $node) use ($actionRequest, $omitMostPropertiesForTreeState, $includeContentChildNodes) {
             return $omitMostPropertiesForTreeState
-                ? $this->renderNodeWithMinimalPropertiesAndChildrenInformation($node, $actionRequest)
+                ? $this->renderNodeWithMinimalPropertiesAndChildrenInformation($node, $actionRequest, includeContentChildNodes: $includeContentChildNodes)
                 : $this->renderNodeWithPropertiesAndChildrenInformation($node, $actionRequest);
         };
         return array_values(array_filter(array_map($mapper, $nodes)));
@@ -265,7 +270,7 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
      * @param array<int,?array<string,mixed>> $nodes
      * @return array<int,?array<string,mixed>>
      */
-    public function renderNodesWithParents(array $nodes, ActionRequest $actionRequest, ?string $nodeTypeFilter = null): array
+    public function renderNodesWithParents(array $nodes, ActionRequest $actionRequest, ?string $nodeTypeFilter = null, bool $includeContentChildNodes = true): array
     {
         // For search operation we want to include all nodes, not respecting the "baseNodeType" setting
         $baseNodeTypeOverride = $this->documentNodeTypeRole;
@@ -280,7 +285,8 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
             } elseif ($renderedNode = $this->renderNodeWithMinimalPropertiesAndChildrenInformation(
                 $node,
                 $actionRequest,
-                $nodeTypeFilter ?? $baseNodeTypeOverride
+                $nodeTypeFilter ?? $baseNodeTypeOverride,
+                $includeContentChildNodes
             )) {
                 $renderedNode['matched'] = true;
                 $renderedNodes[$node->aggregateId->value] = $renderedNode;
@@ -302,7 +308,8 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
                     $renderedParentNode = $this->renderNodeWithMinimalPropertiesAndChildrenInformation(
                         $parentNode,
                         $actionRequest,
-                        $baseNodeTypeOverride
+                        $baseNodeTypeOverride,
+                        $includeContentChildNodes
                     );
                     if ($renderedParentNode) {
                         $renderedParentNode['intermediate'] = true;

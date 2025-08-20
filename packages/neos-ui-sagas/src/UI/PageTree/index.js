@@ -38,9 +38,9 @@ export function * watchRequestChildrenForContextPath({configuration}) {
         try {
             const query = q(contextPath);
 
-            parentNodes = yield query.getForTree();
+            parentNodes = yield query.getForTree('PAGE_TREE');
             const {baseNodeType} = configuration.nodeTree.presets.default;
-            childNodes = yield query.neosUiFilteredChildren(baseNodeType).getForTree();
+            childNodes = yield query.neosUiFilteredChildren(baseNodeType).getForTree('PAGE_TREE');
         } catch (err) {
             yield put(actions.UI.PageTree.invalidate(contextPath));
             showFlashMessage({
@@ -165,7 +165,7 @@ export function * watchSearch({configuration}) {
             const query = q(contextPath);
 
             if (isSearch) {
-                matchingNodes = yield query.search(searchQuery, effectiveFilterNodeType).getForTreeWithParents(effectiveFilterNodeType);
+                matchingNodes = yield query.search(searchQuery, effectiveFilterNodeType).getForTreeWithParents(effectiveFilterNodeType, 'PAGE_TREE');
             } else {
                 const clipboardNodeContextPath = yield select(
                     state => state?.cr?.nodes?.clipboard
@@ -182,7 +182,7 @@ export function * watchSearch({configuration}) {
                     configuration.nodeTree.loadingDepth,
                     toggledNodes,
                     clipboardNodeContextPath
-                ).getForTree();
+                ).getForTree('PAGE_TREE');
             }
         } catch (err) {
             console.error('Error while executing a tree search: ', err);
