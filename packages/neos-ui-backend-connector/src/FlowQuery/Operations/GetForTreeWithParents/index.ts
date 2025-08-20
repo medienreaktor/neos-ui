@@ -1,4 +1,4 @@
-export default () => (nodeTypeFilter = null) => ({
+export default () => (nodeTypeFilter = null, usage: 'ALL' | 'PAGE_TREE' = 'ALL') => ({
     type: 'getForTreeWithParents',
-    payload: {nodeTypeFilter}
+    payload: {nodeTypeFilter, usage}
 });

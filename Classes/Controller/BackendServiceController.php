@@ -575,7 +575,8 @@ class BackendServiceController extends ActionController
                 $result = $nodeInfoHelper->renderNodes(
                     array_filter($flowQuery->get()),
                     $this->getControllerContext(),
-                    true
+                    true,
+                    ($finisher['payload']['usage'] ?? 'ALL') !== 'PAGE_TREE',
                 );
                 break;
             case 'getForTreeWithParents':
@@ -583,7 +584,8 @@ class BackendServiceController extends ActionController
                 $result = $nodeInfoHelper->renderNodesWithParents(
                     array_filter($flowQuery->get()),
                     $this->getControllerContext(),
-                    $nodeTypeFilter
+                    $nodeTypeFilter,
+                    ($finisher['payload']['usage'] ?? 'ALL') !== 'PAGE_TREE',
                 );
                 break;
         }

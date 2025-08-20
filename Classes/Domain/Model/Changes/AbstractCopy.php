@@ -34,7 +34,6 @@ abstract class AbstractCopy extends AbstractStructuralChange
     {
         $updateNodeInfo = new UpdateNodeInfo();
         $updateNodeInfo->setNode($node);
-        $updateNodeInfo->recursive();
         $this->feedbackCollection->add($updateNodeInfo);
         $this->addNodeCreatedFeedback($node);
         parent::finish($node);

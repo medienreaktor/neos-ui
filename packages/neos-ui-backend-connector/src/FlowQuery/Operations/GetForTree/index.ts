@@ -1,4 +1,4 @@
-export default () => (index: number | 'ALL' = 'ALL') => ({
+export default () => (usage: 'ALL' | 'PAGE_TREE' = 'ALL') => ({
     type: 'getForTree',
-    payload: index
+    payload: {usage}
 });

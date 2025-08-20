@@ -25,7 +25,6 @@ describe('processSelectBoxOptions', () => {
     it('overrules the array key with the explicit value', () => {
         const processOptions = processSelectBoxOptions(fakeI18NRegistry, {
             'key1': {label: 'Key 1'},
-            // @ts-expect-error we declare the typescript types to what we want, but cant influence user input
             'key2': {label: 'Key 2', value: 'key2-overrule'}
         }, null);
 
@@ -44,7 +43,6 @@ describe('processSelectBoxOptions', () => {
     it('omits entries that are invalid and empty', () => {
         let processOptions = processSelectBoxOptions(fakeI18NRegistry, {
             'key1': {label: 'Key 1'},
-            // @ts-expect-error we declare the typescript types to what we want, but cant influence user input
             'key2': null
         }, null);
 
@@ -52,7 +50,6 @@ describe('processSelectBoxOptions', () => {
 
         processOptions = processSelectBoxOptions(fakeI18NRegistry, {
             'key1': {label: 'Key 1'},
-            // @ts-expect-error we declare the typescript types to what we want, but cant influence user input
             'key2': {}
         }, null);
 

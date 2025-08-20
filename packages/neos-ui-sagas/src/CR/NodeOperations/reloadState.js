@@ -22,14 +22,14 @@ export default function * watchReloadState({configuration}) {
 
         let nodes = [];
         if (isSearch) {
-            nodes = yield q(siteNodeContextPath).search(searchQuery, effectiveFilterNodeType).getForTreeWithParents(effectiveFilterNodeType);
+            nodes = yield q(siteNodeContextPath).search(searchQuery, effectiveFilterNodeType).getForTreeWithParents(effectiveFilterNodeType, 'PAGE_TREE');
         } else {
             nodes = yield q([siteNodeContextPath, documentNodeContextPath]).neosUiDefaultNodes(
                 configuration.nodeTree.presets.default.baseNodeType,
                 configuration.nodeTree.loadingDepth,
                 toggledNodes,
                 clipboardNodesContextPaths
-            ).getForTree();
+            ).getForTree('PAGE_TREE');
         }
 
         const nodeMap = nodes.reduce((nodeMap, node) => {
