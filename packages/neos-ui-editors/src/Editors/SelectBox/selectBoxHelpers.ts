@@ -52,7 +52,7 @@ export const processSelectBoxOptions = (i18nRegistry: I18nRegistry, selectBoxOpt
         const processedSelectBoxOption: SelectBoxOption = {
             value: key,
             ...selectBoxOption, // a value in here overrules value based on the key above.
-            label: i18nRegistry.translate(selectBoxOption.label)
+            label: i18nRegistry.translate(selectBoxOption.label, '')
         };
         processedSelectBoxOption.value = createSelectBoxValueStringFromPossiblyStrangeNodePropertyValue(processedSelectBoxOption.value) as string;
 
