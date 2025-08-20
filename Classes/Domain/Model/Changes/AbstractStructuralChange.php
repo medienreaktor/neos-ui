@@ -125,7 +125,6 @@ abstract class AbstractStructuralChange extends AbstractChange
     {
         $updateNodeInfo = new UpdateNodeInfo();
         $updateNodeInfo->setNode($node);
-        $updateNodeInfo->recursive();
         $this->feedbackCollection->add($updateNodeInfo);
 
         $parentNode = $this->contentRepositoryRegistry->subgraphForNode($node)
