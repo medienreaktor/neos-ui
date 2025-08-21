@@ -1,13 +1,30 @@
 import debounce from 'lodash.debounce';
+import {actions} from '@neos-project/neos-ui-redux-store';
+import {getGuestFrame, getGuestFrameDocument} from '@neos-project/neos-ui-guest-frame/src/dom';
 import DecoupledEditor from '@ckeditor/ckeditor5-editor-decoupled/src/decouplededitor';
 import {Template, BodyCollection} from '@ckeditor/ckeditor5-ui/src';
-import {actions} from '@neos-project/neos-ui-redux-store';
+import {createElement} from '@ckeditor/ckeditor5-utils';
+
 import {cleanupContentBeforeCommit} from './cleanupContentBeforeCommit'
+
 // FIXME import from @ckeditor/ckeditor5-engine/theme/placeholder.css instead! (Needs build setup configuration)
+import '@ckeditor/ckeditor5-theme-lark/dist/index.css';
+import '@ckeditor/ckeditor5-clipboard/dist/index.css';
+import '@ckeditor/ckeditor5-core/dist/index.css';
+import '@ckeditor/ckeditor5-engine/dist/index.css';
+import '@ckeditor/ckeditor5-enter/dist/index.css';
+import '@ckeditor/ckeditor5-paragraph/dist/index.css';
+import '@ckeditor/ckeditor5-select-all/dist/index.css';
+import '@ckeditor/ckeditor5-typing/dist/index.css';
+import '@ckeditor/ckeditor5-ui/dist/index.css';
+import '@ckeditor/ckeditor5-undo/dist/index.css';
+import '@ckeditor/ckeditor5-upload/dist/index.css';
+import '@ckeditor/ckeditor5-utils/dist/index.css';
+import '@ckeditor/ckeditor5-watchdog/dist/index.css';
+import '@ckeditor/ckeditor5-widget/dist/index.css';
+
 import './cke-overwrites.vanilla-css';
 import './placeholder.vanilla-css';
-import {createElement} from '@ckeditor/ckeditor5-utils';
-import {getGuestFrame, getGuestFrameDocument} from '@neos-project/neos-ui-guest-frame/src/dom';
 
 let currentEditor = null;
 let editorConfig = {};
@@ -118,10 +135,13 @@ export const createEditor = store => async options => {
                 if (!event.source.isFocused) {
                     // when another editor is focused commit all possible pending changes
                     debouncedOnChange.flush();
+                    editor.ui.view.toolbar.element.classList.remove('neos-ck-anchored-toolbar--visible');
                     return
                 }
 
                 currentEditor = editor;
+                editor.ui.view.toolbar.element.classList.add('neos-ck-anchored-toolbar--visible');
+
                 editorConfig.setCurrentlyEditedPropertyName(propertyName);
                 handleUserInteractionCallback();
             });
@@ -132,6 +152,16 @@ export const createEditor = store => async options => {
             });
 
             editor.model.document.on('change', () => handleUserInteractionCallback());
+
+            // As we use the DecoupledEditor, we need to add the toolbar to the Neos backend container, so it is visible in the UI
+            const backendContainer = getGuestFrameDocument().getElementById('neos-backend-container');
+            backendContainer.appendChild(editor.ui.view.toolbar.element);
+
+            // Anchor the toolbar to the dom-node representing the edited property
+            // TODO: Move to CSS class and set the class on the element instead of setting styles directly
+            editor.ui.view.toolbar.element.style.positionAnchor = propertyDomNode.dataset.neosInlineEditorAnchorName;
+            editor.ui.view.toolbar.element.classList.add('neos-ck-anchored-toolbar');
+
             return editor;
         }).catch(e => {
             if (e instanceof TypeError && e.message.match(/Class constructor .* cannot be invoked without 'new'/)) {

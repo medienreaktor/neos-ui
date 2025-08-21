@@ -4,83 +4,117 @@
 
 /* hides buggy powered-by logo (credits on https://www.neos.io via "Editor Tools") */
 .ck-powered-by-balloon {
-    display: none;
+    display: none !important;
 }
 
 /* hides bar below neos ui */
 .ck-aria-live-announcer {
-    display: none;
+    display: none !important;
 }
 
+/* anchors the CK toolbars at the top of the edited text property */
+.ck.ck-toolbar.neos-ck-anchored-toolbar {
+    position: fixed;
+    bottom: anchor(top);
+    left: anchor(left);
+    display: none;
+}
+.ck.ck-toolbar.neos-ck-anchored-toolbar--visible {
+    display: flex;
+}
+
+/*
+ * Adjust the CKEditor 5 UI to match Neos UI design
+ * See https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/css.html
+ * TODO: Make the neos variables available with a neos namespace in the guest frame so we can use them here
+ */
 :root {
+    --ck-z-default: 1;
+    --ck-z-panel: calc(var(--ck-z-default) + 999);
+    --ck-z-dialog: 9999;
+
+    --ck-font-face: "Noto Sans", sans-serif;
+    --ck-font-size-base: 13px;
+    --ck-font-size-normal: 1em;
+
+    --ck-line-height-base: 1.84615;
+
+    --ck-border-radius: 0;
+
+    --ck-ui-component-min-height: 2.3em;
+
+    --ck-color-base-foreground: #fafafa;
+    --ck-color-base-background: #141414;
+    --ck-color-base-border: #141414;
+    --ck-color-base-action: #00a338;
+    --ck-color-base-focus: #00adee;
+    --ck-color-base-text: #fff;
+    --ck-color-base-active: #00adee;
+    --ck-color-base-active-focus: #35c3f8;
+
+    --ck-color-panel-background: #141414;
+    --ck-color-panel-border: #141414;
+
+    --ck-color-toolbar-border: #3f3f3f;
+
+    --ck-color-button-on-background: var(--ck-color-base-active);
+    --ck-color-button-on-color: var(--ck-color-base-text);
+    --ck-color-button-default-background: transparent;
+    --ck-color-button-default-hover-background: #35c3f8;
+    --ck-color-split-button-hover-background: var(--ck-color-base-active-focus);
+    --ck-color-button-default-active-background: var(--ck-color-base-active);
+    --ck-color-button-default-disabled-background: transparent;
+
+    --ck-color-focus-border: #35c3f8;
+    --ck-color-focus-shadow: rgba(119, 186, 248, .5);
+    --ck-color-focus-disabled-shadow: rgba(119, 186, 248, .3);
+
+    --ck-color-text: var(--ck-color-base-text);
+
+    --ck-color-shadow-drop: rgba(0, 0, 0, .15);
+    --ck-color-shadow-inner: rgba(0, 0, 0, .1);
+
+    --ck-color-widget-blurred-border: #dedede;
+    --ck-color-widget-hover-border: #ffc83d;
+    --ck-color-widget-editable-focus-background: var(--ck-color-base-background);
+    --ck-color-widget-drag-handle-icon-color: var(--ck-color-base-background);
+
+    --ck-focus-outer-shadow-geometry: 0 0 0 3px;
+    --ck-focus-outer-shadow: var(--ck-focus-outer-shadow-geometry) var(--ck-color-focus-shadow);
+    --ck-focus-disabled-outer-shadow: var(--ck-focus-outer-shadow-geometry) var(--ck-color-focus-disabled-shadow);
+    --ck-focus-ring: 1px solid var(--ck-color-focus-border);
+
+    --ck-inner-shadow: 2px 2px 3px var(--ck-color-shadow-inner) inset;
+    --ck-drop-shadow: 0 1px 2px 1px var(--ck-color-shadow-drop);
+
+    --ck-spacing-unit: 0.6em;
+    --ck-spacing-large: calc(var(--ck-spacing-unit) * 1.5);
+    --ck-spacing-standard: var(--ck-spacing-unit);
+    --ck-spacing-medium: calc(var(--ck-spacing-unit) * 0.8);
+    --ck-spacing-small: calc(var(--ck-spacing-unit) * 0.5);
+    --ck-spacing-tiny: calc(var(--ck-spacing-unit) * 0.3);
+    --ck-spacing-extra-tiny: calc(var(--ck-spacing-unit) * 0.16);
+
+    --ck-icon-size: calc(var(--ck-line-height-base) * var(--ck-font-size-normal));
+
     --ck-clipboard-drop-target-dot-width: 12px;
     --ck-clipboard-drop-target-dot-height: 8px;
     --ck-clipboard-drop-target-color: var(--ck-color-focus-border);
+
+    --ck-toolbar-dropdown-max-width: 60vw;
+
+    --ck-balloon-panel-arrow-z-index: calc(var(--ck-z-default) - 3);
+    --ck-balloon-border-width: 1px;
+
+    --ck-widget-outline-thickness: 3px;
+    --ck-widget-handle-icon-size: 16px;
+    --ck-widget-handle-animation-duration: 200ms;
+    --ck-widget-handle-animation-curve: ease;
 }
 
-/* Drag & drop caret */
-.ck.ck-editor__editable .ck.ck-clipboard-drop-target-position span {
-    position: relative;
-    bottom: calc(-.5 * var(--ck-clipboard-drop-target-dot-height));
-    top: calc(-.5 * var(--ck-clipboard-drop-target-dot-height));
-    border: 1px solid var(--ck-clipboard-drop-target-color);
-    background: var(--ck-clipboard-drop-target-color);
-    margin-left: -1px;
-}
-
-.ck.ck-editor__editable .ck.ck-clipboard-drop-target-position span::after {
-    content: '';
-    width: 0;
-    height: 0;
-
-    display: block;
-    position: absolute;
-    left: 50%;
-    top: calc(-.5 * var(--ck-clipboard-drop-target-dot-height));
-
-    transform: translateX(-50%);
-    border-color: var(--ck-clipboard-drop-target-color) transparent transparent transparent;
-    border-width: calc(var(--ck-clipboard-drop-target-dot-height)) calc(.5 * var(--ck-clipboard-drop-target-dot-width)) 0 calc(.5 * var(--ck-clipboard-drop-target-dot-width));
-    border-style: solid;
-}
-
-.ck.ck-clipboard-drop-target-line {
-    height: 0;
-    border: 1px solid var(--ck-clipboard-drop-target-color);
-    background: var(--ck-clipboard-drop-target-color);
-    margin-top: -1px;
-    position: absolute;
-    pointer-events: none;
-}
-
-.ck.ck-editor__editable .ck-widget.ck-clipboard-drop-target-range {
-    outline: var(--ck-widget-outline-thickness) solid var(--ck-clipboard-drop-target-color) !important;
-}
-
-.ck.ck-editor__editable .ck-widget:-webkit-drag {
-    zoom: 0.6;
-    outline: none !important;
-}
-
-.ck.ck-clipboard-drop-target-line::before {
-    content: '';
-    position: absolute;
-    top: calc(-.5 * var(--ck-clipboard-drop-target-dot-width));
-    width: 0;
-    height: 0;
-    border-style: solid;
-}
-
-[dir="ltr"] .ck.ck-clipboard-drop-target-line::before {
-    left: -1px;
-
-    border-width: calc(.5 * var(--ck-clipboard-drop-target-dot-width)) 0 calc(.5 * var(--ck-clipboard-drop-target-dot-width)) var(--ck-clipboard-drop-target-dot-height);
-    border-color: transparent transparent transparent var(--ck-clipboard-drop-target-color);
-}
-
-[dir="rtl"] .ck.ck-clipboard-drop-target-line::before {
-    right: -1px;
-
-    border-width: calc(.5 * var(--ck-clipboard-drop-target-dot-width)) var(--ck-clipboard-drop-target-dot-height) calc(.5 * var(--ck-clipboard-drop-target-dot-width)) 0;
-    border-color: transparent var(--ck-clipboard-drop-target-color) transparent transparent;
+/* Component overrides */
+.ck.ck-button,
+a.ck.ck-button {
+    margin: 0;
+    border: none;
 }

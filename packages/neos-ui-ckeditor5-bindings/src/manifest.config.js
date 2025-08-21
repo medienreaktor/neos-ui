@@ -2,26 +2,35 @@ import CkEditorConfigRegistry from './registry/CkEditorConfigRegistry';
 import {stripTags} from '@neos-project/utils-helpers';
 
 import DisabledAutoparagraphMode from './plugins/disabledAutoparagraphMode';
-import Sub from './plugins/sub';
-import Sup from './plugins/sup';
 import LinkTargetBlank from './plugins/linkTargetBlank';
 import LinkRelNofollow from './plugins/linkRelNofollow';
 import LinkDownload from './plugins/linkDownload';
 import LinkTitle from './plugins/linkTitle';
-import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
-import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
+
+import {icons} from '@ckeditor/ckeditor5-core/src';
+import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';
+import Autoformat from '@ckeditor/ckeditor5-autoformat/src/autoformat';
+import BalloonToolbar from '@ckeditor/ckeditor5-ui/src/toolbar/balloon/balloontoolbar';
 import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
+import Code from '@ckeditor/ckeditor5-basic-styles/src/code';
+import CodeBlock from '@ckeditor/ckeditor5-code-block/src/codeblock';
+import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
+import Heading from '@ckeditor/ckeditor5-heading/src/heading';
+import Indent from '@ckeditor/ckeditor5-indent/src/indent';
+import InsideTable from './plugins/insideTable';
 import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
 import ItalicWithEm from './plugins/italicWithEm';
-import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline';
-import Strikethrough from '@ckeditor/ckeditor5-basic-styles/src/strikethrough';
-import Heading from '@ckeditor/ckeditor5-heading/src/heading';
 import Link from '@ckeditor/ckeditor5-link/src/linkediting';
 import List from '@ckeditor/ckeditor5-list/src/list';
-import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';
-import Table from '@ckeditor/ckeditor5-table/src/table';
-import InsideTable from './plugins/insideTable';
+import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
 import RemoveFormat from '@ckeditor/ckeditor5-remove-format/src/removeformat';
+import Strikethrough from '@ckeditor/ckeditor5-basic-styles/src/strikethrough';
+import Subscript from "@ckeditor/ckeditor5-basic-styles/src/subscript";
+import Superscript from "@ckeditor/ckeditor5-basic-styles/src/superscript";
+import Table from '@ckeditor/ckeditor5-table/src/table';
+import TableToolbar from "@ckeditor/ckeditor5-table/src/tabletoolbar";
+import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline';
+import Undo from '@ckeditor/ckeditor5-undo/src/undo';
 
 const addPlugin = (Plugin, isEnabled) => (ckEditorConfiguration, options) => {
     // LEGACY: we duplicate editorOptions here so it would be possible to write smth like `$get('formatting.sup')`
@@ -48,6 +57,25 @@ const disableAutoparagraph = (editorOptions, {propertyDomNode}) =>
     propertyDomNode.tagName === 'H4' ||
     propertyDomNode.tagName === 'H5' ||
     propertyDomNode.tagName === 'H6';
+
+// Checks if the formatting options contains any block element
+const hasBlockFormat= (editorOptions) => {
+    if (!editorOptions?.formatting) {
+        return false;
+    }
+    const {formatting} = editorOptions;
+    return (
+        formatting.h1
+        || formatting.h2
+        || formatting.h3
+        || formatting.h4
+        || formatting.h5
+        || formatting.h6
+        || formatting.p
+        || formatting.pre
+        || formatting.blockquote
+    );
+}
 
 //
 // Create richtext editing toolbar registry
@@ -105,11 +133,16 @@ export default ckEditorRegistry => {
     //
     // Add plugins
     //
+    config.set('balloonToolbar', addPlugin(BalloonToolbar));
+    config.set('autoformat', addPlugin(Autoformat));
     config.set('essentials', addPlugin(Essentials));
+    config.set('code', addPlugin(Code, editorOptions => editorOptions?.formatting?.code));
+    config.set('codeBlock', addPlugin(CodeBlock, editorOptions => editorOptions?.formatting?.code));
+    config.set('undo', addPlugin(Undo));
     config.set('paragraph', addPlugin(Paragraph));
     config.set('disabledAutoparagraphMode', addPlugin(DisabledAutoparagraphMode, disableAutoparagraph));
-    config.set('sub', addPlugin(Sub, editorOptions => editorOptions?.formatting?.sub));
-    config.set('sup', addPlugin(Sup, editorOptions => editorOptions?.formatting?.sup));
+    config.set('subscript', addPlugin(Subscript, editorOptions => editorOptions?.formatting?.sub));
+    config.set('superscript', addPlugin(Superscript, editorOptions => editorOptions?.formatting?.sup));
     config.set('bold', addPlugin(Bold, editorOptions => editorOptions?.formatting?.strong));
     config.set('italic', addPlugin(Italic, editorOptions => editorOptions?.formatting?.em));
     config.set('underline', addPlugin(Underline, editorOptions => editorOptions?.formatting?.underline));
@@ -120,29 +153,21 @@ export default ckEditorRegistry => {
     config.set('linkDownload', addPlugin(LinkDownload, editorOptions => editorOptions?.formatting?.a));
     config.set('linkTitle', addPlugin(LinkTitle, editorOptions => editorOptions?.formatting?.a));
     config.set('table', addPlugin(Table, editorOptions => editorOptions?.formatting?.table));
+    config.set('tableToolbar', addPlugin(TableToolbar, editorOptions => editorOptions?.formatting?.table));
     config.set('insideTable', addPlugin(InsideTable, editorOptions => editorOptions?.formatting?.table));
     config.set('removeFormat', addPlugin(RemoveFormat, editorOptions => editorOptions?.formatting?.removeFormat));
     config.set('list', addPlugin(List, editorOptions => (
         editorOptions?.formatting?.ul
         || editorOptions?.formatting?.ol
     )));
+    config.set('indent', addPlugin(Indent, editorOptions => editorOptions?.formatting?.indent));
     config.set('alignment', addPlugin(Alignment, editorOptions => (
         editorOptions?.formatting?.left
         || editorOptions?.formatting?.center
         || editorOptions?.formatting?.right
         || editorOptions?.formatting?.justify
     )));
-    config.set('heading', addPlugin(Heading, editorOptions => (
-        editorOptions?.formatting?.p
-        || editorOptions?.formatting?.pre
-        || editorOptions?.formatting?.blockquote
-        || editorOptions?.formatting?.h1
-        || editorOptions?.formatting?.h2
-        || editorOptions?.formatting?.h3
-        || editorOptions?.formatting?.h4
-        || editorOptions?.formatting?.h5
-        || editorOptions?.formatting?.h6
-    )));
+    config.set('heading', addPlugin(Heading, hasBlockFormat));
 
     // Custom Plugin that automatically converts <i> to <em> for italics
     // @fixes https://github.com/neos/neos-ui/issues/2906
@@ -150,22 +175,115 @@ export default ckEditorRegistry => {
 
     //
     // @see https://docs.ckeditor.com/ckeditor5/latest/features/headings.html#configuring-heading-levels
-    // The element names for the heading dropdown are coming from richtextToolbar registry
+    // TODO: Allow custom entries which also allow assigning class names. See docs for details.
     //
     config.set('configureHeadings', config => Object.assign(config, {
         heading: {
             options: [
-                {model: 'paragraph'},
-                {model: 'heading1', view: 'h1'},
-                {model: 'heading2', view: 'h2'},
-                {model: 'heading3', view: 'h3'},
-                {model: 'heading4', view: 'h4'},
-                {model: 'heading5', view: 'h5'},
-                {model: 'heading6', view: 'h6'},
-                {model: 'pre', view: 'pre'},
-                {model: 'blockquote', view: 'blockquote'}
+                {model: 'paragraph', title: 'Paragraph'},
+                {model: 'heading1', title: 'Heading 1', view: 'h1'},
+                {model: 'heading2', title: 'Heading 2', view: 'h2'},
+                {model: 'heading3', title: 'Heading 3', view: 'h3'},
+                {model: 'heading4', title: 'Heading 4', view: 'h4'},
+                {model: 'heading5', title: 'Heading 5', view: 'h5'},
+                {model: 'heading6', title: 'Heading 6', view: 'h6'},
+                {model: 'pre', title: 'Preformatted', view: 'pre'},
+                {model: 'blockquote', title: 'Blockquote', view: 'blockquote'},
             ]}
     }));
+
+    config.set('configureToolbar', (config, {editorOptions}) => {
+        if (!editorOptions?.formatting) {
+            return config;
+        }
+        const {formatting} = editorOptions;
+        // TODO: Introduce formatting flag for undo/redo
+        const toolbarItems = [
+            'undo',
+            'redo',
+            '|',
+        ];
+        const balloonToolbarItems = [];
+
+        if (formatting.removeFormat) {
+            toolbarItems.push('removeFormat');
+        }
+        if (hasBlockFormat(editorOptions)) {
+            toolbarItems.push('heading');
+            toolbarItems.push('|');
+        }
+        if (formatting.strong) {
+            balloonToolbarItems.push('bold');
+        }
+        if (formatting.em) {
+            balloonToolbarItems.push('italic');
+        }
+        if (formatting.sub) {
+            balloonToolbarItems.push('subscript');
+        }
+        if (formatting.sup) {
+            balloonToolbarItems.push('superscript');
+        }
+        if (formatting.underline) {
+            balloonToolbarItems.push('underline');
+        }
+        if (formatting.strikethrough) {
+            balloonToolbarItems.push('strikethrough');
+        }
+        if (formatting.code) {
+            balloonToolbarItems.push('code');
+            toolbarItems.push('codeBlock');
+        }
+        if (formatting.ul || formatting.ol) {
+            toolbarItems.push('|');
+            toolbarItems.push({
+                label: 'Lists',
+                icon: icons.bulletedList,
+                items: [
+                    ...(formatting.ul ? ['bulletedList'] : []),
+                    ...(formatting.ol ? ['numberedList'] : []),
+                    ...(formatting.indent ? ['indent', 'outdent'] : []),
+                ]
+            });
+        }
+        if (formatting.left || formatting.center || formatting.right || formatting.justify) {
+            toolbarItems.push('alignment');
+        }
+        if (formatting.table) {
+            toolbarItems.push('insertTable');
+        }
+        const tableItems = formatting.table ? [
+            'tableColumn',
+            'tableRow',
+            'mergeTableCells'
+        ] : [];
+        return Object.assign(config, {
+            alignment: {
+                options: [
+                    ...(formatting.left ? ['left'] : []),
+                    ...(formatting.center ? ['center'] : []),
+                    ...(formatting.right ? ['right'] : []),
+                    ...(formatting.justify ? ['justify'] : []),
+                ]
+            },
+            toolbar: {
+                items: toolbarItems,
+            },
+            balloonToolbar: {
+                items: balloonToolbarItems,
+                shouldNotGroupWhenFull: true,
+            },
+            table: {
+                contentToolbar: tableItems
+            },
+            codeBlock: {
+                languages: [
+                    {language: 'css', label: 'CSS'},
+                    {language: 'html', label: 'HTML'}
+                ]
+            }
+        })
+    });
 
     return config;
 };

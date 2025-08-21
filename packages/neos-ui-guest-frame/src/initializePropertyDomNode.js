@@ -3,6 +3,8 @@ import {validateElement} from '@neos-project/neos-ui-validators';
 
 import {getGuestFrameWindow, closestContextPathInGuestFrame} from './dom';
 
+let idCounter = 0;
+
 export default ({store, globalRegistry, nodeTypesRegistry, inlineEditorRegistry, nodes}) => propertyDomNode => {
     const guestFrameWindow = getGuestFrameWindow();
     if (!guestFrameWindow['@Neos.Neos.Ui:InitializedInlineEditors']) {
@@ -96,6 +98,9 @@ export default ({store, globalRegistry, nodeTypesRegistry, inlineEditorRegistry,
                 });
 
                 propertyDomNode.dataset.neosInlineEditorIsInitialized = true;
+                const anchorName = `--neos-cke5-toolbar-${idCounter++}`;
+                propertyDomNode.dataset.neosInlineEditorAnchorName = anchorName;
+                propertyDomNode.style.anchorName = anchorName;
             }
         } catch (err) {
             //
