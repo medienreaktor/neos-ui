@@ -511,6 +511,14 @@
         <source>Invalid value</source>
         <target state="translated">Ongeldige waarde</target>
       </trans-unit>
+      <trans-unit id="dimensions.doesNotExistsInDimension" xml:space="preserve">
+        <source>The current document does not exist in the dimension</source>
+        <target state="translated">Het huidige document bestaat niet in deze dimensie</target>
+      </trans-unit>
+      <trans-unit id="dimensions.combinationNotAllowed" xml:space="preserve">
+        <source>This combination of dimensions is not allowed</source>
+        <target state="translated">Deze combinatie van dimensies is niet toegestaan</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
