@@ -30,7 +30,13 @@ Neos:
         Neos.Neos.Ui: true
 
     Ui:
-
+      # This feature flag changes the preview link button in the backend to operate more in the sense of a preview for
+      # how the current workspace would look like when published. Before it would show the page in the parent workspace,
+      # but without changes applied. The new behavior in combination with preview modes allows seeing what a page might
+      # look like after publishing it. The drawback is that for example the live URL is no longer visible as the preview
+      # never shows the Live workspace. Also editors might be confused by the different behavior. So take care changing
+      # this setting in a pre-existing project.
+      nextVersionPreviewBehavior: false
       splashScreen:
         partial: 'SplashScreen'
 
@@ -114,7 +120,7 @@ Neos:
         metaData:
           documentNode: '${q(documentNode).property("_contextPath")}'
           siteNode: '${q(site).property(''_contextPath'')}'
-          previewUrl: '${Neos.Ui.NodeInfo.uri(documentNode, controllerContext)}'
+          previewUrl: '${Configuration.setting("nextVersionPreviewBehavior") ? Neos.Ui.NodeInfo.uri(documentNode, controllerContext)} : ${Neos.Ui.NodeInfo.createRedirectToNode(controllerContext, documentNode)}'
           contentDimensions:
             active: '${documentNode.context.dimensions}'
             allowedPresets: '${Neos.Ui.Api.emptyArrayToObject(Neos.Ui.ContentDimensions.allowedPresetsByName(documentNode.context.dimensions))}'
