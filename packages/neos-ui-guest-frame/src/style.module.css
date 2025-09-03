@@ -7,9 +7,39 @@
 }
 
 .addEmptyContentCollectionOverlay {
-    height: 20px;
+    height: 40px;
     width: 100%;
     outline: 2px solid var(--colors-ContrastBrighter);
+    cursor: pointer;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.addEmptyContentCollectionOverlay::before,
+.addEmptyContentCollectionOverlay::after {
+    display: inline-block;
+    color: #adadad;
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+    line-height: 41px;
+}
+
+.addEmptyContentCollectionOverlay:hover::before,
+.addEmptyContentCollectionOverlay:hover::after {
+    opacity: 1;
+}
+.addEmptyContentCollectionOverlay::before {
+    content: var(--collection-label);
+}
+.addEmptyContentCollectionOverlay::after {
+    margin: 0 1rem;
+    content: "\21e7";
+    transition: transform 0.2s ease;
+}
+.addEmptyContentCollectionOverlay:hover::after {
+    margin: 0 1rem;
+    content: "\21e7";
+    transform: rotate(-90deg);
 }
 
 .markActiveNodeAsFocused--focusedNode {
