@@ -187,6 +187,7 @@ export default class NodeToolbar extends PureComponent {
         });
 
         const NodeToolbarButtons = guestFrameRegistry.getChildren('NodeToolbar/Buttons');
+        const NodeToolbarSecondaryButtons = guestFrameRegistry.getChildren('NodeToolbar/SecondaryButtons');
         const InlineEditorToolbar = this.getToolbarComponent();
 
         // The data attribute data-ignore_click_outside is used to disable the enhanceWithClickOutside
@@ -208,6 +209,7 @@ export default class NodeToolbar extends PureComponent {
                     <div className={classNames} data-ignore_click_outside="true">
                         {InlineEditorToolbar && <InlineEditorToolbar />}
                         <div className={style.toolBar__btnGroup}>
+                            {NodeToolbarButtons.map((Item, key) => <Item key={key} {...props} />)}
                             <IconButton
                                 className={style.toolBar__contextMenuToggle}
                                 popovertarget="inline-ui-toolbar-context-menu"
@@ -222,7 +224,7 @@ export default class NodeToolbar extends PureComponent {
                                 popover="auto"
                             >
                                 <div className={style.toolBar__btnGroupVertical}>
-                                    {NodeToolbarButtons.map((Item, key) => <Item key={key} {...props} />)}
+                                    {NodeToolbarSecondaryButtons.map((Item, key) => <Item key={key} {...props} />)}
                                 </div>
                             </div>
                         </div>
