@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import IconButton from '@neos-project/react-ui-components/src/IconButton/';
+import {Icon, Button} from '@neos-project/react-ui-components';
 
 import {actions} from '@neos-project/neos-ui-redux-store';
 
@@ -36,16 +36,19 @@ export default class CutSelectedNode extends PureComponent {
         } = this.props;
 
         return (
-            <IconButton
+            <Button
                 id="neos-InlineToolbar-CutSelectedNode"
                 className={className}
                 isActive={isCut}
                 disabled={destructiveOperationsAreDisabled || !canBeEdited}
                 onClick={this.handleCutSelectedNodeClick}
-                icon="cut"
                 hoverStyle="brand"
+                size="small"
                 title={i18nRegistry.translate('cut')}
-                />
+            >
+                {i18nRegistry.translate('cut')}
+                <Icon name="cut" />
+            </Button>
         );
     }
 }

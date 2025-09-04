@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import IconButton from '@neos-project/react-ui-components/src/IconButton/';
+import {Button, Icon} from '@neos-project/react-ui-components';
 
 import {selectors, actions} from '@neos-project/neos-ui-redux-store';
 
@@ -45,16 +45,21 @@ export default class HideSelectedNode extends PureComponent {
         const isHidden = node?.properties?._hidden;
 
         return (
-            <IconButton
+            <Button
                 id="neos-InlineToolbar-HideSelectedNode"
                 className={className}
                 isActive={isHidden}
                 disabled={destructiveOperationsAreDisabled || !canBeEdited || !visibilityCanBeToggled}
                 onClick={isHidden ? this.handleShowNode : this.handleHideNode}
-                icon="eye-slash"
                 hoverStyle="brand"
+                size="small"
                 title={i18nRegistry.translate('hideUnhide')}
+            >
+                {i18nRegistry.translate('hideUnhide')}
+                <Icon
+                    icon={isHidden ? 'eye' : 'eye-slash'}
                 />
+            </Button>
         );
     }
 }

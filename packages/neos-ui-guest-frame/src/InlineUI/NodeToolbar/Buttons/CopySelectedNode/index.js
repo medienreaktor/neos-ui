@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import IconButton from '@neos-project/react-ui-components/src/IconButton/';
+import {Icon, Button} from '@neos-project/react-ui-components';
 
 import {actions} from '@neos-project/neos-ui-redux-store';
 
@@ -29,16 +29,19 @@ export default class CopySelectedNode extends PureComponent {
         const {destructiveOperationsAreDisabled, className, isCopied, i18nRegistry} = this.props;
 
         return (
-            <IconButton
+            <Button
                 id="neos-InlineToolbar-CopySelectedNode"
                 className={className}
                 disabled={destructiveOperationsAreDisabled}
                 isActive={isCopied}
                 onClick={this.handleCopySelectedNodeClick}
-                icon="far copy"
                 hoverStyle="brand"
+                size="small"
                 title={i18nRegistry.translate('copy')}
-                />
+            >
+                {i18nRegistry.translate('copy')}
+                <Icon icon="far copy" />
+            </Button>
         );
     }
 }

@@ -48,10 +48,10 @@ manifest('@neos-project/neos-ui-guestframe', {}, globalRegistry => {
     guestFrameRegistry.set('InlineUIComponent', InlineUI);
 
     guestFrameRegistry.set('NodeToolbar/Buttons/AddNode', AddNode);
+    guestFrameRegistry.set('NodeToolbar/Buttons/PasteClipBoardNode', PasteClipBoardNode);
     guestFrameRegistry.set('NodeToolbar/SecondaryButtons/HideSelectedNode', HideSelectedNode);
     guestFrameRegistry.set('NodeToolbar/SecondaryButtons/CopySelectedNode', CopySelectedNode);
     guestFrameRegistry.set('NodeToolbar/SecondaryButtons/CutSelectedNode', CutSelectedNode);
-    guestFrameRegistry.set('NodeToolbar/SecondaryButtons/PasteClipBoardNode', PasteClipBoardNode);
     guestFrameRegistry.set('NodeToolbar/SecondaryButtons/DeleteSelectedNode', DeleteSelectedNode);
 
     globalRegistry.set('@neos-project/neos-ui-guest-frame', guestFrameRegistry);

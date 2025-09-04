@@ -1,19 +1,28 @@
 .toolBar {
     display: flex;
-    background: var(--colors-ContrastDarker);
+    background: var(--colors-PrimaryBlue);
     z-index: var(--zIndex-NodeToolBar);
     position: relative;
-    margin: 0 5px;
-    border: 2px solid var(--colors-PrimaryBlue);
-    border-bottom: 0;
-    transition: var(--transition-Fast) margin;
+}
+.toolBar__nodeLabel {
+    display: flex;
+    align-items: center;
+    gap: 1ch;
+    padding-left: 10px;
+    font-size: var(--fontSize-Small);
 }
 .toolBar__btnGroup {
     display: flex;
+    background: transparent;
 }
 .toolBar__btnGroup__btn {
+    display: flex;
+    align-items: center;
+    gap: 1ch;
+    justify-content: space-between;
+
     &:hover {
-        background-color: var(--colors-PrimaryBlue);
+        background-color: var(--colors-PrimaryBlueHover);
     }
 
     & svg {
@@ -26,39 +35,76 @@
     flex-direction: column;
 }
 
-.toolBar--isSticky {
-    position: fixed;
-    top: 0!important;
-    margin-top: 5px;
-    border-bottom: 2px solid var(--colors-PrimaryBlue);
+.toolBar__contextMenuToggleWrapper {
+    padding: 1px;
 }
-
 .toolBar__contextMenuToggle {
     anchor-name: --inline-ui-node-context-menu-anchor;
 
     &:has(~ :popover-open) {
-        background-color: var(--colors-PrimaryBlue);
+        background-color: var(--colors-PrimaryBlueHover);
     }
 }
+.toolBar__contextMenuToggle:focus {
+    outline: 0;
+}
 
+@position-try --context-menu-align-right {
+    left: auto;
+    right: anchor(right);
+    top: anchor(bottom);
+}
 .toolBar__contextMenu {
+    width: max-content;
     position: absolute;
     position-anchor: --inline-ui-node-context-menu-anchor;
-    inset-inline-start: anchor(left);
-    inset-block-start: anchor(bottom);
+    left: anchor(left);
+    top: anchor(bottom);
     margin: 0;
     padding: 0;
-    background: var(--colors-ContrastDarker);
+    background: var(--colors-PrimaryBlue);
+    position-try-fallbacks: --context-menu-align-right;
 }
 
 /* FIXME: Install https://github.com/oddbird/css-anchor-positioning?tab=readme-ov-file anchor polyfill to support all browsers */
 .toolBar__anchor {
     position: absolute;
     anchor-name: --inline-ui-node-toolbar-anchor;
+    pointer-events: none;
 }
+
+/* TODO: Try to implement stickyness without JS */
+/*@position-try --toolbar-sticky {*/
+/*    top: calc(anchor(bottom) + 10px);*/
+/*    bottom: auto;*/
+/*}*/
 
 .toolBar__popover {
     position: absolute;
-    left: anchor(--inline-ui-node-toolbar-anchor left);
-    bottom: calc(anchor(--inline-ui-node-toolbar-anchor top) + 10px);
+    position-anchor: --inline-ui-node-toolbar-anchor;
+    right: calc(anchor(right) - 10px - 2px);
+    bottom: calc(anchor(top) + 10px);
+    /*position-try-fallbacks: --toolbar-sticky;*/
+}
+
+.toolBar__popover--isSticky {
+    position: fixed;
+    top: 0 !important;
+    bottom: auto;
+    margin-top: 5px;
+}
+
+.structuralToolBar__popover {
+    position: absolute;
+    position-anchor: --inline-ui-node-toolbar-anchor;
+    position-area: top center;
+    margin-bottom: -4px;
+}
+.structuralToolBar__popover--isBelow {
+    position-area: bottom center;
+    margin-top: -4px;
+}
+.structuralToolBar__popover--isInside {
+    position-area: center center;
+    margin-top: -4px;
 }

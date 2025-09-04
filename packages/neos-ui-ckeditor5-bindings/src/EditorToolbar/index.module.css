@@ -5,7 +5,6 @@
 .toolBar__btnGroup {
     display: flex;
     flex-wrap: wrap;
-    background: var(--colors-ContrastDarkest);
 
      > * {
          width: auto;

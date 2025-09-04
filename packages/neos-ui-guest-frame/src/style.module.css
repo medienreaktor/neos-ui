@@ -7,13 +7,16 @@
 }
 
 .addEmptyContentCollectionOverlay {
-    height: 40px;
+    height: 60px;
     width: 100%;
     outline: 2px solid var(--colors-ContrastBrighter);
     cursor: pointer;
-    text-align: center;
     text-overflow: ellipsis;
     white-space: nowrap;
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }
 .addEmptyContentCollectionOverlay::before,
 .addEmptyContentCollectionOverlay::after {
