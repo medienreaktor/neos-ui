@@ -178,6 +178,14 @@ abstract class AbstractStructuralChange extends AbstractChange
                 $this->getParentDomAddress()->getFusionPath() &&
                 $this->getParentDomAddress()->getContextPath() === $node->getParent()->getContextPath()
             ) {
+                // Include nested nodedata for with the rendered content as the change usually only contains the updated node
+                if ($node->hasChildNodes()) {
+                    $updateNestedNodeInfo = new UpdateNodeInfo();
+                    $updateNestedNodeInfo->setNode($node);
+                    $updateNestedNodeInfo->recursive();
+                    $this->feedbackCollection->add($updateNestedNodeInfo);
+                }
+
                 $renderContentOutOfBand = new RenderContentOutOfBand();
                 $renderContentOutOfBand->setNode($node);
                 $renderContentOutOfBand->setParentDomAddress($this->getParentDomAddress());
