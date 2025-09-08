@@ -255,7 +255,7 @@ class BackendServiceController extends ActionController
                 $this->publishingService->publishNode($node, $targetWorkspace);
 
                 if ($node->getNodeType()->isAggregate()) {
-                    $updateNodePreviewUrl = new UpdateNodePreviewUrl();
+                    $updateNodePreviewUrl = new UpdateNodePreviewUrl($this->settings['nextVersionPreviewBehavior'] ?? false);
                     $updateNodePreviewUrl->setNode($node);
                     $this->feedbackCollection->add($updateNodePreviewUrl);
                 }
