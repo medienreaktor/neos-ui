@@ -3,8 +3,7 @@ import {Object} from 'ts-toolbelt';
 import {VError} from '@neos-project/neos-ui-link-editor-error-handling';
 import positionalArraySorter from '@neos-project/positional-array-sorter';
 
-import {useGlobalRegistry} from '@neos-project/neos-ui-link-editor-neos-bridge';
-
+import {getRegistryById} from '@neos-project/neos-ui-registry';
 import {IProcess} from '../../framework';
 
 import {ILink, ILinkOptions} from './Link';
@@ -69,8 +68,7 @@ export function makeLinkType<ModelType = any, OptionsType extends object = {}>(
 }
 
 export function useLinkTypes(): ILinkType[] {
-    const globalRegistry = useGlobalRegistry();
-    return globalRegistry.get('@neos-project/neos-ui-link-editor/link-types')?.getAllAsList() ?? [];
+    return getRegistryById('@neos-project/neos-ui-link-editor/link-types')?.getAllAsList() ?? [];
 }
 
 export function useLinkTypeForHref(href: null | string): null | ILinkType {

@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { useEffect, useRef } from 'react'
 
-import { useGlobalRegistry } from '@neos-project/neos-ui-link-editor-neos-bridge'
 import styled from 'styled-components'
+import {getRegistryById} from '@neos-project/neos-ui-registry';
 
 interface Props {
 	assetIdentifier: null | string
@@ -26,15 +26,11 @@ const Container = styled.div`
 `
 
 export const MediaBrowser: React.FC<Props> = (props) => {
-	const globalRegistry = useGlobalRegistry()
 	const containerRef = useRef<HTMLDivElement>(null)
 	const selectionRef = useRef<HTMLElement>(null)
 
-	const secondaryEditorsRegistry = globalRegistry?.get('inspector')?.get('secondaryEditors') as {
-		get: (identifier: string) => {
-			component: React.ComponentType<any>
-		}
-	}
+	const secondaryEditorsRegistry = getRegistryById('inspector')?.get('secondaryEditors');
+
 	const { component: MediaSelectionScreenComponent } = secondaryEditorsRegistry?.get(
 		'Neos.Neos/Inspector/Secondary/Editors/MediaSelectionScreen'
 	)
