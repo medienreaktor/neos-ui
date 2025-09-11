@@ -50,7 +50,9 @@ export default class DimensionSelector extends PureComponent {
                     label: presetConfiguration?.label,
                     value: presetName,
                     disallowed: presetConfiguration?.disallowed,
-                    group: presetConfiguration?.group
+                    covered: presetConfiguration?.covered,
+                    group: presetConfiguration?.group,
+                    url: presetConfiguration?.url
                 };
             }
         );

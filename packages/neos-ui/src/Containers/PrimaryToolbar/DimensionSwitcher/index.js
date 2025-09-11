@@ -30,7 +30,9 @@ SelectedPreset.propTypes = {
 @connect(state => ({
     contentDimensions: selectors.CR.ContentDimensions.byName(state),
     allowedPresets: selectors.CR.ContentDimensions.allowedPresets(state),
-    activePresets: selectors.CR.ContentDimensions.activePresets(state)
+    activePresets: selectors.CR.ContentDimensions.activePresets(state),
+    getNodeByContextPath: selectors.CR.Nodes.nodeByContextPath(state),
+    documentNode: selectors.CR.Nodes.documentNodeSelector(state)
 }), {
     selectPreset: actions.CR.ContentDimensions.selectPreset,
     setAllowed: actions.CR.ContentDimensions.setAllowed
@@ -44,6 +46,8 @@ export default class DimensionSwitcher extends PureComponent {
         activePresets: PropTypes.object.isRequired,
         allowedPresets: PropTypes.object.isRequired,
         selectPreset: PropTypes.func.isRequired,
+        getNodeByContextPath: PropTypes.func.isRequired,
+        documentNode: PropTypes.object.isRequired,
         setAllowed: PropTypes.func.isRequired,
 
         i18nRegistry: PropTypes.object.isRequired
@@ -260,7 +264,9 @@ export default class DimensionSwitcher extends PureComponent {
             (presetConfiguration, presetName) => {
                 return Object.assign({}, presetConfiguration, {
                     label: i18nRegistry.translate(presetConfiguration.label),
-                    disallowed: !(allowedPresets[dimensionName] && allowedPresets[dimensionName].includes(presetName))
+                    disallowed: !(allowedPresets[dimensionName] && allowedPresets[dimensionName].includes(presetName)),
+                    covered: true, //ToDo: Needs to be implemented for 9.0 https://github.com/neos/neos-ui/pull/3680
+                    url: null //ToDo: Needs to be implemented for 9.0 https://github.com/neos/neos-ui/pull/3680
                 });
             });
     }

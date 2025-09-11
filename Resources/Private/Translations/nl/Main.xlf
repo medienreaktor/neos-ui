@@ -559,6 +559,14 @@ Om te wisselen naar een andere worksapce , zul je eerst je wijzingen moeten publ
         <source>Switched base workspace to "{workspace}".</source>
         <target state="translated">Base workspace is gewisseld naar "{workspace}".</target>
       </trans-unit>
+      <trans-unit id="dimensions.doesNotExistsInDimension" xml:space="preserve">
+        <source>The current document does not exist in the dimension</source>
+        <target state="translated">Het huidige document bestaat niet in deze dimensie</target>
+      </trans-unit>
+      <trans-unit id="dimensions.combinationNotAllowed" xml:space="preserve">
+        <source>This combination of dimensions is not allowed</source>
+        <target state="translated">Deze combinatie van dimensies is niet toegestaan</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
