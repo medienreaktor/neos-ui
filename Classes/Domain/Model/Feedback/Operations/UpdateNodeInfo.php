@@ -118,7 +118,8 @@ class UpdateNodeInfo extends AbstractFeedback
             return false;
         }
 
-        return $this->getNode()->getContextPath() === $feedback->getNode()->getContextPath();
+        return $this->getNode()->getContextPath() === $feedback->getNode()->getContextPath()
+            && $this->isRecursive === $feedback->isRecursive;
     }
 
     /**
