@@ -55,7 +55,10 @@ test('SelectBox opens above in inspector if there\'s not enough space below.', a
 
 
     subSection('When the inspector tab panel is scrolled just enough, so that there\'s enough space, SelectBox contents jump below the SelectBox.');
-    await t.hover(Selector('[for="__neos__editor__property---uriPathSegment"]'));
+
+    // hack to scroll the inspector downward. The t.scroll(s, "bottom") API does not seem to work here.
+    // This emits a warning as the property here below the select-box will not be visible after scrolling into view when the select-box successfully overlaps it.
+    await t.hover(Selector('[for="__neos__editor__property---uriPathSegment"]').with({ timeout: 0 }));
 
     await t
         .expect(await ReactSelector('Inspector Panel SelectBox ContextDropDownContents').getBoundingClientRectProperty('top'))
