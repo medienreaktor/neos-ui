@@ -154,6 +154,12 @@ abstract class AbstractStructuralChange extends AbstractChange
                 $this->getParentDomAddress()->getContextPath() ===
                     NodeAddress::fromNode($parentNode)->toJson()
             ) {
+                // Include nested node information which is in the case of copying not available in the ui as only the root copied element is serialized to the ui.
+                $updateNestedNodeInfo = new UpdateNodeInfo();
+                $updateNestedNodeInfo->setNode($node);
+                $updateNestedNodeInfo->recursive();
+                $this->feedbackCollection->add($updateNestedNodeInfo);
+
                 $renderContentOutOfBand = new RenderContentOutOfBand();
                 $renderContentOutOfBand->setNode($node);
                 $renderContentOutOfBand->setParentDomAddress($this->getParentDomAddress());
