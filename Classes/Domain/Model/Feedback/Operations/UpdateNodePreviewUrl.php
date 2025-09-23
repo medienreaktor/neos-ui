@@ -25,6 +25,17 @@ class UpdateNodePreviewUrl extends AbstractFeedback
     protected $node;
 
     /**
+     * @var bool
+     * @deprecated
+     */
+    protected $nextVersionPreviewBehavior;
+
+    public function __construct(bool $nextVersionPreviewBehavior)
+    {
+        $this->nextVersionPreviewBehavior = $nextVersionPreviewBehavior;
+    }
+
+    /**
      * Set the node
      *
      * @param NodeInterface $node
@@ -92,7 +103,11 @@ class UpdateNodePreviewUrl extends AbstractFeedback
             $contextPath = '';
         } else {
             $nodeInfoHelper = new NodeInfoHelper();
-            $newPreviewUrl = $nodeInfoHelper->createRedirectToNode($controllerContext, $this->node);
+            if ($this->nextVersionPreviewBehavior) {
+                $newPreviewUrl = $nodeInfoHelper->uri($this->node, $controllerContext);
+            } else {
+                $newPreviewUrl = $nodeInfoHelper->createRedirectToNode($controllerContext, $this->node);
+            }
             $contextPath = $this->node->getContextPath();
         }
         return [
