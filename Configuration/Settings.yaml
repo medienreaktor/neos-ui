@@ -120,7 +120,7 @@ Neos:
         metaData:
           documentNode: '${q(documentNode).property("_contextPath")}'
           siteNode: '${q(site).property(''_contextPath'')}'
-          previewUrl: '${Configuration.setting("Neos.Neos.Ui.nextVersionPreviewBehavior") ? Neos.Ui.NodeInfo.uri(documentNode, controllerContext)} : ${Neos.Ui.NodeInfo.createRedirectToNode(controllerContext, documentNode)}'
+          previewUrl: '${Configuration.setting("Neos.Neos.Ui.nextVersionPreviewBehavior") ? Neos.Ui.NodeInfo.uri(documentNode, controllerContext) : Neos.Ui.NodeInfo.createRedirectToNode(controllerContext, documentNode)}'
           contentDimensions:
             active: '${documentNode.context.dimensions}'
             allowedPresets: '${Neos.Ui.Api.emptyArrayToObject(Neos.Ui.ContentDimensions.allowedPresetsByName(documentNode.context.dimensions))}'
