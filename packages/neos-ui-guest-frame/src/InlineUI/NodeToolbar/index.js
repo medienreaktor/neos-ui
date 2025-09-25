@@ -39,10 +39,17 @@ export default class NodeToolbar extends PureComponent {
     };
 
     state = {
-        isSticky: false
+        isSticky: false,
+        toolbarPosition: {}
     };
 
     iframeWindow = getGuestFrameWindow();
+
+    prevNodeToolbarRef = null;
+
+    resizeObserver = null;
+
+    nodeToolbarRef = React.createRef();
 
     updateStickyness = () => {
         const nodeElement = findNodeInGuestFrame(this.props.contextPath, this.props.fusionPath);
@@ -57,28 +64,110 @@ export default class NodeToolbar extends PureComponent {
         }
     };
 
+    updateToolbarPosition = () => {
+        const {contextPath, fusionPath, visible} = this.props;
+
+        if (!this.nodeToolbarRef.current || !visible) {
+            return;
+        }
+
+        const nodeElement = findNodeInGuestFrame(contextPath, fusionPath);
+        if (!nodeElement) {
+            return;
+        }
+
+        const {
+            top,
+            left,
+            width,
+            rightAsMeasuredFromRightDocumentBorder
+        } = getAbsolutePositionOfElementInGuestFrame(nodeElement);
+
+        const toolbarWidth = this.nodeToolbarRef.current.offsetWidth;
+        const toolbarHeight = this.nodeToolbarRef.current.offsetHeight;
+
+        // Only proceed if we have valid dimensions
+        if (toolbarWidth === 0 || toolbarHeight === 0) {
+            return;
+        }
+
+        const toolbarPosition = {
+            top: top - toolbarHeight - 10,
+            left: width < toolbarWidth ? left : 'auto',
+            right: width >= toolbarWidth ? rightAsMeasuredFromRightDocumentBorder : 'auto'
+        };
+
+        this.setState({toolbarPosition});
+    };
+
+    setupResizeObserver = () => {
+        if (this.nodeToolbarRef.current && window.ResizeObserver) {
+            this.resizeObserver = new ResizeObserver(() => {
+                // Debounce the position update to avoid excessive calculations
+                if (this.debouncedPositionUpdate) {
+                    this.debouncedPositionUpdate();
+                }
+            });
+            this.resizeObserver.observe(this.nodeToolbarRef.current);
+        }
+    };
+
+    cleanupResizeObserver = () => {
+        if (this.resizeObserver) {
+            this.resizeObserver.disconnect();
+            this.resizeObserver = null;
+        }
+    };
+
     debouncedSticky = debounce(this.updateStickyness, 5);
 
     debouncedUpdate = debounce(() => this.forceUpdate(), 5);
 
+    debouncedPositionUpdate = debounce(this.updateToolbarPosition, 10);
+
     componentDidMount() {
+        this.prevNodeToolbarRef = this.nodeToolbarRef.current;
+
         this.iframeWindow.addEventListener('resize', this.debouncedUpdate);
         this.iframeWindow.addEventListener('scroll', this.debouncedSticky);
         this.iframeWindow.addEventListener('load', this.debouncedUpdate);
 
         this.scrollIntoView();
         this.updateStickyness();
+        this.setupResizeObserver();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
+        const {contextPath, fusionPath, visible} = this.props;
         this.scrollIntoView();
         this.updateStickyness();
+
+        if (prevProps.contextPath !== contextPath
+            || prevProps.fusionPath !== fusionPath
+            || prevProps.visible !== visible
+            || this.prevNodeToolbarRef !== this.nodeToolbarRef.current
+        ) {
+            // Clean up previous observer if toolbar ref changed
+            if (this.prevNodeToolbarRef !== this.nodeToolbarRef.current) {
+                this.cleanupResizeObserver();
+            }
+
+            // Set up new observer and update position
+            if (this.nodeToolbarRef.current) {
+                this.setupResizeObserver();
+                // Use setTimeout to ensure the toolbar content has been rendered before measuring
+                setTimeout(() => this.updateToolbarPosition(), 0);
+            }
+        }
+
+        this.prevNodeToolbarRef = this.nodeToolbarRef.current;
     }
 
     componentWillUnmount() {
         this.iframeWindow.removeEventListener('resize', this.debouncedUpdate);
         this.iframeWindow.removeEventListener('scroll', this.debouncedSticky);
         this.iframeWindow.removeEventListener('load', this.debouncedUpdate);
+        this.cleanupResizeObserver();
 
         if (this.debouncedUpdate && this.debouncedUpdate.cancel) {
             this.debouncedUpdate.cancel();
@@ -111,8 +200,7 @@ export default class NodeToolbar extends PureComponent {
             canBeEdited,
             visibilityCanBeToggled,
             i18nRegistry,
-            guestFrameRegistry,
-            visible
+            guestFrameRegistry
         } = this.props;
 
         if (!contextPath) {
@@ -132,30 +220,7 @@ export default class NodeToolbar extends PureComponent {
             className: style.toolBar__btnGroup__btn
         };
 
-        const nodeElement = findNodeInGuestFrame(contextPath, fusionPath);
-
-        // Check if nodeElement exists before accessing its props or if the node toolbar
-        // should be invisible e.g. when the workspace is in read only mode
-        if (!nodeElement || !visible) {
-            return null;
-        }
-
-        const {top, width, rightAsMeasuredFromRightDocumentBorder} = getAbsolutePositionOfElementInGuestFrame(nodeElement);
-
-        // TODO: hardcoded dimensions
-        const TOOLBAR_WIDTH = 200;
-        const TOOLBAR_HEIGHT = 50;
-
-        const toolbarPosition = {
-            top: top - TOOLBAR_HEIGHT
-        };
-        if (width < TOOLBAR_WIDTH) {
-            toolbarPosition.left = 0;
-        } else {
-            toolbarPosition.right = rightAsMeasuredFromRightDocumentBorder + 'px';
-        }
-
-        const {isSticky} = this.state;
+        const {isSticky, toolbarPosition} = this.state;
         const classNames = mergeClassNames({
             [style.toolBar]: true,
             [style['toolBar--isSticky']]: isSticky
@@ -169,7 +234,7 @@ export default class NodeToolbar extends PureComponent {
         // registration after guest frame reload.
         return (
             <div className={classNames} data-ignore_click_outside="true" style={toolbarPosition}>
-                <div className={style.toolBar__btnGroup}>
+                <div className={style.toolBar__btnGroup} ref={this.nodeToolbarRef}>
                     {NodeToolbarButtons.map((Item, key) => <Item key={key} {...props} />)}
                 </div>
             </div>
