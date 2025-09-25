@@ -6,6 +6,9 @@ import LinkTargetBlank from './plugins/linkTargetBlank';
 import LinkRelNofollow from './plugins/linkRelNofollow';
 import LinkDownload from './plugins/linkDownload';
 import LinkTitle from './plugins/linkTitle';
+import ItalicWithEm from './plugins/italicWithEm';
+// TODO: Check if we can remove this plugin as we use the CK builtin table editing features
+import InsideTable from './plugins/insideTable';
 
 import {icons} from '@ckeditor/ckeditor5-core/src';
 import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';
@@ -16,15 +19,15 @@ import Code from '@ckeditor/ckeditor5-basic-styles/src/code';
 import CodeBlock from '@ckeditor/ckeditor5-code-block/src/codeblock';
 import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
 import Heading from '@ckeditor/ckeditor5-heading/src/heading';
+import GeneralHtmlSupport from '@ckeditor/ckeditor5-html-support/src/generalhtmlsupport';
 import Indent from '@ckeditor/ckeditor5-indent/src/indent';
-import InsideTable from './plugins/insideTable';
 import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
-import ItalicWithEm from './plugins/italicWithEm';
 import Link from '@ckeditor/ckeditor5-link/src/linkediting';
 import List from '@ckeditor/ckeditor5-list/src/list';
 import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
 import RemoveFormat from '@ckeditor/ckeditor5-remove-format/src/removeformat';
 import Strikethrough from '@ckeditor/ckeditor5-basic-styles/src/strikethrough';
+import Style from '@ckeditor/ckeditor5-style/src/style';
 import Subscript from "@ckeditor/ckeditor5-basic-styles/src/subscript";
 import Superscript from "@ckeditor/ckeditor5-basic-styles/src/superscript";
 import Table from '@ckeditor/ckeditor5-table/src/table';
@@ -136,9 +139,14 @@ export default ckEditorRegistry => {
     config.set('balloonToolbar', addPlugin(BalloonToolbar));
     config.set('autoformat', addPlugin(Autoformat));
     config.set('essentials', addPlugin(Essentials));
+    // Html support (https://ckeditor.com/docs/ckeditor5/latest/features/html/general-html-support.html)
+    // is required for the custom styles selector (https://ckeditor.com/docs/ckeditor5/latest/features/style.html)
+    // but could also allow additional features, see docs.
+    config.set('htmlSupport', addPlugin(GeneralHtmlSupport));
     config.set('code', addPlugin(Code, editorOptions => editorOptions?.formatting?.code));
     config.set('codeBlock', addPlugin(CodeBlock, editorOptions => editorOptions?.formatting?.code));
     config.set('undo', addPlugin(Undo));
+    config.set('style', addPlugin(Style, editorOptions => editorOptions?.formatting?.styleDefinitions));
     config.set('paragraph', addPlugin(Paragraph));
     config.set('disabledAutoparagraphMode', addPlugin(DisabledAutoparagraphMode, disableAutoparagraph));
     config.set('subscript', addPlugin(Subscript, editorOptions => editorOptions?.formatting?.sub));
@@ -249,6 +257,9 @@ export default ckEditorRegistry => {
         if (formatting.left || formatting.center || formatting.right || formatting.justify) {
             toolbarItems.push('alignment');
         }
+        if (formatting.styleDefinitions) {
+            toolbarItems.push('style');
+        }
         if (formatting.table) {
             toolbarItems.push('insertTable');
         }
@@ -281,7 +292,10 @@ export default ckEditorRegistry => {
                     {language: 'css', label: 'CSS'},
                     {language: 'html', label: 'HTML'}
                 ]
-            }
+            },
+            style: {
+                definitions: formatting.styleDefinitions || [],
+            },
         })
     });
 

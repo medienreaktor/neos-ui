@@ -22,6 +22,7 @@ import '@ckeditor/ckeditor5-upload/dist/index.css';
 import '@ckeditor/ckeditor5-utils/dist/index.css';
 import '@ckeditor/ckeditor5-watchdog/dist/index.css';
 import '@ckeditor/ckeditor5-widget/dist/index.css';
+import '@ckeditor/ckeditor5-style/dist/index.css';
 
 import './cke-overwrites.vanilla-css';
 import './placeholder.vanilla-css';
