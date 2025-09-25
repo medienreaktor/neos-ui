@@ -7,7 +7,8 @@
 }
 
 .addEmptyContentCollectionOverlay {
-    height: 60px;
+    min-height: 60px;
+    height: 100%;
     width: 100%;
     outline: 2px solid var(--colors-ContrastBrighter);
     cursor: pointer;
