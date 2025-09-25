@@ -290,8 +290,13 @@ const moveMultiple = (
  *
  * @param {String} contextPath The context path of the target node
  * @param {String} fusionPath The fusion path of the target node, needed for out-of-band-rendering
+ * @param {String} position "into", "before" or "after"
  */
-const paste = (contextPath: NodeContextPath, fusionPath: FusionPath) => createAction(actionTypes.PASTE, {contextPath, fusionPath});
+const paste = (
+    contextPath: NodeContextPath,
+    fusionPath: FusionPath,
+    position: InsertPosition
+) => createAction(actionTypes.PASTE, {contextPath, fusionPath, position});
 
 /**
  * Marks the moment when the actual paste request is commited
