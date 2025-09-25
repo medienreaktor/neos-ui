@@ -14,7 +14,6 @@ import {actions, selectors} from '@neos-project/neos-ui-redux-store';
 import {neos} from '@neos-project/neos-ui-decorators';
 import preprocessNodeConfiguration from '../../../preprocessNodeConfiguration';
 
-import SelectedElement from './SelectedElement/index';
 import TabPanel from './TabPanel/index';
 import style from './style.module.css';
 
@@ -377,7 +376,6 @@ export default class Inspector extends PureComponent {
                         />,
                     document.body
                 )}
-                <SelectedElement/>
                 <Tabs
                     className={style.tabs}
                     theme={{

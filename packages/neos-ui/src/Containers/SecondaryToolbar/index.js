@@ -36,11 +36,14 @@ export default class SecondaryToolbar extends PureComponent {
             [style['secondaryToolbar--isFringeRight']]: !isFullScreen && isFringedRight
         });
 
-        // TODO: Introduce a left hand side for the secondary toolbar as we now have space for it
+        const SecondaryToolbarLeft = containerRegistry.getChildren('SecondaryToolbar/Left');
         const SecondaryToolbarRight = containerRegistry.getChildren('SecondaryToolbar/Right');
 
         return (
             <div className={classNames}>
+                <div className={style.secondaryToolbar__leftHandedActions}>
+                    {SecondaryToolbarLeft.map((Item, key) => <Item key={key}/>)}
+                </div>
                 <div className={style.secondaryToolbar__rightHandedActions}>
                     {SecondaryToolbarRight.map((Item, key) => <Item key={key}/>)}
                 </div>

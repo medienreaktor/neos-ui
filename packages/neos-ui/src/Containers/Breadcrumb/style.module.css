@@ -1,0 +1,23 @@
+.breadcrumb {
+    height: 100%;
+}
+
+.breadcrumb ol {
+    height: inherit;
+    display: flex;
+    flex-direction: row;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    gap: 1px;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.breadcrumb button {
+    display: flex;
+    gap: 1ch;
+    align-items: center;
+}

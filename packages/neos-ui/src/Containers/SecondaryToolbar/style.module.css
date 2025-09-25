@@ -18,6 +18,8 @@
 .secondaryToolbar--isFringeRight {
     padding-right: 46px;
 }
+.secondaryToolbar__leftHandedActions {
+}
 .secondaryToolbar__rightHandedActions {
     margin-left: auto;
 }
