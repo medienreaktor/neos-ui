@@ -18,6 +18,7 @@
     bottom: anchor(top);
     left: anchor(left);
     display: none;
+    z-index: 2147483646;
 }
 .ck.ck-toolbar.neos-ck-anchored-toolbar--visible {
     display: flex;
@@ -110,6 +111,8 @@
     --ck-widget-handle-icon-size: 16px;
     --ck-widget-handle-animation-duration: 200ms;
     --ck-widget-handle-animation-curve: ease;
+
+    --ck-style-panel-button-label-background: var(--ck-color-base-background);
 }
 
 /* Component overrides */

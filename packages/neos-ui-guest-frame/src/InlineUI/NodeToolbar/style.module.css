@@ -1,15 +1,7 @@
 .toolBar {
     display: flex;
     background: var(--colors-PrimaryBlue);
-    z-index: var(--zIndex-NodeToolBar);
     position: relative;
-}
-.toolBar__nodeLabel {
-    display: flex;
-    align-items: center;
-    gap: 1ch;
-    padding-left: 10px;
-    font-size: var(--fontSize-Small);
 }
 .toolBar__btnGroup {
     display: flex;
@@ -30,81 +22,9 @@
     }
 }
 
-.toolBar__btnGroupVertical {
-    display: flex;
-    flex-direction: column;
-}
-
-.toolBar__contextMenuToggleWrapper {
-    padding: 1px;
-}
-.toolBar__contextMenuToggle {
-    anchor-name: --inline-ui-node-context-menu-anchor;
-
-    &:has(~ :popover-open) {
-        background-color: var(--colors-PrimaryBlueHover);
-    }
-}
-.toolBar__contextMenuToggle:focus {
-    outline: 0;
-}
-
-@position-try --context-menu-align-right {
-    left: auto;
-    right: anchor(right);
-    top: anchor(bottom);
-}
-.toolBar__contextMenu {
-    width: max-content;
-    position: absolute;
-    position-anchor: --inline-ui-node-context-menu-anchor;
-    left: anchor(left);
-    top: anchor(bottom);
-    margin: 0;
-    padding: 0;
-    background: var(--colors-PrimaryBlue);
-    position-try-fallbacks: --context-menu-align-right;
-}
-
 /* FIXME: Install https://github.com/oddbird/css-anchor-positioning?tab=readme-ov-file anchor polyfill to support all browsers */
 .toolBar__anchor {
     position: absolute;
     anchor-name: --inline-ui-node-toolbar-anchor;
     pointer-events: none;
-}
-
-/* TODO: Try to implement stickyness without JS */
-/*@position-try --toolbar-sticky {*/
-/*    top: calc(anchor(bottom) + 10px);*/
-/*    bottom: auto;*/
-/*}*/
-
-.toolBar__popover {
-    position: absolute;
-    position-anchor: --inline-ui-node-toolbar-anchor;
-    right: calc(anchor(right) - 10px - 2px);
-    bottom: calc(anchor(top) + 10px);
-    /*position-try-fallbacks: --toolbar-sticky;*/
-}
-
-.toolBar__popover--isSticky {
-    position: fixed;
-    top: 0 !important;
-    bottom: auto;
-    margin-top: 5px;
-}
-
-.structuralToolBar__popover {
-    position: absolute;
-    position-anchor: --inline-ui-node-toolbar-anchor;
-    position-area: top center;
-    margin-bottom: -4px;
-}
-.structuralToolBar__popover--isBelow {
-    position-area: bottom center;
-    margin-top: -4px;
-}
-.structuralToolBar__popover--isInside {
-    position-area: center center;
-    margin-top: -4px;
 }

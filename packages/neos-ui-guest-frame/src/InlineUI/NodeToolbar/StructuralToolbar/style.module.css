@@ -1,0 +1,35 @@
+.toolBar {
+    display: flex;
+    background: var(--colors-PrimaryBlue);
+    position: relative;
+}
+
+.toolBar__btnGroup {
+    display: flex;
+    background: transparent;
+}
+
+.structuralToolBar__popover {
+    z-index: var(--zIndex-NodeToolBar);
+    position: absolute;
+    position-anchor: --inline-ui-node-toolbar-anchor;
+    position-area: top center;
+    margin-bottom: 10px;
+    border: 2px solid white;
+    opacity: 0.5;
+    transition: var(--transition-Fast) opacity;
+}
+
+.structuralToolBar__popover:hover {
+    opacity: 1;
+}
+
+.structuralToolBar__popover--isBelow {
+    position-area: bottom center;
+    margin-top: 10px;
+}
+
+.structuralToolBar__popover--isInside {
+    position-area: center center;
+    margin-top: 10px;
+}

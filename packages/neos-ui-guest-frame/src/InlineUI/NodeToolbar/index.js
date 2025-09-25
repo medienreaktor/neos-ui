@@ -1,7 +1,6 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import mergeClassNames from 'classnames';
 import debounce from 'lodash.debounce';
 
 import {
@@ -13,36 +12,11 @@ import {
 } from '@neos-project/neos-ui-guest-frame/src/dom';
 import {neos} from '@neos-project/neos-ui-decorators';
 import {selectors} from '@neos-project/neos-ui-redux-store';
-import {IconButton, Icon, Button} from "@neos-project/react-ui-components";
 
 import style from './style.module.css';
 import {InsertPosition} from "@neos-project/neos-ts-interfaces";
-
-/**
- * Format node label by replacing html entities and trimming to max length
- * @param node
- * @param {number} maxLength
- * @return {string}
- */
-const formatNodeLabel = (node, maxLength = 20) => {
-    let nodeLabel = node.label;
-
-    // Replace html special characters, unmatched entities are replaced with a space
-    const htmlEntities = {
-        '&amp;': '&',
-        '&lt;': '<',
-        '&gt;': '>',
-        '&quot;': '"',
-        '&#039;': "'",
-        '&ndash;': '-',
-    };
-    nodeLabel = nodeLabel.replace(/&[\w#]+;/g, (entity) => {
-        return htmlEntities[entity] || ' ';
-    });
-
-    // Trim to max length characters
-    return nodeLabel.substring(0, maxLength) + (nodeLabel.length > maxLength ? '…' : '');
-}
+import StructuralToolbar from "./StructuralToolbar";
+import ContextToolbar from "./ContextToolbar";
 
 @neos(globalRegistry => ({
     nodeTypesRegistry: globalRegistry.get('@neos-project/neos-ui-contentrepository'),
@@ -88,9 +62,14 @@ export default class NodeToolbar extends PureComponent {
 
     // Track mouse position for toolbar positioning
     handleMouseMove = (event) => {
-        this.setState({
-            cursorOffsetY: event.pageY
-        });
+        const {cursorOffsetY} = this.state;
+        // Round offset to the closest divisible value to avoid too many state updates
+        const newCursorOffsetY = Math.round(event.pageY / 10) * 10;
+        if (newCursorOffsetY === cursorOffsetY) {
+            console.debug('Skipping mouse move update');
+            return;
+        }
+        this.setState({cursorOffsetY: newCursorOffsetY});
     };
 
     updateStickyness = () => {
@@ -106,6 +85,30 @@ export default class NodeToolbar extends PureComponent {
         }
     };
 
+    updateAnchorPosition = () => {
+        const {contextPath, fusionPath, visible} = this.props;
+
+        if (!visible) {
+            return;
+        }
+
+        const nodeElement = findNodeInGuestFrame(contextPath, fusionPath);
+        if (!nodeElement) {
+            return;
+        }
+
+        const newAnchorPosition = getAbsolutePositionOfElementInGuestFrame(nodeElement);
+        const {anchorPosition} = this.state;
+        if (anchorPosition
+            && anchorPosition.top === newAnchorPosition.top
+            && anchorPosition.left === newAnchorPosition.left
+            && anchorPosition.width === newAnchorPosition.width
+            && anchorPosition.height === newAnchorPosition.height) {
+            return;
+        }
+        this.setState({anchorPosition: newAnchorPosition});
+    }
+
     debouncedSticky = debounce(this.updateStickyness, 5);
 
     debouncedUpdate = debounce(() => this.forceUpdate(), 5);
@@ -118,11 +121,13 @@ export default class NodeToolbar extends PureComponent {
 
         this.scrollIntoView();
         this.updateStickyness();
+        this.updateAnchorPosition();
     }
 
     componentDidUpdate() {
         this.scrollIntoView();
         this.updateStickyness();
+        this.updateAnchorPosition();
     }
 
     componentWillUnmount() {
@@ -151,28 +156,6 @@ export default class NodeToolbar extends PureComponent {
         }
     }
 
-    getToolbarComponent() {
-        const {
-            currentlyEditedPropertyName,
-            hasFocusedContentNode,
-            inlineEditorRegistry,
-            focusedNodeTypeName
-        } = this.props;
-
-        // Focused node is not yet in state, we need to wait a bit
-        if (!focusedNodeTypeName) {
-            return () => null;
-        }
-
-        if (!hasFocusedContentNode && !currentlyEditedPropertyName) {
-            return null;
-        }
-
-        const {ToolbarComponent} = inlineEditorRegistry.get('ckeditor5');
-
-        return ToolbarComponent || null;
-    }
-
     render() {
         const {
             contextPath,
@@ -190,20 +173,21 @@ export default class NodeToolbar extends PureComponent {
             visible,
         } = this.props;
 
-        if (!contextPath) {
+        if (!contextPath || !visible) {
             return null;
         }
 
+        // TODO: Move check for node into events instead of doing it on every render
         const nodeElement = findNodeInGuestFrame(contextPath, fusionPath);
-
-        // Check if nodeElement exists before accessing its props or if the node toolbar
-        // should be invisible e.g. when the workspace is in read only mode
-        if (!nodeElement || !visible) {
+        if (!nodeElement) {
             return null;
         }
 
-        const anchorPosition = getAbsolutePositionOfElementInGuestFrame(nodeElement);
-        const {cursorOffsetY, isSticky} = this.state;
+        const {cursorOffsetY, isSticky, anchorPosition} = this.state;
+
+        if (!anchorPosition) {
+            return null;
+        }
 
         // Calculate the position of the structural toolbar based on the cursor position and the nodetypes role
         const focusedNodeType = nodeTypesRegistry.get(focusedNode.nodeType);
@@ -214,24 +198,10 @@ export default class NodeToolbar extends PureComponent {
             insertPosition = InsertPosition.INTO;
         }
 
-        const nodeToolbarClassNames = mergeClassNames({
-            [style.toolBar__popover]: true,
-            [style['toolBar__popover--isSticky']]: isSticky
-        });
-        const structuralToolbarClassNames = mergeClassNames({
-            [style.structuralToolBar__popover]: true,
-            [style['structuralToolBar__popover--isInside']]: insertPosition === InsertPosition.INTO,
-            [style['structuralToolBar__popover--isBelow']]: insertPosition === InsertPosition.AFTER,
-        });
-
         const NodeToolbarButtons = guestFrameRegistry.getChildren('NodeToolbar/Buttons');
         const NodeToolbarSecondaryButtons = guestFrameRegistry.getChildren('NodeToolbar/SecondaryButtons');
-        const InlineEditorToolbar = this.getToolbarComponent();
 
-        const focusedNodeLabel = focusedNode.label.substring(0, 20) + (focusedNode.label.length > 20 ? '…' : '');
-        const focusedNodeTypeIcon = focusedNodeType?.icon || 'cube';
-
-        const props = {
+        const toolbarButtonProps = {
             i18nRegistry,
             contextPath,
             fusionPath,
@@ -245,10 +215,13 @@ export default class NodeToolbar extends PureComponent {
             className: style.toolBar__btnGroup__btn
         };
 
-        // The data attribute data-ignore_click_outside is used to disable the enhanceWithClickOutside
+        // TODO: Check: The data attribute data-ignore_click_outside is used to disable the enhanceWithClickOutside
         // handling. For the special case that the outOfBandRender returns an empty rendered content
         // we need to disable the enhanceWithClickOutside handling to prevent hick ups in the event
         // registration after guest frame reload.
+
+        // TODO: Try to solve the sticky toolbar with a second anchor instead of the scroll event
+        // TODO: Get toolbars from a registry and make them standalone components
         return (
             <>
                 <div
@@ -257,42 +230,18 @@ export default class NodeToolbar extends PureComponent {
                     popovertarget="inline-ui-toolbar-popover"
                     style={anchorPosition}
                 ></div>
-                <div className={structuralToolbarClassNames}>
-                    <div className={style.toolBar} data-ignore_click_outside="true">
-                        <div className={style.toolBar__btnGroup}>
-                            {NodeToolbarButtons.map((Item, key) => <Item key={key} {...props} />)}
-                        </div>
-                    </div>
-                </div>
-                <div className={nodeToolbarClassNames} id="inline-ui-toolbar-popover">
-                    <div className={style.toolBar} data-ignore_click_outside="true">
-                        <span className={style.toolBar__nodeLabel}>
-                            <Icon icon={focusedNodeTypeIcon} />
-                            {focusedNodeLabel}
-                        </span>
-                        {/*{InlineEditorToolbar && <InlineEditorToolbar />}*/}
-                        <div className={style.toolBar__contextMenuToggleWrapper}>
-                            <IconButton
-                                className={style.toolBar__contextMenuToggle}
-                                popovertarget="inline-ui-toolbar-context-menu"
-                                icon="ellipsis-vertical"
-                                onClick={void 0}
-                                hoverStyle="brand"
-                                size="small"
-                                title={i18nRegistry.translate('toggleContextMenu', 'Toggle context menu')}
-                            />
-                            <div
-                                id="inline-ui-toolbar-context-menu"
-                                className={style.toolBar__contextMenu}
-                                popover="auto"
-                            >
-                                <div className={style.toolBar__btnGroupVertical}>
-                                    {NodeToolbarSecondaryButtons.map((Item, key) => <Item key={key} {...props} />)}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <ContextToolbar
+                    focusedNode={focusedNode}
+                    focusedNodeType={focusedNodeType}
+                    isSticky={isSticky}
+                    buttons={NodeToolbarSecondaryButtons}
+                    buttonProps={toolbarButtonProps}
+                />
+                <StructuralToolbar
+                    insertPosition={insertPosition}
+                    buttons={NodeToolbarButtons}
+                    buttonProps={toolbarButtonProps}
+                />
             </>
         );
     }
