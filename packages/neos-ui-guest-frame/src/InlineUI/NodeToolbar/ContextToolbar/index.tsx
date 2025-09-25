@@ -1,10 +1,18 @@
-import React, {ReactElement} from 'react';
-import mergeClassNames from "classnames";
+import React, {ReactElement, useCallback, useEffect, useRef, useState} from 'react';
+import {connect} from 'react-redux';
+import mergeClassNames from 'classnames';
+import debounce from 'lodash.debounce';
 
-import {Icon, IconButton} from "@neos-project/react-ui-components";
+import {findNodeInGuestFrame, getGuestFrameWindow} from '@neos-project/neos-ui-guest-frame/src/dom';
+import {Icon, IconButton} from '@neos-project/react-ui-components';
 import {translate} from '@neos-project/neos-ui-i18n';
+import {neos} from '@neos-project/neos-ui-decorators';
+import {selectors} from '@neos-project/neos-ui-redux-store';
+import {GlobalState} from '@neos-project/neos-ui-redux-store/src/System';
 
 import style from './style.module.css';
+import {NodeTypesRegistry} from '@neos-project/neos-ts-interfaces';
+import {SynchronousRegistry} from '@neos-project/neos-ui-extensibility';
 
 const HTML_ENTITIES: Record<string, string> = {
     '&amp;': '&',
@@ -30,30 +38,77 @@ const formatNodeLabel = (label: string, maxLength = 20) => {
     return nodeLabel.substring(0, maxLength) + (nodeLabel.length > maxLength ? '…' : '');
 }
 
+const withReduxState = connect((state: GlobalState) => ({
+    focusedNode: selectors.CR.Nodes.focusedSelector(state),
+}));
+
+const withNeosGlobals = neos((globalRegistry) => ({
+    nodeTypesRegistry: globalRegistry.get('@neos-project/neos-ui-contentrepository'),
+    guestFrameRegistry: globalRegistry.get('@neos-project/neos-ui-guest-frame'),
+}));
+
 type ContextToolbarProps = {
-    focusedNode: { label: string };
-    focusedNodeType?: { ui?: { icon?: string } };
-    isSticky: boolean;
-    buttons: ReactElement[];
+    focusedNode: { label: string, nodeType: string };
     buttonProps?: { [key: string]: any };
+    nodeTypesRegistry: NodeTypesRegistry;
+    guestFrameRegistry: SynchronousRegistry<ReactElement>;
+    contextPath: string;
+    fusionPath: string;
 }
 
 const ContextToolbar: React.FC<ContextToolbarProps> = ({
-                                                           focusedNode,
-                                                           focusedNodeType,
-                                                           isSticky,
-                                                           buttons,
-                                                           buttonProps
-                                                       }) => {
+    focusedNode,
+    buttonProps,
+    nodeTypesRegistry,
+    guestFrameRegistry,
+    contextPath,
+    fusionPath,
+}) => {
+    const iframeWindow = useRef(getGuestFrameWindow()).current;
+    const [isSticky, setIsSticky] = useState(false);
+    const debouncedStickyRef = useRef();
 
+    const updateStickiness = useCallback(() => {
+        const nodeElement = findNodeInGuestFrame(contextPath, fusionPath);
+        if (nodeElement) {
+            const {top, bottom} = nodeElement.getBoundingClientRect();
+            const shouldBeSticky = top < 50 && bottom > 0;
+            setIsSticky(shouldBeSticky);
+        }
+    }, [contextPath, fusionPath]);
+
+    useEffect(() => {
+        debouncedStickyRef.current = debounce(updateStickiness, 5);
+    }, [updateStickiness]);
+
+    useEffect(() => {
+        if (!iframeWindow) return;
+
+        iframeWindow.addEventListener('scroll', debouncedStickyRef.current);
+        updateStickiness();
+
+        return () => {
+            iframeWindow.removeEventListener('scroll', debouncedStickyRef.current);
+        };
+    }, [updateStickiness]);
+
+    const focusedNodeType = nodeTypesRegistry.get(focusedNode.nodeType);
     const focusedNodeLabel = formatNodeLabel(focusedNode.label);
     const focusedNodeTypeIcon = focusedNodeType?.ui?.icon || 'cube';
+
+    const buttons = guestFrameRegistry.getChildren('NodeToolbar/SecondaryButtons');
 
     const classNames = mergeClassNames({
         [style.toolBar__popover]: true,
         [style['toolBar__popover--isSticky']]: isSticky
     });
 
+    // TODO: Try to solve the sticky toolbar with a second anchor instead of the scroll event
+
+    // The data attribute data-ignore_click_outside is used to disable the enhanceWithClickOutside
+    // handling. For the special case that the outOfBandRender returns an empty rendered content
+    // we need to disable the enhanceWithClickOutside handling to prevent hick ups in the event
+    // registration after guest frame reload.
     return (
         <div className={classNames} id="inline-ui-toolbar-popover">
             <div className={style.toolBar} data-ignore_click_outside="true">
@@ -86,4 +141,4 @@ const ContextToolbar: React.FC<ContextToolbarProps> = ({
     );
 }
 
-export default React.memo(ContextToolbar);
+export default React.memo(withReduxState(withNeosGlobals(ContextToolbar as any)));

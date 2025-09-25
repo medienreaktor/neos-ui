@@ -14,7 +14,7 @@
     position: absolute;
     position-anchor: --inline-ui-node-toolbar-anchor;
     position-area: top center;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     border: 2px solid white;
     opacity: 0.5;
     transition: var(--transition-Fast) opacity;
@@ -26,10 +26,12 @@
 
 .structuralToolBar__popover--isBelow {
     position-area: bottom center;
-    margin-top: 10px;
+    margin-bottom: 0;
+    margin-top: 12px;
 }
 
 .structuralToolBar__popover--isInside {
     position-area: center center;
+    margin-bottom: 0;
     margin-top: 10px;
 }

@@ -1,17 +1,28 @@
 import React, {ReactElement} from 'react';
-import mergeClassNames from "classnames";
+import {connect} from 'react-redux';
+import mergeClassNames from 'classnames';
 
 import {InsertPosition} from "@neos-project/neos-ts-interfaces";
+import {neos} from "@neos-project/neos-ui-decorators";
+import {SynchronousRegistry} from "@neos-project/neos-ui-extensibility";
 
 import style from './style.module.css';
+import {GlobalState} from "@neos-project/neos-ui-redux-store/src/System";
+
+const withReduxState = connect((_state: GlobalState) => ({}));
+
+const withNeosGlobals = neos((globalRegistry) => ({
+    guestFrameRegistry: globalRegistry.get('@neos-project/neos-ui-guest-frame'),
+}));
 
 type StructuralToolbarProps = {
     insertPosition: InsertPosition;
-    buttons: ReactElement[];
+    guestFrameRegistry: SynchronousRegistry<ReactElement>;
     buttonProps?: {[key: string]: any};
 }
 
-const StructuralToolbar: React.FC<StructuralToolbarProps> = ({insertPosition, buttons, buttonProps}) => {
+const StructuralToolbar: React.FC<StructuralToolbarProps> = ({insertPosition, buttonProps, guestFrameRegistry}) => {
+    const buttons = guestFrameRegistry.getChildren('NodeToolbar/Buttons');
 
     const classNames = mergeClassNames({
         [style.structuralToolBar__popover]: true,
@@ -30,4 +41,4 @@ const StructuralToolbar: React.FC<StructuralToolbarProps> = ({insertPosition, bu
     );
 }
 
-export default React.memo(StructuralToolbar);
+export default React.memo(withReduxState(withNeosGlobals(StructuralToolbar as any)));
