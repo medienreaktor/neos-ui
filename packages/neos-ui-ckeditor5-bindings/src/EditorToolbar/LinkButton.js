@@ -77,7 +77,7 @@ export default class LinkButton extends PureComponent {
         const {i18nRegistry, inlineEditorOptions, isOpen} = this.props;
 
         return (
-            <div>
+            <div className={style.linkButton}>
                 <IconButton
                     title={this.getLinkValue() ? `${i18nRegistry.translate('Neos.Neos.Ui:Main:ckeditor__toolbar__unlink', 'Unlink')}` : `${i18nRegistry.translate('Neos.Neos.Ui:Main:ckeditor__toolbar__link', 'Link')}`}
                     isActive={isOpen}

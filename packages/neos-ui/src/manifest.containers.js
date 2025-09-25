@@ -42,6 +42,7 @@ import ContentCanvas from './Containers/ContentCanvas/index';
 import RightSideBar from './Containers/RightSideBar/index';
 import Inspector from './Containers/RightSideBar/Inspector/index';
 import Breadcrumb from "./Containers/Breadcrumb/index";
+import InlineEditorToolbar from "@neos-project/neos-ui-ckeditor5-bindings/src/EditorToolbar";
 
 manifest('main.containers', {}, globalRegistry => {
     const containerRegistry = globalRegistry.get('containers');
@@ -74,6 +75,7 @@ manifest('main.containers', {}, globalRegistry => {
     containerRegistry.set('SecondaryToolbar', SecondaryToolbar);
     containerRegistry.set('SecondaryToolbar/LoadingIndicator', LoadingIndicator);
     containerRegistry.set('SecondaryToolbar/Left/Breadcrumb', Breadcrumb);
+    containerRegistry.set('SecondaryToolbar/Right/InlineEditorToolbar', InlineEditorToolbar);
 
     containerRegistry.set('Drawer', Drawer);
     containerRegistry.set('Drawer/Bottom/VersionPanel', VersionPanel);

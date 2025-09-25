@@ -1,5 +1,6 @@
 .toolbar {
-    flex: 0 1 auto;
+    z-index: var(--zIndex-EditorToolbar);
+    position: relative;
 }
 
 .toolBar__btnGroup {

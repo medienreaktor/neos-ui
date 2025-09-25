@@ -46,6 +46,7 @@
     --zIndex-SideBar-DropTargetAfter: 2;
     --zIndex-WrapperDropdown-Context: 1;
     --zIndex-UnappliedChangesOverlay: 55;
+    --zIndex-EditorToolbar: 50;
     --zIndex-NodeToolBar: 2147483646;
     --fontSize-Base: 14px;
     --fontSize-Small: 12px;
