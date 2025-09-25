@@ -64,14 +64,14 @@ manifest('main.containers', {}, globalRegistry => {
     containerRegistry.set('PrimaryToolbar/Left/Brand', Brand);
     containerRegistry.set('PrimaryToolbar/Right/EditPreviewDropDown', EditPreviewDropDown);
     containerRegistry.set('PrimaryToolbar/Right/DimensionSwitcher', DimensionSwitcher);
+    containerRegistry.set('PrimaryToolbar/Right/KeyboardShortcutButton', KeyboardShortcutButton);
+    containerRegistry.set('PrimaryToolbar/Right/PreviewButton', PreviewButton);
+    containerRegistry.set('PrimaryToolbar/Right/FullScreenButton', FullScreenButton);
     containerRegistry.set('PrimaryToolbar/Right/PublishDropDown', PublishDropDown);
     containerRegistry.set('PrimaryToolbar/Right/WorkspaceSync', WorkspaceSync);
 
     containerRegistry.set('SecondaryToolbar', SecondaryToolbar);
     containerRegistry.set('SecondaryToolbar/LoadingIndicator', LoadingIndicator);
-    containerRegistry.set('SecondaryToolbar/Right/KeyboardShortcutButton', KeyboardShortcutButton);
-    containerRegistry.set('SecondaryToolbar/Right/PreviewButton', PreviewButton);
-    containerRegistry.set('SecondaryToolbar/Right/FullScreenButton', FullScreenButton);
 
     containerRegistry.set('Drawer', Drawer);
     containerRegistry.set('Drawer/Bottom/VersionPanel', VersionPanel);
