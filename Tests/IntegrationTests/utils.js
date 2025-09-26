@@ -1,7 +1,6 @@
 import {t, Role, ClientFunction, Selector} from 'testcafe';
 import {waitForReact} from 'testcafe-react-selectors';
 import {PublishDropDown, Page} from './pageModel';
-import {forEach} from "../../.yarn/releases/yarn-3.2.0";
 
 export const subSection = name => console.log('\x1b[33m%s\x1b[0m', ' - ' + name);
 

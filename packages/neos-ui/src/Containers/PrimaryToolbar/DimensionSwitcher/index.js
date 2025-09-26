@@ -265,8 +265,8 @@ export default class DimensionSwitcher extends PureComponent {
                 return Object.assign({}, presetConfiguration, {
                     label: i18nRegistry.translate(presetConfiguration.label),
                     disallowed: !(allowedPresets[dimensionName] && allowedPresets[dimensionName].includes(presetName)),
-                    covered: true, //ToDo: Needs to be implemented for 9.0 https://github.com/neos/neos-ui/pull/3680
-                    url: null //ToDo: Needs to be implemented for 9.0 https://github.com/neos/neos-ui/pull/3680
+                    covered: true, // ToDo: Needs to be implemented for 9.0 https://github.com/neos/neos-ui/pull/3680
+                    url: null // ToDo: Needs to be implemented for 9.0 https://github.com/neos/neos-ui/pull/3680
                 });
             });
     }
