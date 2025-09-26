@@ -41,6 +41,8 @@ class UpdateNodeInfo extends AbstractFeedback
      */
     protected $contentRepositoryRegistry;
 
+    protected bool $isRecursive = false;
+
     protected ?string $baseNodeType = null;
 
     public function setBaseNodeType(?string $baseNodeType): void
@@ -56,6 +58,14 @@ class UpdateNodeInfo extends AbstractFeedback
     public function setNode(Node $node): void
     {
         $this->node = $node;
+    }
+
+    /**
+     * Update node infos recursively
+     */
+    public function recursive(): void
+    {
+        $this->isRecursive = true;
     }
 
     public function getNode(): Node
@@ -93,7 +103,7 @@ class UpdateNodeInfo extends AbstractFeedback
     public function serializePayload(ControllerContext $controllerContext): array
     {
         return [
-            'byContextPath' => $this->serializeNode($this->node, $controllerContext->getRequest())
+            'byContextPath' => $this->serializeNodeRecursively($this->node, $controllerContext->getRequest())
         ];
     }
 
@@ -102,13 +112,23 @@ class UpdateNodeInfo extends AbstractFeedback
      *
      * @return array<string,?array<string,mixed>>
      */
-    private function serializeNode(Node $node, ActionRequest $actionRequest): array
+    private function serializeNodeRecursively(Node $node, ActionRequest $actionRequest): array
     {
-        return [
-            NodeAddress::fromNode($node)->toJson() => $this->nodeInfoHelper->renderNodeWithPropertiesAndChildrenInformation(
+        $result = [
+            NodeAddress::fromNode($node)->toJson()
+            => $this->nodeInfoHelper->renderNodeWithPropertiesAndChildrenInformation(
                 $node,
                 $actionRequest
             )
         ];
+
+        if ($this->isRecursive === true) {
+            $subgraph = $this->contentRepositoryRegistry->subgraphForNode($node);
+            foreach ($subgraph->findChildNodes($node->aggregateId, FindChildNodesFilter::create()) as $childNode) {
+                $result = array_merge($result, $this->serializeNodeRecursively($childNode, $actionRequest));
+            }
+        }
+
+        return $result;
     }
 }
