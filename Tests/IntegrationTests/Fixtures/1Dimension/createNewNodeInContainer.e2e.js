@@ -51,7 +51,7 @@ test('Create a text node in a new container element at the correct position', as
     await Page.waitForIframeLoading(t);
 
     await t.expect(Page.treeNode.withExactText('Container_Test').count).eql(2);
-    await t.expect(Page.treeNode.withExactText('Text_Test').count).eql(2);
+    await t.expect(Page.treeNode.withText('Text_Test').count).eql(2);
 
     subSection('Edit copied text node inline');
     await typeTextInline(t, '.test-container:last-child .test-text [contenteditable="true"]', 'my copied text', 'p');

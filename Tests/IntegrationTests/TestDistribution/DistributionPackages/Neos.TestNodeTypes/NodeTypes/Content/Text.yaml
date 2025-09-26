@@ -1,4 +1,5 @@
 'Neos.TestNodeTypes:Content.Text':
+  label: ${'Text_Test ' + node.properties.text}
   superTypes:
     'Neos.Neos:Content': true
   ui:
