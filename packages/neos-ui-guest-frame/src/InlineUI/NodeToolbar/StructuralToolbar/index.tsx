@@ -25,9 +25,9 @@ const StructuralToolbar: React.FC<StructuralToolbarProps> = ({insertPosition, bu
     const buttons = guestFrameRegistry.getChildren('NodeToolbar/Buttons');
 
     const classNames = mergeClassNames({
-        [style.structuralToolBar]: true,
-        [style['structuralToolBar--isInside']]: insertPosition === InsertPosition.INTO,
-        [style['structuralToolBar--isBelow']]: insertPosition === InsertPosition.AFTER,
+        [style.structuralToolBar__popover]: true,
+        [style['structuralToolBar__popover--isInside']]: insertPosition === InsertPosition.INTO,
+        [style['structuralToolBar__popover--isBelow']]: insertPosition === InsertPosition.AFTER,
     });
 
     return (

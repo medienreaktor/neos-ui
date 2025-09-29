@@ -20,8 +20,9 @@
 /*    bottom: auto;*/
 /*}*/
 
-.toolBar__popover {
+.contextToolBar {
     z-index: var(--zIndex-NodeToolBar);
+    anchor-name: --inline-ui-context-toolbar-anchor;
     position: absolute;
     position-anchor: --inline-ui-node-toolbar-anchor;
     right: calc(anchor(right) - 10px - 2px);
@@ -29,7 +30,7 @@
     /*position-try-fallbacks: --toolbar-sticky;*/
 }
 
-.toolBar__popover--isSticky {
+.contextToolBar--isSticky {
     position: fixed;
     top: 0 !important;
     bottom: auto;
@@ -45,7 +46,6 @@
 }
 
 .toolBar__contextMenuToggleWrapper {
-    padding: 1px;
 }
 
 .toolBar__contextMenuToggle {

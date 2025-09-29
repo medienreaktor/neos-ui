@@ -12,26 +12,22 @@
 .structuralToolBar__popover {
     z-index: var(--zIndex-NodeToolBar);
     position: absolute;
-    position-anchor: --inline-ui-node-toolbar-anchor;
-    position-area: top center;
-    margin-bottom: 12px;
-    border: 2px solid white;
-    opacity: 0.5;
-    transition: var(--transition-Fast) opacity;
-}
-
-.structuralToolBar__popover:hover {
-    opacity: 1;
+    position-anchor: --inline-ui-context-toolbar-anchor;
+    position-area: center left;
 }
 
 .structuralToolBar__popover--isBelow {
+    position-anchor: --inline-ui-node-toolbar-anchor;
     position-area: bottom center;
-    margin-bottom: 0;
-    margin-top: 12px;
+    top: 10px;
+    border-left: 2px solid white;
+    border-bottom: 2px solid white;
+    border-right: 2px solid white;
 }
 
 .structuralToolBar__popover--isInside {
+    position-anchor: --inline-ui-node-toolbar-anchor;
     position-area: center center;
-    margin-bottom: 0;
-    margin-top: 10px;
+    top: 10px;
+    border: 2px solid white;
 }

@@ -97,8 +97,8 @@ const ContextToolbar: React.FC<ContextToolbarProps> = ({
     const buttons = guestFrameRegistry.getChildren('NodeToolbar/SecondaryButtons');
 
     const classNames = mergeClassNames({
-        [style.toolBar__popover]: true,
-        [style['toolBar__popover--isSticky']]: isSticky
+        [style.contextToolBar]: true,
+        [style['contextToolBar--isSticky']]: isSticky
     });
 
     // TODO: Try to solve the sticky toolbar with a second anchor instead of the scroll event

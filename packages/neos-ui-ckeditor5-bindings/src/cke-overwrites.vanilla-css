@@ -17,11 +17,16 @@
     position: fixed;
     bottom: anchor(top);
     left: anchor(left);
+    right: anchor(right);
+    width: min-content;
+    max-width: stretch;
     display: none;
-    z-index: 2147483646;
 }
 .ck.ck-toolbar.neos-ck-anchored-toolbar--visible {
     display: flex;
+}
+.ck.ck-toolbar.neos-ck-anchored-toolbar--visible:hover {
+    z-index: 2147483646;
 }
 
 /*
