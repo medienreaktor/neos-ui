@@ -48,11 +48,10 @@ const withNeosGlobals = neos((globalRegistry) => ({
 }));
 
 type ContextToolbarProps = {
-    focusedNode: { label: string, nodeType: string };
+    focusedNode: { label: string, nodeType: string, contextPath: string };
     buttonProps?: { [key: string]: any };
     nodeTypesRegistry: NodeTypesRegistry;
     guestFrameRegistry: SynchronousRegistry<ReactElement>;
-    contextPath: string;
     fusionPath: string;
 }
 
@@ -61,7 +60,6 @@ const ContextToolbar: React.FC<ContextToolbarProps> = ({
     buttonProps,
     nodeTypesRegistry,
     guestFrameRegistry,
-    contextPath,
     fusionPath,
 }) => {
     const iframeWindow = useRef(getGuestFrameWindow()).current;
@@ -69,13 +67,13 @@ const ContextToolbar: React.FC<ContextToolbarProps> = ({
     const debouncedStickyRef = useRef();
 
     const updateStickiness = useCallback(() => {
-        const nodeElement = findNodeInGuestFrame(contextPath, fusionPath);
+        const nodeElement = findNodeInGuestFrame(focusedNode.contextPath, fusionPath);
         if (nodeElement) {
             const {top, bottom} = nodeElement.getBoundingClientRect();
             const shouldBeSticky = top < 50 && bottom > 0;
             setIsSticky(shouldBeSticky);
         }
-    }, [contextPath, fusionPath]);
+    }, [focusedNode, fusionPath]);
 
     useEffect(() => {
         debouncedStickyRef.current = debounce(updateStickiness, 5);

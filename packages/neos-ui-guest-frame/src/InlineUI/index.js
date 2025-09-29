@@ -58,7 +58,6 @@ export default class InlineUI extends PureComponent {
             return null;
         }
 
-        const focusedNodeContextPath = focusedNode.contextPath;
         const isDocument = nodeTypesRegistry.hasRole(focusedNode?.nodeType, 'document');
         const allFocusedNodesAreInClipboard = isEqualSet(focusedNodesContextPaths, clipboardNodesContextPaths);
         const isCut = allFocusedNodesAreInClipboard && clipboardMode === 'Move';
@@ -78,7 +77,6 @@ export default class InlineUI extends PureComponent {
                     canBeDeleted={canBeDeleted}
                     canBeEdited={canBeEdited}
                     visibilityCanBeToggled={visibilityCanBeToggled}
-                    contextPath={focusedNodeContextPath}
                     visible={!isWorkspaceReadOnly}
                     {...focused}
                     />}

@@ -25,9 +25,8 @@ import {GlobalState} from "@neos-project/neos-ui-redux-store/src/System";
 type NodeToolbarProps = {
     canBeDeleted: boolean;
     canBeEdited: boolean;
-    contextPath?: string;
     destructiveOperationsAreDisabled: boolean;
-    focusedNode?: {nodeType: string};
+    focusedNode?: {nodeType: string, contextPath: string};
     fusionPath?: string;
     i18nRegistry: any;
     isCopied: boolean;
@@ -42,7 +41,6 @@ type NodeToolbarProps = {
 const NodeToolbar: React.FC<NodeToolbarProps> = ({
     canBeDeleted,
     canBeEdited,
-    contextPath,
     destructiveOperationsAreDisabled,
     focusedNode,
     fusionPath,
@@ -61,20 +59,21 @@ const NodeToolbar: React.FC<NodeToolbarProps> = ({
     const iframeWindow = useRef(getGuestFrameWindow()).current;
     const debouncedUpdateRef = useRef();
 
+    const contextPath = focusedNode?.contextPath;
+
     const isContentCollection = useMemo(() => {
         return focusedNode ? nodeTypesRegistry.hasRole(focusedNode.nodeType, 'contentCollection') : false
     }, [focusedNode, nodeTypesRegistry]);
 
     // Track mouse position for toolbar positioning
     const handleMouseMove = useCallback((event: MouseEvent) => {
-        // Round offset to the closest divisible value to avoid too many state updates
-        const cursorOffsetY = Math.round(event.pageY / 10) * 10;
-
         if (!focusedNode || !anchorPosition) {
             setInsertPosition(InsertPosition.AFTER);
             return;
         }
 
+        // Round offset to the closest divisible value to avoid too many state updates
+        const cursorOffsetY = Math.round(event.pageY / 10) * 10;
         const activeRange = Math.max(Math.round(anchorPosition.height / 5), 20);
 
         if (isContentCollection && cursorOffsetY >= (anchorPosition.top + activeRange) && cursorOffsetY <= (anchorPosition.top + anchorPosition.height - activeRange)) {
@@ -114,6 +113,7 @@ const NodeToolbar: React.FC<NodeToolbarProps> = ({
     const forceUpdate = useCallback(() => {
         // Force re-render by updating a dummy state if needed
         // In most cases, the dependencies should handle updates automatically
+        // TODO: Check if this is still needed
     }, []);
 
     const scrollIntoView = useCallback(() => {
@@ -187,6 +187,7 @@ const NodeToolbar: React.FC<NodeToolbarProps> = ({
         return null;
     }
 
+    // TODO: Try to read toolbars from registry
     return (
         <>
             <div
@@ -195,14 +196,13 @@ const NodeToolbar: React.FC<NodeToolbarProps> = ({
                 popovertarget="inline-ui-toolbar-popover"
                 style={anchorPosition}
             ></div>
-            <ContextToolbar buttonProps={toolbarButtonProps} contextPath={contextPath} fusionPath={fusionPath}/>
+            <ContextToolbar buttonProps={toolbarButtonProps} fusionPath={fusionPath}/>
             <StructuralToolbar insertPosition={insertPosition} buttonProps={toolbarButtonProps}/>
         </>
     );
 };
 
 NodeToolbar.propTypes = {
-    contextPath: PropTypes.string,
     fusionPath: PropTypes.string,
     destructiveOperationsAreDisabled: PropTypes.bool.isRequired,
     // Flag triggered by content tree that tells inlineUI that it should scroll into view
