@@ -6,6 +6,7 @@
     height: inherit;
     display: flex;
     flex-direction: row;
+    flex-wrap: nowrap;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -14,6 +15,16 @@
     list-style: none;
     padding: 0;
     margin: 0;
+}
+
+.breadcrumb li {
+     display: flex;
+     align-items: center;
+ }
+
+.breadcrumb li + li::before {
+    content: '›';
+    margin: 0 1ch;
 }
 
 .breadcrumb button {
