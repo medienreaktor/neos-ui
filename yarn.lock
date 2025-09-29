@@ -1940,7 +1940,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-alignment@npm:44.0.0, @ckeditor/ckeditor5-alignment@npm:^44.0.0":
+"@ckeditor/ckeditor5-alignment@npm:44.0.0":
   version: 44.0.0
   resolution: "@ckeditor/ckeditor5-alignment@npm:44.0.0"
   dependencies:
@@ -1977,7 +1977,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-basic-styles@npm:44.0.0, @ckeditor/ckeditor5-basic-styles@npm:^44.0.0":
+"@ckeditor/ckeditor5-basic-styles@npm:44.0.0":
   version: 44.0.0
   resolution: "@ckeditor/ckeditor5-basic-styles@npm:44.0.0"
   dependencies:
@@ -2085,7 +2085,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-core@npm:44.0.0, @ckeditor/ckeditor5-core@npm:^44.0.0":
+"@ckeditor/ckeditor5-core@npm:44.0.0":
   version: 44.0.0
   resolution: "@ckeditor/ckeditor5-core@npm:44.0.0"
   dependencies:
@@ -2137,7 +2137,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-editor-decoupled@npm:44.0.0, @ckeditor/ckeditor5-editor-decoupled@npm:^44.0.0":
+"@ckeditor/ckeditor5-editor-decoupled@npm:44.0.0":
   version: 44.0.0
   resolution: "@ckeditor/ckeditor5-editor-decoupled@npm:44.0.0"
   dependencies:
@@ -2179,7 +2179,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-engine@npm:44.0.0, @ckeditor/ckeditor5-engine@npm:^44.0.0":
+"@ckeditor/ckeditor5-engine@npm:44.0.0":
   version: 44.0.0
   resolution: "@ckeditor/ckeditor5-engine@npm:44.0.0"
   dependencies:
@@ -2200,7 +2200,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-essentials@npm:44.0.0, @ckeditor/ckeditor5-essentials@npm:^44.0.0":
+"@ckeditor/ckeditor5-essentials@npm:44.0.0":
   version: 44.0.0
   resolution: "@ckeditor/ckeditor5-essentials@npm:44.0.0"
   dependencies:
@@ -2242,7 +2242,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-heading@npm:44.0.0, @ckeditor/ckeditor5-heading@npm:^44.0.0":
+"@ckeditor/ckeditor5-heading@npm:44.0.0":
   version: 44.0.0
   resolution: "@ckeditor/ckeditor5-heading@npm:44.0.0"
   dependencies:
@@ -2256,7 +2256,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-highlight@npm:44.0.0, @ckeditor/ckeditor5-highlight@npm:^44.0.0":
+"@ckeditor/ckeditor5-highlight@npm:44.0.0":
   version: 44.0.0
   resolution: "@ckeditor/ckeditor5-highlight@npm:44.0.0"
   dependencies:
@@ -2351,7 +2351,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-link@npm:44.0.0, @ckeditor/ckeditor5-link@npm:^44.0.0":
+"@ckeditor/ckeditor5-link@npm:44.0.0":
   version: 44.0.0
   resolution: "@ckeditor/ckeditor5-link@npm:44.0.0"
   dependencies:
@@ -2368,7 +2368,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-list@npm:44.0.0, @ckeditor/ckeditor5-list@npm:^44.0.0":
+"@ckeditor/ckeditor5-list@npm:44.0.0":
   version: 44.0.0
   resolution: "@ckeditor/ckeditor5-list@npm:44.0.0"
   dependencies:
@@ -2455,7 +2455,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-paragraph@npm:44.0.0, @ckeditor/ckeditor5-paragraph@npm:^44.0.0":
+"@ckeditor/ckeditor5-paragraph@npm:44.0.0":
   version: 44.0.0
   resolution: "@ckeditor/ckeditor5-paragraph@npm:44.0.0"
   dependencies:
@@ -2478,7 +2478,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-remove-format@npm:44.0.0, @ckeditor/ckeditor5-remove-format@npm:^44.0.0":
+"@ckeditor/ckeditor5-remove-format@npm:44.0.0":
   version: 44.0.0
   resolution: "@ckeditor/ckeditor5-remove-format@npm:44.0.0"
   dependencies:
@@ -2565,7 +2565,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-table@npm:44.0.0, @ckeditor/ckeditor5-table@npm:^44.0.0":
+"@ckeditor/ckeditor5-table@npm:44.0.0":
   version: 44.0.0
   resolution: "@ckeditor/ckeditor5-table@npm:44.0.0"
   dependencies:
@@ -2638,7 +2638,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-utils@npm:44.0.0, @ckeditor/ckeditor5-utils@npm:^44.0.0":
+"@ckeditor/ckeditor5-utils@npm:44.0.0":
   version: 44.0.0
   resolution: "@ckeditor/ckeditor5-utils@npm:44.0.0"
   dependencies:
@@ -2657,7 +2657,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-widget@npm:44.0.0, @ckeditor/ckeditor5-widget@npm:^44.0.0":
+"@ckeditor/ckeditor5-widget@npm:44.0.0":
   version: 44.0.0
   resolution: "@ckeditor/ckeditor5-widget@npm:44.0.0"
   dependencies:
@@ -3415,20 +3415,27 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@neos-project/neos-ui-ckeditor5-bindings@workspace:packages/neos-ui-ckeditor5-bindings"
   dependencies:
-    "@ckeditor/ckeditor5-alignment": ^44.0.0
-    "@ckeditor/ckeditor5-basic-styles": ^44.0.0
-    "@ckeditor/ckeditor5-core": ^44.0.0
-    "@ckeditor/ckeditor5-editor-decoupled": ^44.0.0
-    "@ckeditor/ckeditor5-engine": ^44.0.0
-    "@ckeditor/ckeditor5-essentials": ^44.0.0
-    "@ckeditor/ckeditor5-heading": ^44.0.0
-    "@ckeditor/ckeditor5-link": ^44.0.0
-    "@ckeditor/ckeditor5-list": ^44.0.0
-    "@ckeditor/ckeditor5-paragraph": ^44.0.0
-    "@ckeditor/ckeditor5-remove-format": ^44.0.0
-    "@ckeditor/ckeditor5-table": ^44.0.0
-    "@ckeditor/ckeditor5-utils": ^44.0.0
-    "@ckeditor/ckeditor5-widget": ^44.0.0
+    "@ckeditor/ckeditor5-alignment": 44.0.0
+    "@ckeditor/ckeditor5-autoformat": 44.0.0
+    "@ckeditor/ckeditor5-basic-styles": 44.0.0
+    "@ckeditor/ckeditor5-code-block": 44.0.0
+    "@ckeditor/ckeditor5-core": 44.0.0
+    "@ckeditor/ckeditor5-editor-decoupled": 44.0.0
+    "@ckeditor/ckeditor5-engine": 44.0.0
+    "@ckeditor/ckeditor5-essentials": 44.0.0
+    "@ckeditor/ckeditor5-heading": 44.0.0
+    "@ckeditor/ckeditor5-html-support": 44.0.0
+    "@ckeditor/ckeditor5-indent": 44.0.0
+    "@ckeditor/ckeditor5-link": 44.0.0
+    "@ckeditor/ckeditor5-list": 44.0.0
+    "@ckeditor/ckeditor5-paragraph": 44.0.0
+    "@ckeditor/ckeditor5-remove-format": 44.0.0
+    "@ckeditor/ckeditor5-style": 44.0.0
+    "@ckeditor/ckeditor5-table": 44.0.0
+    "@ckeditor/ckeditor5-ui": 44.0.0
+    "@ckeditor/ckeditor5-undo": 44.0.0
+    "@ckeditor/ckeditor5-utils": 44.0.0
+    "@ckeditor/ckeditor5-widget": 44.0.0
     "@neos-project/neos-ui-decorators": "workspace:*"
     "@neos-project/neos-ui-editors": "workspace:*"
     "@neos-project/neos-ui-extensibility": "workspace:*"
@@ -3712,7 +3719,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@neos-project/neos-ui@workspace:packages/neos-ui"
   dependencies:
-    "@ckeditor/ckeditor5-highlight": ^44.0.0
+    "@ckeditor/ckeditor5-highlight": 44.0.0
     "@fortawesome/fontawesome-svg-core": ^6.5.2
     "@fortawesome/free-brands-svg-icons": ^6.5.2
     "@fortawesome/free-regular-svg-icons": ^6.5.2
