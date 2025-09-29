@@ -64,11 +64,9 @@ manifest('main.containers', {}, globalRegistry => {
     containerRegistry.set('PrimaryToolbar', PrimaryToolbar);
     containerRegistry.set('PrimaryToolbar/Left/MenuToggler', MenuToggler);
     containerRegistry.set('PrimaryToolbar/Left/Brand', Brand);
+    containerRegistry.set('PrimaryToolbar/Right/KeyboardShortcutButton', KeyboardShortcutButton);
     containerRegistry.set('PrimaryToolbar/Right/EditPreviewDropDown', EditPreviewDropDown);
     containerRegistry.set('PrimaryToolbar/Right/DimensionSwitcher', DimensionSwitcher);
-    containerRegistry.set('PrimaryToolbar/Right/KeyboardShortcutButton', KeyboardShortcutButton);
-    containerRegistry.set('PrimaryToolbar/Right/PreviewButton', PreviewButton);
-    containerRegistry.set('PrimaryToolbar/Right/FullScreenButton', FullScreenButton);
     containerRegistry.set('PrimaryToolbar/Right/PublishDropDown', PublishDropDown);
     containerRegistry.set('PrimaryToolbar/Right/WorkspaceSync', WorkspaceSync);
 
@@ -76,6 +74,8 @@ manifest('main.containers', {}, globalRegistry => {
     containerRegistry.set('SecondaryToolbar/LoadingIndicator', LoadingIndicator);
     containerRegistry.set('SecondaryToolbar/Left/Breadcrumb', Breadcrumb);
     containerRegistry.set('SecondaryToolbar/Right/InlineEditorToolbar', InlineEditorToolbar);
+    containerRegistry.set('SecondaryToolbar/Right/PreviewButton', PreviewButton);
+    containerRegistry.set('SecondaryToolbar/Right/FullScreenButton', FullScreenButton);
 
     containerRegistry.set('Drawer', Drawer);
     containerRegistry.set('Drawer/Bottom/VersionPanel', VersionPanel);
