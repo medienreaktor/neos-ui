@@ -19,9 +19,11 @@
     padding-right: 46px;
 }
 .secondaryToolbar__leftHandedActions {
+    display: flex;
 }
 .secondaryToolbar__rightHandedActions {
     margin-left: auto;
+    display: flex;
 }
 
 .dimensionCategory__icon {

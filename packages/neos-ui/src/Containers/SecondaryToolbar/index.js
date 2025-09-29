@@ -33,7 +33,7 @@ export default class SecondaryToolbar extends PureComponent {
         const classNames = mergeClassNames({
             [style.secondaryToolbar]: true,
             [style['secondaryToolbar--isFringeLeft']]: !isFullScreen && isFringedLeft,
-            [style['secondaryToolbar--isFringeRight']]: !isFullScreen && isFringedRight
+            [style['secondaryToolbar--isFringeRight']]: isFullScreen || isFringedRight
         });
 
         const SecondaryToolbarLeft = containerRegistry.getChildren('SecondaryToolbar/Left');
