@@ -43,7 +43,7 @@ const Breadcrumb: React.FC<{
 
     if (closestDocumentNodeInParentLineIndex !== -1) {
         focusedNodeParentLine = focusedNodeParentLine
-            .slice(0, 2);
+            .slice(0, Math.min(2, closestDocumentNodeInParentLineIndex + 1));
     }
     return (
         <section className={style.breadcrumb}>
