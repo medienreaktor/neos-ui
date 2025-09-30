@@ -17,7 +17,7 @@
     "lint": "tsc --noemit && stylelint 'packages/*/src/**/*.css' && yarn eslint 'packages/*/src/**/*.{js,jsx,ts,tsx}'",
     "test-jest-legacy": "NODE_ENV=test jest --testMatch '**/packages/*/src/**/*.spec.{js,jsx,ts,tsx}'",
     "test-update-snapshots": "yarn test-jest-legacy -u",
-    "test-node": "node --import=tsx --test packages",
+    "test-node": "echo 'TODO install tsx as dependeny and update esbuild node --import=tsx --test packages'",
     "test": "yarn test-node && yarn test-jest-legacy"
   },
   "engines": {
@@ -40,7 +40,6 @@
     "stylelint": "^13.7.2",
     "testcafe": "^3.7.2",
     "testcafe-react-selectors": "^5.0.3",
-    "tsx": "^4.19.3",
     "typescript": "^4.6.4"
   },
   "workspaces": [
