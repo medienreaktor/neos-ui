@@ -8,7 +8,6 @@ import isEmail from './isEmail';
 import {isUri} from './isUri';
 import isEqualSet from './isEqualSet';
 import isNil from './isNil';
-import svgToDataUri from './svgToDataUri';
 
 export {
     decodeHtml,
@@ -20,7 +19,6 @@ export {
     isEqualSet,
     stripTags,
     stripTagsEncoded,
-    svgToDataUri,
     cancelIdleCallback,
     requestIdleCallback
 };
