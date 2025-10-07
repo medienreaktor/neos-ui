@@ -56,19 +56,19 @@
       </trans-unit>
       <trans-unit id="ckeditor__toolbar__unlink" xml:space="preserve">
         <source>Unlink</source>
-        <target xml:lang="ru" state="needs-translation">Unlink</target>
+        <target xml:lang="ru" state="translated">Отвязать</target>
       </trans-unit>
       <trans-unit id="ckeditor__toolbar__link__hideOptions" xml:space="preserve">
         <source>Hide link options</source>
-        <target xml:lang="ru" state="needs-translation">Hide link options</target>
+        <target xml:lang="ru" state="translated">Скрыть опции связывания</target>
       </trans-unit>
       <trans-unit id="ckeditor__toolbar__link__showOptions" xml:space="preserve">
         <source>Link options</source>
-        <target xml:lang="ru" state="needs-translation">Link options</target>
+        <target xml:lang="ru" state="translated">Опции ссылки</target>
       </trans-unit>
       <trans-unit id="ckeditor__toolbar__link__noFollow" xml:space="preserve">
         <source>No follow</source>
-        <target xml:lang="ru" state="needs-translation">No follow</target>
+        <target xml:lang="ru" state="translated">Не следовать</target>
       </trans-unit>
       <trans-unit id="ckeditor__toolbar__link__targetBlank" xml:space="preserve">
         <source>Open in new window</source>
