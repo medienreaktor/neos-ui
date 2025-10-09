@@ -51,16 +51,16 @@ export default class NodeTree extends PureComponent {
     }
 
     handleCollapseAll = () => {
-        const {collapseAll, allCollapsibleNodes, rootNode, loadingDepth} = this.props
-        let nodeContextPaths = []
-        const collapsedByDefaultNodesContextPaths = []
+        const {collapseAll, allCollapsibleNodes, rootNode, loadingDepth} = this.props;
+        let nodeContextPaths = [];
+        const collapsedByDefaultNodesContextPaths = [];
 
         Object.values(allCollapsibleNodes).forEach(node => {
-            const collapsedByDefault = loadingDepth === 0 ? false : node.depth - rootNode.depth >= loadingDepth
+            const collapsedByDefault = loadingDepth === 0 ? false : node.depth - rootNode.depth >= loadingDepth;
             if (collapsedByDefault) {
-                collapsedByDefaultNodesContextPaths.push(node.contextPath)
+                collapsedByDefaultNodesContextPaths.push(node.contextPath);
             } else {
-                nodeContextPaths.push(node.contextPath)
+                nodeContextPaths.push(node.contextPath);
             }
         });
 
