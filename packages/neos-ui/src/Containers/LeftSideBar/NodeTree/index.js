@@ -197,7 +197,7 @@ export const PageTree = withNodeTypeRegistryAndI18nRegistry(connect(
             focusedNodesContextPaths: selectors.UI.PageTree.getAllFocused(state),
             ChildRenderer: PageTreeNode,
             allowOpeningNodesInNewWindow: true,
-            loadingDepth: neos.configuration.structureTree.loadingDepth,
+            loadingDepth: neos.configuration.nodeTree.loadingDepth,
             allCollapsibleNodes: documentNodesSelector(state)
         })
     }, {
