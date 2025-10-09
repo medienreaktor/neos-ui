@@ -34,9 +34,9 @@ Neos:
       # how the current workspace would look like when published. Before it would show the page in the parent workspace,
       # but without changes applied. The new behavior in combination with preview modes allows seeing what a page might
       # look like after publishing it. The drawback is that for example the live URL is no longer visible as the preview
-      # never shows the Live workspace. Also editors might be confused by the different behavior. So take care changing
-      # this setting in a pre-existing project.
-      nextVersionPreviewBehavior: false
+      # never shows the Live workspace. Also editors might be confused by the different behavior.
+      # With Neos 8.4 it is enabled by default and can be reset to enable the 8.3 behaviour. Starting with Neos 9.0 the behaviour changes fully to the new one.
+      nextVersionPreviewBehavior: true
       splashScreen:
         partial: 'SplashScreen'
 
