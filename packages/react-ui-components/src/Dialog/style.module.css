@@ -35,6 +35,9 @@
     max-width: calc(100vw - var(--spacing-GoldenUnit) * 2);
     border: 2px solid var(--colors-ContrastDark);
     transition: var(--transition-Default) ease max-width;
+    display: flex;
+    flex-direction: column;
+    max-height: 80vh;
 
     .dialog--wide & {
         min-width: calc(var(--spacing-GoldenUnit) * 18);
@@ -77,13 +80,7 @@
     padding-right: var(--spacing-GoldenUnit);
 }
 .dialog__body {
-    /*todo increase height even further but consider space for title and actions*/
-    max-height: 80vh;
     overflow-y: auto;
-
-    @media(max-width: 576px) {
-        max-height: calc(55vh);
-    }
 }
 .dialog__actions {
     composes: reset from '../reset.module.css';
