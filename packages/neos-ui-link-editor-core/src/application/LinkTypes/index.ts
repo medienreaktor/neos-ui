@@ -4,7 +4,7 @@ import {Web} from './Web';
 import {Node} from './Node';
 import {Asset} from './Asset';
 import {MailTo} from './MailTo';
-import { PhoneNumber } from './PhoneNumber';
+import {PhoneNumber} from './PhoneNumber';
 import {GlobalRegistry} from '@neos-project/neos-ui-registry';
 
 export function registerLinkTypes(globalRegistry: GlobalRegistry): void {

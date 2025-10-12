@@ -3,7 +3,7 @@ import {SynchronousRegistry} from '@neos-project/neos-ui-registry';
 import {IEditor} from '@neos-project/neos-ui-link-editor-core';
 
 import {createInspectorEditor} from './InspectorEditor';
-import {LinkDataType} from "./serialisation";
+import {LinkDataType} from './serialisation';
 import {GlobalRegistry} from '@neos-project/neos-ui-registry';
 
 export function registerInspectorEditors(

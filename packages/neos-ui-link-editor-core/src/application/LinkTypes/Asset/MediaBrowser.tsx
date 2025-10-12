@@ -9,46 +9,46 @@ interface Props {
 }
 
 export const MediaBrowser: React.FC<Props> = (props) => {
-	const containerRef = React.useRef<HTMLDivElement>(null)
-	const selectionRef = React.useRef<HTMLElement>(null)
+    const containerRef = React.useRef<HTMLDivElement>(null)
+    const selectionRef = React.useRef<HTMLElement>(null)
 
-	const secondaryEditorsRegistry = getRegistryById('inspector')?.get('secondaryEditors');
+    const secondaryEditorsRegistry = getRegistryById('inspector')?.get('secondaryEditors');
 
-	const { component: MediaSelectionScreenComponent } = secondaryEditorsRegistry?.get(
+    const {component: MediaSelectionScreenComponent} = secondaryEditorsRegistry?.get(
 		'Neos.Neos/Inspector/Secondary/Editors/MediaSelectionScreen'
 	)
 
 	// The standard MediaBrowser of Neos uses an iframe and requires some styles to be applied to the iframe content
-	const iframe = containerRef.current?.querySelector('& > iframe') as HTMLIFrameElement
+    const iframe = containerRef.current?.querySelector('& > iframe') as HTMLIFrameElement
 
-	React.useEffect(() => {
-		const handleIframeLoad = (ev: Event) => {
-			const iframeDocument = (ev.target as HTMLIFrameElement).contentDocument
-			if (iframeDocument) {
-				iframeDocument.body.style.overflowX = 'hidden'
-				iframeDocument.body.style.padding = '0'
-				iframeDocument.querySelector('form > .neos-footer')?.remove()
-				iframeDocument.querySelectorAll('input, select, textarea')?.forEach((input) => {
-					;(input as HTMLInputElement).readOnly = true
-				})
-			}
-		}
+    React.useEffect(() => {
+        const handleIframeLoad = (ev: Event) => {
+            const iframeDocument = (ev.target as HTMLIFrameElement).contentDocument
+            if (iframeDocument) {
+                iframeDocument.body.style.overflowX = 'hidden'
+                iframeDocument.body.style.padding = '0'
+                iframeDocument.querySelector('form > .neos-footer')?.remove()
+                iframeDocument.querySelectorAll('input, select, textarea')?.forEach((input) => {
+                    (input as HTMLInputElement).readOnly = true
+                })
+            }
+        }
 
-		iframe?.addEventListener('load', handleIframeLoad)
+        iframe?.addEventListener('load', handleIframeLoad)
 
-		return () => {
-			iframe?.removeEventListener('load', handleIframeLoad)
-		}
-	}, [iframe])
+        return () => {
+            iframe?.removeEventListener('load', handleIframeLoad)
+        }
+    }, [iframe])
 
-	return (
-		<div className={style.container} ref={containerRef}>
-			<MediaSelectionScreenComponent
-				ref={selectionRef}
-				assetIdentifier={props.assetIdentifier}
-				onComplete={props.onSelectAsset}
-				constraints={{ mediaTypes: [] }}
+    return (
+        <div className={style.container} ref={containerRef}>
+            <MediaSelectionScreenComponent
+                ref={selectionRef}
+                assetIdentifier={props.assetIdentifier}
+                onComplete={props.onSelectAsset}
+                constraints={{mediaTypes: []}}
 			/>
-		</div>
-	)
+        </div>
+    )
 }
