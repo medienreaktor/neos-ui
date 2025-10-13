@@ -4,7 +4,7 @@ import validate from '@neos-project/neos-ui-validators';
 import type {ValidatorRegistry} from '@neos-project/neos-ui-validators';
 import {selectors as nodes} from '../../CR/Nodes';
 import {GlobalState} from '../../..';
-import {NodeTypesRegistry} from '@neos-project/neos-ts-interfaces';
+import {NodeTypesRegistry} from '@neos-project/neos-ui-contentrepository';
 
 /**
  * Transient values and everything which depends on this

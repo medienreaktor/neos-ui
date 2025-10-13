@@ -46,7 +46,7 @@ const globalRegistry = getGlobalRegistry();
 //
 createConsumerApi(manifests, apiExposureMap);
 require('./manifest');
-require('@neos-project/neos-ui-contentrepository');
+require('@neos-project/neos-ui-contentrepository/src/manifest');
 require('@neos-project/neos-ui-editors');
 require('@neos-project/neos-ui-views/src/manifest');
 require('@neos-project/neos-ui-guest-frame');

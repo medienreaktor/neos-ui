@@ -250,11 +250,3 @@ export interface Change extends Readonly<{
         value: any;
     };
 }> {}
-
-// TODO: move to nodetypesregistry itself
-export interface NodeTypesRegistry {
-    get: (nodeType: NodeTypeName) => NodeType | null;
-    getRole: (roleName: string) => NodeTypeName | null;
-    getSubTypesOf: (nodeType: NodeTypeName) => NodeTypeName[];
-    getAllowedNodeTypesTakingAutoCreatedIntoAccount: (isSubjectNodeAutocreated: boolean, referenceParentName: string, referenceParentNodeType: NodeTypeName, referenceGrandParentNodeType: NodeTypeName | null, role: string) => NodeTypeName[];
-}
