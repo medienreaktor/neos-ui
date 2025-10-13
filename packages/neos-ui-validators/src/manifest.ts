@@ -14,9 +14,8 @@ import Text from './Text';
 import Uuid from './Uuid';
 
 import manifest from '@neos-project/neos-ui-extensibility';
-import {GlobalRegistry} from '@neos-project/neos-ts-interfaces';
 
-manifest('validators', {}, (globalRegistry: GlobalRegistry) => {
+manifest('validators', {}, (globalRegistry) => {
     const validatorRegistry = globalRegistry.get('validators');
 
     validatorRegistry.set('Neos.Neos/Validation/AlphanumericValidator', Alphanumeric);

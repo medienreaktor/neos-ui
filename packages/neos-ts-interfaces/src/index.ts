@@ -270,9 +270,12 @@ export interface ValidatorRegistry {
     get: (validatorName: string) => Validator | null;
     set: (validatorName: string, validator: Validator) => void;
 }
-export interface GlobalRegistry {
-    get: <K extends string>(key: K) => K extends 'i18n' ? I18nRegistry :
-        K extends 'validators' ? ValidatorRegistry : null;
+
+declare module '@neos-project/neos-ui-registry' {
+    interface GlobalRegistry {
+        get(key: 'validators'): ValidatorRegistry;
+        get(key: 'i18n'): I18nRegistry;
+    }
 }
 
 export type {I18nRegistry} from '@neos-project/neos-ui-i18n';

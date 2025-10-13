@@ -1,3 +1,4 @@
+import type {GlobalRegistry} from '@neos-project/neos-ui-registry';
 import createConsumerApi from './createConsumerApi';
 import readFromConsumerApi from './readFromConsumerApi';
 
@@ -10,7 +11,7 @@ type BootstrapDependencies = {
 };
 
 type Bootstrap = (
-    globalRegistry: any,
+    globalRegistry: GlobalRegistry,
     bootstrapDependencies: BootstrapDependencies
 ) => void;
 

@@ -1,5 +1,9 @@
 import {SynchronousMetaRegistry, SynchronousRegistry} from './registry';
-import {GlobalRegistry} from '@neos-project/neos-ts-interfaces';
+
+export type GlobalRegistry = {
+    get<T>(key: string): SynchronousRegistry<T> | null;
+    set<T>(key: string, registry: SynchronousRegistry<T>): SynchronousRegistry<T>;
+}
 
 /**
  * Access to the global registry.
@@ -10,8 +14,9 @@ import {GlobalRegistry} from '@neos-project/neos-ts-interfaces';
 // FIXME SynchronousMetaRegistry vs GlobalRegistry type dilemma
 const globalRegistry = new SynchronousMetaRegistry(`The global registry`) as unknown as GlobalRegistry;
 
-export const getRegistryById = <T>(id: string): SynchronousRegistry<T> | null => {
-    return globalRegistry.get(id);
+export const getRegistryById: GlobalRegistry['get'] = (key) => {
+    // @ts-ignore
+    return globalRegistry.get(key);
 }
 
 export const getGlobalRegistry = () => globalRegistry;
