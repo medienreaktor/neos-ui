@@ -1,4 +1,5 @@
-import {ValidatorRegistry, PropertyConfiguration, ValidatorConfiguration} from '@neos-project/neos-ts-interfaces';
+import {PropertyConfiguration, ValidatorConfiguration} from '@neos-project/neos-ts-interfaces';
+import type {ValidatorRegistry} from './registry';
 
 interface ValuesMap {
     [itemProp: string]: any;
@@ -61,3 +62,6 @@ const validate = (values: ValuesMap, elementConfigurations: ElementConfiguarions
 };
 
 export default validate;
+
+export type {ValidatorRegistry};
+

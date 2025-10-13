@@ -258,19 +258,3 @@ export interface NodeTypesRegistry {
     getSubTypesOf: (nodeType: NodeTypeName) => NodeTypeName[];
     getAllowedNodeTypesTakingAutoCreatedIntoAccount: (isSubjectNodeAutocreated: boolean, referenceParentName: string, referenceParentNodeType: NodeTypeName, referenceGrandParentNodeType: NodeTypeName | null, role: string) => NodeTypeName[];
 }
-
-// TODO: move to validatorsregistry itself
-type Validator = (
-    values: {},
-    elementConfigurations: any
-) => null | {} | string;
-export interface ValidatorRegistry {
-    get: (validatorName: string) => Validator | null;
-    set: (validatorName: string, validator: Validator) => void;
-}
-
-declare module '@neos-project/neos-ui-registry' {
-    interface GlobalRegistry {
-        get(key: 'validators'): ValidatorRegistry;
-    }
-}

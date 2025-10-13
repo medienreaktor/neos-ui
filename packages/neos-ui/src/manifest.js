@@ -163,16 +163,6 @@ manifest('main', {}, (globalRegistry, {routes}) => {
     `));
 
     //
-    // Create validators registry
-    //
-    globalRegistry.set('validators', new SynchronousRegistry(`
-        Contains all validators.
-
-        The key is a validator name (such as Neos.Neos/Validation/NotEmptyValidator) and the values
-        are validator options.
-    `));
-
-    //
     // Create server feedback handlers registry
     //
 
