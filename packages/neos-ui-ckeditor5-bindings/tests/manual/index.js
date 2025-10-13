@@ -1,7 +1,7 @@
 import initializeConfigRegistry from '../../src/manifest.config';
 import {bootstrap, createEditor} from '../../src/ckEditorApi';
 
-import { SynchronousRegistry, SynchronousMetaRegistry } from '@neos-project/neos-ui-extensibility';
+import {SynchronousRegistry, SynchronousMetaRegistry} from '@neos-project/neos-ui-registry';
 
 const fakeGlobalRegistry = new SynchronousMetaRegistry();
 

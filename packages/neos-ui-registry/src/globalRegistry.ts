@@ -1,4 +1,4 @@
-import {SynchronousMetaRegistry, SynchronousRegistry} from '@neos-project/neos-ui-extensibility/src/registry';
+import {SynchronousMetaRegistry, SynchronousRegistry} from './registry';
 import {GlobalRegistry} from '@neos-project/neos-ts-interfaces';
 
 /**

@@ -1,6 +1,6 @@
 import HLRU from 'hashlru';
 import manifest from '@neos-project/neos-ui-extensibility';
-import {SynchronousRegistry} from '@neos-project/neos-ui-extensibility/src/registry';
+import {SynchronousRegistry} from '@neos-project/neos-ui-registry';
 import backend from '@neos-project/neos-ui-backend-connector';
 
 function makeCacheKey(prefix, params) {

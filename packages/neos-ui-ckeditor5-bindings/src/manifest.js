@@ -2,7 +2,7 @@ import manifest from '@neos-project/neos-ui-extensibility';
 
 import InlineEditorToolbar from './EditorToolbar';
 import {bootstrap, createEditor} from './ckEditorApi';
-import {SynchronousMetaRegistry} from '@neos-project/neos-ui-extensibility/src/registry';
+import {SynchronousMetaRegistry} from '@neos-project/neos-ui-registry';
 
 import initializeRichtextToolbarRegistry from './manifest.richtextToolbar';
 import initializeConfigRegistry from './manifest.config';

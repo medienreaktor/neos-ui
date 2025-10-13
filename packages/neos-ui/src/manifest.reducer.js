@@ -1,5 +1,5 @@
 import manifest from '@neos-project/neos-ui-extensibility';
-import {SynchronousRegistry} from '@neos-project/neos-ui-extensibility/src/registry';
+import {SynchronousRegistry} from '@neos-project/neos-ui-registry';
 import {reducer as coreReducer} from '@neos-project/neos-ui-redux-store';
 
 manifest('main.reducer', {}, globalRegistry => {
