@@ -1,0 +1,8 @@
+{
+  "name": "@neos-project/neos-ui-registry",
+  "version": "",
+  "description": "Global registry for the Neos UI",
+  "private": true,
+  "main": "./src/index.ts",
+  "license": "GNU GPLv3"
+}

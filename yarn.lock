@@ -3647,6 +3647,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@neos-project/neos-ui-registry@workspace:*, @neos-project/neos-ui-registry@workspace:packages/neos-ui-registry":
+  version: 0.0.0-use.local
+  resolution: "@neos-project/neos-ui-registry@workspace:packages/neos-ui-registry"
+  languageName: unknown
+  linkType: soft
+
 "@neos-project/neos-ui-sagas@workspace:*, @neos-project/neos-ui-sagas@workspace:packages/neos-ui-sagas":
   version: 0.0.0-use.local
   resolution: "@neos-project/neos-ui-sagas@workspace:packages/neos-ui-sagas"
@@ -3732,6 +3738,7 @@ __metadata:
     "@neos-project/neos-ui-i18n": "workspace:*"
     "@neos-project/neos-ui-inspector": "workspace:*"
     "@neos-project/neos-ui-redux-store": "workspace:*"
+    "@neos-project/neos-ui-registry": "workspace:*"
     "@neos-project/neos-ui-sagas": "workspace:*"
     "@neos-project/neos-ui-validators": "workspace:*"
     "@neos-project/neos-ui-views": "workspace:*"

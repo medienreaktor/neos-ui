@@ -11,7 +11,6 @@ import backend from '@neos-project/neos-ui-backend-connector';
 import {handleActions} from '@neos-project/utils-redux';
 import {initializeI18n} from '@neos-project/neos-ui-i18n';
 import {showFlashMessage} from '@neos-project/neos-ui-error';
-import {globalRegistry} from '../globalRegistry';
 
 import {
     appContainer,
@@ -27,6 +26,7 @@ import clipboardMiddleware from './clipboardMiddleware';
 import Root from './Containers/Root';
 import apiExposureMap from './apiExposureMap';
 import DelegatingReducer from './DelegatingReducer';
+import {getGlobalRegistry} from '@neos-project/neos-ui-registry';
 
 const devToolsArePresent = typeof window === 'object' && typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined';
 const devToolsStoreEnhancer = () => devToolsArePresent ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f;
@@ -39,6 +39,7 @@ const store = createStore(delegatingReducer.reducer(), {}, compose(
 ));
 
 const manifests = [];
+const globalRegistry = getGlobalRegistry();
 
 //
 // Create the host plugin api and load local manifests
