@@ -1,4 +1,4 @@
-import {I18nRegistry} from '@neos-project/neos-ts-interfaces';
+import type {I18nRegistry} from '@neos-project/neos-ui-i18n';
 import {isNil} from '@neos-project/utils-helpers';
 import {
     createSelectBoxValueStringFromPossiblyStrangeNodePropertyValue

@@ -1,6 +1,6 @@
 import {SynchronousMetaRegistry, SynchronousRegistry} from './registry';
 
-export type GlobalRegistry = {
+export interface GlobalRegistry {
     get<T>(key: string): SynchronousRegistry<T> | null;
     set<T>(key: string, registry: SynchronousRegistry<T>): SynchronousRegistry<T>;
 }

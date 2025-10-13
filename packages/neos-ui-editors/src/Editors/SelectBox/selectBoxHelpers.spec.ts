@@ -1,5 +1,5 @@
 import {processSelectBoxOptions} from './selectBoxHelpers';
-import {I18nRegistry} from '@neos-project/neos-ts-interfaces';
+import type {I18nRegistry} from '@neos-project/neos-ui-i18n';
 
 const fakeI18NRegistry = {
     translate: (id) => id ?? ''
