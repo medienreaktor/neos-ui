@@ -1,4 +1,4 @@
-import {SynchronousRegistry} from "@neos-project/neos-ui-registry";
+import {SynchronousRegistry} from '@neos-project/neos-ui-registry';
 
 type Validator = (
     values: {},

@@ -14,7 +14,7 @@ import Text from './Text';
 import Uuid from './Uuid';
 
 import manifest from '@neos-project/neos-ui-extensibility';
-import {ValidatorRegistry, validatorRegistry} from "./registry";
+import {ValidatorRegistry, validatorRegistry} from './registry';
 
 manifest('validators', {}, (globalRegistry) => {
     globalRegistry.set('validators', validatorRegistry);
