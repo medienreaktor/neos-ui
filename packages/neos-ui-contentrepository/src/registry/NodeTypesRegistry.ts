@@ -105,7 +105,7 @@ export default class NodeTypesRegistry extends SynchronousRegistry<NodeType> {
         return [];
     }
 
-    public getAllowedNodeTypesTakingAutoCreatedIntoAccount(isSubjectNodeAutocreated: boolean, referenceParentName: string, referenceParentNodeType: string, referenceGrandParentNodeType: string, role: string): NodeTypeName[] {
+    public getAllowedNodeTypesTakingAutoCreatedIntoAccount(isSubjectNodeAutocreated: boolean, referenceParentName: string, referenceParentNodeType: string, referenceGrandParentNodeType: string | null, role: string): NodeTypeName[] {
         let result;
         if (isSubjectNodeAutocreated) {
             if (!referenceGrandParentNodeType) {
