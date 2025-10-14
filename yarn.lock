@@ -3448,6 +3448,8 @@ __metadata:
 "@neos-project/neos-ui-configuration@workspace:*, @neos-project/neos-ui-configuration@workspace:packages/neos-ui-configuration":
   version: 0.0.0-use.local
   resolution: "@neos-project/neos-ui-configuration@workspace:packages/neos-ui-configuration"
+  dependencies:
+    "@neos-project/neos-ui-error": "workspace:*"
   languageName: unknown
   linkType: soft
 

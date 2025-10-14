@@ -1,5 +1,13 @@
-import {frontendConfiguration} from './system';
+import {getInlinedDataFromBackend} from './bootstrap';
 import {GlobalRegistry, SynchronousRegistry} from '@neos-project/neos-ui-registry';
+import {terminateDueToFatalInitializationError} from '@neos-project/neos-ui-error';
+
+const frontendConfiguration = getInlinedDataFromBackend('frontendConfiguration') as Record<string, any>;
+
+if (!frontendConfiguration || typeof frontendConfiguration !== 'object') {
+    console.error(frontendConfiguration);
+    terminateDueToFatalInitializationError(`Could not initialize as the frontendConfiguration contains an invalid value. ${typeof frontendConfiguration}, Expected object.`);
+}
 
 /**
  * Frontend configuration
@@ -19,8 +27,8 @@ import {GlobalRegistry, SynchronousRegistry} from '@neos-project/neos-ui-registr
  * Then it may be accessed via {@see getFrontendConfigurationForPackage()}
  */
 export function getFrontendConfigurationForPackage(packageKey: string): Record<string, any> | null {
-    if (frontendConfiguration && packageKey in (frontendConfiguration as any)) {
-        return (frontendConfiguration as any)[packageKey];
+    if (frontendConfiguration && packageKey in frontendConfiguration) {
+        return frontendConfiguration[packageKey];
     }
     return null;
 }
@@ -29,7 +37,7 @@ export function getFrontendConfigurationForPackage(packageKey: string): Record<s
  * @deprecated For legacy compatibility use getFrontendConfigurationForPackage() instead
  */
 export function getFullPackageFrontendConfiguration(): Record<string, any> {
-    return frontendConfiguration as any;
+    return frontendConfiguration;
 }
 
 /**
@@ -42,11 +50,6 @@ const frontendConfigurationRegistry = new SynchronousRegistry(`Frontend configur
  */
 export function initializeFrontendConfiguration(globalRegistry: GlobalRegistry) {
     globalRegistry.set('frontendConfiguration', frontendConfigurationRegistry);
-
-    if (!frontendConfiguration || typeof frontendConfiguration !== 'object') {
-        console.warn('Skipped initializing the frontendConfiguration registry invalid value: ', frontendConfiguration);
-        return;
-    }
 
     Object.entries(frontendConfiguration).forEach(([key, value]) => {
         frontendConfigurationRegistry.set(key, {

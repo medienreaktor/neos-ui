@@ -1,4 +1,6 @@
-import {configuration} from './system';
+import {getInlinedDataFromBackend} from './bootstrap';
+
+const configuration = getInlinedDataFromBackend('configuration') as Configuration;
 
 export interface Configuration {
     // the "Neos.Neos.userInterface.navigateComponent.nodeTree" configuration
@@ -38,9 +40,9 @@ export interface Configuration {
  * Note that we often pass the configuration around instead and inject it via the react context -> this should be simplified in favour of this global state.
  */
 export function getConfiguration(): Configuration {
-    return configuration as Configuration;
+    return configuration;
 }
 
 export function getEditPreviewModesConfiguration(): Configuration['editPreviewModes'] {
-    return (configuration as Configuration).editPreviewModes;
+    return configuration.editPreviewModes;
 }

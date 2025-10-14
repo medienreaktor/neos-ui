@@ -13,14 +13,12 @@ import {initializeI18n} from '@neos-project/neos-ui-i18n';
 import {initializeNodeTypesRegistry} from '@neos-project/neos-ui-contentrepository';
 import {showFlashMessage} from '@neos-project/neos-ui-error';
 
+import {getInlinedDataFromBackend} from '@neos-project/neos-ui-configuration/src/bootstrap';
 import {
     appContainer,
-    routes,
-    serverState,
-    menu,
     csrfToken,
     systemEnv
-} from '@neos-project/neos-ui-configuration/src/system';
+} from './System';
 import {
     getConfiguration,
     getFullPackageFrontendConfiguration,
@@ -32,6 +30,10 @@ import Root from './Containers/Root';
 import apiExposureMap from './apiExposureMap';
 import DelegatingReducer from './DelegatingReducer';
 import {getGlobalRegistry} from '@neos-project/neos-ui-registry';
+
+const serverState = getInlinedDataFromBackend('initialState');
+const routes = getInlinedDataFromBackend('routes');
+const menu = getInlinedDataFromBackend('menu');
 
 const configuration = getConfiguration();
 fetchWithErrorHandling.setCsrfToken(csrfToken);

@@ -4,5 +4,8 @@
   "description": "Global configuration loading and access for the Neos UI",
   "private": true,
   "main": "./src/index.ts",
-  "license": "GNU GPLv3"
+  "license": "GNU GPLv3",
+  "dependencies": {
+    "@neos-project/neos-ui-error": "workspace:*"
+  }
 }

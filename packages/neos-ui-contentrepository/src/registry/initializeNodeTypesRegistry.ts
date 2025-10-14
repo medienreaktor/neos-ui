@@ -1,7 +1,24 @@
-import {nodeTypes} from '@neos-project/neos-ui-configuration/src/system';
+import {getInlinedDataFromBackend} from '@neos-project/neos-ui-configuration/src/bootstrap';
 import {nodeTypesRegistry} from './NodeTypesRegistry';
 
 const LINK_ID_FOR_SCHEMA_NODE_TYPE_ROUTE = 'neos-ui-uri:/neos/schema/node-type.json';
+
+export const nodeTypes = getInlinedDataFromBackend('nodeTypes') as {
+    groups: {
+        [id: string]: {
+            position?: number | string,
+            label: string,
+            collapsed: boolean
+        },
+    }
+    roles: {
+        ignored: 'unstructured',
+        document: 'Neos.Neos:Document',
+        content: 'Neos.Neos:Content',
+        contentCollection: 'Neos.Neos:ContentCollection',
+        [id: string]: string
+    }
+};
 
 export async function initializeNodeTypesRegistry() {
     const link = getLinkTag();
