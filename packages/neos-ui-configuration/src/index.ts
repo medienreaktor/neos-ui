@@ -1,3 +1,3 @@
 
 export {isDevelopmentContext} from './systemEnv';
-export {getConfiguration, Configuration} from './configuration';
+export {getConfiguration, getEditPreviewModesConfiguration, Configuration} from './configuration';

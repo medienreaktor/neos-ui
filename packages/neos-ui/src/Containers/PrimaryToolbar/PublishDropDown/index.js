@@ -81,7 +81,7 @@ export default class PublishDropDown extends PureComponent {
             changeBaseWorkspaceAction,
             i18nRegistry,
             neos,
-            allowedWorkspaces,
+            allowedWorkspaces
         } = this.props;
 
         const workspaceModuleUri = neos?.routes?.core?.modules?.workspace;

@@ -20,6 +20,15 @@ export interface Configuration {
     // the "Neos.Neos.userInterface.navigateComponent.structureTree" configuration
     structureTree: {
         loadingDepth?: number,
+    },
+    // the "Neos.Neos.userInterface.editPreviewModes" configuration
+    editPreviewModes: {
+        [name: string]: {
+            isEditingMode: boolean,
+            isPreviewMode: boolean,
+            title: string,
+            position?: string | number
+        }
     }
 }
 
@@ -30,4 +39,8 @@ export interface Configuration {
  */
 export function getConfiguration(): Configuration {
     return configuration as Configuration;
+}
+
+export function getEditPreviewModesConfiguration(): Configuration['editPreviewModes'] {
+    return (configuration as Configuration).editPreviewModes;
 }

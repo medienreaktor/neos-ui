@@ -30,9 +30,10 @@ manifest('main', {}, (globalRegistry, {routes}) => {
     globalRegistry.set('frontendConfiguration', new SynchronousRegistry(`
         # Frontend configuration registry
 
-        Any settings under 'Neos.Neos.Ui.frontendConfiguration' would be available here.
-        Might be used also for third parth packages to deliver own settings to the UI, but this is still experimental.
-        Settings from each package should be prefixed to avoid collisions (unprefixed settings are reserved for the core UI itself), e.g.:
+        Any setting from Flows configuration 'Neos.Neos.Ui.frontendConfiguration' is available here.
+
+        API for third party packages to deliver own settings to the UI at boot time.
+        Settings from each package should be prefixed to avoid collisions:
 
         Neos:
             Neos:

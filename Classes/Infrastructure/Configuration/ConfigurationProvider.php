@@ -19,6 +19,7 @@ use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Configuration\ConfigurationManager;
 use Neos\Flow\Mvc\Routing\UriBuilder;
 use Neos\Neos\Ui\Domain\InitialData\ConfigurationProviderInterface;
+use Neos\Utility\PositionalArraySorter;
 
 /**
  * @internal
@@ -42,6 +43,12 @@ final class ConfigurationProvider implements ConfigurationProviderInterface
                 ConfigurationManager::CONFIGURATION_TYPE_SETTINGS,
                 'Neos.Neos.userInterface.navigateComponent.structureTree',
             ),
+            'editPreviewModes' => (new PositionalArraySorter(
+                $this->configurationManager->getConfiguration(
+                    ConfigurationManager::CONFIGURATION_TYPE_SETTINGS,
+                    'Neos.Neos.userInterface.editPreviewModes',
+                )
+            ))->toArray()
         ];
     }
 }
