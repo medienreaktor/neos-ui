@@ -19,6 +19,7 @@ use Neos\Flow\Mvc\Controller\ControllerContext;
 use Neos\Neos\Ui\ContentRepository\Service\WorkspaceService as UiWorkspaceService;
 use Neos\Neos\Ui\Domain\Model\AbstractFeedback;
 use Neos\Neos\Ui\Domain\Model\FeedbackInterface;
+use Neos\Neos\Ui\Fusion\Helper\WorkspaceHelper;
 
 /**
  * @internal
@@ -98,6 +99,9 @@ class UpdateWorkspaceInfo extends AbstractFeedback
      */
     public function serializePayload(ControllerContext $controllerContext)
     {
+        /**
+         * partly duplicate to {@see \Neos\Neos\Ui\Fusion\Helper\WorkspaceHelper::getPersonalWorkspace}, omits "allowedTargetWorkspaces" as they likely don't change during changes
+         */
         $contentRepository = $this->contentRepositoryRegistry->get($this->contentRepositoryId);
         $workspace = $contentRepository->findWorkspaceByName($this->workspaceName);
         if ($workspace === null) {

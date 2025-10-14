@@ -19,9 +19,7 @@ use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Configuration\ConfigurationManager;
 use Neos\Flow\Mvc\Routing\UriBuilder;
 use Neos\Flow\Security\Context as SecurityContext;
-use Neos\Neos\Domain\Model\WorkspaceClassification;
 use Neos\Neos\Domain\Service\WorkspaceService;
-use Neos\Neos\Security\Authorization\ContentRepositoryAuthorizationService;
 use Neos\Neos\Service\UserService;
 use Neos\Neos\Ui\Domain\InitialData\CacheConfigurationVersionProviderInterface;
 use Neos\Neos\Ui\Domain\InitialData\ConfigurationProviderInterface;
@@ -45,9 +43,6 @@ final class ConfigurationProvider implements ConfigurationProviderInterface
     protected WorkspaceService $workspaceService;
 
     #[Flow\Inject]
-    protected ContentRepositoryAuthorizationService $contentRepositoryAuthorizationService;
-
-    #[Flow\Inject]
     protected CacheConfigurationVersionProviderInterface $cacheConfigurationVersionProvider;
 
     public function getConfiguration(
@@ -63,7 +58,6 @@ final class ConfigurationProvider implements ConfigurationProviderInterface
                 ConfigurationManager::CONFIGURATION_TYPE_SETTINGS,
                 'Neos.Neos.userInterface.navigateComponent.structureTree',
             ),
-            'allowedTargetWorkspaces' => $this->getAllowedTargetWorkspaces($contentRepository),
             'endpoints' => [
                 'nodeTypeSchema' => $uriBuilder->reset()
                     ->setCreateAbsoluteUri(true)
@@ -96,27 +90,4 @@ final class ConfigurationProvider implements ConfigurationProviderInterface
         ];
     }
 
-    /**
-     * @return array<string,array{name:string,title:string,readonly:bool}>
-     */
-    private function getAllowedTargetWorkspaces(ContentRepository $contentRepository): array
-    {
-        $result = [];
-        foreach ($contentRepository->findWorkspaces() as $workspace) {
-            $workspaceMetadata = $this->workspaceService->getWorkspaceMetadata($contentRepository->id, $workspace->workspaceName);
-            if (!in_array($workspaceMetadata->classification, [WorkspaceClassification::ROOT, WorkspaceClassification::SHARED], true)) {
-                continue;
-            }
-            $workspacePermissions = $this->contentRepositoryAuthorizationService->getWorkspacePermissions($contentRepository->id, $workspace->workspaceName, $this->securityContext->getRoles(), $this->userService->getBackendUser()?->getId());
-            if ($workspacePermissions->read === false) {
-                continue;
-            }
-            $result[$workspace->workspaceName->value] = [
-                'name' => $workspace->workspaceName->value,
-                'title' => $workspaceMetadata->title->value,
-                'readonly' => !$workspacePermissions->write,
-            ];
-        }
-        return $result;
-    }
 }

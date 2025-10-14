@@ -27,6 +27,13 @@ export interface WorkspaceInformation {
     baseWorkspace: WorkspaceName;
     readOnly?: boolean;
     status: WorkspaceStatus;
+    allowedTargetWorkspaces: {
+        [name: string]: {
+            name: string
+            title: string
+            readonly: boolean
+        }
+    }
 }
 
 export interface State extends Readonly<{
@@ -39,7 +46,8 @@ export const defaultState: State = {
         totalNumberOfChanges: 0,
         publishableNodes: [],
         baseWorkspace: '',
-        status: WorkspaceStatus.UP_TO_DATE
+        status: WorkspaceStatus.UP_TO_DATE,
+        allowedTargetWorkspaces: {}
     }
 };
 
@@ -82,7 +90,10 @@ export const reducer = (state: State = defaultState, action: InitAction | Action
         case actionTypes.UPDATE: {
             return {
                 ...state,
-                personalWorkspace: action.payload
+                personalWorkspace: {
+                    ...state.personalWorkspace,
+                    ...action.payload
+                }
             }
         }
     }

@@ -19,8 +19,7 @@ use Neos\Flow\Mvc\Routing\UriBuilder;
 
 /**
  * Retrieves the `nodeTree` and `structureTree` segments from
- * `Neos.Neos.userInterface.navigateComponent` settings,
- * `allowedTargetWorkspaces` from the ContentRepository's `WorkspaceService`
+ * `Neos.Neos.userInterface.navigateComponent` settings
  * as well as the `nodeTypeSchema` and `translations` endpoints.
  *
  * @internal
@@ -28,7 +27,7 @@ use Neos\Flow\Mvc\Routing\UriBuilder;
 interface ConfigurationProviderInterface
 {
     /**
-     * @return array{nodeTree:mixed,structureTree:mixed,allowedTargetWorkspaces:mixed,endpoints:array{nodeTypeSchema:string,translations:string}}
+     * @return array{nodeTree:mixed,structureTree:mixed,endpoints:array{nodeTypeSchema:string,translations:string}}
      */
     public function getConfiguration(
         ContentRepository $contentRepository,

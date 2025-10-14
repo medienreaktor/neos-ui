@@ -21,13 +21,6 @@ export interface Configuration {
     structureTree: {
         loadingDepth?: number,
     }
-    allowedTargetWorkspaces: {
-        [name: string]: {
-            name: string
-            title: string
-            readonly: boolean
-        }
-    }
 }
 
 /**
