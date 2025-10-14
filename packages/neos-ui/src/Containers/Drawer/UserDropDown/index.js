@@ -6,6 +6,7 @@ import {neos} from '@neos-project/neos-ui-decorators';
 import {Icon, DropDown} from '@neos-project/react-ui-components';
 import UserImage from './UserImage';
 import RestoreButtonItem from './RestoreButtonItem';
+import {fetchWithErrorHandling} from '@neos-project/neos-ui-backend-connector';
 
 import I18n from '@neos-project/neos-ui-i18n';
 
@@ -24,7 +25,7 @@ export default class UserDropDown extends PureComponent {
     render() {
         const logoutUri = this.props.neos?.routes?.core?.logout;
         const userSettingsUri = this.props.neos?.routes?.core?.modules?.userSettings;
-        const {csrfToken} = document.getElementById('appContainer').dataset;
+        const csrfToken = fetchWithErrorHandling._csrfToken;
         return (
             <div className={style.wrapper}>
                 <DropDown className={style.dropDown}>
