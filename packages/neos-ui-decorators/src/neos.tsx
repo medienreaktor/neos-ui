@@ -1,6 +1,7 @@
 import React from 'react';
 import {defaultMemoize} from 'reselect';
-import {GlobalRegistry} from '@neos-project/neos-ui-registry';
+import type {GlobalRegistry} from '@neos-project/neos-ui-registry';
+import type {Configuration} from '@neos-project/neos-ui-configuration';
 
 // We need to memoize configuration and global registry; otherwise a new object is created at every render; leading to
 // LOADS of unnecessary re-draws.
@@ -8,8 +9,8 @@ const buildConfigurationAndGlobalRegistry = defaultMemoize((configuration: {}, g
 
 export interface NeosContextInterface {
     globalRegistry: GlobalRegistry;
-    configuration: {};
-    routes: {};
+    configuration: Configuration;
+    routes: Record<string, unknown>;
 }
 
 export type NeosInjectedProps<R extends (...args: any[]) => any> = ReturnType<R> & {neos: NeosContextInterface};

@@ -1,8 +1,29 @@
 import {configuration} from './system';
 
 export interface Configuration {
-    nodeTree?: {
-        loadingDepth?: number
+    // the "Neos.Neos.userInterface.navigateComponent.nodeTree" configuration
+    nodeTree: {
+        loadingDepth?: number,
+        presets?: {
+            default?: {
+                baseNodeType?: string
+            }
+        }
+    },
+    // the "Neos.Neos.userInterface.navigateComponent.structureTree" configuration
+    structureTree: {
+        loadingDepth?: number,
+    }
+    allowedTargetWorkspaces: {
+        [name: string]: {
+            name: string
+            title: string
+            readonly: boolean
+        }
+    }
+    endpoints: {
+        // deprecated
+        nodeTypeSchema: string
     }
 }
 
