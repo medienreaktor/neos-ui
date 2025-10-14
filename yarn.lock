@@ -3641,7 +3641,6 @@ __metadata:
     "@neos-project/neos-ui-error": "workspace:*"
     "@neos-project/neos-ui-validators": "workspace:*"
     immer: ^9.0.0
-    lodash.assignin: ^4.2.0
     lodash.defaultsdeep: ^4.6.1
     lodash.isequal: ^4.5.0
     lodash.mapvalues: ^4.6.0
@@ -3817,7 +3816,6 @@ __metadata:
     "@types/enzyme": ^3.1.14
     "@types/he": ^1.1.0
     "@types/jest": ^23.3.10
-    "@types/lodash.assignin": ^4.2.7
     "@types/lodash.defaultsdeep": ^4.6.7
     "@types/lodash.isequal": ^4.5.5
     "@types/lodash.mapvalues": ^4.6.7
@@ -4328,15 +4326,6 @@ __metadata:
   version: 0.0.29
   resolution: "@types/json5@npm:0.0.29"
   checksum: e60b153664572116dfea673c5bda7778dbff150498f44f998e34b5886d8afc47f16799280e4b6e241c0472aef1bc36add771c569c68fc5125fc2ae519a3eb9ac
-  languageName: node
-  linkType: hard
-
-"@types/lodash.assignin@npm:^4.2.7":
-  version: 4.2.7
-  resolution: "@types/lodash.assignin@npm:4.2.7"
-  dependencies:
-    "@types/lodash": "*"
-  checksum: feea417f71fc4cbdc28a58b0ec18a0f3be99c54011a03abb33b4e2b1348f024ce05b7391bccf1a449acd02d41b5b0be649b4344c12fed3d25b361fe41fceea3f
   languageName: node
   linkType: hard
 
@@ -10849,13 +10838,6 @@ __metadata:
   version: 4.2.0
   resolution: "lodash.assign@npm:4.2.0"
   checksum: 75bbc6733c9f577c448031b4051f990f068802708891f94be9d4c2faffd6a9ec67a2c49671dafc908a068d35687765464853282842b4560b662e6c903d11cc90
-  languageName: node
-  linkType: hard
-
-"lodash.assignin@npm:^4.2.0":
-  version: 4.2.0
-  resolution: "lodash.assignin@npm:4.2.0"
-  checksum: 4b55bc1d65ccd7648fdba8a4316d10546929bf0beb5950830d86c559948cf170f0e65b77c95e66b45b511b85a31161714de8b2008d2537627ef3c7759afe36a6
   languageName: node
   linkType: hard
 

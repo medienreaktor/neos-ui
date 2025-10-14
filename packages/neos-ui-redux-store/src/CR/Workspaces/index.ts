@@ -1,5 +1,3 @@
-import produce from 'immer';
-import assignIn from 'lodash.assignin';
 import {action as createAction, ActionType} from 'typesafe-actions';
 import {NodeContextPath, WorkspaceStatus} from '@neos-project/neos-ts-interfaces';
 
@@ -73,18 +71,23 @@ export const actions = {
 //
 // Export the reducer
 //
-export const reducer = (state: State = defaultState, action: InitAction | Action) => produce(state, draft => {
+export const reducer = (state: State = defaultState, action: InitAction | Action) => {
     switch (action.type) {
         case system.INIT: {
-            draft.personalWorkspace = action.payload.cr.workspaces.personalWorkspace;
-            break;
+            return {
+                ...state,
+                personalWorkspace: action.payload.cr.workspaces.personalWorkspace
+            }
         }
         case actionTypes.UPDATE: {
-            draft.personalWorkspace = assignIn(draft.personalWorkspace, action.payload);
-            break;
+            return {
+                ...state,
+                personalWorkspace: action.payload
+            }
         }
     }
-});
+    return state;
+};
 
 //
 // Export the selectors
