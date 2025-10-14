@@ -9,7 +9,7 @@ import style from './style.module.css';
 import {actions, selectors} from '@neos-project/neos-ui-redux-store/src';
 import memoize from 'lodash.memoize';
 import {Icon, DropDown, Button} from '@neos-project/react-ui-components';
-import {getEditPreviewModesConfiguration} from '@neos-project/neos-ui-configuration';
+import {getConfiguration} from '@neos-project/neos-ui-configuration';
 
 @connect(state => ({
     editPreviewMode: selectors.UI.EditPreviewMode.currentEditPreviewMode(state)
@@ -34,7 +34,7 @@ export default class EditPreviewModeDropDown extends PureComponent {
     componentDidMount() {
         const {editPreviewMode, setEditPreviewMode} = this.props;
 
-        const editPreviewModes = getEditPreviewModesConfiguration();
+        const editPreviewModes = getConfiguration(configuration => configuration.editPreviewModes);
 
         // Switch edit preview mode to the first one if the current one is not available
         if (!editPreviewModes[editPreviewMode]) {
@@ -49,7 +49,7 @@ export default class EditPreviewModeDropDown extends PureComponent {
             i18nRegistry
         } = this.props;
 
-        const editPreviewModes = getEditPreviewModesConfiguration();
+        const editPreviewModes = getConfiguration(configuration => configuration.editPreviewModes);
 
         const currentEditMode = editPreviewModes[editPreviewMode] || Object.values(editPreviewModes)[0];
 

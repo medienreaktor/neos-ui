@@ -5,6 +5,7 @@ import backend from '@neos-project/neos-ui-backend-connector';
 import {showFlashMessage} from '@neos-project/neos-ui-error';
 
 import {isNodeCollapsed} from '@neos-project/neos-ui-redux-store/src/CR/Nodes/helpers';
+import {getConfiguration} from '@neos-project/neos-ui-configuration';
 
 export function * watchToggle({globalRegistry}) {
     const nodeTypesRegistry = globalRegistry.get('@neos-project/neos-ui-contentrepository');
@@ -25,7 +26,7 @@ export function * watchToggle({globalRegistry}) {
     });
 }
 
-export function * watchRequestChildrenForContextPath({configuration}) {
+export function * watchRequestChildrenForContextPath() {
     yield takeEvery(actionTypes.UI.PageTree.REQUEST_CHILDREN, function * requestChildrenForContextPath(action) {
         // TODO: Call yield put(actions.UI.PageTree.requestChildren(contextPath));
         const {contextPath, opts} = action.payload;
@@ -39,7 +40,7 @@ export function * watchRequestChildrenForContextPath({configuration}) {
             const query = q(contextPath);
 
             parentNodes = yield query.getForTree('PAGE_TREE');
-            const {baseNodeType} = configuration.nodeTree.presets.default;
+            const {baseNodeType} = getConfiguration(configuration => configuration.nodeTree.presets.default);
             childNodes = yield query.neosUiFilteredChildren(baseNodeType).getForTree('PAGE_TREE');
         } catch (err) {
             yield put(actions.UI.PageTree.invalidate(contextPath));
@@ -83,7 +84,7 @@ export function * watchNodeCreated() {
     });
 }
 
-export function * watchCurrentDocument({configuration}) {
+export function * watchCurrentDocument() {
     yield takeLatest(actionTypes.CR.Nodes.SET_DOCUMENT_NODE, function * loadDocumentRootLine(action) {
         const contextPath = action.payload.documentNode;
         const siteNodeContextPath = yield select(selectors.CR.Nodes.siteNodeContextPathSelector);
@@ -98,7 +99,7 @@ export function * watchCurrentDocument({configuration}) {
             return;
         }
 
-        const {loadingDepth} = configuration.nodeTree;
+        const loadingDepth = getConfiguration(configuration => configuration.nodeTree.loadingDepth);
         let hasLoadedNodes = false;
         while (parentContextPath !== siteNodeContextPath) {
             const getParentNodeByContextPathSelector = selectors.CR.Nodes.makeGetNodeByContextPathSelector(parentContextPath);
@@ -143,7 +144,7 @@ export function * watchCurrentDocument({configuration}) {
     });
 }
 
-export function * watchSearch({configuration}) {
+export function * watchSearch() {
     yield takeLatest(actionTypes.UI.PageTree.COMMENCE_SEARCH, function * searchForNode(action) {
         const siteNodeContextPath = yield select(selectors.CR.Nodes.siteNodeContextPathSelector);
         const result = {
@@ -154,7 +155,7 @@ export function * watchSearch({configuration}) {
         yield put(actions.UI.PageTree.setSearchResult(result));
 
         const {contextPath, query: searchQuery, filterNodeType} = action.payload;
-        const effectiveFilterNodeType = filterNodeType || configuration.nodeTree.presets.default.baseNodeType;
+        const effectiveFilterNodeType = filterNodeType || getConfiguration(configuration => configuration.nodeTree.presets.default.baseNodeType);
         const isSearch = Boolean(filterNodeType || searchQuery);
 
         yield put(actions.UI.PageTree.setAsLoading(contextPath));
@@ -178,8 +179,8 @@ export function * watchSearch({configuration}) {
                 );
 
                 matchingNodes = yield q([contextPath, documentNodeContextPath]).neosUiDefaultNodes(
-                    configuration.nodeTree.presets.default.baseNodeType,
-                    configuration.nodeTree.loadingDepth,
+                    getConfiguration(configuration => configuration.nodeTree.presets.default.baseNodeType),
+                    getConfiguration(configuration => configuration.nodeTree.loadingDepth),
                     toggledNodes,
                     clipboardNodeContextPath
                 ).getForTree('PAGE_TREE');
@@ -195,7 +196,7 @@ export function * watchSearch({configuration}) {
             return;
         }
         const siteNode = yield select(selectors.CR.Nodes.siteNodeSelector);
-        const {loadingDepth} = configuration.nodeTree;
+        const loadingDepth = getConfiguration(configuration => configuration.nodeTree.loadingDepth);
 
         if (matchingNodes.length > 0) {
             const nodes = matchingNodes.reduce((map, node) => {

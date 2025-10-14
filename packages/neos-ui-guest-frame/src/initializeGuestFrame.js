@@ -16,7 +16,7 @@ import {
 import style from './style.module.css';
 import {SelectionModeTypes} from '@neos-project/neos-ts-interfaces';
 import backend from '@neos-project/neos-ui-backend-connector';
-import {getEditPreviewModesConfiguration} from '@neos-project/neos-ui-configuration';
+import {getConfiguration} from '@neos-project/neos-ui-configuration';
 
 //
 // Get all parent elements of the event target.
@@ -106,7 +106,7 @@ export default ({globalRegistry, store}) => function * initializeGuestFrame() {
     yield put(actions.UI.ContentCanvas.setSrc(guestFrameWindow.document.location.href));
 
     const editPreviewMode = state?.ui?.editPreviewMode;
-    const editPreviewModes = getEditPreviewModesConfiguration();
+    const editPreviewModes = getConfiguration(configuration => configuration.editPreviewModes);
     const isWorkspaceReadOnly = selectors.CR.Workspaces.isWorkspaceReadOnlySelector(state);
     const currentEditMode = editPreviewModes[editPreviewMode];
     if (!currentEditMode || !currentEditMode.isEditingMode || isWorkspaceReadOnly) {

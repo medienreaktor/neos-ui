@@ -37,12 +37,13 @@ export interface Configuration {
 /**
  * Access to the global configuration.
  *
- * Note that we often pass the configuration around instead and inject it via the react context -> this should be simplified in favour of this global state.
+ * For selecting a subset its preferred to pass a closure.
  */
-export function getConfiguration(): Configuration {
+export function getConfiguration(): Configuration;
+export function getConfiguration<R>(selector: (configuration: Configuration) => R): R;
+export function getConfiguration(selector?: any) {
+    if (selector) {
+        return selector(configuration);
+    }
     return configuration;
-}
-
-export function getEditPreviewModesConfiguration(): Configuration['editPreviewModes'] {
-    return configuration.editPreviewModes;
 }

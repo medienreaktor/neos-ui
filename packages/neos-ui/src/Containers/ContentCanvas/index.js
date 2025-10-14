@@ -10,7 +10,7 @@ import {neos} from '@neos-project/neos-ui-decorators';
 import Frame from '@neos-project/react-ui-components/src/Frame/';
 
 import style from './style.module.css';
-import {getEditPreviewModesConfiguration} from '@neos-project/neos-ui-configuration';
+import {getConfiguration} from '@neos-project/neos-ui-configuration';
 
 @connect(state => ({
     isFringeLeft: state?.ui?.leftSideBar?.isHidden,
@@ -75,7 +75,7 @@ export default class ContentCanvas extends PureComponent {
             backgroundColor
         } = this.props;
 
-        const editPreviewModes = getEditPreviewModesConfiguration();
+        const editPreviewModes = getConfiguration(configuration => configuration.editPreviewModes);
         const {isVisible} = this.state;
         const classNames = mergeClassNames({
             [style.contentCanvas]: true,
