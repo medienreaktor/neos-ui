@@ -191,7 +191,7 @@ export const PageTree = withNodeTypeRegistryAndI18nRegistry(connect(
             focusedNodesContextPaths: selectors.UI.PageTree.getAllFocused(state),
             ChildRenderer: PageTreeNode,
             allowOpeningNodesInNewWindow: true,
-            loadingDepth: getConfiguration(configuration => configuration.structureTree.loadingDepth),
+            loadingDepth: getConfiguration(configuration => configuration.nodeTree.loadingDepth),
             allCollapsibleNodes: documentNodesSelector(state)
         })
     }, {
