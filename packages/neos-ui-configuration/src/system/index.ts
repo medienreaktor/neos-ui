@@ -1,16 +1,14 @@
-import {initializeJsAPI} from '@neos-project/neos-ui-backend-connector';
-import fetchWithErrorHandling from '@neos-project/neos-ui-backend-connector/src/FetchWithErrorHandling/index';
 import {terminateDueToFatalInitializationError} from '@neos-project/neos-ui-error';
 
-let initialData = null;
-function parseInitialData() {
+let initialData: Record<string, unknown> | null = null;
+function parseInitialData(): Record<string, unknown> {
     if (initialData) {
         return initialData;
     }
 
     const initialDataContainer = document.getElementById('initialData');
     if (!initialDataContainer) {
-        return terminateDueToFatalInitializationError(`
+        terminateDueToFatalInitializationError(`
             <p>This page is missing a <code>&lt;script/&gt;</code>-container with the
             id <code>#initialData</code>.</p>
         `);
@@ -24,26 +22,26 @@ function parseInitialData() {
             return initialData;
         }
 
-        return terminateDueToFatalInitializationError(`
+        terminateDueToFatalInitializationError(`
             <p>JSON-content of <code>#initialData</code> has an unexpected
             type: <code>${typeof initialData}</code></p>
         `);
     } catch (err) {
-        return terminateDueToFatalInitializationError(`
+        terminateDueToFatalInitializationError(`
             <p>JSON.parse for content of <code>#initialData</code> failed:
             ${err}</p>
         `);
     }
 }
 
-function getInlinedData(dataName) {
+function getInlinedData(dataName: string) {
     const initialData = parseInitialData();
 
     if (dataName in initialData) {
         return initialData[dataName];
     }
 
-    return terminateDueToFatalInitializationError(`
+    terminateDueToFatalInitializationError(`
         <p>Initial data for <code>${dataName}</code> could not
         be read from <code>#initialData</code> container.</p>
     `);
@@ -56,23 +54,24 @@ if (!appContainer) {
     `);
 }
 
-export const {csrfToken} = appContainer.dataset;
-if (!csrfToken) {
+/**
+ * Initial CSRF token - this value is not updated during re-login -> see fetchWithErrorHandling instead
+ */
+if (!appContainer.dataset.csrfToken) {
     terminateDueToFatalInitializationError(`
         <p>The container with the id <code>#appContainer</code> is missing an attribute
         <code>data-csrf-token</code>.</p>
     `);
 }
+export const {csrfToken} = appContainer.dataset;
 
-fetchWithErrorHandling.setCsrfToken(csrfToken);
-
-export const {env: systemEnv} = appContainer.dataset;
-if (!systemEnv) {
+if (!appContainer.dataset.env) {
     terminateDueToFatalInitializationError(`
         <p>The container with the id <code>#appContainer</code> is missing an attribute
         <code>data-env</code> (eg. Production, Development, etc...).</p>
     `);
 }
+export const {env: systemEnv} = appContainer.dataset;
 
 export const serverState = getInlinedData('initialState');
 
@@ -85,8 +84,3 @@ export const frontendConfiguration = getInlinedData('frontendConfiguration');
 export const routes = getInlinedData('routes');
 
 export const menu = getInlinedData('menu');
-
-export const neos = initializeJsAPI(window, {
-    systemEnv,
-    routes
-});

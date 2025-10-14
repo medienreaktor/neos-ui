@@ -7,7 +7,7 @@ import merge from 'lodash.merge';
 import {actions} from '@neos-project/neos-ui-redux-store';
 import {createConsumerApi} from '@neos-project/neos-ui-extensibility';
 import fetchWithErrorHandling from '@neos-project/neos-ui-backend-connector/src/FetchWithErrorHandling';
-import backend from '@neos-project/neos-ui-backend-connector';
+import backend, {initializeJsAPI} from '@neos-project/neos-ui-backend-connector';
 import {handleActions} from '@neos-project/utils-redux';
 import {initializeI18n} from '@neos-project/neos-ui-i18n';
 import {showFlashMessage} from '@neos-project/neos-ui-error';
@@ -15,18 +15,27 @@ import {showFlashMessage} from '@neos-project/neos-ui-error';
 import {
     appContainer,
     frontendConfiguration,
-    configuration,
     routes,
     serverState,
     menu,
-    nodeTypes
-} from './System';
+    nodeTypes,
+    csrfToken,
+    systemEnv
+} from '@neos-project/neos-ui-configuration/src/system';
+import {getConfiguration} from '@neos-project/neos-ui-configuration';
 import localStorageMiddleware from './localStorageMiddleware';
 import clipboardMiddleware from './clipboardMiddleware';
 import Root from './Containers/Root';
 import apiExposureMap from './apiExposureMap';
 import DelegatingReducer from './DelegatingReducer';
 import {getGlobalRegistry} from '@neos-project/neos-ui-registry';
+
+const configuration = getConfiguration();
+fetchWithErrorHandling.setCsrfToken(csrfToken);
+initializeJsAPI(window, {
+    systemEnv,
+    routes
+});
 
 const devToolsArePresent = typeof window === 'object' && typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined';
 const devToolsStoreEnhancer = () => devToolsArePresent ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f;

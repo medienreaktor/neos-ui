@@ -3445,6 +3445,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@neos-project/neos-ui-configuration@workspace:*, @neos-project/neos-ui-configuration@workspace:packages/neos-ui-configuration":
+  version: 0.0.0-use.local
+  resolution: "@neos-project/neos-ui-configuration@workspace:packages/neos-ui-configuration"
+  languageName: unknown
+  linkType: soft
+
 "@neos-project/neos-ui-constants@workspace:*, @neos-project/neos-ui-constants@workspace:packages/neos-ui-constants":
   version: 0.0.0-use.local
   resolution: "@neos-project/neos-ui-constants@workspace:packages/neos-ui-constants"
@@ -3725,6 +3731,7 @@ __metadata:
     "@neos-project/neos-ts-interfaces": "workspace:*"
     "@neos-project/neos-ui-backend-connector": "workspace:*"
     "@neos-project/neos-ui-ckeditor5-bindings": "workspace:*"
+    "@neos-project/neos-ui-configuration": "workspace:*"
     "@neos-project/neos-ui-constants": "workspace:*"
     "@neos-project/neos-ui-containers": "workspace:*"
     "@neos-project/neos-ui-contentrepository": "workspace:*"

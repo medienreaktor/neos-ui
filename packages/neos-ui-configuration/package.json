@@ -1,0 +1,8 @@
+{
+  "name": "@neos-project/neos-ui-configuration",
+  "version": "",
+  "description": "Global configuration loading and access for the Neos UI",
+  "private": true,
+  "main": "./src/index.ts",
+  "license": "GNU GPLv3"
+}
