@@ -18,10 +18,6 @@ use Neos\ContentRepository\Core\ContentRepository;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Configuration\ConfigurationManager;
 use Neos\Flow\Mvc\Routing\UriBuilder;
-use Neos\Flow\Security\Context as SecurityContext;
-use Neos\Neos\Domain\Service\WorkspaceService;
-use Neos\Neos\Service\UserService;
-use Neos\Neos\Ui\Domain\InitialData\CacheConfigurationVersionProviderInterface;
 use Neos\Neos\Ui\Domain\InitialData\ConfigurationProviderInterface;
 
 /**
@@ -31,19 +27,7 @@ use Neos\Neos\Ui\Domain\InitialData\ConfigurationProviderInterface;
 final class ConfigurationProvider implements ConfigurationProviderInterface
 {
     #[Flow\Inject]
-    protected UserService $userService;
-
-    #[Flow\Inject]
-    protected SecurityContext $securityContext;
-
-    #[Flow\Inject]
     protected ConfigurationManager $configurationManager;
-
-    #[Flow\Inject]
-    protected WorkspaceService $workspaceService;
-
-    #[Flow\Inject]
-    protected CacheConfigurationVersionProviderInterface $cacheConfigurationVersionProvider;
 
     public function getConfiguration(
         ContentRepository $contentRepository,
@@ -58,36 +42,6 @@ final class ConfigurationProvider implements ConfigurationProviderInterface
                 ConfigurationManager::CONFIGURATION_TYPE_SETTINGS,
                 'Neos.Neos.userInterface.navigateComponent.structureTree',
             ),
-            'endpoints' => [
-                'nodeTypeSchema' => $uriBuilder->reset()
-                    ->setCreateAbsoluteUri(true)
-                    ->uriFor(
-                        actionName: 'nodeTypeSchema',
-                        controllerArguments: [
-                            'version' =>
-                                $this->cacheConfigurationVersionProvider
-                                    ->getCacheConfigurationVersion(),
-                        ],
-                        controllerName: 'Backend\\Schema',
-                        packageKey: 'Neos.Neos',
-                    ),
-                'translations' => $uriBuilder->reset()
-                    ->setCreateAbsoluteUri(true)
-                    ->uriFor(
-                        actionName: 'xliffAsJson',
-                        controllerArguments: [
-                            'locale' =>
-                                $this->userService
-                                    ->getInterfaceLanguage(),
-                            'version' =>
-                                $this->cacheConfigurationVersionProvider
-                                    ->getCacheConfigurationVersion(),
-                        ],
-                        controllerName: 'Backend\\Backend',
-                        packageKey: 'Neos.Neos',
-                    ),
-            ]
         ];
     }
-
 }

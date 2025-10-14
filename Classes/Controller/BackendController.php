@@ -260,6 +260,9 @@ class BackendController extends ActionController
         }
 
         $this->view->setOption('title', 'Neos CMS');
+        $this->view->assign('prefetchRoutes', $this->routesProvider->getPrefetchRoutes(
+            uriBuilder: $this->controllerContext->getUriBuilder()
+        ));
         $this->view->assign('initialData', [
             'configuration' =>
                 $this->configurationProvider->getConfiguration(

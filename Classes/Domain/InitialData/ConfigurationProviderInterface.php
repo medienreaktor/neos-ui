@@ -20,14 +20,13 @@ use Neos\Flow\Mvc\Routing\UriBuilder;
 /**
  * Retrieves the `nodeTree` and `structureTree` segments from
  * `Neos.Neos.userInterface.navigateComponent` settings
- * as well as the `nodeTypeSchema` and `translations` endpoints.
  *
  * @internal
  */
 interface ConfigurationProviderInterface
 {
     /**
-     * @return array{nodeTree:mixed,structureTree:mixed,endpoints:array{nodeTypeSchema:string,translations:string}}
+     * @return array{nodeTree:mixed,structureTree:mixed}
      */
     public function getConfiguration(
         ContentRepository $contentRepository,
