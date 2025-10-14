@@ -5,8 +5,15 @@ export interface Configuration {
     nodeTree: {
         loadingDepth?: number,
         presets?: {
-            default?: {
+            default: {
                 baseNodeType?: string
+            },
+            [presetName: string]: {
+                baseNodeType?: string
+                ui?: {
+                    label: string
+                    icon: string
+                }
             }
         }
     },

@@ -1,5 +1,5 @@
-import {nodeTypes} from "@neos-project/neos-ui-configuration/src/system";
-import {nodeTypesRegistry} from "./NodeTypesRegistry";
+import {nodeTypes} from '@neos-project/neos-ui-configuration/src/system';
+import {nodeTypesRegistry} from './NodeTypesRegistry';
 
 const LINK_ID_FOR_SCHEMA_NODE_TYPE_ROUTE = 'neos-ui-uri:/neos/schema/node-type.json';
 
