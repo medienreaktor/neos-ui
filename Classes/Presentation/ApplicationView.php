@@ -120,7 +120,7 @@ final class ApplicationView extends AbstractView
 
         $locale = new Locale($this->userService->getInterfaceLanguage());
         // @TODO: All endpoints should be treated this way and be isolated from
-        //        initial data.
+        //        initial data. -> Question: Also the "routes"?
         $result .= sprintf(
             '<link id="neos-ui-uri:/neos/xliff.json" rel="prefetch" href="%s" data-locale="%s" data-locale-plural-rules="%s">',
             $this->variables['initialData']['configuration']['endpoints']['translations'],
@@ -128,8 +128,16 @@ final class ApplicationView extends AbstractView
             implode(',', $this->pluralsReader->getPluralForms($locale)),
         );
         $result .= sprintf(
+            '<link id="neos-ui-uri:/neos/schema/node-type.json" rel="prefetch" href="%s">',
+            $this->variables['initialData']['configuration']['endpoints']['nodeTypeSchema'],
+        );
+
+        $initialData = $this->variables['initialData'];
+        unset($initialData['configuration']['endpoints']);
+
+        $result .= sprintf(
             '<script id="initialData" type="application/json">%s</script>',
-            json_encode($this->variables['initialData']),
+            json_encode($initialData),
         );
 
         return $result;

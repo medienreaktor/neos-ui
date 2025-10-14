@@ -10,6 +10,7 @@ import fetchWithErrorHandling from '@neos-project/neos-ui-backend-connector/src/
 import backend, {initializeJsAPI} from '@neos-project/neos-ui-backend-connector';
 import {handleActions} from '@neos-project/utils-redux';
 import {initializeI18n} from '@neos-project/neos-ui-i18n';
+import {initializeNodeTypesRegistry} from '@neos-project/neos-ui-contentrepository';
 import {showFlashMessage} from '@neos-project/neos-ui-error';
 
 import {
@@ -18,7 +19,6 @@ import {
     routes,
     serverState,
     menu,
-    nodeTypes,
     csrfToken,
     systemEnv
 } from '@neos-project/neos-ui-configuration/src/system';
@@ -73,7 +73,7 @@ async function main() {
     initializeFetchWithErrorHandling();
 
     await Promise.all([
-        loadNodeTypesSchema(),
+        initializeNodeTypesRegistry(),
         initializeI18n(),
         loadImpersonateStatus()
     ]);
@@ -158,26 +158,6 @@ function initializeFetchWithErrorHandling() {
             message
         });
     });
-}
-
-async function loadNodeTypesSchema() {
-    const {getJsonResource} = backend.get().endpoints;
-    const nodeTypesRegistry = globalRegistry.get('@neos-project/neos-ui-contentrepository');
-
-    const nodeTypesSchema = await getJsonResource(configuration.endpoints.nodeTypeSchema);
-    Object.keys(nodeTypesSchema.nodeTypes).forEach(nodeTypeName => {
-        nodeTypesRegistry.set(nodeTypeName, {
-            ...nodeTypesSchema.nodeTypes[nodeTypeName],
-            name: nodeTypeName
-        });
-    });
-
-    nodeTypesRegistry.setConstraints(nodeTypesSchema.constraints);
-    nodeTypesRegistry.setInheritanceMap(nodeTypesSchema.inheritanceMap);
-
-    const {groups, roles} = nodeTypes;
-    nodeTypesRegistry.setGroups(groups);
-    nodeTypesRegistry.setRoles(roles);
 }
 
 async function loadImpersonateStatus() {

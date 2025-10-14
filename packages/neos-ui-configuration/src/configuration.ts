@@ -21,10 +21,6 @@ export interface Configuration {
             readonly: boolean
         }
     }
-    endpoints: {
-        // deprecated
-        nodeTypeSchema: string
-    }
 }
 
 /**

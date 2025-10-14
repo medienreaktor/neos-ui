@@ -77,7 +77,22 @@ export const serverState = getInlinedData('initialState');
 
 export const configuration = getInlinedData('configuration');
 
-export const nodeTypes = getInlinedData('nodeTypes');
+export const nodeTypes = getInlinedData('nodeTypes') as {
+    groups: {
+        [id: string]: {
+            position?: number | string,
+            label: string,
+            collapsed: boolean
+        },
+    }
+    roles: {
+        ignored: 'unstructured',
+        document: 'Neos.Neos:Document',
+        content: 'Neos.Neos:Content',
+        contentCollection: 'Neos.Neos:ContentCollection',
+        [id: string]: string
+    }
+};
 
 export const frontendConfiguration = getInlinedData('frontendConfiguration');
 

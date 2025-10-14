@@ -24,7 +24,7 @@ interface InheritanceMap {
 
 interface Group {
     label: string;
-    position?: number;
+    position?: number | string;
 }
 interface GroupsMap {
     [groupName: string]: Group;
@@ -305,3 +305,7 @@ export default class NodeTypesRegistry extends SynchronousRegistry<NodeType> {
         );
     }
 }
+
+export const nodeTypesRegistry = new NodeTypesRegistry(`
+    # Registry for Neos.ContentRepository NodeTypes
+`);
