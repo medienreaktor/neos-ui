@@ -1,16 +1,20 @@
 import manifest from '@neos-project/neos-ui-extensibility';
 import {HotkeyRegistry} from './Registry';
 import {actions} from '@neos-project/neos-ui-redux-store';
+import {getFullPackageFrontendConfiguration} from '@neos-project/neos-ui-configuration';
 
-manifest('main.hotkeys', {}, (globalRegistry, {frontendConfiguration}) => {
+manifest('main.hotkeys', {}, (globalRegistry) => {
+    // we use the frontendConfiguration here to preserve compatibility. The neos ui should use the ConfigurationProvider for actual configuration instead.
+    const hotkeysConfiguration = getFullPackageFrontendConfiguration().hotkeys;
+
     //
     // Create hotkeys registry
     //
-    const hotkeyRegistry = globalRegistry.set('hotkeys', new HotkeyRegistry(frontendConfiguration.hotkeys, `
+    const hotkeyRegistry = globalRegistry.set('hotkeys', new HotkeyRegistry(hotkeysConfiguration, `
         Contains all hot keys.
     `));
 
-    if (frontendConfiguration.hotkeys !== null && frontendConfiguration.hotkeys.length !== 0) {
+    if (hotkeysConfiguration !== null && hotkeysConfiguration.length !== 0) {
         hotkeyRegistry.set('UI.RightSideBar.toggle', {
             description: 'Toggle inspector',
             action: actions.UI.RightSideBar.toggle

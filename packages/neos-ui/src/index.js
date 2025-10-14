@@ -15,14 +15,17 @@ import {showFlashMessage} from '@neos-project/neos-ui-error';
 
 import {
     appContainer,
-    frontendConfiguration,
     routes,
     serverState,
     menu,
     csrfToken,
     systemEnv
 } from '@neos-project/neos-ui-configuration/src/system';
-import {getConfiguration} from '@neos-project/neos-ui-configuration';
+import {
+    getConfiguration,
+    getFullPackageFrontendConfiguration,
+    initializeFrontendConfiguration
+} from '@neos-project/neos-ui-configuration';
 import localStorageMiddleware from './localStorageMiddleware';
 import clipboardMiddleware from './clipboardMiddleware';
 import Root from './Containers/Root';
@@ -66,7 +69,7 @@ require('@neos-project/neos-ui-sagas/src/manifest');
 
 async function main() {
     initializePlugins();
-    initializeFrontendConfiguration();
+    initializeFrontendConfiguration(globalRegistry);
     initializeAdditionalReduxReducers();
     initializeAdditionalReduxSagas();
     initializeReduxState();
@@ -84,20 +87,10 @@ async function main() {
     reloadNodes();
 }
 
-function initializeFrontendConfiguration() {
-    const frontendConfigurationRegistry = globalRegistry.get('frontendConfiguration');
-
-    Object.keys(frontendConfiguration).forEach(key => {
-        frontendConfigurationRegistry.set(key, {
-            ...frontendConfiguration[key]
-        });
-    });
-}
-
 function initializePlugins() {
     manifests
         .map(manifest => manifest[Object.keys(manifest)[0]])
-        .forEach(({bootstrap}) => bootstrap(globalRegistry, {store, frontendConfiguration, configuration, routes}));
+        .forEach(({bootstrap}) => bootstrap(globalRegistry, {store, frontendConfiguration: getFullPackageFrontendConfiguration(), configuration, routes}));
 }
 
 function initializeAdditionalReduxReducers() {

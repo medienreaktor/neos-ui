@@ -22,6 +22,7 @@ import NeosUiBackendConnectorDefault, * as NeosUiBackendConnector from '@neos-pr
 import * as NeosUiViews from '@neos-project/neos-ui-views';
 import * as NeosUiGuestFrameDom from '@neos-project/neos-ui-guest-frame/src/dom';
 import * as NeosUiRegistry from '@neos-project/neos-ui-registry';
+import * as NeosUiConfiguration from '@neos-project/neos-ui-configuration';
 
 // We export most needed components from CKE5 to be used when making custom plugins.
 // It's not safe to just install CKE5 packages from the extension because then then "instanceof" checks will no longer work,
@@ -147,8 +148,9 @@ export default {
         NeosUiGuestFrameDom,
         // react-proptypes (optional)
         ReactUiComponents,
-        UtilsRedux,
-        NeosUiRegistry
+        NeosUiRegistry,
+        NeosUiConfiguration,
+        UtilsRedux
 
         // TODO: how to write new reducers?
         // TODO: how to write new sagas? -> Registry --> CUSTOM PACKAGE
