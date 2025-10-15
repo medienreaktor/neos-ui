@@ -3676,6 +3676,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@neos-project/neos-ui-test-plugin@workspace:Tests/IntegrationTests/TestDistribution/DistributionPackages/Neos.TestNodeTypes/Resources/Private/neos-ui-test-plugin":
+  version: 0.0.0-use.local
+  resolution: "@neos-project/neos-ui-test-plugin@workspace:Tests/IntegrationTests/TestDistribution/DistributionPackages/Neos.TestNodeTypes/Resources/Private/neos-ui-test-plugin"
+  dependencies:
+    "@neos-project/neos-ui-extensibility": "workspace:*"
+    esbuild: ~0.17.0
+  languageName: unknown
+  linkType: soft
+
 "@neos-project/neos-ui-validators@workspace:*, @neos-project/neos-ui-validators@workspace:packages/neos-ui-validators":
   version: 0.0.0-use.local
   resolution: "@neos-project/neos-ui-validators@workspace:packages/neos-ui-validators"
