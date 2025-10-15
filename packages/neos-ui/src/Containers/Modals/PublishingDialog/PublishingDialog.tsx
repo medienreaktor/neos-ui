@@ -8,11 +8,10 @@
  * source code.
  */
 import React, {useEffect, useState} from 'react';
-// @ts-ignore
 import {connect} from 'react-redux';
 
 import {actions, selectors} from '@neos-project/neos-ui-redux-store';
-import {GlobalState} from '@neos-project/neos-ui-redux-store/src/System';
+import {GlobalState} from '@neos-project/neos-ui-redux-store';
 import {
     PublishingScope,
     PublishingPhase,
@@ -203,4 +202,7 @@ export default connect((state: GlobalState): PublishingDialogProperties => {
     cancel: (actions as any).CR.Publishing.cancel,
     retry: (actions as any).CR.Publishing.retry,
     acknowledge: (actions as any).CR.Publishing.acknowledge
-})(PublishingDialog);
+})(
+    // @ts-ignore - connect types is hard to get right ^^
+    PublishingDialog
+);
