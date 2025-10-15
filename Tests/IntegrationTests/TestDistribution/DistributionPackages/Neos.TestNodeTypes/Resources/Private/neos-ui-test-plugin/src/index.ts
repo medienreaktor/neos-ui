@@ -1,18 +1,6 @@
-import manifest from '@neos-project/neos-ui-extensibility';
-import {getFrontendConfigurationForPackage} from '@neos-project/neos-ui-configuration';
-
-const globalFrontendConfigurationAccess = getFrontendConfigurationForPackage('@neos-project/neos-ui-test-plugin');
-
-manifest('@neos-project/neos-ui-test-plugin', {}, ({frontendConfiguration}) => {
-    const legacyFrontendConfigurationAccess = frontendConfiguration['@neos-project/neos-ui-test-plugin'];
-
-    (window as any).neosUiTestPlugin = {
-        ...(window as any).neosUiTestPlugin,
-        legacyFrontendConfigurationAccess,
-    };
-});
+import * as module from './manifest';
 
 // register globally to fetch in e2e tests
-(window as any).neosUiTestPlugin = {
-    globalFrontendConfigurationAccess,
-};
+(window as any).neosUiTestPlugin = module;
+
+export type NeosUiTestPlugin = typeof module;

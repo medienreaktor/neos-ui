@@ -6,6 +6,8 @@ import {beforeEach, subSection, checkPropTypes} from '../../utils';
 fixture`Extensibility Plugin Api`.beforeEach(beforeEach).afterEach(() => checkPropTypes());
 
 test('Check plugin status via console', async t => {
+    subSection('Manifest boot');
+    await t.expect(ClientFunction(() => window.neosUiTestPlugin.manifestInvocations)()).eql(1);
 
     subSection('Frontend Configuration Access');
     await t.expect(ClientFunction(() => window.neosUiTestPlugin.globalFrontendConfigurationAccess)()).eql(
