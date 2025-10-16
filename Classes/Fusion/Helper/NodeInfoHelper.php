@@ -454,7 +454,7 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
         $arguments = UriHelper::parseQueryIntoArguments($sitePreviewUri);
         return (string)UriHelper::uriWithArguments(
             $sitePreviewUri,
-            [...$arguments, 'node' => $node->getContextPath()],
+            array_merge($arguments, ['node' => $node->getContextPath()]),
         );
     }
 
