@@ -104,7 +104,9 @@ class StyleAndJavascriptInclusionService
                 if ($this->cacheBusterParameter) {
                     // Calculate cache buster value
                     $resourceExpressionMd5 = md5_file($resourceExpression);
-                    assert($resourceExpressionMd5 !== false);
+                    if ($resourceExpressionMd5 === false) {
+                        throw new \RuntimeException(sprintf('Could not calculate cache buster for resource path %s', $resourceExpression), 1760701200);
+                    }
                     $hash = substr($resourceExpressionMd5, 0, 8);
                 }
                 $resourceExpression = $this->resourceManager->getPublicPackageResourceUriByPath($resourceExpression);
