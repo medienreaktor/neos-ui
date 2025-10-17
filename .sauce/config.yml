@@ -10,6 +10,8 @@ sauce:
     tags:
       - e2e
     build: Github Run $GITHUB_RUN_ID
+  tunnel:
+    name: "neos-ui-tunnel"
 testcafe:
   version: 3.6.2
 # Controls what files are available in the context of a test run (unless explicitly excluded by .sauceignore).

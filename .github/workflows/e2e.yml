@@ -129,6 +129,7 @@ jobs:
         uses: saucelabs/saucectl-run-action@v4
         with:
           working-directory: ${{ env.FLOW_PATH_ROOT }}/Packages/Application/Neos.Neos.Ui
+          tunnel-name: 'neos-ui-tunnel'
 
       - name: Show testcafe output
         if: ${{ always() }}
