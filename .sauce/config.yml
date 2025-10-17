@@ -8,8 +8,8 @@ sauce:
   retries: 0
   metadata:
     tags:
-      - $TARGET_BRANCH
-    build: $TARGET_BRANCH $CIRCLE_PR_NUMBER
+      - e2e
+    build: Github Run $GITHUB_RUN_ID
   tunnel:
     name: "circleci-tunnel"
 testcafe:
