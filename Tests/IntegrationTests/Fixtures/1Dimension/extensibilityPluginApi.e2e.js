@@ -13,6 +13,7 @@ test('Check plugin status via developer api (console)', async t => {
 
     subSection('Create and access custom registry');
     await t.expect(ClientFunction(() => window.neosUiTestPlugin.getPluginRegistryValue())()).eql('some value from my registry');
+    await t.expect(ClientFunction(() => window.neosUiTestPlugin.getPluginLegacyRegistryValue())()).eql('some value from my legacy registry');
 
     subSection('Neos Ui Configuration Access');
     await t.expect(ClientFunction(() => window.neosUiTestPlugin.globalConfigurationAccess)()).eql('loadingDepth type number');

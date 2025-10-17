@@ -1,4 +1,4 @@
-import manifest from '@neos-project/neos-ui-extensibility';
+import manifest, {SynchronousRegistry as LegacySynchronousRegistry} from '@neos-project/neos-ui-extensibility';
 import {getConfiguration, getFrontendConfigurationForPackage} from '@neos-project/neos-ui-configuration';
 import {getGlobalRegistry, getRegistryById, SynchronousRegistry} from "@neos-project/neos-ui-registry";
 
@@ -20,6 +20,10 @@ export function getPluginRegistryValue() {
     return getRegistryById('@neos-project/neos-ui-test-plugin-registry').get('someKey');
 }
 
+export function getPluginLegacyRegistryValue() {
+    return getRegistryById('@neos-project/neos-ui-test-plugin-legacy-registry').get('someKey');
+}
+
 manifest('@neos-project/neos-ui-test-plugin', {}, (globalRegistry, {frontendConfiguration, configuration}) => {
     manifestInvocations++;
     legacyGlobalRegistryAccess = `global registry type ${typeof globalRegistry} name ${globalRegistry.constructor.name}`;
@@ -31,4 +35,9 @@ manifest('@neos-project/neos-ui-test-plugin', {}, (globalRegistry, {frontendConf
     globalRegistry.set('@neos-project/neos-ui-test-plugin-registry', myCustomRegistry);
 
     myCustomRegistry.set('someKey', 'some value from my registry');
+
+    const legacyMyCustomRegistry = new LegacySynchronousRegistry<string>('My legacy registry');
+    globalRegistry.set('@neos-project/neos-ui-test-plugin-legacy-registry', legacyMyCustomRegistry);
+
+    legacyMyCustomRegistry.set('someKey', 'some value from my legacy registry');
 });

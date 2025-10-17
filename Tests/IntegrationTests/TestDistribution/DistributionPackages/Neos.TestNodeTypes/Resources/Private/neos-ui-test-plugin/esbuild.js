@@ -11,8 +11,8 @@ const options = {
     outdir: '../../Public/Javascript',
     alias: {
         ...extensibilityMap,
-        // ensure we use the 'dist' build of the extensibility like we would when this is published to NMP
-        '@neos-project/neos-ui-extensibility': '@neos-project/neos-ui-extensibility/dist/'
+        // ensure we use the published api of the extensibility like we would when this is published to NMP
+        '@neos-project/neos-ui-extensibility': '@neos-project/neos-ui-extensibility/plugin-api.js'
     }
 }
 
@@ -32,7 +32,11 @@ esbuild.build(options).then(result => {
             continue;
         }
         if (inputPath.startsWith('../../../../../../../../packages/neos-ui-extensibility/dist/')) {
-            // the extensibility api and its accessors to stubs
+            // the extensibility accessors to stubs
+            continue;
+        }
+        if (inputPath === '../../../../../../../../packages/neos-ui-extensibility/plugin-api.js') {
+            // the extensibility api
             continue;
         }
         throw new Error(`Invalid input ${inputPath} (${JSON.stringify(inputMetaData)}), only src files and 'neos-ui-extensibility' must be bundled!`);
