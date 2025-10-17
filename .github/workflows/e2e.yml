@@ -119,7 +119,7 @@ jobs:
             echo 127.0.0.1 onedimension.localhost | sudo tee -a /etc/hosts
             echo 127.0.0.1 twodimensions.localhost | sudo tee -a /etc/hosts
             cd ${FLOW_PATH_ROOT}
-            ./flow server:run --port 8081 &
+            ./flow server:run --port 8081
 
           wait-on: |
             http://onedimension.localhost:8081/neos/login
