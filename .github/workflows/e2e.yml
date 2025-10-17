@@ -113,17 +113,16 @@ jobs:
           ./flow user:create --username=editor --password=editor --first-name=Editor --last-name=McEditworth --roles=Editor
 
       - name: Start flow server (in background)
-        uses: JarvusInnovations/background-action@v1
-        with:
-          run: |
-            echo 127.0.0.1 onedimension.localhost | sudo tee -a /etc/hosts
-            echo 127.0.0.1 twodimensions.localhost | sudo tee -a /etc/hosts
-            cd ${FLOW_PATH_ROOT}
-            ./flow server:run --port 8081
-
-          wait-on: |
-            http://onedimension.localhost:8081/neos/login
-            http://twodimensions.localhost:8081/neos/login
+        run: |
+          echo 127.0.0.1 onedimension.localhost | sudo tee -a /etc/hosts
+          echo 127.0.0.1 twodimensions.localhost | sudo tee -a /etc/hosts
+          cat /etc/hosts
+          cd ${FLOW_PATH_ROOT}
+          ./flow server:run --port 8081 &
+          sleep 1
+          curl http://127.0.0.1:8081/neos/login
+          curl http://onedimension.localhost:8081 --head
+          curl http://twodimensions.localhost:8081 --head
 
       - name: Run e2e tests
         uses: saucelabs/saucectl-run-action@v4
