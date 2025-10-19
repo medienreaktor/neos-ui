@@ -121,8 +121,19 @@ jobs:
                 frontendDevelopmentMode: true
           EOF
           ./flow doctrine:migrate
-          ./flow user:create --username=admin --password=admin --first-name=Admin --last-name=Admington --roles=Administrator
-          ./flow user:create --username=editor --password=editor --first-name=Editor --last-name=McEditworth --roles=Editor
+
+      - name: Setup Testing Neos Sites and Users
+        run: |
+          ./flow cr:setup --content-repository onedimension
+          ./flow site:pruneAll --content-repository onedimension --force --verbose
+          ./flow site:importAll --content-repository onedimension --package-key Neos.Test.OneDimension --verbose
+
+          ./flow cr:setup --content-repository twodimensions
+          ./flow site:pruneAll --content-repository twodimensions --force --verbose
+          ./flow site:importAll --content-repository twodimensions --package-key Neos.Test.TwoDimensions --verbose
+
+          ./flow user:create --username=admin --password=admin --first-name=Admin --last-name=Admington --roles=Administrator || true
+          ./flow user:create --username=editor --password=editor --first-name=Editor --last-name=McEditworth --roles=Editor || true
 
       - name: Start flow server (in background)
         run: |
