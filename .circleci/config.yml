@@ -1,0 +1,10 @@
+version: 2.1
+
+general:
+  branches:
+    only:
+      - 8.3
+      - 8.4
+
+# disabled starting with Neos 9.0 and to be removed eventually. Kept as we keep the CI hook active for Neos 8.x
+
