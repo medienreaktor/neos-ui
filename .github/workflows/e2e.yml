@@ -126,9 +126,12 @@ jobs:
 
       - name: Run e2e tests
         uses: saucelabs/saucectl-run-action@v4
+        env:
+          SAUCE_PROXY_LOCALHOST: "allow"
         with:
           working-directory: ${{ env.FLOW_PATH_ROOT }}/Packages/Application/Neos.Neos.Ui
-          tunnel-name: 'neos-ui-tunnel'
+          region: "us-west-1"
+          tunnel-name: "circleci-tunnel"
 
       - name: Show testcafe output
         if: ${{ always() }}
