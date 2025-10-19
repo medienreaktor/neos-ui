@@ -86,7 +86,7 @@ jobs:
           cd ${FLOW_PATH_ROOT}
           composer config --no-plugins allow-plugins.neos/composer-plugin true
           composer config repositories.package '{ "type": "path", "url": "../neos-ui", "options": { "symlink": false } }'
-          composer config repositories.package '{ "type": "path", "url": "../neos-ui/Tests/IntegrationTests/TestDistribution/DistributionPackages", "options": { "symlink": false } }'
+          composer config repositories.package '{ "type": "path", "url": "../neos-ui/Tests/IntegrationTests/TestDistribution/DistributionPackages/*", "options": { "symlink": false } }'
           composer require --no-update --no-interaction neos/neos-ui:@dev
           composer require --no-update --no-interaction neos/test-onedimension:@dev
           composer require --no-update --no-interaction neos/test-twodimensions:@dev
