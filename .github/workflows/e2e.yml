@@ -145,9 +145,12 @@ jobs:
           cd ${FLOW_PATH_ROOT}
           ./flow server:run --port 8081 &
 
+      - name: Start e2e tunnel (in background)
+        run: |
+          sc run --tunnel-name "neos-tunnel" --region "us-west-1" --proxy-localhost allow &
+
       - name: Run e2e tests
         run: |
-          sc run --tunnel-name "neos-tunnel" --region "us-west-1" --proxy-localhost allow
           saucectl run --config .sauce/config.yml --tunnel-name "neos-tunnel" --region "us-west-1"
 
       - name: Show testcafe output
