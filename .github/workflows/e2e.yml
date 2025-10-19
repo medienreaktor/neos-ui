@@ -124,14 +124,21 @@ jobs:
           curl http://onedimension.localhost:8081 --head
           curl http://twodimensions.localhost:8081 --head
 
+      - name: Install sauce connect
+        run: |
+          curl -L -o sauce-connect.deb https://saucelabs.com/downloads/sauce-connect/5.1.3/sauce-connect_5.1.3.linux_amd64.deb
+          sudo dpkg -i sauce-connect.deb
+
       - name: Run e2e tests
-        uses: saucelabs/saucectl-run-action@v4
-        env:
-          SAUCE_PROXY_LOCALHOST: "allow"
-        with:
-          working-directory: ${{ env.FLOW_PATH_ROOT }}/Packages/Application/Neos.Neos.Ui
-          region: "us-west-1"
-          tunnel-name: "circleci-tunnel"
+        run: |
+          sc run --tunnel-name "circleci-tunnel" --region "us-west-1" --proxy-localhost allow
+        # uses: saucelabs/saucectl-run-action@v4
+        # env:
+        #   SAUCE_PROXY_LOCALHOST: "allow"
+        # with:
+        #   working-directory: ${{ env.FLOW_PATH_ROOT }}/Packages/Application/Neos.Neos.Ui
+        #   region: "us-west-1"
+        #   tunnel-name: "circleci-tunnel"
 
       - name: Show testcafe output
         if: ${{ always() }}
