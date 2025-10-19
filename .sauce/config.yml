@@ -2,7 +2,6 @@ apiVersion: v1alpha
 kind: testcafe
 showConsoleLog: true
 sauce:
-  region: us-west-1
   concurrency: 1 # Controls how many suites are executed at the same time.
   # todo fix and enable retries
   retries: 0
@@ -10,8 +9,6 @@ sauce:
     tags:
       - e2e
     build: Github Run $GITHUB_RUN_ID
-  tunnel:
-    name: "circleci-tunnel"
 testcafe:
   version: 3.6.2
 # Controls what files are available in the context of a test run (unless explicitly excluded by .sauceignore).
