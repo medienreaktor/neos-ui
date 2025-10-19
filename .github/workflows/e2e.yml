@@ -154,7 +154,7 @@ jobs:
 
       - name: Run e2e tests
         run: |
-          saucectl run --config .sauce/config.yml --tunnel-name "neos-tunnel" --region "us-west-1"
+          saucectl run --config .sauce/config.yml --tunnel-name "neos-tunnel" --region "us-west-1" --artifacts.download.directory ${{ env.FLOW_PATH_ROOT }}/Data/Logs/saucelabs-artifacts
 
       - name: Show testcafe output
         if: ${{ always() }}
