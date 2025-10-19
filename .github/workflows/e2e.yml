@@ -124,6 +124,7 @@ jobs:
 
       - name: Setup Testing Neos Sites and Users
         run: |
+          cd ${FLOW_PATH_ROOT}
           ./flow cr:setup --content-repository onedimension
           ./flow site:pruneAll --content-repository onedimension --force --verbose
           ./flow site:importAll --content-repository onedimension --package-key Neos.Test.OneDimension --verbose
