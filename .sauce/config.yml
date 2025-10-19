@@ -40,6 +40,7 @@ artifacts:
       - sauce-test-report.json
     when: always
     allAttempts: true
+    directory: Data/Logs/saucelabs-artifacts/
 
 reporters:
   json:
