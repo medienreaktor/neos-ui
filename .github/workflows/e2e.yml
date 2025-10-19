@@ -155,6 +155,7 @@ jobs:
 
       - name: Show testcafe output
         if: ${{ always() }}
+        shell: bash
         run: |
           cd ${FLOW_PATH_ROOT}
           for file in Data/Logs/saucelabs-artifacts/**/console.log; do
@@ -164,9 +165,13 @@ jobs:
 
       - name: Show Flow log on failure
         if: ${{ failure()  }}
+        shell: bash
         run: |
           cd ${FLOW_PATH_ROOT}
-          cat Data/Logs/System_Testing.log
+          for file in Data/Logs/*.log; do
+            echo $file
+            cat $file
+          done
           for file in Data/Logs/Exceptions/*; do
             echo $file
             cat $file
