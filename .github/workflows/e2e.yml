@@ -66,6 +66,14 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
 
+      - name: Install npm dependencies
+        run: |
+          make install
+
+      - name: Build for js for e2e
+        run: |
+          make build-e2e-testing
+
       - name: Prepare Neos distribution
         run: |
           cd "../neos-ui"
@@ -78,15 +86,11 @@ jobs:
           cd ${FLOW_PATH_ROOT}
           composer config --no-plugins allow-plugins.neos/composer-plugin true
           composer config repositories.package '{ "type": "path", "url": "../neos-ui", "options": { "symlink": false } }'
+          composer config repositories.package '{ "type": "path", "url": "../neos-ui/Tests/IntegrationTests/TestDistribution/DistributionPackages", "options": { "symlink": false } }'
           composer require --no-update --no-interaction neos/neos-ui:@dev
-
-      - name: Install npm dependencies
-        run: |
-          make install
-
-      - name: Build for js for e2e
-        run: |
-          make build-e2e-testing
+          composer require --no-update --no-interaction neos/test-onedimension:@dev
+          composer require --no-update --no-interaction neos/test-twodimensions:@dev
+          composer require --no-update --no-interaction neos/test-nodetypes:@dev
 
       - name: Install sauce connect
         run: |
@@ -112,6 +116,9 @@ jobs:
                   user: 'neos'
                   password: 'neos'
                   dbname: 'neos'
+            Neos:
+              Ui:
+                frontendDevelopmentMode: true
           EOF
           ./flow doctrine:migrate
           ./flow user:create --username=admin --password=admin --first-name=Admin --last-name=Admington --roles=Administrator
