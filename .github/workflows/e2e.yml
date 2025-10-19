@@ -118,6 +118,7 @@ jobs:
                   user: 'neos'
                   password: 'neos'
                   dbname: 'neos'
+
             Neos:
               Ui:
                 frontendDevelopmentMode: true
@@ -143,6 +144,8 @@ jobs:
           echo 127.0.0.1 onedimension.localhost | sudo tee -a /etc/hosts
           echo 127.0.0.1 twodimensions.localhost | sudo tee -a /etc/hosts
           cd ${FLOW_PATH_ROOT}
+          chmod 777 Web/
+          ./flow resource:publish
           ./flow server:run --port 8081 &
 
       - name: Start e2e tunnel (in background)
