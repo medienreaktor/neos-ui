@@ -95,6 +95,7 @@ const ContextToolbar: React.FC<ContextToolbarProps> = ({
     const focusedNodeTypeIcon = focusedNodeType?.ui?.icon || 'cube';
 
     const buttons = guestFrameRegistry.getChildren('NodeToolbar/SecondaryButtons');
+    const contextButtons = guestFrameRegistry.getChildren('NodeToolbar/ContextButtons');
 
     const classNames = mergeClassNames({
         [style.contextToolBar]: true,
@@ -110,6 +111,7 @@ const ContextToolbar: React.FC<ContextToolbarProps> = ({
     return (
         <div className={classNames} id="inline-ui-toolbar-popover">
             <div className={style.toolBar} data-ignore_click_outside="true">
+                {contextButtons.map((Item: ReactElement, key) => <Item key={key} {...buttonProps} />)}
                 <span className={style.contextToolbar__nodeLabel}>
                     <Icon icon={focusedNodeTypeIcon}/>
                     {focusedNodeLabel}

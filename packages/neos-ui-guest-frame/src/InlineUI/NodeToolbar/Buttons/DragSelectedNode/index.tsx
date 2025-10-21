@@ -86,6 +86,7 @@ const DragSelectedNode: React.FC<DragSelectedNodeProps> = ({
                 icon="grip-vertical"
                 hoverStyle="brand"
                 title={title}
+                size="small"
             />
         </div>
     );

@@ -76,3 +76,7 @@
     background: var(--colors-PrimaryBlue);
     position-try-fallbacks: --context-menu-align-right;
 }
+
+.toolBar__contextMenu button {
+    justify-content: space-between;
+}
