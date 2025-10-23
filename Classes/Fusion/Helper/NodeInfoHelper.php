@@ -104,7 +104,7 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
             // ensure _isHidden is sent to hidden nodes are correctly shown in the tree.
             // TODO: we should export this correctly named, but that needs changes throughout the JS code as well.
             '_hidden' => $node->tags->withoutInherited()->contain(NeosSubtreeTag::disabled()),
-            '_hiddenInIndex' => $node->getProperty('hiddenInMenu'),
+            'hiddenInMenu' => $node->getProperty('hiddenInMenu'),
             '_hasTimeableNodeVisibility' =>
                 $node->getProperty('enableAfterDateTime') instanceof \DateTimeInterface
                 || $node->getProperty('disableAfterDateTime') instanceof \DateTimeInterface,
