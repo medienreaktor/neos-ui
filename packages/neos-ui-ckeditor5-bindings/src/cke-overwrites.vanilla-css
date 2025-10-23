@@ -104,7 +104,7 @@
     --ck-focus-disabled-outer-shadow: none;
     --ck-focus-ring: 0;
 
-    --ck-inner-shadow: 2px 2px 3px var(--ck-color-shadow-inner) inset;
+    --ck-inner-shadow: none;
     --ck-drop-shadow: 0 1px 2px 1px var(--ck-color-shadow-drop);
 
     --ck-spacing-unit: 0.6em;
@@ -139,4 +139,8 @@
 a.ck.ck-button {
     margin: 0;
     border: none;
+}
+
+.ck.ck-editor__editable_inline {
+    border: 0;
 }
