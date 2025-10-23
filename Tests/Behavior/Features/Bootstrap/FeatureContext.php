@@ -12,6 +12,7 @@ use Neos\ContentRepository\TestSuite\Behavior\Features\Bootstrap\CRTestSuiteTrai
 use Neos\ContentRepository\TestSuite\Fakes\FakeContentDimensionSourceFactory;
 use Neos\ContentRepository\TestSuite\Fakes\FakeNodeTypeManagerFactory;
 use Neos\ContentRepositoryRegistry\ContentRepositoryRegistry;
+use Neos\Neos\Tests\Behavior\Features\Bootstrap\WorkspaceServiceTrait;
 
 // phpcs:ignore PSR1.Classes.ClassDeclaration.MissingNamespace
 class FeatureContext implements Context
@@ -20,6 +21,8 @@ class FeatureContext implements Context
     use FlowEntitiesTrait;
     use CRTestSuiteTrait;
     use CRBehavioralTestsSubjectProvider;
+    use NeosUiChangeTrait;
+    use WorkspaceServiceTrait;
 
     private ContentRepositoryRegistry $contentRepositoryRegistry;
 
