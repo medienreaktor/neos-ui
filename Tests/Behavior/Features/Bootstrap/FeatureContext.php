@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+require_once __DIR__ . '/../../../../../../Neos/Neos.Neos/Tests/Behavior/Features/Bootstrap/RoutingTrait.php';
+require_once __DIR__ . '/../../../../../../Neos/Neos.Neos/Tests/Behavior/Features/Bootstrap/ExceptionsTrait.php';
+require_once __DIR__ . '/../../../../../../Neos/Neos.Neos/Tests/Behavior/Features/Bootstrap/WorkspaceServiceTrait.php';
+require_once __DIR__ . '/../../../../../../Neos/Neos.Neos/Tests/Behavior/Features/Bootstrap/UserServiceTrait.php';
+require_once __DIR__ . '/../../../../../../Neos/Neos.Neos/Tests/Behavior/Features/Bootstrap/FlowSecurityTrait.php';
+require_once __DIR__ . '/../../../../../../Neos/Neos.Neos/Tests/Behavior/Features/Bootstrap/ContentRepositorySecurityTrait.php';
+require_once __DIR__ . '/../../../../../../Neos/Neos.Neos/Tests/Behavior/Features/Bootstrap/UserServiceTrait.php';
+
 use Behat\Behat\Context\Context;
 use Neos\Behat\FlowBootstrapTrait;
 use Neos\Behat\FlowEntitiesTrait;
@@ -12,7 +22,6 @@ use Neos\ContentRepository\TestSuite\Behavior\Features\Bootstrap\CRTestSuiteTrai
 use Neos\ContentRepository\TestSuite\Fakes\FakeContentDimensionSourceFactory;
 use Neos\ContentRepository\TestSuite\Fakes\FakeNodeTypeManagerFactory;
 use Neos\ContentRepositoryRegistry\ContentRepositoryRegistry;
-use Neos\Neos\Tests\Behavior\Features\Bootstrap\WorkspaceServiceTrait;
 
 // phpcs:ignore PSR1.Classes.ClassDeclaration.MissingNamespace
 class FeatureContext implements Context
@@ -22,7 +31,9 @@ class FeatureContext implements Context
     use CRTestSuiteTrait;
     use CRBehavioralTestsSubjectProvider;
     use NeosUiChangeTrait;
-    use WorkspaceServiceTrait;
+    use ContentRepositorySecurityTrait;
+    use UserServiceTrait;
+    use RoutingTrait;
 
     private ContentRepositoryRegistry $contentRepositoryRegistry;
 

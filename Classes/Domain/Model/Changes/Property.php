@@ -307,11 +307,17 @@ class Property extends AbstractChange
         if (!$subject->dimensionSpacePoint->equals($originDimensionSpacePoint)) {
             $originDimensionSpacePoint = OriginDimensionSpacePoint::fromDimensionSpacePoint($subject->dimensionSpacePoint);
             // if origin dimension space point != current DSP -> translate transparently (matching old behavior)
+            $nodeToVary = $subject;
+            $subgraph = $this->contentRepositoryRegistry->subgraphForNode($subject);
+            // if the node to vary is tethered, traverse to the closest non-tethered ancestor and vary that one instead
+            while ($nodeToVary->classification->isTethered()) {
+                $nodeToVary = $subgraph->findParentNode($nodeToVary->aggregateId);
+            }
             $contentRepository->handle(
                 CreateNodeVariant::create(
                     $subject->workspaceName,
-                    $subject->aggregateId,
-                    $subject->originDimensionSpacePoint,
+                    $nodeToVary->aggregateId,
+                    $nodeToVary->originDimensionSpacePoint,
                     $originDimensionSpacePoint
                 )
             );
