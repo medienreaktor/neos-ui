@@ -13,20 +13,33 @@
 }
 
 /* anchors the CK toolbars at the top of the edited text property */
+@position-try --neos-ck-toolbar-align-right {
+    left: auto;
+    right: anchor(right);
+}
 .ck.ck-toolbar.neos-ck-anchored-toolbar {
     position: fixed;
     bottom: anchor(top);
     left: anchor(left);
-    right: anchor(right);
     width: min-content;
-    max-width: stretch;
+    max-width: 400px;
     display: none;
+    position-try-fallbacks: --neos-ck-toolbar-align-right;
 }
 .ck.ck-toolbar.neos-ck-anchored-toolbar--visible {
     display: flex;
 }
 .ck.ck-toolbar.neos-ck-anchored-toolbar--visible:hover {
     z-index: 2147483646;
+}
+
+/**
+ * Reduce size of ck toolbar to match Neos UI design which has not spacing around buttons
+ */
+.ck.ck-toolbar > .ck-toolbar__items > *:not(.ck-toolbar__line-break),
+.ck.ck-toolbar > .ck.ck-toolbar__grouped-dropdown {
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 /*
@@ -70,6 +83,7 @@
     --ck-color-split-button-hover-background: var(--ck-color-base-active-focus);
     --ck-color-button-default-active-background: var(--ck-color-base-active);
     --ck-color-button-default-disabled-background: transparent;
+    --ck-color-button-on-hover-background: var(--ck-color-base-active-focus);
 
     --ck-color-focus-border: #35c3f8;
     --ck-color-focus-shadow: rgba(119, 186, 248, .5);
@@ -86,9 +100,9 @@
     --ck-color-widget-drag-handle-icon-color: var(--ck-color-base-background);
 
     --ck-focus-outer-shadow-geometry: 0 0 0 3px;
-    --ck-focus-outer-shadow: var(--ck-focus-outer-shadow-geometry) var(--ck-color-focus-shadow);
-    --ck-focus-disabled-outer-shadow: var(--ck-focus-outer-shadow-geometry) var(--ck-color-focus-disabled-shadow);
-    --ck-focus-ring: 1px solid var(--ck-color-focus-border);
+    --ck-focus-outer-shadow: none;
+    --ck-focus-disabled-outer-shadow: none;
+    --ck-focus-ring: 0;
 
     --ck-inner-shadow: 2px 2px 3px var(--ck-color-shadow-inner) inset;
     --ck-drop-shadow: 0 1px 2px 1px var(--ck-color-shadow-drop);
