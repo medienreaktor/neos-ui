@@ -1,5 +1,4 @@
 import React, {ReactElement, useCallback, useEffect, useRef, useState} from 'react';
-import {connect} from 'react-redux';
 import mergeClassNames from 'classnames';
 import debounce from 'lodash.debounce';
 
@@ -7,12 +6,11 @@ import {findNodeInGuestFrame, getGuestFrameWindow} from '@neos-project/neos-ui-g
 import {Icon, IconButton} from '@neos-project/react-ui-components';
 import {translate} from '@neos-project/neos-ui-i18n';
 import {neos} from '@neos-project/neos-ui-decorators';
-import {selectors} from '@neos-project/neos-ui-redux-store';
-import {GlobalState} from '@neos-project/neos-ui-redux-store/src/System';
-
-import style from './style.module.css';
+import {selectors, useSelector} from '@neos-project/neos-ui-redux-store';
 import {NodeTypesRegistry} from '@neos-project/neos-ts-interfaces';
 import {SynchronousRegistry} from '@neos-project/neos-ui-extensibility';
+
+import style from './style.module.css';
 
 const HTML_ENTITIES: Record<string, string> = {
     '&amp;': '&',
@@ -38,17 +36,12 @@ const formatNodeLabel = (label: string, maxLength = 20) => {
     return nodeLabel.substring(0, maxLength) + (nodeLabel.length > maxLength ? '…' : '');
 }
 
-const withReduxState = connect((state: GlobalState) => ({
-    focusedNode: selectors.CR.Nodes.focusedSelector(state),
-}));
-
 const withNeosGlobals = neos((globalRegistry) => ({
     nodeTypesRegistry: globalRegistry.get('@neos-project/neos-ui-contentrepository'),
     guestFrameRegistry: globalRegistry.get('@neos-project/neos-ui-guest-frame'),
 }));
 
 type ContextToolbarProps = {
-    focusedNode: { label: string, nodeType: string, contextPath: string };
     buttonProps?: { [key: string]: any };
     nodeTypesRegistry: NodeTypesRegistry;
     guestFrameRegistry: SynchronousRegistry<ReactElement>;
@@ -56,17 +49,20 @@ type ContextToolbarProps = {
 }
 
 const ContextToolbar: React.FC<ContextToolbarProps> = ({
-    focusedNode,
     buttonProps,
     nodeTypesRegistry,
     guestFrameRegistry,
     fusionPath,
 }) => {
+    const focusedNode = useSelector(selectors.CR.Nodes.focusedSelector);
     const iframeWindow = useRef(getGuestFrameWindow()).current;
     const [isSticky, setIsSticky] = useState(false);
     const debouncedStickyRef = useRef();
 
     const updateStickiness = useCallback(() => {
+        if (!focusedNode) {
+            return;
+        }
         const nodeElement = findNodeInGuestFrame(focusedNode.contextPath, fusionPath);
         if (nodeElement) {
             const {top, bottom} = nodeElement.getBoundingClientRect();
@@ -90,8 +86,8 @@ const ContextToolbar: React.FC<ContextToolbarProps> = ({
         };
     }, [updateStickiness]);
 
-    const focusedNodeType = nodeTypesRegistry.get(focusedNode.nodeType);
-    const focusedNodeLabel = formatNodeLabel(focusedNode.label);
+    const focusedNodeType = focusedNode ? nodeTypesRegistry.get(focusedNode.nodeType) : null;
+    const focusedNodeLabel = focusedNode ? formatNodeLabel(focusedNode.label) : null;
     const focusedNodeTypeIcon = focusedNodeType?.ui?.icon || 'cube';
 
     const buttons = guestFrameRegistry.getChildren('NodeToolbar/SecondaryButtons');
@@ -141,4 +137,4 @@ const ContextToolbar: React.FC<ContextToolbarProps> = ({
     );
 }
 
-export default React.memo(withReduxState(withNeosGlobals(ContextToolbar as any)));
+export default React.memo(withNeosGlobals(ContextToolbar as any));

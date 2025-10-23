@@ -1,6 +1,4 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-// @ts-ignore
-import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 // @ts-ignore
 import debounce from 'lodash.debounce';
@@ -13,20 +11,23 @@ import {
     isElementVisibleInGuestFrame
 } from '@neos-project/neos-ui-guest-frame/src/dom';
 import {neos} from '@neos-project/neos-ui-decorators';
-import {selectors} from '@neos-project/neos-ui-redux-store';
+import {selectors, useSelector} from '@neos-project/neos-ui-redux-store';
 import {InsertPosition, NodeTypesRegistry} from "@neos-project/neos-ts-interfaces";
 
 import StructuralToolbar from './StructuralToolbar';
 import ContextToolbar from './ContextToolbar';
 
 import style from './style.module.css';
-import {GlobalState} from "@neos-project/neos-ui-redux-store/src/System";
+
+const withNeosGlobals = neos((globalRegistry) => ({
+    nodeTypesRegistry: globalRegistry.get('@neos-project/neos-ui-contentrepository'),
+    i18nRegistry: globalRegistry.get('i18n'),
+}));
 
 type NodeToolbarProps = {
     canBeDeleted: boolean;
     canBeEdited: boolean;
     destructiveOperationsAreDisabled: boolean;
-    focusedNode?: {nodeType: string, contextPath: string};
     fusionPath?: string;
     i18nRegistry: any;
     isCopied: boolean;
@@ -42,7 +43,6 @@ const NodeToolbar: React.FC<NodeToolbarProps> = ({
     canBeDeleted,
     canBeEdited,
     destructiveOperationsAreDisabled,
-    focusedNode,
     fusionPath,
     i18nRegistry,
     isCopied,
@@ -53,6 +53,7 @@ const NodeToolbar: React.FC<NodeToolbarProps> = ({
     visibilityCanBeToggled,
     visible,
 }) => {
+    const focusedNode = useSelector(selectors.CR.Nodes.focusedSelector);
     const [insertPosition, setInsertPosition] = useState<InsertPosition>(InsertPosition.AFTER);
     const [anchorPosition, setAnchorPosition] = useState<{top: number, left: number, height: number, right: number, width: number}|null>(null);
 
@@ -220,11 +221,4 @@ NodeToolbar.propTypes = {
     nodeTypesRegistry: PropTypes.object.isRequired
 };
 
-const ConnectedNodeToolbar = connect((state: GlobalState) => ({
-    focusedNode: selectors.CR.Nodes.focusedSelector(state),
-}))(React.memo(NodeToolbar));
-
-export default neos(globalRegistry => ({
-    nodeTypesRegistry: globalRegistry.get('@neos-project/neos-ui-contentrepository'),
-    i18nRegistry: globalRegistry.get('i18n'),
-}))(ConnectedNodeToolbar);
+export default React.memo(withNeosGlobals(NodeToolbar as any));

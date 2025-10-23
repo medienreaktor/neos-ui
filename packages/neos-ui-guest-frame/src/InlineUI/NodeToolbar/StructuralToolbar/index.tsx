@@ -1,5 +1,4 @@
 import React, {ReactElement} from 'react';
-import {connect} from 'react-redux';
 import mergeClassNames from 'classnames';
 
 import {InsertPosition} from "@neos-project/neos-ts-interfaces";
@@ -7,9 +6,6 @@ import {neos} from "@neos-project/neos-ui-decorators";
 import {SynchronousRegistry} from "@neos-project/neos-ui-extensibility";
 
 import style from './style.module.css';
-import {GlobalState} from "@neos-project/neos-ui-redux-store/src/System";
-
-const withReduxState = connect((_state: GlobalState) => ({}));
 
 const withNeosGlobals = neos((globalRegistry) => ({
     guestFrameRegistry: globalRegistry.get('@neos-project/neos-ui-guest-frame'),
@@ -41,4 +37,4 @@ const StructuralToolbar: React.FC<StructuralToolbarProps> = ({insertPosition, bu
     );
 }
 
-export default React.memo(withReduxState(withNeosGlobals(StructuralToolbar as any)));
+export default React.memo(withNeosGlobals(StructuralToolbar as any));
