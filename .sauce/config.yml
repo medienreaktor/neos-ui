@@ -2,16 +2,13 @@ apiVersion: v1alpha
 kind: testcafe
 showConsoleLog: true
 sauce:
-  region: us-west-1
   concurrency: 1 # Controls how many suites are executed at the same time.
   # todo fix and enable retries
   retries: 0
   metadata:
     tags:
-      - $TARGET_BRANCH
-    build: $TARGET_BRANCH $CIRCLE_PR_NUMBER
-  tunnel:
-    name: "circleci-tunnel"
+      - e2e
+    build: Github Run $GITHUB_RUN_ID
 testcafe:
   version: 3.6.2
 # Controls what files are available in the context of a test run (unless explicitly excluded by .sauceignore).
@@ -20,14 +17,14 @@ suites:
   - name: "Tests in Firefox on Windows"
     browserName: "firefox"
     src:
-      - "Tests/IntegrationTests/Fixtures/*/*.e2e.js"
+      - "Tests/IntegrationTests/Fixtures/*/*.e2e.{js,ts}"
     platformName: "Windows 10"
     screenResolution: "1280x1024"
   # todo use chrome here and fix ci https://github.com/neos/neos-ui/issues/3591 (but even firefox fails in ci)
   # - name: "Tests in Firefox on MacOS"
   #   browserName: "firefox"
   #   src:
-  #     - "Tests/IntegrationTests/Fixtures/*/*.e2e.js"
+  #     - "Tests/IntegrationTests/Fixtures/*/*.e2e.{js,ts}"
   #   platformName: "macOS 13"
   #   screenResolution: "1440x900"
 npm:
@@ -43,7 +40,7 @@ artifacts:
       - sauce-test-report.json
     when: always
     allAttempts: true
-    directory: ../../../Data/Logs/saucelabs-artifacts/
+    directory: Data/Logs/saucelabs-artifacts/
 
 reporters:
   json:

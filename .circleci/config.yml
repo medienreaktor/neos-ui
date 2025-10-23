@@ -1,227 +1,29 @@
 version: 2.1
 
-aliases:
-  - &workspace_root ~/neos-ui-workspace
-  - &store_yarn_package_cache
-    key: yarn-cache-v{{ .Environment.CIRCLE_WORKFLOW_ID }}-{{ checksum "yarn.lock" }}
-    paths:
-      - ~/.cache/yarn
+general:
+  branches:
+    only:
+      - 8.3
+      - 8.4
 
-  - &restore_yarn_package_cache
-    keys:
-      - yarn-cache-v{{ .Environment.CIRCLE_WORKFLOW_ID }}-{{ checksum "yarn.lock" }}
-
-  - &store_app_cache
-    key: full-app-cache-v{{ .Environment.CIRCLE_WORKFLOW_ID }}-{{ arch }}-{{ checksum "Tests/IntegrationTests/TestDistribution/composer.json" }}-{{ checksum "Tests/IntegrationTests/TestDistribution/Configuration/Settings.yaml" }}
-    paths:
-      - /home/circleci/app
-
-  - &restore_app_cache
-    keys:
-      - full-app-cache-v{{ .Environment.CIRCLE_WORKFLOW_ID }}-{{ arch }}-{{ checksum "Tests/IntegrationTests/TestDistribution/composer.json" }}-{{ checksum "Tests/IntegrationTests/TestDistribution/Configuration/Settings.yaml" }}
-      - full-app-cache-v{{ .Environment.CIRCLE_WORKFLOW_ID }}-{{ arch }}-{{ checksum "Tests/IntegrationTests/TestDistribution/composer.json" }}-
-      - full-app-cache-v{{ .Environment.CIRCLE_WORKFLOW_ID }}-{{ arch }}-
-
-  - &save_composer_cache
-    key: composer-cache-v{{ .Environment.CIRCLE_WORKFLOW_ID }}-{{ arch }}-{{ checksum "Tests/IntegrationTests/TestDistribution/composer.json" }}
-    paths:
-      - /home/circleci/composer/cache-dir
-
-  - &restore_composer_cache
-    keys:
-      - composer-cache-v{{ .Environment.CIRCLE_WORKFLOW_ID }}-{{ arch }}-{{ checksum "Tests/IntegrationTests/TestDistribution/composer.json" }}
-      - composer-cache-v{{ .Environment.CIRCLE_WORKFLOW_ID }}-{{ arch }}-
-
-  - &attach_workspace
-    at: *workspace_root
-
-  - &persist_to_workspace
-    root: .
-    paths:
-      - .
-
-orbs:
-  gh: circleci/github-cli@2.3.0
+# disabled starting with Neos 9.0 and to be removed eventually. Kept as we keep the CI hook active for Neos 8.x
 
 jobs:
-  checkout:
+  noop:
     docker:
       - image: cimg/node:20.9-browsers
-    environment:
-      FLOW_CONTEXT: Production
     steps:
-      - checkout
-      - restore_cache: *restore_yarn_package_cache
-
       - run: node --version
-      - run: curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
-      - run: chmod +x ~/.nvm/nvm.sh
-      - run: ~/.nvm/nvm.sh install && ~/.nvm/nvm.sh use
-      - run: sudo apt-get update --allow-releaseinfo-change && sudo apt-get install -y rsync
-      - run: make install && make build-e2e-testing
-
-      - save_cache: *store_yarn_package_cache
-      - persist_to_workspace: *persist_to_workspace
-
-  build_flow_app:
-    working_directory: *workspace_root
-    environment:
-      COMPOSER_CACHE_DIR: /home/circleci/composer/cache-dir
-    docker:
-      - image: cimg/php:8.2-node
-    steps:
-      - attach_workspace: *attach_workspace
-      - run: chmod -R 777 /home/circleci
-      - restore_cache: *restore_composer_cache
-
-      - run: mkdir -p /home/circleci/app/Configuration
-      - run: rm -rf /home/circleci/app && cp -r Tests/IntegrationTests/TestDistribution/ /home/circleci/app
-      - run: cd /home/circleci/app && composer install
-
-      - save_cache: *save_composer_cache
-      - save_cache: *store_app_cache
-
-  e2e:
-    environment:
-      FLOW_CONTEXT: Production
-      DB_HOST: 127.0.0.1
-    docker:
-      - image: cimg/php:8.2-node
-      - image: cimg/mariadb:10.6
-        environment:
-          MYSQL_DATABASE: neos
-          MYSQL_ROOT_PASSWORD: not_a_real_password
-    working_directory: *workspace_root
-    steps:
-      - checkout
-      - attach_workspace: *attach_workspace
-      - restore_cache: *restore_app_cache
-
-      - gh/install
-      - run:
-          name: Login to GitHub
-          command: |
-            echo $AUTH_TOKEN_GITHUB | gh auth login --with-token
-      - run:
-          name: Install Sauce Connect
-          command: |
-            curl -L -o sauce-connect.deb https://saucelabs.com/downloads/sauce-connect/5.1.3/sauce-connect_5.1.3.linux_amd64.deb
-            sudo dpkg -i sauce-connect.deb
-      - run: rm -rf /home/circleci/app/Packages/Application/Neos.Neos.Ui
-      - run: cd /home/circleci/app/Packages/Application && mv ~/neos-ui-workspace Neos.Neos.Ui
-      - run: |
-          cd /home/circleci/app/
-          ./flow flow:cache:flush
-          ./flow flow:cache:warmup
-          ./flow doctrine:migrate
-          ./flow user:create --username=admin --password=admin --first-name=Admin --last-name=Admington --roles=Administrator
-          ./flow user:create --username=editor --password=editor --first-name=Editor --last-name=McEditworth --roles=Editor
-      - run:
-          name: Start flow server
-          command: /home/circleci/app/flow server:run --port 8081
-          background: true
-
-      - run: curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
-      - run: chmod +x ~/.nvm/nvm.sh
-      - run:
-          name: Start Sauce Connect
-          background: true
-          command: sc run --username ${SAUCE_USERNAME} --access-key ${SAUCE_ACCESS_KEY} --tunnel-name "circleci-tunnel" --region "us-west-1" --proxy-localhost allow
-      - run:
-          name: Define target branch
-          command: |
-            # Get the target branch of the PR but when we are not one a PR, use the current branch
-            if [ -n "$CIRCLE_PULL_REQUEST" ]; then
-              TARGET_BRANCH=$(gh pr view $CIRCLE_PULL_REQUEST --json baseRefName --jq '.baseRefName')
-            else
-              TARGET_BRANCH=$CIRCLE_BRANCH
-            fi
-            echo "Target Branch: $TARGET_BRANCH"
-            # Save the variable to BASH_ENV to be able to access it in the next steps
-            echo "export TARGET_BRANCH=$TARGET_BRANCH" >> $BASH_ENV
-      - run:
-          name: Prepare and run e2e tests
-          no_output_timeout: 30m
-          command: |
-            echo "Using target branch: $TARGET_BRANCH"
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            cd /home/circleci/app/Packages/Application/Neos.Neos.Ui
-            nvm install
-            nvm use
-            echo 127.0.0.1 onedimension.localhost | sudo tee -a /etc/hosts
-            echo 127.0.0.1 twodimensions.localhost | sudo tee -a /etc/hosts
-            make test-e2e-saucelabs
-      - run:
-          name: Show testcafe output
-          command: |
-            for file in /home/circleci/app/Data/Logs/saucelabs-artifacts/**/console.log; do
-              echo $file
-              cat $file
-            done
-          when: always
-      - store_artifacts:
-          path: /home/circleci/app/Data/Logs
-      - persist_to_workspace:
-          root: /home/circleci/app/Data/Logs
-          paths:
-            - .
-
-  php-unittests:
-    environment:
-      FLOW_CONTEXT: Production
-    docker:
-      - image: cimg/php:8.2-node
-      - image: cimg/mariadb:10.6
-        environment:
-          MYSQL_DATABASE: neos
-          MYSQL_ROOT_PASSWORD: not_a_real_password
-    working_directory: *workspace_root
-    steps:
-      - attach_workspace: *attach_workspace
-      - restore_cache: *restore_app_cache
-
-      - run: rm -rf /home/circleci/app/Packages/Application/Neos.Neos.Ui
-      - run: cd /home/circleci/app/Packages/Application && mv ~/neos-ui-workspace Neos.Neos.Ui
-      - run: |
-          cd /home/circleci/app/
-          bin/phpunit -c Build/BuildEssentials/PhpUnit/UnitTests.xml Packages/Application/Neos.Neos.Ui/Tests/Unit
-
-  php-linting:
-    docker:
-      - image: cimg/php:8.2-node
-    working_directory: *workspace_root
-    steps:
-      - attach_workspace: *attach_workspace
-      - restore_cache: *restore_app_cache
-
-      - run: rm -rf /home/circleci/app/Packages/Application/Neos.Neos.Ui
-      - run: cd /home/circleci/app/Packages/Application && mv ~/neos-ui-workspace Neos.Neos.Ui
-      - run: |
-          cd /home/circleci/app/Packages/Application/Neos.Neos.Ui
-          composer run lint:phpstan
 
 workflows:
   version: 2
-  build_and_test:
+  noop-wf:
     jobs:
-      - checkout:
+      - noop:
           filters:
             tags:
               only:
-                - /^\d\.\d\.\d/
+                - /never/
             branches:
               only:
-                - /.*/
-      - build_flow_app:
-          requires:
-            - checkout
-      - e2e:
-          requires:
-            - build_flow_app
-      - php-unittests:
-          requires:
-            - build_flow_app
-      - php-linting:
-          requires:
-            - build_flow_app
+                - /never/
