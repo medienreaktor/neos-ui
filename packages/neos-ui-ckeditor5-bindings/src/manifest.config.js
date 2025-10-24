@@ -31,6 +31,7 @@ import Style from '@ckeditor/ckeditor5-style/src/style';
 import Subscript from "@ckeditor/ckeditor5-basic-styles/src/subscript";
 import Superscript from "@ckeditor/ckeditor5-basic-styles/src/superscript";
 import Table from '@ckeditor/ckeditor5-table/src/table';
+import TableCaption from '@ckeditor/ckeditor5-table/src/tablecaption';
 import TableToolbar from "@ckeditor/ckeditor5-table/src/tabletoolbar";
 import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline';
 import Undo from '@ckeditor/ckeditor5-undo/src/undo';
@@ -161,6 +162,7 @@ export default ckEditorRegistry => {
     config.set('linkDownload', addPlugin(LinkDownload, editorOptions => editorOptions?.formatting?.a));
     config.set('linkTitle', addPlugin(LinkTitle, editorOptions => editorOptions?.formatting?.a));
     config.set('table', addPlugin(Table, editorOptions => editorOptions?.formatting?.table));
+    config.set('TableCaption', addPlugin(TableCaption, editorOptions => editorOptions?.formatting?.table));
     config.set('tableToolbar', addPlugin(TableToolbar, editorOptions => editorOptions?.formatting?.table));
     config.set('insideTable', addPlugin(InsideTable, editorOptions => editorOptions?.formatting?.table));
     config.set('removeFormat', addPlugin(RemoveFormat, editorOptions => editorOptions?.formatting?.removeFormat));
@@ -266,7 +268,8 @@ export default ckEditorRegistry => {
         const tableItems = formatting.table ? [
             'tableColumn',
             'tableRow',
-            'mergeTableCells'
+            'mergeTableCells',
+            'toggleTableCaption'
         ] : [];
         return Object.assign(config, {
             alignment: {
