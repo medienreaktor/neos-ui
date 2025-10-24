@@ -96,7 +96,7 @@
 
     --ck-color-widget-blurred-border: #dedede;
     --ck-color-widget-hover-border: #ffc83d;
-    --ck-color-widget-editable-focus-background: var(--ck-color-base-background);
+    --ck-color-widget-editable-focus-background: transparent;
     --ck-color-widget-drag-handle-icon-color: var(--ck-color-base-background);
 
     --ck-focus-outer-shadow-geometry: 0 0 0 3px;
@@ -104,7 +104,7 @@
     --ck-focus-disabled-outer-shadow: none;
     --ck-focus-ring: 0;
 
-    --ck-inner-shadow: none;
+    --ck-inner-shadow: 0px 0 1px 1px var(--ck-color-shadow-inner) inset;
     --ck-drop-shadow: 0 1px 2px 1px var(--ck-color-shadow-drop);
 
     --ck-spacing-unit: 0.6em;
@@ -143,4 +143,8 @@ a.ck.ck-button {
 
 .ck.ck-editor__editable_inline {
     border: 0;
+}
+
+.ck.ck-editor__editable_inline.ck-focused {
+    box-sizing: border-box;
 }
