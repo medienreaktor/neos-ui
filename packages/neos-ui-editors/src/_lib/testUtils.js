@@ -1,6 +1,6 @@
 import React, {PureComponent, Children} from 'react';
 import PropTypes from 'prop-types';
-import {SynchronousRegistry, SynchronousMetaRegistry} from '@neos-project/neos-ui-extensibility/src/registry';
+import {SynchronousRegistry, SynchronousMetaRegistry} from '@neos-project/neos-ui-registry';
 import {NeosContext} from '@neos-project/neos-ui-decorators';
 
 const globalRegistry = new SynchronousMetaRegistry();

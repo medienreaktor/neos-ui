@@ -5,7 +5,7 @@ import {actions, selectors} from '@neos-project/neos-ui-redux-store';
 import {parentNodeContextPath} from '@neos-project/neos-ui-redux-store/src/CR/Nodes/helpers';
 
 import manifest from '@neos-project/neos-ui-extensibility';
-import {SynchronousRegistry, SynchronousMetaRegistry} from '@neos-project/neos-ui-extensibility/src/registry';
+import {SynchronousRegistry, SynchronousMetaRegistry} from '@neos-project/neos-ui-registry';
 
 import {
     getGuestFrameDocument,
@@ -160,16 +160,6 @@ manifest('main', {}, (globalRegistry, {routes}) => {
             return new value,
             can also return a new Promise.
         }
-    `));
-
-    //
-    // Create validators registry
-    //
-    globalRegistry.set('validators', new SynchronousRegistry(`
-        Contains all validators.
-
-        The key is a validator name (such as Neos.Neos/Validation/NotEmptyValidator) and the values
-        are validator options.
     `));
 
     //

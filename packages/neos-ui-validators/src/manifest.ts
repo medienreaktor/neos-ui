@@ -13,11 +13,11 @@ import StringLength from './StringLength';
 import Text from './Text';
 import Uuid from './Uuid';
 
-import manifest from '@neos-project/neos-ui-extensibility/src';
-import {GlobalRegistry} from '@neos-project/neos-ts-interfaces';
+import manifest from '@neos-project/neos-ui-extensibility';
+import {ValidatorRegistry, validatorRegistry} from './registry';
 
-manifest('validators', {}, (globalRegistry: GlobalRegistry) => {
-    const validatorRegistry = globalRegistry.get('validators');
+manifest('validators', {}, (globalRegistry) => {
+    globalRegistry.set('validators', validatorRegistry);
 
     validatorRegistry.set('Neos.Neos/Validation/AlphanumericValidator', Alphanumeric);
     validatorRegistry.set('Neos.Neos/Validation/CountValidator', Count);
@@ -34,3 +34,9 @@ manifest('validators', {}, (globalRegistry: GlobalRegistry) => {
     validatorRegistry.set('Neos.Neos/Validation/TextValidator', Text);
     validatorRegistry.set('Neos.Neos/Validation/UuidValidator', Uuid);
 });
+
+declare module '@neos-project/neos-ui-registry' {
+    interface GlobalRegistry {
+        get(key: 'validators'): ValidatorRegistry;
+    }
+}

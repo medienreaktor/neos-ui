@@ -7,7 +7,7 @@
  * information, please view the LICENSE file which was distributed with this
  * source code.
  */
-import {SynchronousRegistry} from '@neos-project/neos-ui-extensibility/src/registry';
+import {SynchronousRegistry} from '@neos-project/neos-ui-registry';
 
 import logger from '@neos-project/utils-logger';
 

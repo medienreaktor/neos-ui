@@ -1,5 +1,3 @@
-import type {I18nRegistry} from '@neos-project/neos-ui-i18n';
-
 export type NodeContextPath = string;
 export type FusionPath = string;
 export type NodeTypeName = string;
@@ -252,27 +250,3 @@ export interface Change extends Readonly<{
         value: any;
     };
 }> {}
-
-// TODO: move to nodetypesregistry itself
-export interface NodeTypesRegistry {
-    get: (nodeType: NodeTypeName) => NodeType | null;
-    getRole: (roleName: string) => NodeTypeName | null;
-    getSubTypesOf: (nodeType: NodeTypeName) => NodeTypeName[];
-    getAllowedNodeTypesTakingAutoCreatedIntoAccount: (isSubjectNodeAutocreated: boolean, referenceParentName: string, referenceParentNodeType: NodeTypeName, referenceGrandParentNodeType: NodeTypeName | null, role: string) => NodeTypeName[];
-}
-
-// TODO: move to validatorsregistry itself
-type Validator = (
-    values: {},
-    elementConfigurations: any
-) => null | {} | string;
-export interface ValidatorRegistry {
-    get: (validatorName: string) => Validator | null;
-    set: (validatorName: string, validator: Validator) => void;
-}
-export interface GlobalRegistry {
-    get: <K extends string>(key: K) => K extends 'i18n' ? I18nRegistry :
-        K extends 'validators' ? ValidatorRegistry : null;
-}
-
-export type {I18nRegistry} from '@neos-project/neos-ui-i18n';

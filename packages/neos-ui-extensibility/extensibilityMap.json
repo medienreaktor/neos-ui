@@ -22,5 +22,6 @@
     "@neos-project/neos-ui-redux-store": "@neos-project/neos-ui-extensibility/dist/shims/neosProjectPackages/neos-ui-redux-store",
     "@neos-project/neos-ui-views": "@neos-project/neos-ui-extensibility/dist/shims/neosProjectPackages/neos-ui-views",
     "@neos-project/neos-ui-guest-frame": "@neos-project/neos-ui-extensibility/dist/shims/neosProjectPackages/neos-ui-guest-frame",
+    "@neos-project/neos-ui-registry": "@neos-project/neos-ui-extensibility/dist/shims/neosProjectPackages/neos-ui-registry",
     "@neos-project/utils-redux": "@neos-project/neos-ui-extensibility/dist/shims/neosProjectPackages/utils-redux"
 }

@@ -7,20 +7,14 @@
   "homepage": "https://github.com/neos/neos-ui/blob/master/README.md",
   "main": "./src/index.ts",
   "publishConfig": {
-    "main": "./dist/index.js"
+    "main": "./plugin-api.js"
   },
   "files": [
     "dist",
+    "plugin-api.js",
     "extensibilityMap.json"
   ],
   "scripts": {
     "build": "yarn tsc --declaration"
-  },
-  "devDependencies": {
-    "@neos-project/jest-preset-neos-ui": "workspace:*",
-    "typescript": "^4.6.4"
-  },
-  "dependencies": {
-    "@neos-project/positional-array-sorter": "workspace:*"
   }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import {defaultMemoize} from 'reselect';
-import {GlobalRegistry} from '@neos-project/neos-ts-interfaces';
+import {GlobalRegistry} from '@neos-project/neos-ui-registry';
 
 // We need to memoize configuration and global registry; otherwise a new object is created at every render; leading to
 // LOADS of unnecessary re-draws.

@@ -1,7 +1,7 @@
 import merge from 'lodash.merge';
 import mapValues from 'lodash.mapvalues';
 
-import {SynchronousRegistry} from '@neos-project/neos-ui-extensibility/src';
+import {SynchronousRegistry} from '@neos-project/neos-ui-registry';
 import positionalArraySorter from '@neos-project/positional-array-sorter/src/positionalArraySorter';
 import {NodeTypeName, NodeType} from '@neos-project/neos-ts-interfaces';
 
@@ -105,7 +105,7 @@ export default class NodeTypesRegistry extends SynchronousRegistry<NodeType> {
         return [];
     }
 
-    public getAllowedNodeTypesTakingAutoCreatedIntoAccount(isSubjectNodeAutocreated: boolean, referenceParentName: string, referenceParentNodeType: string, referenceGrandParentNodeType: string, role: string): NodeTypeName[] {
+    public getAllowedNodeTypesTakingAutoCreatedIntoAccount(isSubjectNodeAutocreated: boolean, referenceParentName: string, referenceParentNodeType: string, referenceGrandParentNodeType: string | null, role: string): NodeTypeName[] {
         let result;
         if (isSubjectNodeAutocreated) {
             if (!referenceGrandParentNodeType) {

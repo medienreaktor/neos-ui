@@ -10,3 +10,9 @@ manifest('@neos-project/neos-ui-contentrepository', {}, globalRegistry => {
         `)
     );
 });
+
+declare module '@neos-project/neos-ui-registry' {
+    interface GlobalRegistry {
+        get(key: '@neos-project/neos-ui-contentrepository'): NodeTypesRegistry;
+    }
+}
