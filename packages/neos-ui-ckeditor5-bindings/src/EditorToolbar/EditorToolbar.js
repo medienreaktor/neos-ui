@@ -16,7 +16,8 @@ export default class EditorToolbar extends PureComponent {
             PropTypes.number,
             PropTypes.bool,
             PropTypes.object,
-            PropTypes.string
+            PropTypes.string,
+            PropTypes.array,
         ])),
         toolbarRegistry: PropTypes.object.isRequired,
         editorOptions: PropTypes.object.isRequired,
