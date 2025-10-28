@@ -1,12 +1,2 @@
-# This file instructs saucectl to not package any files mentioned here.
-.git/
-.github/
-.DS_Store
-.hg/
-.vscode/
-.idea/
-.gitignore
-.hgignore
-.gitlab-ci.yml
-.npmrc
-*.gif
+# The rootDir for sauce is "IntegrationTests" so we only need to exclude the distribution to ensure a fast upload to sauce
+Tests/IntegrationTests/TestDistribution/

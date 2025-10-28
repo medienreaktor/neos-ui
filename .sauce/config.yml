@@ -11,25 +11,29 @@ sauce:
     build: Github Run $GITHUB_RUN_ID
 testcafe:
   version: 3.6.2
+npm:
+  registries:
+    - url: https://registry.npmjs.org
+  packages:
+    "testcafe-react-selectors": "5.0.3"
+
 # Controls what files are available in the context of a test run (unless explicitly excluded by .sauceignore).
-rootDir: ./
+rootDir: Tests/IntegrationTests/
 suites:
   - name: "Tests in Firefox on Windows"
     browserName: "firefox"
+    browserVersion: "latest-1"
     src:
-      - "Tests/IntegrationTests/Fixtures/*/*.e2e.{js,ts}"
+      - "Fixtures/*/*.e2e.{js,ts}"
     platformName: "Windows 10"
     screenResolution: "1280x1024"
   # todo use chrome here and fix ci https://github.com/neos/neos-ui/issues/3591 (but even firefox fails in ci)
   # - name: "Tests in Firefox on MacOS"
   #   browserName: "firefox"
   #   src:
-  #     - "Tests/IntegrationTests/Fixtures/*/*.e2e.{js,ts}"
+  #     - "Fixtures/*/*.e2e.{js,ts}"
   #   platformName: "macOS 13"
   #   screenResolution: "1440x900"
-npm:
-  dependencies:
-    - testcafe-react-selectors
 
 # Controls what artifacts to fetch when the suites have finished.
 artifacts:

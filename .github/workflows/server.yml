@@ -1,4 +1,4 @@
-name: CI Server
+name: Server (PHP)
 on:
   workflow_dispatch:
   push:
@@ -7,12 +7,18 @@ on:
     branches: [ main, '[0-9]+.[0-9]' ]
 
 jobs:
-  server-build:
+  build:
+    name: 'Lint and Test'
+    runs-on: ubuntu-latest
+
     env:
       FLOW_CONTEXT: Testing
-      FLOW_PATH_ROOT: ../neos-base-distribution
+      DISTRIBUTION_FOLDER: neos-distribution
+      PACKAGE_FOLDER: Neos.Neos.Ui
 
-    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.DISTRIBUTION_FOLDER }}
 
     strategy:
       fail-fast: false
@@ -40,6 +46,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          path: ${{ env.PACKAGE_FOLDER }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -47,53 +55,54 @@ jobs:
           php-version: ${{ matrix.php-version }}
           extensions: mbstring, xml, json, zlib, iconv, intl, pdo_sqlite, mysql
 
-      - id: composer-cache
-        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-        shell: bash
-
-      - uses: actions/cache@v3
+      - name: Checkout development distribution
+        uses: actions/checkout@v4
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: ${{ runner.os }}-composer-
+          repository: neos/neos-development-distribution
+          ref: ${{ matrix.neos-version }}
+          path: ${{ env.DISTRIBUTION_FOLDER }}
 
-      - name: Prepare Neos distribution
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        timeout-minutes: 30
+        with:
+          path: |
+            ~/.cache/composer
+            ${{ env.DISTRIBUTION_FOLDER }}/Packages
+          key: php-${{ matrix.php-version }}-neos-${{ matrix.neos-version }}-${{ hashFiles('**/composer.json') }}
+          restore-keys: php-${{ matrix.php-version }}-neos-${{ matrix.neos-version }}-
+
+      - name: Prepare Neos.Neos.Ui Package for composer installation
         run: |
-          cd "../neos-ui"
+          cd "../${{ env.PACKAGE_FOLDER }}"
           # no "neos/neos-ui-compiled" because this job is just for PHP
           composer remove neos/neos-ui-compiled --no-update
           # install also export-ignore'd Test/ directory
           rm .gitattributes
 
-          git clone --depth 1 --branch ${{ matrix.neos-version }} https://github.com/neos/neos-development-distribution.git ${FLOW_PATH_ROOT}
-          cd ${FLOW_PATH_ROOT}
+      - name: Install and link composer dependencies
+        run: |
           composer config --no-plugins allow-plugins.neos/composer-plugin true
-          composer config repositories.package '{ "type": "path", "url": "../neos-ui", "options": { "symlink": false } }'
+          composer config repositories.package '{ "type": "path", "url": "../${{ env.PACKAGE_FOLDER }}", "options": { "symlink": false } }'
           composer require --no-update --no-interaction neos/neos-ui:@dev
 
-      - name: Install dependencies
-        run: |
-          cd ${FLOW_PATH_ROOT}
           composer install --no-interaction --no-progress --prefer-dist
 
       - name: Linting
         run: |
-          cd ${FLOW_PATH_ROOT}/Packages/Application/Neos.Neos.Ui
+          cd Packages/Application/Neos.Neos.Ui
           composer run lint
 
       - name: Run Unit tests
         run: |
-          cd ${FLOW_PATH_ROOT}
           bin/phpunit -c Build/BuildEssentials/PhpUnit/UnitTests.xml Packages/Application/Neos.Neos.Ui/Tests/Unit/
 
       - name: Run Functional tests
         run: |
-          cd ${FLOW_PATH_ROOT}
           bin/phpunit -c Build/BuildEssentials/PhpUnit/FunctionalTests.xml Packages/Application/Neos.Neos.Ui/Tests/Functional
 
       - name: Setup Flow configuration
         run: |
-          cd ${FLOW_PATH_ROOT}
           rm -f Configuration/Testing/Settings.yaml
           cat <<EOF >> Configuration/Testing/Settings.yaml
           Neos:
@@ -109,17 +118,26 @@ jobs:
 
       - name: Run Behavioral tests
         run: |
-          cd ${FLOW_PATH_ROOT}
           FLOW_CONTEXT=Testing/Behat ./flow doctrine:migrate --quiet
-          cd ${FLOW_PATH_ROOT}/Packages/Application/Neos.Neos.Ui
+          cd Packages/Application/Neos.Neos.Ui
           composer run test:behavioral
 
-      - name: Show log on failure
+      - name: Show Flow logs and exceptions on failure
         if: ${{ failure()  }}
         run: |
-          cd ${FLOW_PATH_ROOT}
-          cat Data/Logs/System_Testing.log
-          for file in Data/Logs/Exceptions/*; do
+          for file in Data/Logs/*.log; do
             echo $file
             cat $file
+            echo "\n"
+            echo "\n"
           done
+
+          if [ -d "Data/Logs/Exceptions" ]; then
+            echo "Exceptions (Data/Logs/Exceptions)"
+            for file in Data/Logs/Exceptions/*; do
+              echo $file
+              cat $file
+              echo "\n"
+              echo "\n"
+            done
+          fi
