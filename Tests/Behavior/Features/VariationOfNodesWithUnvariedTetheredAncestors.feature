@@ -69,11 +69,7 @@ Feature: When triggering auto-variation via property set, vary the closest non-t
             "subject": "{\"contentRepositoryId\":\"default\",\"workspaceName\":\"user-workspace\",\"dimensionSpacePoint\":{\"example\":\"spec\"},\"aggregateId\":\"nody-mc-nodeface\"}",
             "payload": {
                 "propertyName": "text",
-                "value": "my variant text",
-                "nodeDomAddress": {
-                    "contextPath": "{\"contentRepositoryId\":\"default\",\"workspaceName\":\"user-workspace\",\"dimensionSpacePoint\":{\"example\":\"spec\"},\"aggregateId\":\"nody-mc-nodeface\"}",
-                    "fusionPath": "RenderingUseCase::CONTENT"
-                }
+                "value": "my variant text"
             }
         }
         """
