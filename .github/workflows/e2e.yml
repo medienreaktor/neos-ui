@@ -60,6 +60,13 @@ jobs:
           php-version: ${{ matrix.php-version }}
           extensions: mbstring, xml, json, zlib, iconv, intl, pdo_sqlite, mysql
 
+      - name: Checkout development distribution
+        uses: actions/checkout@v4
+        with:
+          repository: neos/neos-development-distribution
+          ref: ${{ matrix.neos-version }}
+          path: ${{ env.DISTRIBUTION_FOLDER }}
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -76,13 +83,6 @@ jobs:
         run: |
           cd "../${{ env.PACKAGE_FOLDER }}"
           make build-e2e-testing
-
-      - name: Checkout development distribution
-        uses: actions/checkout@v4
-        with:
-          repository: neos/neos-development-distribution
-          ref: ${{ matrix.neos-version }}
-          path: ${{ env.DISTRIBUTION_FOLDER }}
 
       - name: Cache Composer packages
         uses: actions/cache@v4
