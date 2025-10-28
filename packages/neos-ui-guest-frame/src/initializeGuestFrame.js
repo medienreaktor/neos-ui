@@ -119,6 +119,11 @@ export default ({globalRegistry, store}) => function * initializeGuestFrame() {
             domNode.getAttribute &&
             domNode.getAttribute('data-__neos__inline-ui')
         );
+        const isInsideCKToolbar = clickPath.some(domNode =>
+            domNode &&
+            domNode.classList &&
+            domNode.classList.contains('ck-toolbar')
+        );
         const isInsideEditableProperty = clickPath.some(domNode =>
             domNode &&
             domNode.getAttribute &&
@@ -130,7 +135,7 @@ export default ({globalRegistry, store}) => function * initializeGuestFrame() {
             domNode.getAttribute('data-__neos-node-contextpath')
         );
 
-        if (isInsideInlineUi) {
+        if (isInsideInlineUi || isInsideCKToolbar) {
             // Do nothing, everything OK!
         } else if (selectedDomNode) {
             const contextPath = selectedDomNode.getAttribute('data-__neos-node-contextpath');

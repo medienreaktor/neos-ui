@@ -25,12 +25,10 @@
     max-width: 400px;
     display: none;
     position-try-fallbacks: --neos-ck-toolbar-align-right;
+    z-index: calc(2147480000 + 1); /* one above the NodeToolBar z-index */
 }
 .ck.ck-toolbar.neos-ck-anchored-toolbar--visible {
     display: flex;
-}
-.ck.ck-toolbar.neos-ck-anchored-toolbar--visible:hover {
-    z-index: 2147483646;
 }
 
 /**
@@ -95,7 +93,7 @@
     --ck-color-shadow-inner: rgba(0, 0, 0, .1);
 
     --ck-color-widget-blurred-border: #dedede;
-    --ck-color-widget-hover-border: #ffc83d;
+    --ck-color-widget-hover-border: var(--ck-color-base-active);
     --ck-color-widget-editable-focus-background: transparent;
     --ck-color-widget-drag-handle-icon-color: var(--ck-color-base-background);
 

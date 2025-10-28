@@ -17,6 +17,10 @@ type StructuralToolbarProps = {
     buttonProps?: {[key: string]: any};
 }
 
+/**
+ * The StructuralToolbar contains buttons for structural operations on nodes,
+ * like adding or inserting nodes from clipboard.
+ */
 const StructuralToolbar: React.FC<StructuralToolbarProps> = ({insertPosition, buttonProps, guestFrameRegistry}) => {
     const buttons = guestFrameRegistry.getChildren('NodeToolbar/Buttons');
 

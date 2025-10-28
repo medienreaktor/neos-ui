@@ -29,6 +29,15 @@
     bottom: calc(anchor(top) + 10px);
     /*position-try-fallbacks: --toolbar-sticky;*/
 }
+/**
+ * Increase z-index when hovering over the context toolbar or any of its siblings,
+ * so it appears above the ckeditor toolbar when both are visible.
+ */
+.contextToolBar:has(~ :hover),
+.contextToolBar:hover,
+.contextToolBar:hover ~ * {
+    z-index: calc(var(--zIndex-NodeToolBar) + 2);
+}
 
 .contextToolBar--isSticky {
     position: fixed;
@@ -41,7 +50,7 @@
     display: flex;
     align-items: center;
     gap: 1ch;
-    padding-left: 10px;
+    padding: 0 5px;
     font-size: var(--fontSize-Small);
 }
 

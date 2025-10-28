@@ -9,11 +9,24 @@
     background: transparent;
 }
 
+/**
+ * Fallback if the structural toolbar is on top of the node and
+ * does not fit on the left side of the context toolbar
+ */
+@position-try --structural-toolbar-align-right {
+    left: anchor(left);
+    bottom: anchor(top);
+    position-area: none;
+}
 .structuralToolBar__popover {
     z-index: var(--zIndex-NodeToolBar);
     position: absolute;
     position-anchor: --inline-ui-context-toolbar-anchor;
     position-area: center left;
+    position-try-fallbacks: --structural-toolbar-align-right;
+}
+.structuralToolBar__popover:hover {
+    z-index: calc(var(--zIndex-NodeToolBar) + 2);
 }
 
 .structuralToolBar__popover--isBelow {
@@ -23,6 +36,7 @@
     border-left: 2px solid white;
     border-bottom: 2px solid white;
     border-right: 2px solid white;
+    position-try-fallbacks: none;
 }
 
 .structuralToolBar__popover--isInside {
@@ -30,4 +44,5 @@
     position-area: center center;
     top: 10px;
     border: 2px solid white;
+    position-try-fallbacks: none;
 }

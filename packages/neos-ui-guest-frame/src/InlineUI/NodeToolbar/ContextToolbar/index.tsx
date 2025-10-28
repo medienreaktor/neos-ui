@@ -48,6 +48,10 @@ type ContextToolbarProps = {
     fusionPath: string;
 }
 
+/**
+ * The ContextToolbar contains buttons for context specific operations on nodes,
+ * like copying, hiding, moving deleting the focused node.
+ */
 const ContextToolbar: React.FC<ContextToolbarProps> = ({
     buttonProps,
     nodeTypesRegistry,

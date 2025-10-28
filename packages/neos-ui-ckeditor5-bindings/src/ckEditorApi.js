@@ -132,12 +132,30 @@ export const createEditor = store => async options => {
         .then(editor => {
             const debouncedOnChange = debounce(() => onChange(cleanupContentBeforeCommit(editor.getData())), 1500, {maxWait: 5000});
             editor.model.document.on('change:data', debouncedOnChange);
-            editor.ui.focusTracker.on('change:isFocused', event => {
-                if (!event.source.isFocused) {
-                    // when another editor is focused commit all possible pending changes
-                    debouncedOnChange.flush();
-                    editor.ui.view.toolbar.element.classList.remove('neos-ck-anchored-toolbar--visible');
-                    return
+            editor.ui.focusTracker.on('change:isFocused', (event, data, isFocused) => {
+                if (!isFocused) {
+                    // Use setTimeout to check activeElement after the browser has updated focus
+                    // This prevents premature blur detection when clicking from toolbar to editable area
+                    setTimeout(() => {
+                        // Double-check that the editor is still not focused
+                        if (editor.ui.focusTracker.isFocused) {
+                            return;
+                        }
+
+                        // Check if focus moved to a CKEditor UI element (like the toolbar)
+                        // If so, we should not treat this as leaving the editor
+                        // TODO: Verify whether this is precise enough, or we should instead check all editor components instead
+                        const activeElement = getGuestFrameDocument().activeElement;
+                        const isWithinEditor = activeElement === editor.sourceElement;
+                        if (isWithinEditor) {
+                            return;
+                        }
+
+                        // when another editor is focused commit all possible pending changes
+                        debouncedOnChange.flush();
+                        editor.ui.view.toolbar.element.classList.remove('neos-ck-anchored-toolbar--visible');
+                    }, 0);
+                    return;
                 }
 
                 currentEditor = editor;
@@ -159,7 +177,6 @@ export const createEditor = store => async options => {
             backendContainer.appendChild(editor.ui.view.toolbar.element);
 
             // Anchor the toolbar to the dom-node representing the edited property
-            // TODO: Move to CSS class and set the class on the element instead of setting styles directly
             editor.ui.view.toolbar.element.style.positionAnchor = propertyDomNode.dataset.neosInlineEditorAnchorName;
             editor.ui.view.toolbar.element.classList.add('neos-ck-anchored-toolbar');
 
