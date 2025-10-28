@@ -59,10 +59,9 @@ const Breadcrumb: React.FC<{
                                 <Button
                                     onClick={() => handleSelectNode(node.contextPath)}
                                     style="transparent"
-                                    hoverStyle="brand"
+                                    hoverStyle="clean"
                                     size="small"
                                     title={node.label}
-                                    isActive={isActive}
                                 >
                                     <Icon icon={nodeType?.ui?.icon || 'file'} />
                                     {node.label.slice(0, labelMaxLength) + (node.label.length > labelMaxLength ? '…' : '')}
