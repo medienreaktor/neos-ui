@@ -8,7 +8,7 @@ const options = {
     metafile: true,
     target: 'es2020',
     entryPoints: { 'Plugin': 'src/index.ts' },
-    outdir: '../../Public/Javascript',
+    outdir: '../../Public/JavaScript',
     alias: {
         ...extensibilityMap,
         // ensure we use the published api of the extensibility like we would when this is published to NMP
