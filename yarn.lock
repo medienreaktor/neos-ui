@@ -3564,6 +3564,8 @@ __metadata:
 "@neos-project/neos-ui-extensibility@workspace:*, @neos-project/neos-ui-extensibility@workspace:packages/neos-ui-extensibility":
   version: 0.0.0-use.local
   resolution: "@neos-project/neos-ui-extensibility@workspace:packages/neos-ui-extensibility"
+  dependencies:
+    typescript: ^4.6.4
   languageName: unknown
   linkType: soft
 
