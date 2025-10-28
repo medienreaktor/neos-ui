@@ -162,15 +162,23 @@ const NodeToolbar: React.FC<NodeToolbarProps> = ({
         iframeWindow.addEventListener('load', debouncedUpdateRef.current);
         iframeWindow.addEventListener('mousemove', handleMouseMove);
 
+        // With the observer we can immediately react to size changes during inline editing
+        const resizeObserver = new ResizeObserver(updateAnchorPosition);
+        const nodeElement = findNodeInGuestFrame(contextPath, fusionPath);
+        if (nodeElement) {
+            resizeObserver.observe(nodeElement);
+        }
+
         scrollIntoView();
         updateAnchorPosition();
 
         return () => {
+            resizeObserver.disconnect();
             iframeWindow.removeEventListener('resize', debouncedUpdateRef.current);
             iframeWindow.removeEventListener('load', debouncedUpdateRef.current);
             iframeWindow.removeEventListener('mousemove', handleMouseMove);
         };
-    }, [handleMouseMove, scrollIntoView, updateAnchorPosition]);
+    }, [contextPath, fusionPath, handleMouseMove, scrollIntoView, updateAnchorPosition]);
 
     // Update effect - equivalent to componentDidUpdate
     useEffect(() => {
