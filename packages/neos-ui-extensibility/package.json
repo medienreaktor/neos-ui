@@ -16,12 +16,5 @@
   ],
   "scripts": {
     "build": "yarn tsc --declaration"
-  },
-  "devDependencies": {
-    "@neos-project/jest-preset-neos-ui": "workspace:*",
-    "typescript": "^4.6.4"
-  },
-  "dependencies": {
-    "@neos-project/positional-array-sorter": "workspace:*"
   }
 }
