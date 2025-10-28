@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+require_once __DIR__ . '/../../../../../../Neos/Neos.Neos/Tests/Behavior/Features/Bootstrap/RoutingTrait.php';
+require_once __DIR__ . '/../../../../../../Neos/Neos.Neos/Tests/Behavior/Features/Bootstrap/ExceptionsTrait.php';
+require_once __DIR__ . '/../../../../../../Neos/Neos.Neos/Tests/Behavior/Features/Bootstrap/WorkspaceServiceTrait.php';
+require_once __DIR__ . '/../../../../../../Neos/Neos.Neos/Tests/Behavior/Features/Bootstrap/UserServiceTrait.php';
+require_once __DIR__ . '/../../../../../../Neos/Neos.Neos/Tests/Behavior/Features/Bootstrap/FlowSecurityTrait.php';
+require_once __DIR__ . '/../../../../../../Neos/Neos.Neos/Tests/Behavior/Features/Bootstrap/ContentRepositorySecurityTrait.php';
+require_once __DIR__ . '/../../../../../../Neos/Neos.Neos/Tests/Behavior/Features/Bootstrap/UserServiceTrait.php';
+
 use Behat\Behat\Context\Context;
 use Neos\Behat\FlowBootstrapTrait;
 use Neos\Behat\FlowEntitiesTrait;
@@ -20,6 +30,10 @@ class FeatureContext implements Context
     use FlowEntitiesTrait;
     use CRTestSuiteTrait;
     use CRBehavioralTestsSubjectProvider;
+    use NeosUiChangeTrait;
+    use ContentRepositorySecurityTrait;
+    use UserServiceTrait;
+    use RoutingTrait;
 
     private ContentRepositoryRegistry $contentRepositoryRegistry;
 
