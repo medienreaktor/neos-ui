@@ -20,13 +20,14 @@ use Neos\Flow\Mvc\Routing\UriBuilder;
 /**
  * Retrieves the `nodeTree` and `structureTree` segments from
  * `Neos.Neos.userInterface.navigateComponent` settings
+ * As well as the `editPreviewModes` from `Neos.Neos.userInterface.editPreviewModes`
  *
  * @internal
  */
 interface ConfigurationProviderInterface
 {
     /**
-     * @return array{nodeTree:mixed,structureTree:mixed}
+     * @return array{nodeTree:mixed,structureTree:mixed,editPreviewModes:mixed}
      */
     public function getConfiguration(
         ContentRepository $contentRepository,

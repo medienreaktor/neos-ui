@@ -120,7 +120,7 @@ final class ApplicationView extends AbstractView
 
         $locale = new Locale($this->userService->getInterfaceLanguage());
         // @TODO: All endpoints should be treated this way and be isolated from
-        //        initial data. -> Question: Also the "routes"?
+        //        initial data. -> Evaluate whether to do that also for routes which require parameters (they cannot be prefetched)
         $result .= sprintf(
             '<link id="neos-ui-uri:/neos/xliff.json" rel="prefetch" href="%s" data-locale="%s" data-locale-plural-rules="%s">',
             $this->variables['prefetchRoutes']['translations'],
