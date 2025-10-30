@@ -3,9 +3,15 @@
     height: 100%;
 }
 
+.tabs--vertical {
+    display: flex;
+    gap: var(--spacing-Full);
+}
+
 .tabs__content {
     composes: reset from '../reset.module.css';
     overflow-y: auto;
+    flex-grow: 1;
 }
 
 .tabNavigation {
@@ -26,6 +32,13 @@
         clear: both;
     }
 }
+
+.tabs--vertical .tabNavigation {
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--colors-ContrastDark);
+}
+
 .tabNavigation__item {
     composes: reset from '../reset.module.css';
     position: relative;
@@ -56,6 +69,27 @@
         color: var(--colors-PrimaryBlue);
     }
 }
+
+.tabs--vertical .tabNavigation__item {
+    border-left: 1px solid var(--colors-ContrastDark);
+    border-right: unset;
+}
+
+.tabs--vertical .tabNavigation__item--isActive {
+
+    &:after {
+        display: block;
+        content: ' ';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: -1px;
+        height: 100%;
+        width: 2px;
+        background: var(--colors-PrimaryBlue);
+    }
+}
+
 .tabNavigation__itemBtn {
     composes: reset from '../reset.module.css';
     display: inline-block;

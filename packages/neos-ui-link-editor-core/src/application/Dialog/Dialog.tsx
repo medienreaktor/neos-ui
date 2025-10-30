@@ -76,7 +76,8 @@ const ActiveLinkEditorDialog: React.FC<{
         return {
             isDirty: form.isOptionsDirty || (model ? linkType.isDirty(model) : false),
             isValid: model ? linkType.isValid(model) : false,
-            initialLinkWasDeleted: form.initialLinkWasDeleted
+            initialLinkWasDeleted: form.initialLinkWasDeleted,
+            activeLinkTypeId: form.activeLinkTypeId
         };
     }), []);
 
@@ -115,13 +116,15 @@ const ActiveLinkEditorDialog: React.FC<{
         return null;
     }
 
+    const currentLinkType = availableLinkTypes.find(linkType => linkType.id === formStatus.activeLinkTypeId)!;
+
     return (
         <Dialog
             id="neos-LinkEditor"
             isOpen={true}
             preventClosing={formStatus.isDirty}
             onRequestClose={dismiss}
-            title={<div>{translate('Neos.Neos.Ui:LinkEditor.Main:dialog.title', '')}</div>}
+            title={<div>{(initialValue === null && initialLinkType === null) || initialLinkType?.id !== currentLinkType.id || formStatus.initialLinkWasDeleted ? `Create ${currentLinkType.getTitle()} Link` : `Edit ${currentLinkType.getTitle()} Link`}</div>}
             style="wide"
             autoFocus={true}
             actions={[
@@ -183,6 +186,7 @@ const DialogWithEmptyValue: React.FC<{
         <Tabs
             activeTab={activeTab}
             onActiveTabChange={setActiveTab}
+            vertical
         >
             {props.availableLinkTypes.map((linkType) => {
                 const {Editor} = linkType;
@@ -271,6 +275,7 @@ const DialogWithValue: React.FC<{
             <Tabs
                 activeTab={activeTab}
                 onActiveTabChange={setActiveTab}
+                vertical
             >
                 {props.availableLinkTypes.map((linkType) => {
                     const {Editor, LoadingEditor} = linkType;

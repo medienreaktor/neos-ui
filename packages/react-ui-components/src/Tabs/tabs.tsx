@@ -19,7 +19,9 @@ export interface TabsProps {
     /**
      * An optional className to render on the wrapping div.
      */
-    readonly className?: string;
+    readonly className?: string
+
+    readonly vertical?: boolean;
 
     /**
      * The children panels to render.
@@ -146,8 +148,13 @@ export default class Tabs extends PureComponent<TabsProps> {
     }
 
     public render(): JSX.Element {
-        const {theme, className} = this.props;
-        const finalClassName = mergeClassNames(theme!.tabs, className);
+        const {theme, className, vertical} = this.props;
+        const finalClassName = mergeClassNames(
+            theme!.tabs, {
+                [theme!['tabs--vertical']]: vertical
+            },
+            className
+        );
 
         return (
             <div className={finalClassName} role="tablist">
