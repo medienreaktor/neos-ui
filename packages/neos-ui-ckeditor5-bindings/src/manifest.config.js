@@ -146,7 +146,7 @@ export default ckEditorRegistry => {
     config.set('htmlSupport', addPlugin(GeneralHtmlSupport));
     config.set('code', addPlugin(Code, editorOptions => editorOptions?.formatting?.code));
     config.set('codeBlock', addPlugin(CodeBlock, editorOptions => editorOptions?.formatting?.code));
-    config.set('undo', addPlugin(Undo));
+    config.set('undo', addPlugin(Undo, editorOptions => editorOptions?.formatting?.undo));
     config.set('style', addPlugin(Style, editorOptions => editorOptions?.formatting?.styleDefinitions));
     config.set('paragraph', addPlugin(Paragraph));
     config.set('disabledAutoparagraphMode', addPlugin(DisabledAutoparagraphMode, disableAutoparagraph));
@@ -207,12 +207,13 @@ export default ckEditorRegistry => {
             return config;
         }
         const {formatting} = editorOptions;
-        // TODO: Introduce formatting flag for undo/redo
-        const toolbarItems = [
-            'undo',
-            'redo',
-            '|',
-        ];
+        const toolbarItems = [];
+
+        if (formatting.undo) {
+            toolbarItems.push('undo');
+            toolbarItems.push('redo');
+            toolbarItems.push('|');
+        }
         const balloonToolbarItems = [];
 
         if (formatting.removeFormat) {
