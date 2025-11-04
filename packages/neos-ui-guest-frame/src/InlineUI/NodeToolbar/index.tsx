@@ -12,7 +12,8 @@ import {
 } from '@neos-project/neos-ui-guest-frame/src/dom';
 import {neos} from '@neos-project/neos-ui-decorators';
 import {selectors, useSelector} from '@neos-project/neos-ui-redux-store';
-import {InsertPosition, NodeTypesRegistry} from "@neos-project/neos-ts-interfaces";
+import {InsertPosition} from '@neos-project/neos-ts-interfaces';
+import {NodeTypesRegistry} from "@neos-project/neos-ui-contentrepository";
 
 import StructuralToolbar from './StructuralToolbar';
 import ContextToolbar from './ContextToolbar';

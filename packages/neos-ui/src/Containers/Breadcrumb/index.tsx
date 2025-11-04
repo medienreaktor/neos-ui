@@ -1,11 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {actions, selectors} from '@neos-project/neos-ui-redux-store';
+import {actions, selectors, GlobalState} from '@neos-project/neos-ui-redux-store';
 import {neos} from '@neos-project/neos-ui-decorators';
-import {NodeTypesRegistry, Node} from "@neos-project/neos-ts-interfaces";
+import {Node} from '@neos-project/neos-ts-interfaces';
+import {NodeTypesRegistry} from '@neos-project/neos-ui-contentrepository';
 import {Button, Icon} from "@neos-project/react-ui-components";
-import {GlobalState} from "@neos-project/neos-ui-redux-store/src/System";
 
 import style from './style.module.css';
 

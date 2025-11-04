@@ -1,9 +1,9 @@
 import React, {ReactElement} from 'react';
 import mergeClassNames from 'classnames';
 
-import {InsertPosition} from "@neos-project/neos-ts-interfaces";
-import {neos} from "@neos-project/neos-ui-decorators";
-import {SynchronousRegistry} from "@neos-project/neos-ui-extensibility";
+import {InsertPosition} from '@neos-project/neos-ts-interfaces';
+import {neos} from '@neos-project/neos-ui-decorators';
+import {SynchronousRegistry} from '@neos-project/neos-ui-registry';
 
 import style from './style.module.css';
 

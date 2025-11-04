@@ -5,16 +5,16 @@ import memoize from 'lodash.memoize';
 import {connect} from 'react-redux';
 
 import {translate} from "@neos-project/neos-ui-i18n";
-import {InsertPosition, Node, NodeContextPath, NodeTypesRegistry} from "@neos-project/neos-ts-interfaces";
+import {InsertPosition, Node, NodeContextPath} from "@neos-project/neos-ts-interfaces";
 import {
     closestContextPathInGuestFrame,
     closestNodeInGuestFrame,
     findNodeInGuestFrame,
     getGuestFrameDocument
 } from '@neos-project/neos-ui-guest-frame/src/dom';
-import {GlobalState} from "@neos-project/neos-ui-redux-store/src/System";
-import {actions, selectors} from "@neos-project/neos-ui-redux-store";
+import {actions, selectors, GlobalState} from "@neos-project/neos-ui-redux-store";
 import {neos} from "@neos-project/neos-ui-decorators";
+import {NodeTypesRegistry} from "@neos-project/neos-ui-contentrepository";
 
 import style from './style.module.css';
 

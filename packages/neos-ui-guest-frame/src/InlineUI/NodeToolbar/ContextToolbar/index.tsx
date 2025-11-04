@@ -7,8 +7,8 @@ import {Icon, IconButton} from '@neos-project/react-ui-components';
 import {translate} from '@neos-project/neos-ui-i18n';
 import {neos} from '@neos-project/neos-ui-decorators';
 import {selectors, useSelector} from '@neos-project/neos-ui-redux-store';
-import {NodeTypesRegistry} from '@neos-project/neos-ts-interfaces';
-import {SynchronousRegistry} from '@neos-project/neos-ui-extensibility';
+import {NodeTypesRegistry} from '@neos-project/neos-ui-contentrepository';
+import {SynchronousRegistry} from '@neos-project/neos-ui-registry';
 
 import style from './style.module.css';
 
