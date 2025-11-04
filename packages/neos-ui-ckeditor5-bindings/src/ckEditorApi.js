@@ -15,6 +15,8 @@ import '@ckeditor/ckeditor5-engine/dist/index.css';
 import '@ckeditor/ckeditor5-enter/dist/index.css';
 import '@ckeditor/ckeditor5-paragraph/dist/index.css';
 import '@ckeditor/ckeditor5-select-all/dist/index.css';
+import '@ckeditor/ckeditor5-style/dist/index.css';
+import '@ckeditor/ckeditor5-table/dist/index.css';
 import '@ckeditor/ckeditor5-typing/dist/index.css';
 import '@ckeditor/ckeditor5-ui/dist/index.css';
 import '@ckeditor/ckeditor5-undo/dist/index.css';
@@ -22,7 +24,6 @@ import '@ckeditor/ckeditor5-upload/dist/index.css';
 import '@ckeditor/ckeditor5-utils/dist/index.css';
 import '@ckeditor/ckeditor5-watchdog/dist/index.css';
 import '@ckeditor/ckeditor5-widget/dist/index.css';
-import '@ckeditor/ckeditor5-style/dist/index.css';
 
 import './cke-overwrites.vanilla-css';
 import './placeholder.vanilla-css';

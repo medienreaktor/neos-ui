@@ -139,6 +139,12 @@ a.ck.ck-button {
     border: none;
 }
 
+.ck.ck-button.ck-insert-table-dropdown-grid-box {
+    margin: var(--ck-insert-table-dropdown-box-margin);
+    border: 1px solid var(--ck-color-base-border);
+}
+
+.ck.ck-toolbar,
 .ck.ck-editor__editable_inline {
     border: 0;
 }
