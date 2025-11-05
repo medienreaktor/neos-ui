@@ -193,7 +193,7 @@
       </trans-unit>
       <trans-unit id="ckeditor__toolbar__indent" xml:space="preserve" approved="no">
         <source>Indent</source>
-        <target xml:lang="es-ES" state="translated">Indentado</target>
+        <target xml:lang="es-ES" state="translated">Sangría</target>
         <alt-trans>
           <target xml:lang="es-ES">Sangría</target>
         </alt-trans>
