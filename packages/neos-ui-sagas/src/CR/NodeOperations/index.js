@@ -1,6 +1,7 @@
 import addNode from './addNode';
 import removeNodeIfConfirmed from './removeNodeIfConfirmed';
 import pasteNode from './pasteNode';
+import duplicateNode from './duplicateNode';
 import moveDroppedNode from './moveDroppedNode';
 import moveDroppedNodes from './moveDroppedNodes';
 import hideNode from './hideNode';
@@ -12,6 +13,7 @@ export {
     addNode,
     removeNodeIfConfirmed,
     pasteNode,
+    duplicateNode,
     moveDroppedNode,
     moveDroppedNodes,
     hideNode,

@@ -209,6 +209,24 @@ test('Can create content node from inside InlineUI', async t => {
     //     .switchToMainWindow();
 });
 
+test('Can duplicate content node from inside InlineUI', async t => {
+    subSection('Duplicate the last headline node');
+    await t
+        .click(Selector('.test-headline'))
+        .click(Selector('#neos-InlineToolbar-ContextMenu-toggle'))
+        .click(Selector('#neos-InlineToolbar-DuplicateSelectedNode'));
+    await Page.waitForIframeLoading(t);
+
+    subSection('Check that the duplicated node exists');
+    const headlineCount = await Selector('.test-headline').count;
+    await t.expect(headlineCount).gte(2, 'There are at least two headline nodes');
+
+    subSection('Check that the duplicated node has the same content as the original');
+    const originalHeadlineText = await Selector('.test-headline').nth(headlineCount - 2).innerText;
+    const duplicatedHeadlineText = await Selector('.test-headline').nth(headlineCount - 1).innerText;
+    await t.expect(duplicatedHeadlineText).eql(originalHeadlineText, 'The duplicated headline has the same text as the original');
+});
+
 test('Inline CKEditor mode `paragraph: false` works as expected', async t => {
     subSection('Create an inline headline node');
     await t

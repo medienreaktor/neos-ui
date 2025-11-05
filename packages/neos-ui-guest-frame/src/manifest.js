@@ -12,7 +12,8 @@ import {
     DeleteSelectedNode,
     HideSelectedNode,
     DragSelectedNode,
-    PasteClipBoardNode
+    PasteClipBoardNode,
+    DuplicateSelectedNode,
 } from './InlineUI/NodeToolbar/Buttons/index';
 
 manifest('@neos-project/neos-ui-guestframe', {}, globalRegistry => {
@@ -53,6 +54,7 @@ manifest('@neos-project/neos-ui-guestframe', {}, globalRegistry => {
     guestFrameRegistry.set('NodeToolbar/ContextButtons/DragSelectedNode', DragSelectedNode);
     guestFrameRegistry.set('NodeToolbar/SecondaryButtons/HideSelectedNode', HideSelectedNode);
     guestFrameRegistry.set('NodeToolbar/SecondaryButtons/CopySelectedNode', CopySelectedNode);
+    guestFrameRegistry.set('NodeToolbar/SecondaryButtons/DuplicateSelectedNode', DuplicateSelectedNode);
     guestFrameRegistry.set('NodeToolbar/SecondaryButtons/CutSelectedNode', CutSelectedNode);
     guestFrameRegistry.set('NodeToolbar/SecondaryButtons/DeleteSelectedNode', DeleteSelectedNode);
 

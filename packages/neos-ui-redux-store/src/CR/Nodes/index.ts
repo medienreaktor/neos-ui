@@ -91,6 +91,7 @@ export enum actionTypes {
     MOVE_MULTIPLE = '@neos/neos-ui/CR/Nodes/MOVE_MULTIPLE',
     PASTE = '@neos/neos-ui/CR/Nodes/PASTE',
     COMMIT_PASTE = '@neos/neos-ui/CR/Nodes/COMMIT_PASTE',
+    DUPLICATE = '@neos/neos-ui/CR/Nodes/DUPLICATE',
     /**
      * @deprecated `HIDE_MULTIPLE` should be used
      */
@@ -299,6 +300,17 @@ const paste = (
 ) => createAction(actionTypes.PASTE, {contextPath, fusionPath, position});
 
 /**
+ * Duplicate the given node after itself
+ *
+ * @param {String} contextPath The context path of the target node
+ * @param {String} fusionPath The fusion path of the target node, needed for out-of-band-rendering
+ */
+const duplicate = (
+    contextPath: NodeContextPath,
+    fusionPath: FusionPath,
+) => createAction(actionTypes.DUPLICATE, {contextPath, fusionPath});
+
+/**
  * Marks the moment when the actual paste request is commited
  *
  */
@@ -369,6 +381,7 @@ export const actions = {
     moveMultiple,
     paste,
     commitPaste,
+    duplicate,
     hide,
     hideMultiple,
     show,

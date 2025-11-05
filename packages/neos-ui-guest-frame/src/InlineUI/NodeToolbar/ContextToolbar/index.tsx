@@ -118,8 +118,9 @@ const ContextToolbar: React.FC<ContextToolbarProps> = ({
                 </span>
                 <div className={style.toolBar__contextMenuToggleWrapper}>
                     <IconButton
+                        id="neos-InlineToolbar-ContextMenu-toggle"
                         className={style.toolBar__contextMenuToggle}
-                        popovertarget="inline-ui-toolbar-context-menu"
+                        popovertarget="ineos-InlineToolbar-ContextMenu"
                         icon="ellipsis-vertical"
                         onClick={void 0}
                         hoverStyle="brand"
@@ -127,7 +128,7 @@ const ContextToolbar: React.FC<ContextToolbarProps> = ({
                         title={translate('Neos.Neos.Ui:Main:toggleContextMenu', 'Toggle context menu')}
                     />
                     <div
-                        id="inline-ui-toolbar-context-menu"
+                        id="neos-InlineToolbar-ContextMenu"
                         className={style.toolBar__contextMenu}
                         popover="auto"
                     >

@@ -5,6 +5,7 @@ import DeleteSelectedNode from './DeleteSelectedNode/index';
 import HideSelectedNode from './HideSelectedNode/index';
 import DragSelectedNode from './DragSelectedNode/index';
 import PasteClipBoardNode from './PasteClipBoardNode/index';
+import DuplicateSelectedNode from './DuplicateSelectedNode/index';
 
 export {
     AddNode,
@@ -13,5 +14,6 @@ export {
     DeleteSelectedNode,
     HideSelectedNode,
     DragSelectedNode,
-    PasteClipBoardNode
+    PasteClipBoardNode,
+    DuplicateSelectedNode,
 };

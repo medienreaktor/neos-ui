@@ -14,6 +14,12 @@
             <trans-unit id="add" xml:space="preserve">
                 <source>Add</source>
             </trans-unit>
+            <trans-unit id="duplicate" xml:space="preserve">
+                <source>Duplicate</source>
+            </trans-unit>
+            <trans-unit id="duplicate--title" xml:space="preserve">
+                <source>Creates a copy of this content next to it</source>
+            </trans-unit>
             <trans-unit id="insert" xml:space="preserve">
                 <source>Insert</source>
             </trans-unit>
