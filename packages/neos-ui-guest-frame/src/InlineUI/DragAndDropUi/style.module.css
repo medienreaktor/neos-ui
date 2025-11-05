@@ -9,8 +9,8 @@
     pointer-events: none;
     padding: 5px;
     margin: 0;
-    font-family: "Noto Sans", sans-serif;
+    font-family: 'Noto Sans', sans-serif;
     background-color: var(--colors-PrimaryBlue);
-    opacity: 0.8;
-    transition: all 0.1s ease-in-out;
+    opacity: .8;
+    transition: all .1s ease-in-out;
 }

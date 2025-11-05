@@ -15,5 +15,5 @@ export {
     HideSelectedNode,
     DragSelectedNode,
     PasteClipBoardNode,
-    DuplicateSelectedNode,
+    DuplicateSelectedNode
 };

@@ -54,9 +54,6 @@
     font-size: var(--fontSize-Small);
 }
 
-.toolBar__contextMenuToggleWrapper {
-}
-
 .toolBar__contextMenuToggle {
     anchor-name: --inline-ui-node-context-menu-anchor;
 

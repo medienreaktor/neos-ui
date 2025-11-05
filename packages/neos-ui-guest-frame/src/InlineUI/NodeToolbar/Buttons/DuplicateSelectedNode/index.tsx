@@ -3,8 +3,8 @@ import {connect} from 'react-redux';
 
 import {Icon, Button} from '@neos-project/react-ui-components';
 import {actions, selectors, useSelector} from '@neos-project/neos-ui-redux-store';
-import {I18nRegistry} from "@neos-project/neos-ui-i18n";
-import {FusionPath, NodeContextPath} from "@neos-project/neos-ts-interfaces";
+import {I18nRegistry} from '@neos-project/neos-ui-i18n';
+import {FusionPath, NodeContextPath} from '@neos-project/neos-ts-interfaces';
 
 type DuplicateSelectNodeProps = {
     className: string;
@@ -17,7 +17,7 @@ type DuplicateSelectNodeProps = {
 }
 
 const withReduxState = connect(() => ({}), {
-    duplicateNode: actions.CR.Nodes.duplicate,
+    duplicateNode: actions.CR.Nodes.duplicate
 });
 
 const DuplicateSelectedNode: React.FC<DuplicateSelectNodeProps> = ({
@@ -26,7 +26,7 @@ const DuplicateSelectedNode: React.FC<DuplicateSelectNodeProps> = ({
                                                                        destructiveOperationsAreDisabled,
                                                                        className,
                                                                        i18nRegistry,
-                                                                       duplicateNode,
+                                                                       duplicateNode
                                                                    }) => {
     const focusedNodeContextPath = useSelector(selectors.CR.Nodes.focusedNodePathSelector);
     const handleDuplicateSelectedNode = useCallback(() => {

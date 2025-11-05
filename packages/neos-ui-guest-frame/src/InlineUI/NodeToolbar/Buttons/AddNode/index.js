@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import {selectors, actions} from '@neos-project/neos-ui-redux-store';
 import {Button, Icon} from '@neos-project/react-ui-components';
-import {InsertPosition} from "@neos-project/neos-ts-interfaces";
+import {InsertPosition} from '@neos-project/neos-ts-interfaces';
 import {neos} from '@neos-project/neos-ui-decorators';
 
 @neos(globalRegistry => ({

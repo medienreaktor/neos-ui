@@ -41,8 +41,8 @@ import ContentCanvas from './Containers/ContentCanvas/index';
 
 import RightSideBar from './Containers/RightSideBar/index';
 import Inspector from './Containers/RightSideBar/Inspector/index';
-import Breadcrumb from "./Containers/Breadcrumb/index";
-import InlineEditorToolbar from "@neos-project/neos-ui-ckeditor5-bindings/src/EditorToolbar";
+import Breadcrumb from './Containers/Breadcrumb/index';
+import InlineEditorToolbar from '@neos-project/neos-ui-ckeditor5-bindings/src/EditorToolbar';
 
 manifest('main.containers', {}, globalRegistry => {
     const containerRegistry = globalRegistry.get('containers');

@@ -1,27 +1,6 @@
-import React, {PureComponent} from 'react';
-import PropTypes from 'prop-types';
-import omit from 'lodash.omit';
-
-import IconButton from '@neos-project/react-ui-components/src/IconButton/';
 import LinkButton from './EditorToolbar/LinkButton';
-import {neos} from '@neos-project/neos-ui-decorators';
 import StyleSelect from './EditorToolbar/StyleSelect';
 import RichTextToolbarRegistry from './registry/RichTextToolbarRegistry';
-
-@neos(globalRegistry => ({
-    i18nRegistry: globalRegistry.get('i18n')
-}))
-class IconButtonComponent extends PureComponent {
-    static propTypes = {
-        i18nRegistry: PropTypes.object,
-        tooltip: PropTypes.string
-    };
-
-    render() {
-        const finalProps = omit(this.props, ['executeCommand', 'formattingRule', 'formattingUnderCursor', 'inlineEditorOptions', 'i18nRegistry', 'tooltip', 'isActive']);
-        return (<IconButton {...finalProps} isActive={Boolean(this.props.isActive)} title={this.props.i18nRegistry.translate(this.props.tooltip)} />);
-    }
-}
 
 //
 // Create richtext editing toolbar registry

@@ -1,14 +1,16 @@
-import React, {ReactElement, useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import mergeClassNames from 'classnames';
+// @ts-ignore
 import debounce from 'lodash.debounce';
 
+// @ts-ignore
 import {findNodeInGuestFrame, getGuestFrameWindow} from '@neos-project/neos-ui-guest-frame/src/dom';
 import {Icon, IconButton} from '@neos-project/react-ui-components';
 import {translate} from '@neos-project/neos-ui-i18n';
 import {neos} from '@neos-project/neos-ui-decorators';
 import {selectors, useSelector} from '@neos-project/neos-ui-redux-store';
 import {NodeTypesRegistry} from '@neos-project/neos-ui-contentrepository';
-import {SynchronousRegistry} from '@neos-project/neos-ui-registry';
+import {SynchronousRegistry, GlobalRegistry} from '@neos-project/neos-ui-registry';
 
 import style from './style.module.css';
 
@@ -17,8 +19,8 @@ const HTML_ENTITIES: Record<string, string> = {
     '&lt;': '<',
     '&gt;': '>',
     '&quot;': '"',
-    '&#039;': "'",
-    '&ndash;': '-',
+    '&#039;': '\'',
+    '&ndash;': '-'
 };
 
 /**
@@ -36,27 +38,31 @@ const formatNodeLabel = (label: string, maxLength = 20) => {
     return nodeLabel.substring(0, maxLength) + (nodeLabel.length > maxLength ? '…' : '');
 }
 
-const withNeosGlobals = neos((globalRegistry) => ({
+type InjectedContextToolbarProps = {
+    nodeTypesRegistry: NodeTypesRegistry;
+    guestFrameRegistry: SynchronousRegistry<any>;
+}
+
+const withNeosGlobals = neos<ContextToolbarProps, InjectedContextToolbarProps>((globalRegistry: GlobalRegistry) => ({
     nodeTypesRegistry: globalRegistry.get('@neos-project/neos-ui-contentrepository'),
-    guestFrameRegistry: globalRegistry.get('@neos-project/neos-ui-guest-frame'),
+    // @ts-ignore
+    guestFrameRegistry: globalRegistry.get('@neos-project/neos-ui-guest-frame')
 }));
 
 type ContextToolbarProps = {
     buttonProps?: { [key: string]: any };
-    nodeTypesRegistry: NodeTypesRegistry;
-    guestFrameRegistry: SynchronousRegistry<ReactElement>;
-    fusionPath: string;
+    fusionPath: string | undefined;
 }
 
 /**
  * The ContextToolbar contains buttons for context specific operations on nodes,
  * like copying, hiding, moving deleting the focused node.
  */
-const ContextToolbar: React.FC<ContextToolbarProps> = ({
+const ContextToolbar: React.FC<ContextToolbarProps & InjectedContextToolbarProps> = ({
     buttonProps,
     nodeTypesRegistry,
     guestFrameRegistry,
-    fusionPath,
+    fusionPath
 }) => {
     const focusedNode = useSelector(selectors.CR.Nodes.focusedSelector);
     const iframeWindow = useRef(getGuestFrameWindow()).current;
@@ -80,7 +86,9 @@ const ContextToolbar: React.FC<ContextToolbarProps> = ({
     }, [updateStickiness]);
 
     useEffect(() => {
-        if (!iframeWindow) return;
+        if (!iframeWindow) {
+            return;
+        }
 
         iframeWindow.addEventListener('scroll', debouncedStickyRef.current);
         updateStickiness();
@@ -111,18 +119,17 @@ const ContextToolbar: React.FC<ContextToolbarProps> = ({
     return (
         <div className={classNames} id="inline-ui-toolbar-popover">
             <div className={style.toolBar} data-ignore_click_outside="true">
-                {contextButtons.map((Item: ReactElement, key) => <Item key={key} {...buttonProps} />)}
+                {contextButtons.map((Item, key) => <Item key={key} {...buttonProps} />)}
                 <span className={style.contextToolbar__nodeLabel}>
                     <Icon icon={focusedNodeTypeIcon}/>
                     {focusedNodeLabel}
                 </span>
-                <div className={style.toolBar__contextMenuToggleWrapper}>
+                <div>
                     <IconButton
                         id="neos-InlineToolbar-ContextMenu-toggle"
                         className={style.toolBar__contextMenuToggle}
-                        popovertarget="ineos-InlineToolbar-ContextMenu"
+                        popovertarget="neos-InlineToolbar-ContextMenu"
                         icon="ellipsis-vertical"
-                        onClick={void 0}
                         hoverStyle="brand"
                         size="small"
                         title={translate('Neos.Neos.Ui:Main:toggleContextMenu', 'Toggle context menu')}
@@ -133,7 +140,7 @@ const ContextToolbar: React.FC<ContextToolbarProps> = ({
                         popover="auto"
                     >
                         <div className={style.toolBar__btnGroupVertical}>
-                            {buttons.map((Item: ReactElement, key) => <Item key={key} {...buttonProps} />)}
+                            {buttons.map((Item, key) => <Item key={key} {...buttonProps} />)}
                         </div>
                     </div>
                 </div>

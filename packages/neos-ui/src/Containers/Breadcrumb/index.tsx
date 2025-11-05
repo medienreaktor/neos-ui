@@ -5,15 +5,15 @@ import {actions, selectors, GlobalState} from '@neos-project/neos-ui-redux-store
 import {neos} from '@neos-project/neos-ui-decorators';
 import {Node} from '@neos-project/neos-ts-interfaces';
 import {NodeTypesRegistry} from '@neos-project/neos-ui-contentrepository';
-import {Button, Icon} from "@neos-project/react-ui-components";
+import {Button, Icon} from '@neos-project/react-ui-components';
 
 import style from './style.module.css';
 
 const withReduxState = connect((state: GlobalState) => ({
     focusedNodeParentLine: selectors.CR.Nodes.focusedNodeParentLineSelector(state),
-    focusedNode: selectors.CR.Nodes.focusedSelector(state),
+    focusedNode: selectors.CR.Nodes.focusedSelector(state)
 }), {
-    focusNode: actions.CR.Nodes.focus,
+    focusNode: actions.CR.Nodes.focus
 });
 
 const withNeosGlobals = neos((globalRegistry) => ({
@@ -29,9 +29,8 @@ const Breadcrumb: React.FC<{
     focusedNode,
     focusedNodeParentLine,
     focusNode,
-    nodeTypesRegistry,
+    nodeTypesRegistry
 }) => {
-
     const handleSelectNode = React.useCallback((selectedNodeContextPath: string) => {
         if (selectedNodeContextPath && selectedNodeContextPath !== focusedNode?.contextPath) {
             focusNode(selectedNodeContextPath);

@@ -1,71 +1,60 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useMemo} from 'react';
 // @ts-ignore
-import {connect} from 'react-redux';
 import memoize from 'lodash.memoize';
 
 import IconButton from '@neos-project/react-ui-components/src/IconButton/';
-
-import {selectors} from '@neos-project/neos-ui-redux-store';
+import {selectors, useSelector} from '@neos-project/neos-ui-redux-store';
 import {translate} from '@neos-project/neos-ui-i18n'
-import {GlobalState} from "@neos-project/neos-ui-redux-store/src/System";
-import {neos} from "@neos-project/neos-ui-decorators";
-import {Node, NodeTypeName, NodeTypesRegistry} from '@neos-project/neos-ts-interfaces';
+import {neos} from '@neos-project/neos-ui-decorators';
+import {NodeTypeName} from '@neos-project/neos-ts-interfaces';
+import {NodeTypesRegistry} from '@neos-project/neos-ui-contentrepository';
+
 import {DRAG_APPLICATION_ID} from '../../../DragAndDropUi';
 
 type DragSelectedNodeProps = {
-    node: Node;
     className?: string;
-    focusedFusionPath: string | null;
     destructiveOperationsAreDisabled: boolean;
     canBeEdited: boolean;
-    canBeDragged: (nodeTypeName: NodeTypeName) => boolean;
+    nodeTypesRegistry: NodeTypesRegistry;
 }
-
-const withReduxState = connect((state: GlobalState) => ({
-    // TODO: Implement an actual selector to get the focused node's fusion path (not the only spot where we don't use selectors but the raw state in the UI)
-    focusedFusionPath: state?.cr?.nodes?.focused?.fusionPath,
-    node: selectors.CR.Nodes.focusedSelector(state),
-}), {
-});
 
 const withNeosGlobals = neos((globalRegistry) => ({
     nodeTypesRegistry: globalRegistry.get('@neos-project/neos-ui-contentrepository')
 }));
 
-const withDraggableContext = (component: React.FC) => withNeosGlobals(
-    connect((_state: GlobalState, {nodeTypesRegistry}: { nodeTypesRegistry: NodeTypesRegistry }) => {
-        return () => {
-            return {
-                canBeDragged: memoize((nodeTypeName: NodeTypeName) => !nodeTypesRegistry.hasRole(nodeTypeName, 'document')),
-            }
-        }
-    })(component));
+const selectCanBeDragged = memoize((nodeTypesRegistry: NodeTypesRegistry) => {
+    return (nodeTypeName: NodeTypeName) => !nodeTypesRegistry.hasRole(nodeTypeName, 'document');
+});
 
 const DragSelectedNode: React.FC<DragSelectedNodeProps> = ({
     className,
-    node,
-    focusedFusionPath,
     destructiveOperationsAreDisabled,
     canBeEdited,
-    canBeDragged,
+    nodeTypesRegistry
 }) => {
+    const focusedFusionPath = useSelector(state => state?.cr?.nodes?.focused?.fusionPath);
+    const node = useSelector(selectors.CR.Nodes.focusedSelector);
+    const canBeDragged = selectCanBeDragged(nodeTypesRegistry);
+
     if (!node) {
         return null;
     }
 
-    let nodeCanBeDragged = true;
-    let title = translate('Neos.Neos.Ui:Main:dragSelectedNode', 'Drag selected node');
-
-    switch (true) {
-        case node.isAutoCreated:
-            title = translate('Neos.Neos.Ui:Main:cannotMoveAutoCreatedNodes', 'Auto-created nodes cannot be moved');
-            nodeCanBeDragged = false;
-            break;
-        case !canBeDragged(node.nodeType):
-            title = translate('Neos.Neos.Ui:Main:cannotMoveNodesOfType', 'This type of node cannot be moved');
-            nodeCanBeDragged = false;
-            break;
-    }
+    const [nodeCanBeDragged, title] = useMemo((): [boolean, string] => {
+        let title = translate('Neos.Neos.Ui:Main:dragSelectedNode', 'Drag selected node');
+        let nodeCanBeDragged = true;
+        switch (true) {
+            case node.isAutoCreated:
+                title = translate('Neos.Neos.Ui:Main:cannotMoveAutoCreatedNodes', 'Auto-created nodes cannot be moved');
+                nodeCanBeDragged = false;
+                break;
+            case !canBeDragged(node.nodeType):
+                title = translate('Neos.Neos.Ui:Main:cannotMoveNodesOfType', 'This type of node cannot be moved');
+                nodeCanBeDragged = false;
+                break;
+        }
+        return [nodeCanBeDragged, title];
+    }, []);
 
     const handleDragStart = useCallback((ev: React.DragEvent<HTMLDivElement>) => {
         if (!ev.dataTransfer) {
@@ -82,7 +71,6 @@ const DragSelectedNode: React.FC<DragSelectedNodeProps> = ({
                 id="neos-InlineToolbar-DragSelectedNode"
                 className={className}
                 disabled={destructiveOperationsAreDisabled || !canBeEdited || !nodeCanBeDragged}
-                onClick={void 0}
                 icon="grip-vertical"
                 hoverStyle="brand"
                 title={title}
@@ -92,4 +80,4 @@ const DragSelectedNode: React.FC<DragSelectedNodeProps> = ({
     );
 }
 
-export default withReduxState(withDraggableContext(DragSelectedNode as any));
+export default withNeosGlobals(DragSelectedNode as any);

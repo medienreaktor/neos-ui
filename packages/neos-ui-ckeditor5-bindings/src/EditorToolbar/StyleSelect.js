@@ -31,7 +31,7 @@ export default class StyleSelect extends PureComponent {
             PropTypes.bool,
             PropTypes.string,
             PropTypes.object,
-            PropTypes.array,
+            PropTypes.array
         ])),
         executeCommand: PropTypes.func.isRequired,
         i18nRegistry: PropTypes.object.isRequired,

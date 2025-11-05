@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {neos} from '@neos-project/neos-ui-decorators';
 
-import IconButton from '@neos-project/react-ui-components/src/IconButton/';
-
 import {selectors, actions} from '@neos-project/neos-ui-redux-store';
-import {InsertPosition} from "@neos-project/neos-ts-interfaces";
-import {Button, Icon} from "@neos-project/react-ui-components";
+import {InsertPosition} from '@neos-project/neos-ts-interfaces';
+import {Button, Icon} from '@neos-project/react-ui-components';
 
 @neos(globalRegistry => ({
     nodeTypesRegistry: globalRegistry.get('@neos-project/neos-ui-contentrepository')
@@ -67,11 +65,11 @@ export default class PasteClipBoardNode extends PureComponent {
                 size="small"
                 style="brand"
             >
-                    <span className="fa-layers fa-fw">
-                        <Icon icon="paste" size="sm"/>
-                        <Icon icon="circle" color="primaryBlue" transform="shrink-3 down-10 right-10"/>
-                        <Icon icon={insertPositionIcon} transform="shrink-7 down-10 right-10"/>
-                    </span>
+                <span className="fa-layers fa-fw">
+                    <Icon icon="paste" size="sm"/>
+                    <Icon icon="circle" color="primaryBlue" transform="shrink-3 down-10 right-10"/>
+                    <Icon icon={insertPositionIcon} transform="shrink-7 down-10 right-10"/>
+                </span>
             </Button>
         );
     }

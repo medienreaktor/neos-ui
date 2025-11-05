@@ -13,7 +13,7 @@ import {
     HideSelectedNode,
     DragSelectedNode,
     PasteClipBoardNode,
-    DuplicateSelectedNode,
+    DuplicateSelectedNode
 } from './InlineUI/NodeToolbar/Buttons/index';
 
 manifest('@neos-project/neos-ui-guestframe', {}, globalRegistry => {

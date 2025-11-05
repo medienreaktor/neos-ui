@@ -4,7 +4,7 @@ import {actions, actionTypes, selectors} from '@neos-project/neos-ui-redux-store
 
 import determineInsertMode from './determineInsertMode';
 import {calculateChangeTypeFromMode, calculateDomAddressesFromMode} from './helpers';
-import {InsertPosition} from "@neos-project/neos-ts-interfaces";
+import {InsertPosition} from '@neos-project/neos-ts-interfaces';
 
 export default function * pasteNode({globalRegistry}) {
     const nodeTypesRegistry = globalRegistry.get('@neos-project/neos-ui-contentrepository');

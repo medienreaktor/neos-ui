@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import PropTypes from 'prop-types';
 // @ts-ignore
 import debounce from 'lodash.debounce';
 
@@ -9,20 +8,28 @@ import {
     getAbsolutePositionOfElementInGuestFrame,
     getGuestFrameWindow,
     isElementVisibleInGuestFrame
+// @ts-ignore
 } from '@neos-project/neos-ui-guest-frame/src/dom';
 import {neos} from '@neos-project/neos-ui-decorators';
 import {selectors, useSelector} from '@neos-project/neos-ui-redux-store';
 import {InsertPosition} from '@neos-project/neos-ts-interfaces';
-import {NodeTypesRegistry} from "@neos-project/neos-ui-contentrepository";
+import {NodeTypesRegistry} from '@neos-project/neos-ui-contentrepository';
+import {I18nRegistry} from '@neos-project/neos-ui-i18n';
 
 import StructuralToolbar from './StructuralToolbar';
 import ContextToolbar from './ContextToolbar';
 
 import style from './style.module.css';
 
-const withNeosGlobals = neos((globalRegistry) => ({
+type InjectedNodeToolbarProps = {
+    nodeTypesRegistry: NodeTypesRegistry;
+    // We still need the i18n registry here to pass it down to the buttons
+    i18nRegistry: I18nRegistry;
+}
+
+const withNeosGlobals = neos<NodeToolbarProps, InjectedNodeToolbarProps>((globalRegistry) => ({
     nodeTypesRegistry: globalRegistry.get('@neos-project/neos-ui-contentrepository'),
-    i18nRegistry: globalRegistry.get('i18n'),
+    i18nRegistry: globalRegistry.get('i18n')
 }));
 
 type NodeToolbarProps = {
@@ -30,17 +37,15 @@ type NodeToolbarProps = {
     canBeEdited: boolean;
     destructiveOperationsAreDisabled: boolean;
     fusionPath?: string;
-    i18nRegistry: any;
     isCopied: boolean;
     isCut: boolean;
-    nodeTypesRegistry: NodeTypesRegistry;
     requestScrollIntoView: (value: boolean) => void;
     shouldScrollIntoView: boolean;
     visibilityCanBeToggled: boolean;
     visible?: boolean;
 }
 
-const NodeToolbar: React.FC<NodeToolbarProps> = ({
+const NodeToolbar: React.FC<NodeToolbarProps & InjectedNodeToolbarProps> = ({
     canBeDeleted,
     canBeEdited,
     destructiveOperationsAreDisabled,
@@ -52,7 +57,7 @@ const NodeToolbar: React.FC<NodeToolbarProps> = ({
     requestScrollIntoView,
     shouldScrollIntoView,
     visibilityCanBeToggled,
-    visible,
+    visible
 }) => {
     const focusedNode = useSelector(selectors.CR.Nodes.focusedSelector);
     const [insertPosition, setInsertPosition] = useState<InsertPosition>(InsertPosition.AFTER);
@@ -80,11 +85,9 @@ const NodeToolbar: React.FC<NodeToolbarProps> = ({
 
         if (isContentCollection && cursorOffsetY >= (anchorPosition.top + activeRange) && cursorOffsetY <= (anchorPosition.top + anchorPosition.height - activeRange)) {
             setInsertPosition(InsertPosition.INTO);
-        }
-        else if (cursorOffsetY >= anchorPosition.top + anchorPosition.height - activeRange) {
+        } else if (cursorOffsetY >= anchorPosition.top + anchorPosition.height - activeRange) {
             setInsertPosition(InsertPosition.AFTER);
-        }
-        else if (cursorOffsetY <= anchorPosition.top + activeRange) {
+        } else if (cursorOffsetY <= anchorPosition.top + activeRange) {
             setInsertPosition(InsertPosition.BEFORE);
         }
     }, [focusedNode, anchorPosition, nodeTypesRegistry, isContentCollection]);
@@ -150,14 +153,15 @@ const NodeToolbar: React.FC<NodeToolbarProps> = ({
         debouncedUpdateRef.current = debounce(forceUpdate, 5);
 
         return () => {
-            if (debouncedUpdateRef.current?.cancel) {
-                debouncedUpdateRef.current.cancel();
-            }
+            // @ts-ignore
+            debouncedUpdateRef.current?.cancel();
         };
     }, [forceUpdate]);
 
     useEffect(() => {
-        if (!iframeWindow) return;
+        if (!iframeWindow) {
+            return;
+        }
 
         iframeWindow.addEventListener('resize', debouncedUpdateRef.current);
         iframeWindow.addEventListener('load', debouncedUpdateRef.current);
@@ -210,24 +214,6 @@ const NodeToolbar: React.FC<NodeToolbarProps> = ({
             <StructuralToolbar insertPosition={insertPosition} buttonProps={toolbarButtonProps}/>
         </>
     );
-};
-
-NodeToolbar.propTypes = {
-    fusionPath: PropTypes.string,
-    destructiveOperationsAreDisabled: PropTypes.bool.isRequired,
-    // Flag triggered by content tree that tells inlineUI that it should scroll into view
-    shouldScrollIntoView: PropTypes.bool.isRequired,
-    isCut: PropTypes.bool.isRequired,
-    isCopied: PropTypes.bool.isRequired,
-    canBeDeleted: PropTypes.bool.isRequired,
-    canBeEdited: PropTypes.bool.isRequired,
-    visibilityCanBeToggled: PropTypes.bool.isRequired,
-    // Unsets the flag
-    requestScrollIntoView: PropTypes.func.isRequired,
-    i18nRegistry: PropTypes.object.isRequired,
-    visible: PropTypes.bool,
-    focusedNode: PropTypes.object,
-    nodeTypesRegistry: PropTypes.object.isRequired
 };
 
 export default React.memo(withNeosGlobals(NodeToolbar as any));

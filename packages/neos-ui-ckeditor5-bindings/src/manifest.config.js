@@ -28,11 +28,11 @@ import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
 import RemoveFormat from '@ckeditor/ckeditor5-remove-format/src/removeformat';
 import Strikethrough from '@ckeditor/ckeditor5-basic-styles/src/strikethrough';
 import Style from '@ckeditor/ckeditor5-style/src/style';
-import Subscript from "@ckeditor/ckeditor5-basic-styles/src/subscript";
-import Superscript from "@ckeditor/ckeditor5-basic-styles/src/superscript";
+import Subscript from '@ckeditor/ckeditor5-basic-styles/src/subscript';
+import Superscript from '@ckeditor/ckeditor5-basic-styles/src/superscript';
 import Table from '@ckeditor/ckeditor5-table/src/table';
 import TableCaption from '@ckeditor/ckeditor5-table/src/tablecaption';
-import TableToolbar from "@ckeditor/ckeditor5-table/src/tabletoolbar";
+import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
 import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline';
 import Undo from '@ckeditor/ckeditor5-undo/src/undo';
 
@@ -63,7 +63,7 @@ const disableAutoparagraph = (editorOptions, {propertyDomNode}) =>
     propertyDomNode.tagName === 'H6';
 
 // Checks if the formatting options contains any block element
-const hasBlockFormat= (editorOptions) => {
+const hasBlockFormat = (editorOptions) => {
     if (!editorOptions?.formatting) {
         return false;
     }
@@ -198,7 +198,7 @@ export default ckEditorRegistry => {
                 {model: 'heading5', title: 'Heading 5', view: 'h5'},
                 {model: 'heading6', title: 'Heading 6', view: 'h6'},
                 {model: 'pre', title: 'Preformatted', view: 'pre'},
-                {model: 'blockquote', title: 'Blockquote', view: 'blockquote'},
+                {model: 'blockquote', title: 'Blockquote', view: 'blockquote'}
             ]}
     }));
 
@@ -253,7 +253,7 @@ export default ckEditorRegistry => {
                 items: [
                     ...(formatting.ul ? ['bulletedList'] : []),
                     ...(formatting.ol ? ['numberedList'] : []),
-                    ...(formatting.indent ? ['indent', 'outdent'] : []),
+                    ...(formatting.indent ? ['indent', 'outdent'] : [])
                 ]
             });
         }
@@ -278,16 +278,16 @@ export default ckEditorRegistry => {
                     ...(formatting.left ? ['left'] : []),
                     ...(formatting.center ? ['center'] : []),
                     ...(formatting.right ? ['right'] : []),
-                    ...(formatting.justify ? ['justify'] : []),
+                    ...(formatting.justify ? ['justify'] : [])
                 ]
             },
             toolbar: {
                 items: toolbarItems,
-                shouldNotGroupWhenFull: false,
+                shouldNotGroupWhenFull: false
             },
             balloonToolbar: {
                 items: balloonToolbarItems,
-                shouldNotGroupWhenFull: true,
+                shouldNotGroupWhenFull: true
             },
             table: {
                 contentToolbar: tableItems
@@ -299,8 +299,8 @@ export default ckEditorRegistry => {
                 ]
             },
             style: {
-                definitions: formatting.styleDefinitions || [],
-            },
+                definitions: formatting.styleDefinitions || []
+            }
         })
     });
 

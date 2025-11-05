@@ -1,18 +1,22 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import DecoupledEditor from '@ckeditor/ckeditor5-editor-decoupled/src/decouplededitor';
+// @ts-ignore
 import debounce from 'lodash.debounce';
 
 import {neos} from '@neos-project/neos-ui-decorators';
+// @ts-ignore
 import {EditorToolbar} from '@neos-project/neos-ui-ckeditor5-bindings/src/EditorToolbar';
 import {useSelector} from '@neos-project/neos-ui-redux-store';
 import {GlobalRegistry} from '@neos-project/neos-ui-registry';
+// @ts-ignore
 import {CkEditorConfigRegistry} from '@neos-project/neos-ui-ckeditor5-bindings/src/registry/CkEditorConfigRegistry';
 
 import style from './index.module.css';
 
 const withNeosGlobals = neos((globalRegistry) => ({
     globalRegistry,
-    configRegistry: globalRegistry.get('ckEditor5').get('config'),
+    // @ts-ignore
+    configRegistry: globalRegistry.get('ckEditor5').get('config')
 }));
 
 type CKEditorWrapProps = {
@@ -33,8 +37,8 @@ const CKEditorWrap: React.FC<CKEditorWrapProps> = ({
     const userPreferences = useSelector(state => state?.user?.preferences);
     const [formattingUnderCursor, setFormattingUnderCursor] = useState({});
     const [lastFormattingUnderCursorSerialized, setLastFormattingUnderCursorSerialized] = useState('');
-    const editorRef = useRef<HTMLElement>();
-    const toolbarWrapRef = useRef<HTMLElement>();
+    const editorRef = useRef<HTMLDivElement>(null);
+    const toolbarWrapRef = useRef<HTMLDivElement>(null);
     const [currentEditor, setCurrentEditor] = useState<DecoupledEditor>();
 
     const executeCommand = useCallback((command, argument, reFocusEditor = true) => {
@@ -89,7 +93,7 @@ const CKEditorWrap: React.FC<CKEditorWrapProps> = ({
 
                 // As we use the DecoupledEditor, we need to add the toolbar to the secondary editor
                 if (toolbarWrapRef.current) {
-                    toolbarWrapRef.current.appendChild(editor.ui.view.toolbar.element);
+                    toolbarWrapRef.current.appendChild(editor.ui.view.toolbar.element as Node);
                 }
 
                 editor.model.document.on('change', handleUserInteractionCallback);

@@ -2,8 +2,8 @@ import {put, select, takeEvery} from 'redux-saga/effects';
 import {ActionType} from 'typesafe-actions';
 
 import {actions, actionTypes, GlobalState, selectors} from '@neos-project/neos-ui-redux-store';
-import {ClipboardMode, InsertPosition, NodeType, Node} from "@neos-project/neos-ts-interfaces";
-import {GlobalRegistry} from "@neos-project/neos-ui-registry";
+import {ClipboardMode, InsertPosition, NodeType, Node} from '@neos-project/neos-ts-interfaces';
+import {GlobalRegistry} from '@neos-project/neos-ui-registry';
 
 // @ts-ignore
 import {calculateChangeTypeFromMode, calculateDomAddressesFromMode} from './helpers';
@@ -28,7 +28,7 @@ export default function * duplicateNode({globalRegistry}: { globalRegistry: Glob
 
             const changes = [{
                 type: calculateChangeTypeFromMode(InsertPosition.AFTER, ClipboardMode.COPY),
-                subject: subject,
+                subject,
                 payload: {
                     ...calculateDomAddressesFromMode(InsertPosition.AFTER, referenceNode, fusionPath),
                     baseNodeType

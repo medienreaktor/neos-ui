@@ -1,20 +1,21 @@
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback, useEffect} from 'react';
 // @ts-ignore
 import memoize from 'lodash.memoize';
 // @ts-ignore
 import {connect} from 'react-redux';
 
-import {translate} from "@neos-project/neos-ui-i18n";
-import {InsertPosition, Node, NodeContextPath} from "@neos-project/neos-ts-interfaces";
+import {translate} from '@neos-project/neos-ui-i18n';
+import {InsertPosition, Node, NodeContextPath} from '@neos-project/neos-ts-interfaces';
 import {
     closestContextPathInGuestFrame,
     closestNodeInGuestFrame,
     findNodeInGuestFrame,
     getGuestFrameDocument
+    // @ts-ignore
 } from '@neos-project/neos-ui-guest-frame/src/dom';
-import {actions, selectors, GlobalState} from "@neos-project/neos-ui-redux-store";
-import {neos} from "@neos-project/neos-ui-decorators";
-import {NodeTypesRegistry} from "@neos-project/neos-ui-contentrepository";
+import {actions, selectors, GlobalState} from '@neos-project/neos-ui-redux-store';
+import {neos} from '@neos-project/neos-ui-decorators';
+import {NodeTypesRegistry} from '@neos-project/neos-ui-contentrepository';
 
 import style from './style.module.css';
 
@@ -22,13 +23,20 @@ export const DRAG_APPLICATION_ID = 'application/neos-ui';
 const INDICATOR_OFFSET = 16; // Offset for the drop indicator element
 
 const withReduxState = connect((state: GlobalState) => ({
-    getNodeByContextPath: selectors.CR.Nodes.nodeByContextPath(state),
+    getNodeByContextPath: selectors.CR.Nodes.nodeByContextPath(state)
 }), {
     focusNode: actions.CR.Nodes.focus,
-    moveNodes: actions.CR.Nodes.moveMultiple,
+    moveNodes: actions.CR.Nodes.moveMultiple
 });
 
-const withNeosGlobals = neos((globalRegistry) => ({
+type InjectedDragAndDropUiProps = {
+    canBeInsertedAlongside: (draggedNodeContextPath: NodeContextPath, targetNodeContextPath: NodeContextPath) => boolean;
+    canBeInsertedInto: (draggedNodeContextPath: NodeContextPath, targetNodeContextPath: NodeContextPath) => boolean;
+    getFocusedNode: () => Node | null;
+    nodeTypesRegistry: NodeTypesRegistry;
+}
+
+const withNeosGlobals = neos<DragAndDropUiProps, InjectedDragAndDropUiProps>((globalRegistry) => ({
     nodeTypesRegistry: globalRegistry.get('@neos-project/neos-ui-contentrepository')
 }));
 
@@ -44,25 +52,24 @@ const withDraggableContext = (component: React.FC) => withNeosGlobals(
                 canBeInsertedAlongside: memoize((draggedNodeContextPath: NodeContextPath, targetNodeContextPath: NodeContextPath) => canBeMovedAlongsideSelector(state, {
                     subject: draggedNodeContextPath,
                     reference: targetNodeContextPath,
-                    role: 'content',
+                    role: 'content'
                 }), (a: NodeContextPath, b: NodeContextPath) => a + b),
                 canBeInsertedInto: memoize((draggedNodeContextPath: NodeContextPath, targetNodeContextPath: NodeContextPath) => canBeMovedIntoSelector(state, {
                     subject: draggedNodeContextPath,
                     reference: targetNodeContextPath,
-                    role: 'content',
+                    role: 'content'
                 }), (a: NodeContextPath, b: NodeContextPath) => a + b),
                 getFocusedNode: (): Node|null => selectors.CR.Nodes.focusedSelector(state)
             }
         }
     })(component));
 
-const DragAndDropUi: React.FC<{
-    getNodeByContextPath: (contextPath: NodeContextPath) => Node | null;
+type DragAndDropUiProps = {
+    getNodeByContextPath: (contextPath: NodeContextPath) => Node | undefined;
     moveNodes: (nodesToBeMoved: NodeContextPath[], targetNode: NodeContextPath, position: InsertPosition) => void;
-    canBeInsertedAlongside: (draggedNodeContextPath: NodeContextPath, targetNodeContextPath: NodeContextPath) => boolean;
-    canBeInsertedInto: (draggedNodeContextPath: NodeContextPath, targetNodeContextPath: NodeContextPath) => boolean;
-    getFocusedNode: () => Node | null;
-}> = ({
+}
+
+const DragAndDropUi: React.FC<DragAndDropUiProps & InjectedDragAndDropUiProps> = ({
           getNodeByContextPath,
           moveNodes,
           canBeInsertedAlongside,
@@ -104,7 +111,7 @@ const DragAndDropUi: React.FC<{
         const closestContextPath = closestContextPathInGuestFrame(closestNode);
         const draggedNodeContextPath = getFocusedNodeRef.current()?.contextPath;
         if (!draggedNodeContextPath || closestContextPath === draggedNodeContextPath) {
-            ev.dataTransfer.dropEffect = "none";
+            ev.dataTransfer.dropEffect = 'none';
             dropIndicatorRef.current.style.display = 'none';
             return;
         }
@@ -115,7 +122,7 @@ const DragAndDropUi: React.FC<{
 
         // Position arrow based on allowed drop positions and offset from the closest node
         if (!allowedAlongside && !allowedInside) {
-            ev.dataTransfer.dropEffect = "none";
+            ev.dataTransfer.dropEffect = 'none';
             dropIndicatorRef.current.style.display = 'none';
             return;
         }
@@ -126,7 +133,7 @@ const DragAndDropUi: React.FC<{
         // Calculate insert position based on the allowed positions and the mouse position
         const rect = closestNode.getBoundingClientRect();
         let indicatorOffsetTop = 0;
-        let indicatorOffsetLeft = rect.left + INDICATOR_OFFSET;
+        const indicatorOffsetLeft = rect.left + INDICATOR_OFFSET;
         let indicatorHeight: string | number = 'auto';
         let indicatorLabel = '';
         if (allowedInside && !allowedAlongside) {
@@ -167,7 +174,7 @@ const DragAndDropUi: React.FC<{
 
         const draggedNodeAddressInGuestFrame = ev.dataTransfer.getData(DRAG_APPLICATION_ID);
         if (!draggedNodeAddressInGuestFrame) {
-            ev.dataTransfer.dropEffect = "none";
+            ev.dataTransfer.dropEffect = 'none';
             return;
         }
         const {

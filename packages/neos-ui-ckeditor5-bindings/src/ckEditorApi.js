@@ -146,7 +146,7 @@ export const createEditor = store => async options => {
                         // Check if focus moved to a CKEditor UI element (like the toolbar)
                         // If so, we should not treat this as leaving the editor
                         // TODO: Verify whether this is precise enough, or we should instead check all editor components instead
-                        const activeElement = getGuestFrameDocument().activeElement;
+                        const {activeElement} = getGuestFrameDocument();
                         const isWithinEditor = activeElement === editor.sourceElement;
                         if (isWithinEditor) {
                             return;

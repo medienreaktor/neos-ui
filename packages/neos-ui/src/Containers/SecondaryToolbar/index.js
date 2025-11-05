@@ -13,14 +13,14 @@ import style from './style.module.css';
 @connect(state => ({
     isFringedLeft: state?.ui?.leftSideBar?.isHidden,
     isFringedRight: state?.ui?.rightSideBar?.isHidden,
-    isFullScreen: state?.ui?.fullScreen?.isFullScreen,
+    isFullScreen: state?.ui?.fullScreen?.isFullScreen
 }))
 export default class SecondaryToolbar extends PureComponent {
     static propTypes = {
         containerRegistry: PropTypes.object.isRequired,
         isFringedLeft: PropTypes.bool.isRequired,
         isFringedRight: PropTypes.bool.isRequired,
-        isFullScreen: PropTypes.bool.isRequired,
+        isFullScreen: PropTypes.bool.isRequired
     };
 
     render() {

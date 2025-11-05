@@ -27,7 +27,7 @@ export default class InlineEditorToolbar extends PureComponent {
             PropTypes.bool,
             PropTypes.object,
             PropTypes.string,
-            PropTypes.array,
+            PropTypes.array
         ])),
         nodeTypesRegistry: PropTypes.object.isRequired
     };
