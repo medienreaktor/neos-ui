@@ -144,6 +144,10 @@ a.ck.ck-button {
     border: 1px solid var(--ck-color-base-border);
 }
 
+.ck.ck-button.ck-insert-table-dropdown-grid-box.ck-off {
+    border-color: #3f3f3f;
+}
+
 .ck.ck-toolbar,
 .ck.ck-editor__editable_inline {
     border: 0;
