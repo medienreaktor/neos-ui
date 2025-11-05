@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import {Icon, Button} from '@neos-project/react-ui-components';
 import {actions, selectors, useSelector} from '@neos-project/neos-ui-redux-store';
-import {I18nRegistry} from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 import {FusionPath, NodeContextPath} from '@neos-project/neos-ts-interfaces';
 
 type DuplicateSelectNodeProps = {
@@ -13,7 +13,6 @@ type DuplicateSelectNodeProps = {
     destructiveOperationsAreDisabled: boolean;
     isCopied: boolean;
     duplicateNode: (contextPath: NodeContextPath, fusionPath: FusionPath) => void;
-    i18nRegistry: I18nRegistry;
 }
 
 const withReduxState = connect(() => ({}), {
@@ -25,7 +24,6 @@ const DuplicateSelectedNode: React.FC<DuplicateSelectNodeProps> = ({
                                                                        fusionPath,
                                                                        destructiveOperationsAreDisabled,
                                                                        className,
-                                                                       i18nRegistry,
                                                                        duplicateNode
                                                                    }) => {
     const focusedNodeContextPath = useSelector(selectors.CR.Nodes.focusedNodePathSelector);
@@ -42,10 +40,11 @@ const DuplicateSelectedNode: React.FC<DuplicateSelectNodeProps> = ({
             disabled={destructiveOperationsAreDisabled}
             onClick={handleDuplicateSelectedNode}
             hoverStyle="brand"
+            style="clean"
             size="small"
-            title={i18nRegistry.translate('Neos.Neos.Ui:Main:duplicate--title')}
+            title={translate('Neos.Neos.Ui:Main:duplicate--title', 'Duplicate selected content')}
         >
-            {i18nRegistry.translate('Neos.Neos.Ui:Main:duplicate')}
+            {translate('Neos.Neos.Ui:Main:duplicate', 'Duplicate')}
             <Icon icon="far clone"/>
         </Button>
     );
