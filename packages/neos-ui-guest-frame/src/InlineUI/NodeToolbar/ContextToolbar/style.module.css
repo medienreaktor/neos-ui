@@ -81,6 +81,7 @@
     padding: 0;
     background: var(--colors-PrimaryBlue);
     position-try-fallbacks: --context-menu-align-right;
+    border: 2px solid var(--colors-ContrastDarker);
 }
 
 .toolBar__contextMenu button {
