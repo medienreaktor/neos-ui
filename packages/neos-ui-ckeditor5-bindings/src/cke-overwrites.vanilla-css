@@ -78,10 +78,11 @@
     --ck-color-button-on-color: var(--ck-color-base-text);
     --ck-color-button-default-background: transparent;
     --ck-color-button-default-hover-background: #35c3f8;
-    --ck-color-split-button-hover-background: var(--ck-color-base-active-focus);
     --ck-color-button-default-active-background: var(--ck-color-base-active);
     --ck-color-button-default-disabled-background: transparent;
     --ck-color-button-on-hover-background: var(--ck-color-base-active-focus);
+
+    --ck-color-split-button-hover-background: var(--ck-color-base-active-focus);
 
     --ck-color-focus-border: #35c3f8;
     --ck-color-focus-shadow: rgba(119, 186, 248, .5);
@@ -148,11 +149,41 @@ a.ck.ck-button {
     border-color: #3f3f3f;
 }
 
-.ck.ck-toolbar,
+.ck.ck-toolbar {
+    border: 1px solid var(--ck-color-toolbar-border);
+    padding: 0;
+}
+
 .ck.ck-editor__editable_inline {
     border: 0;
 }
 
 .ck.ck-editor__editable_inline.ck-focused {
     box-sizing: border-box;
+}
+
+.ck.ck-toolbar .ck.ck-toolbar__separator {
+    height: auto;
+    display: block;
+    align-self: stretch;
+    margin: 0;
+}
+
+.ck.ck-style-panel .ck-style-grid .ck-style-grid__button {
+    --ck-color-base-background: white;
+}
+
+.ck.ck-style-panel .ck-style-grid {
+    --ck-style-panel-button-label-background: #323232;
+    --ck-style-panel-button-hover-label-background: #3f3f3f;
+    --ck-style-panel-button-hover-border-color: var(--ck-color-base-active);
+}
+
+.ck.ck-style-panel .ck-style-grid .ck-style-grid__button .ck-style-grid__button__preview {
+    color: initial;
+    border-color: var(--ck-color-toolbar-border);
+}
+
+.ck.ck-style-panel .ck-style-grid .ck-style-grid__button {
+    border: 1px solid var(--ck-color-base-border);
 }
