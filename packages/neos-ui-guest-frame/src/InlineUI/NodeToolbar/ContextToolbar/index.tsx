@@ -5,7 +5,7 @@ import debounce from 'lodash.debounce';
 
 // @ts-ignore
 import {findNodeInGuestFrame, getGuestFrameWindow} from '@neos-project/neos-ui-guest-frame/src/dom';
-import {Icon, IconButton} from '@neos-project/react-ui-components';
+import {Icon, IconButton, Label} from '@neos-project/react-ui-components';
 import {translate} from '@neos-project/neos-ui-i18n';
 import {neos} from '@neos-project/neos-ui-decorators';
 import {selectors, useSelector} from '@neos-project/neos-ui-redux-store';
@@ -120,10 +120,10 @@ const ContextToolbar: React.FC<ContextToolbarProps & InjectedContextToolbarProps
         <div className={classNames} id="inline-ui-toolbar-popover">
             <div className={style.toolBar} data-ignore_click_outside="true">
                 {contextButtons.map((Item, key) => <Item key={key} {...buttonProps} />)}
-                <span className={style.contextToolbar__nodeLabel}>
+                <Label htmlFor="neos-InlineToolbar-ContextMenu-toggle" className={style.contextToolbar__nodeLabel}>
                     <Icon icon={focusedNodeTypeIcon}/>
                     {focusedNodeLabel}
-                </span>
+                </Label>
                 <div>
                     <IconButton
                         id="neos-InlineToolbar-ContextMenu-toggle"

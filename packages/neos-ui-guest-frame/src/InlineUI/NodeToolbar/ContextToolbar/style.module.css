@@ -51,6 +51,7 @@
     align-items: center;
     gap: 1ch;
     padding: 0 5px;
+    margin: 0;
     font-size: var(--fontSize-Small);
 }
 
