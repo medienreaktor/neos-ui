@@ -35,6 +35,8 @@ Neos:
       'neos-test-onedimension':
         contentRepository: 'onedimension'
         contentDimensions:
+          defaultDimensionSpacePoint:
+            language: "en_US"
           resolver:
             factoryClassName: Neos\Neos\FrontendRouting\DimensionResolution\Resolver\AutoUriPathResolverFactory
 
