@@ -7,8 +7,6 @@ import LinkRelNofollow from './plugins/linkRelNofollow';
 import LinkDownload from './plugins/linkDownload';
 import LinkTitle from './plugins/linkTitle';
 import ItalicWithEm from './plugins/italicWithEm';
-// TODO: Check if we can remove this plugin as we use the CK builtin table editing features
-import InsideTable from './plugins/insideTable';
 
 import {icons} from '@ckeditor/ckeditor5-core/src';
 import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';
