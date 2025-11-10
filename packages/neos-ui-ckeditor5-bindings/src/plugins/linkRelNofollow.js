@@ -1,4 +1,4 @@
-import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
+import {Plugin} from '@ckeditor/ckeditor5-core';
 import LinkAttributeCommand from './linkAttributeCommand';
 
 const REL_NOFOLLOW = 'linkRelNofollow';

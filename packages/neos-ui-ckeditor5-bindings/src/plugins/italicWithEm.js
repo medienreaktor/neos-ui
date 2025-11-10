@@ -1,4 +1,4 @@
-import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
+import {Plugin} from '@ckeditor/ckeditor5-core';
 import ItalicWithEmEditing from './italicWithEmEditing';
 
 export default class ItalicWithEm extends Plugin {
@@ -16,4 +16,3 @@ export default class ItalicWithEm extends Plugin {
         return 'ItalicWithEm';
     }
 }
-

@@ -1,6 +1,6 @@
-import Command from '@ckeditor/ckeditor5-core/src/command';
+import {Command} from '@ckeditor/ckeditor5-core';
 import {findAttributeRange} from '@ckeditor/ckeditor5-typing';
-import toMap from '@ckeditor/ckeditor5-utils/src/tomap';
+import {toMap} from '@ckeditor/ckeditor5-utils';
 
 export default class LinkAttributeCommand extends Command {
     constructor(editor, attributeKey) {

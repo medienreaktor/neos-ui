@@ -1,13 +1,12 @@
 import debounce from 'lodash.debounce';
 import {actions} from '@neos-project/neos-ui-redux-store';
 import {getGuestFrame, getGuestFrameDocument} from '@neos-project/neos-ui-guest-frame/src/dom';
-import DecoupledEditor from '@ckeditor/ckeditor5-editor-decoupled/src/decouplededitor';
-import {Template, BodyCollection} from '@ckeditor/ckeditor5-ui/src';
+import {DecoupledEditor} from '@ckeditor/ckeditor5-editor-decoupled';
+import {Template, BodyCollection} from '@ckeditor/ckeditor5-ui';
 import {createElement} from '@ckeditor/ckeditor5-utils';
 
 import {cleanupContentBeforeCommit} from './cleanupContentBeforeCommit'
 
-// FIXME import from @ckeditor/ckeditor5-engine/theme/placeholder.css instead! (Needs build setup configuration)
 import '@ckeditor/ckeditor5-theme-lark/dist/index.css';
 import '@ckeditor/ckeditor5-clipboard/dist/index.css';
 import '@ckeditor/ckeditor5-core/dist/index.css';

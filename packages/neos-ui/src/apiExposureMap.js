@@ -27,95 +27,47 @@ import * as NeosUiRegistry from '@neos-project/neos-ui-registry';
 // It's not safe to just install CKE5 packages from the extension because then then "instanceof" checks will no longer work,
 // which would break CKE5 in some places.
 // Feel free to export more parts as needed.
-import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
-import Command from '@ckeditor/ckeditor5-core/src/command';
-import Widget from '@ckeditor/ckeditor5-widget/src/widget';
-import {toWidget, viewToModelPositionOutsideModelElement} from '@ckeditor/ckeditor5-widget/src/utils';
-import HighlightEditing from '@ckeditor/ckeditor5-highlight/src/highlightediting';
+import {HighlightEditing} from '@ckeditor/ckeditor5-highlight';
 
-import ModelDocument from '@ckeditor/ckeditor5-engine/src/model/document';
-import ModelDocumentFragment from '@ckeditor/ckeditor5-engine/src/model/documentfragment';
-import ModelDocumentSelection from '@ckeditor/ckeditor5-engine/src/model/documentselection';
-import ModelElement from '@ckeditor/ckeditor5-engine/src/model/element';
-import ModelNode from '@ckeditor/ckeditor5-engine/src/model/node';
-import ModelNodeList from '@ckeditor/ckeditor5-engine/src/model/nodelist';
-import ModelPosition from '@ckeditor/ckeditor5-engine/src/model/position';
-import ModelRange from '@ckeditor/ckeditor5-engine/src/model/range';
-import ModelSchema from '@ckeditor/ckeditor5-engine/src/model/schema';
-import ModelSelection from '@ckeditor/ckeditor5-engine/src/model/selection';
-import ModelText from '@ckeditor/ckeditor5-engine/src/model/text';
-import ModelTextProxy from '@ckeditor/ckeditor5-engine/src/model/textproxy';
-import ModelTreeWalker from '@ckeditor/ckeditor5-engine/src/model/treewalker';
-import ModelWriter from '@ckeditor/ckeditor5-engine/src/model/writer';
+import {
+    ViewDowncastWriter,
+    Matcher,
+    EditingView,
+    ViewDomConverter,
+    disableViewPlaceholder,
+    enableViewPlaceholder,
+    hideViewPlaceholder,
+    needsViewPlaceholder,
+    showViewPlaceholder
+} from '@ckeditor/ckeditor5-engine';
 
-import ViewAttributeElement from '@ckeditor/ckeditor5-engine/src/view/attributeelement';
-import ViewContainerElement from '@ckeditor/ckeditor5-engine/src/view/containerelement';
-import ViewDocument from '@ckeditor/ckeditor5-engine/src/view/document';
-import ViewDocumentFragment from '@ckeditor/ckeditor5-engine/src/view/documentfragment';
-import ViewDocumentSelection from '@ckeditor/ckeditor5-engine/src/view/documentselection';
-import ViewDOMConverter from '@ckeditor/ckeditor5-engine/src/view/domconverter';
-import ViewEditableElement from '@ckeditor/ckeditor5-engine/src/view/editableelement';
-import ViewElement from '@ckeditor/ckeditor5-engine/src/view/element';
-import ViewEmptyElement from '@ckeditor/ckeditor5-engine/src/view/emptyelement';
-import * as ViewFiller from '@ckeditor/ckeditor5-engine/src/view/filler';
-import ViewMatcher from '@ckeditor/ckeditor5-engine/src/view/matcher';
-import ViewNode from '@ckeditor/ckeditor5-engine/src/view/node';
-import * as ViewPlaceholder from '@ckeditor/ckeditor5-engine/src/view/placeholder';
-import ViewPosition from '@ckeditor/ckeditor5-engine/src/view/position';
-import ViewRange from '@ckeditor/ckeditor5-engine/src/view/range';
-import ViewRenderer from '@ckeditor/ckeditor5-engine/src/view/renderer';
-import ViewSelection from '@ckeditor/ckeditor5-engine/src/view/selection';
-import ViewText from '@ckeditor/ckeditor5-engine/src/view/text';
-import ViewTextProxy from '@ckeditor/ckeditor5-engine/src/view/textproxy';
-import ViewTreeWalker from '@ckeditor/ckeditor5-engine/src/view/treewalker';
-import ViewUIElement from '@ckeditor/ckeditor5-engine/src/view/uielement';
-import View from '@ckeditor/ckeditor5-engine/src/view/view';
-import DownCastWriter from '@ckeditor/ckeditor5-engine/src/view/downcastwriter';
+// With the new exports in CKE6 v45+, we can fully import and re-export the CKE5 various modules.
+import * as CkEditor5Core from '@ckeditor/ckeditor5-core';
+import * as CkEditor5Engine from '@ckeditor/ckeditor5-engine';
+import * as CkEditor5Widget from '@ckeditor/ckeditor5-widget';
+import * as CkEditor5Highlight from '@ckeditor/ckeditor5-highlight';
+import * as CkEditor5Ui from '@ckeditor/ckeditor5-ui';
 
+// Compatibility export for CkEditor5 for plugins using older CKE5 versions (<46)
 const CkEditor5 = {
-    Plugin,
-    Command,
-    Widget,
-    toWidget,
-    viewToModelPositionOutsideModelElement,
-    HighlightEditing,
-    ModelDocument,
-    ModelDocumentFragment,
-    ModelDocumentSelection,
-    ModelElement,
-    ModelNode,
-    ModelNodeList,
-    ModelPosition,
-    ModelRange,
-    ModelSchema,
-    ModelSelection,
-    ModelText,
-    ModelTextProxy,
-    ModelTreeWalker,
-    ModelWriter,
-    ViewAttributeElement,
-    ViewContainerElement,
-    ViewDocument,
-    ViewDocumentFragment,
-    ViewDocumentSelection,
-    ViewDOMConverter,
-    ViewEditableElement,
-    ViewElement,
-    ViewEmptyElement,
-    ViewFiller,
-    ViewMatcher,
-    ViewNode,
-    ViewPlaceholder,
-    ViewPosition,
-    ViewRange,
-    ViewRenderer,
-    ViewSelection,
-    ViewText,
-    ViewTextProxy,
-    ViewTreeWalker,
-    ViewUIElement,
-    View,
-    DownCastWriter
+    ...CkEditor5Core,
+    ...CkEditor5Engine,
+    ...CkEditor5Widget,
+    ...CkEditor5Highlight,
+    ...CkEditor5Ui,
+
+    // Backwards compatibility with CK5 < 46 as some class names changed
+    DownCastWriter: ViewDowncastWriter,
+    View: EditingView,
+    ViewDOMConverter: ViewDomConverter,
+    ViewMatcher: Matcher,
+    ViewPlaceholder: {
+        disableViewPlaceholder,
+        enableViewPlaceholder,
+        hideViewPlaceholder,
+        needsViewPlaceholder,
+        showViewPlaceholder,
+    },
 };
 
 export default {
@@ -130,7 +82,12 @@ export default {
         reduxSagaEffects,
         reselect,
         reactCssThemr,
-        CkEditor5,
+        CkEditor5, // Backwards compatible export
+        CkEditor5Engine,
+        CkEditor5Core,
+        CkEditor5Widget,
+        CkEditor5Highlight,
+        CkEditor5Ui,
         HTML5Backend,
         ReactDND
     }),

@@ -8,32 +8,24 @@ import LinkDownload from './plugins/linkDownload';
 import LinkTitle from './plugins/linkTitle';
 import ItalicWithEm from './plugins/italicWithEm';
 
-import {icons} from '@ckeditor/ckeditor5-core/src';
-import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';
-import Autoformat from '@ckeditor/ckeditor5-autoformat/src/autoformat';
-import BalloonToolbar from '@ckeditor/ckeditor5-ui/src/toolbar/balloon/balloontoolbar';
-import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
-import Code from '@ckeditor/ckeditor5-basic-styles/src/code';
-import CodeBlock from '@ckeditor/ckeditor5-code-block/src/codeblock';
-import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
-import Heading from '@ckeditor/ckeditor5-heading/src/heading';
-import GeneralHtmlSupport from '@ckeditor/ckeditor5-html-support/src/generalhtmlsupport';
-import HorizontalLine from '@ckeditor/ckeditor5-horizontal-line/src/horizontalline';
-import Indent from '@ckeditor/ckeditor5-indent/src/indent';
-import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
-import Link from '@ckeditor/ckeditor5-link/src/linkediting';
-import List from '@ckeditor/ckeditor5-list/src/list';
-import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
-import RemoveFormat from '@ckeditor/ckeditor5-remove-format/src/removeformat';
-import Strikethrough from '@ckeditor/ckeditor5-basic-styles/src/strikethrough';
-import Style from '@ckeditor/ckeditor5-style/src/style';
-import Subscript from '@ckeditor/ckeditor5-basic-styles/src/subscript';
-import Superscript from '@ckeditor/ckeditor5-basic-styles/src/superscript';
-import Table from '@ckeditor/ckeditor5-table/src/table';
-import TableCaption from '@ckeditor/ckeditor5-table/src/tablecaption';
-import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
-import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline';
-import Undo from '@ckeditor/ckeditor5-undo/src/undo';
+import {Alignment} from '@ckeditor/ckeditor5-alignment';
+import {Autoformat} from '@ckeditor/ckeditor5-autoformat';
+import {BalloonToolbar} from '@ckeditor/ckeditor5-ui';
+import {Bold, Code, Underline, Superscript, Subscript, Italic, Strikethrough} from '@ckeditor/ckeditor5-basic-styles';
+import {CodeBlock} from '@ckeditor/ckeditor5-code-block';
+import {Essentials} from '@ckeditor/ckeditor5-essentials';
+import {GeneralHtmlSupport} from '@ckeditor/ckeditor5-html-support';
+import {Heading} from '@ckeditor/ckeditor5-heading';
+import {HorizontalLine} from '@ckeditor/ckeditor5-horizontal-line';
+import {IconBulletedList} from '@ckeditor/ckeditor5-icons';
+import {Indent} from '@ckeditor/ckeditor5-indent';
+import {Link} from '@ckeditor/ckeditor5-link';
+import {List} from '@ckeditor/ckeditor5-list';
+import {Paragraph} from '@ckeditor/ckeditor5-paragraph';
+import {RemoveFormat} from '@ckeditor/ckeditor5-remove-format';
+import {Style} from '@ckeditor/ckeditor5-style';
+import {Table, TableCaption, TableToolbar} from '@ckeditor/ckeditor5-table';
+import {Undo} from '@ckeditor/ckeditor5-undo';
 
 const addPlugin = (Plugin, isEnabled) => (ckEditorConfiguration, options) => {
     // LEGACY: we duplicate editorOptions here so it would be possible to write smth like `$get('formatting.sup')`
@@ -255,7 +247,7 @@ export default ckEditorRegistry => {
             toolbarItems.push('|');
             toolbarItems.push({
                 label: 'Lists',
-                icon: icons.bulletedList,
+                icon: IconBulletedList,
                 items: [
                     ...(formatting.ul ? ['bulletedList'] : []),
                     ...(formatting.ol ? ['numberedList'] : []),
