@@ -18,6 +18,7 @@ import CodeBlock from '@ckeditor/ckeditor5-code-block/src/codeblock';
 import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
 import Heading from '@ckeditor/ckeditor5-heading/src/heading';
 import GeneralHtmlSupport from '@ckeditor/ckeditor5-html-support/src/generalhtmlsupport';
+import HorizontalLine from '@ckeditor/ckeditor5-horizontal-line/src/horizontalline';
 import Indent from '@ckeditor/ckeditor5-indent/src/indent';
 import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
 import Link from '@ckeditor/ckeditor5-link/src/linkediting';
@@ -132,38 +133,45 @@ export default ckEditorRegistry => {
         };
     });
 
-    //
-    // Add plugins
-    //
-    config.set('balloonToolbar', addPlugin(BalloonToolbar));
+    // General plugins
     config.set('autoformat', addPlugin(Autoformat));
     config.set('essentials', addPlugin(Essentials));
+    config.set('removeFormat', addPlugin(RemoveFormat, editorOptions => editorOptions?.formatting?.removeFormat));
+    config.set('disabledAutoparagraphMode', addPlugin(DisabledAutoparagraphMode, disableAutoparagraph));
+
+    config.set('bold', addPlugin(Bold, editorOptions => editorOptions?.formatting?.strong));
+    config.set('code', addPlugin(Code, editorOptions => editorOptions?.formatting?.code));
+    config.set('codeBlock', addPlugin(CodeBlock, editorOptions => editorOptions?.formatting?.code));
+    config.set('horizontalLine', addPlugin(HorizontalLine, editorOptions => editorOptions?.formatting?.horizontalLine));
     // Html support (https://ckeditor.com/docs/ckeditor5/latest/features/html/general-html-support.html)
     // is required for the custom styles selector (https://ckeditor.com/docs/ckeditor5/latest/features/style.html)
     // but could also allow additional features, see docs.
     config.set('htmlSupport', addPlugin(GeneralHtmlSupport));
-    config.set('code', addPlugin(Code, editorOptions => editorOptions?.formatting?.code));
-    config.set('codeBlock', addPlugin(CodeBlock, editorOptions => editorOptions?.formatting?.code));
-    config.set('undo', addPlugin(Undo, editorOptions => editorOptions?.formatting?.undo));
-    config.set('style', addPlugin(Style, editorOptions => editorOptions?.formatting?.styleDefinitions));
+    config.set('italic', addPlugin(Italic, editorOptions => editorOptions?.formatting?.em));
     config.set('paragraph', addPlugin(Paragraph));
-    config.set('disabledAutoparagraphMode', addPlugin(DisabledAutoparagraphMode, disableAutoparagraph));
+    config.set('strikethrough', addPlugin(Strikethrough, editorOptions => editorOptions?.formatting?.strikethrough));
+    config.set('style', addPlugin(Style, editorOptions => editorOptions?.formatting?.styleDefinitions));
     config.set('subscript', addPlugin(Subscript, editorOptions => editorOptions?.formatting?.sub));
     config.set('superscript', addPlugin(Superscript, editorOptions => editorOptions?.formatting?.sup));
-    config.set('bold', addPlugin(Bold, editorOptions => editorOptions?.formatting?.strong));
-    config.set('italic', addPlugin(Italic, editorOptions => editorOptions?.formatting?.em));
     config.set('underline', addPlugin(Underline, editorOptions => editorOptions?.formatting?.underline));
-    config.set('strikethrough', addPlugin(Strikethrough, editorOptions => editorOptions?.formatting?.strikethrough));
+    config.set('undo', addPlugin(Undo, editorOptions => editorOptions?.formatting?.undo));
+
+    // Link related plugins
     config.set('link', addPlugin(Link, editorOptions => editorOptions?.formatting?.a));
     config.set('linkTargetBlank', addPlugin(LinkTargetBlank, editorOptions => editorOptions?.formatting?.a));
     config.set('linkRelNofollow', addPlugin(LinkRelNofollow, editorOptions => editorOptions?.formatting?.a));
     config.set('linkDownload', addPlugin(LinkDownload, editorOptions => editorOptions?.formatting?.a));
     config.set('linkTitle', addPlugin(LinkTitle, editorOptions => editorOptions?.formatting?.a));
+
+    // Toolbar plugins
+    config.set('balloonToolbar', addPlugin(BalloonToolbar));
+
+    // Table related plugins
     config.set('table', addPlugin(Table, editorOptions => editorOptions?.formatting?.table));
-    config.set('TableCaption', addPlugin(TableCaption, editorOptions => editorOptions?.formatting?.table));
+    config.set('tableCaption', addPlugin(TableCaption, editorOptions => editorOptions?.formatting?.table));
     config.set('tableToolbar', addPlugin(TableToolbar, editorOptions => editorOptions?.formatting?.table));
-    config.set('insideTable', addPlugin(InsideTable, editorOptions => editorOptions?.formatting?.table));
-    config.set('removeFormat', addPlugin(RemoveFormat, editorOptions => editorOptions?.formatting?.removeFormat));
+
+    // List related plugins
     config.set('list', addPlugin(List, editorOptions => (
         editorOptions?.formatting?.ul
         || editorOptions?.formatting?.ol
@@ -257,6 +265,9 @@ export default ckEditorRegistry => {
         }
         if (formatting.left || formatting.center || formatting.right || formatting.justify) {
             toolbarItems.push('alignment');
+        }
+        if (formatting.horizontalLine) {
+            toolbarItems.push('horizontalLine');
         }
         if (formatting.styleDefinitions) {
             toolbarItems.push('style');
