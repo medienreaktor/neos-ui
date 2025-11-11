@@ -9,6 +9,7 @@ import style from './style.module.css';
 import {actions, selectors} from '@neos-project/neos-ui-redux-store/src';
 import memoize from 'lodash.memoize';
 import {Icon, DropDown, Button} from '@neos-project/react-ui-components';
+import {getConfiguration} from '@neos-project/neos-ui-configuration';
 
 @connect(state => ({
     editPreviewMode: selectors.UI.EditPreviewMode.currentEditPreviewMode(state)
@@ -16,15 +17,13 @@ import {Icon, DropDown, Button} from '@neos-project/react-ui-components';
     setEditPreviewMode: actions.UI.EditPreviewMode.set
 })
 @neos(globalRegistry => ({
-    editPreviewModes: globalRegistry.get('frontendConfiguration').get('editPreviewModes'),
     i18nRegistry: globalRegistry.get('i18n')
 }))
 export default class EditPreviewModeDropDown extends PureComponent {
     static propTypes = {
         editPreviewMode: PropTypes.string.isRequired,
         setEditPreviewMode: PropTypes.func.isRequired,
-        i18nRegistry: PropTypes.object.isRequired,
-        editPreviewModes: PropTypes.object.isRequired
+        i18nRegistry: PropTypes.object.isRequired
     };
 
     handleEditPreviewModeClick = memoize(mode => () => {
@@ -33,7 +32,9 @@ export default class EditPreviewModeDropDown extends PureComponent {
     });
 
     componentDidMount() {
-        const {editPreviewMode, editPreviewModes, setEditPreviewMode} = this.props;
+        const {editPreviewMode, setEditPreviewMode} = this.props;
+
+        const editPreviewModes = getConfiguration(configuration => configuration.editPreviewModes);
 
         // Switch edit preview mode to the first one if the current one is not available
         if (!editPreviewModes[editPreviewMode]) {
@@ -45,9 +46,10 @@ export default class EditPreviewModeDropDown extends PureComponent {
     render() {
         const {
             editPreviewMode,
-            editPreviewModes,
             i18nRegistry
         } = this.props;
+
+        const editPreviewModes = getConfiguration(configuration => configuration.editPreviewModes);
 
         const currentEditMode = editPreviewModes[editPreviewMode] || Object.values(editPreviewModes)[0];
 

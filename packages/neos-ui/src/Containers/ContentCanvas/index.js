@@ -10,6 +10,7 @@ import {neos} from '@neos-project/neos-ui-decorators';
 import Frame from '@neos-project/react-ui-components/src/Frame/';
 
 import style from './style.module.css';
+import {getConfiguration} from '@neos-project/neos-ui-configuration';
 
 @connect(state => ({
     isFringeLeft: state?.ui?.leftSideBar?.isHidden,
@@ -26,7 +27,6 @@ import style from './style.module.css';
     requestLogin: actions.UI.ContentCanvas.requestLogin
 })
 @neos(globalRegistry => ({
-    editPreviewModes: globalRegistry.get('frontendConfiguration').get('editPreviewModes'),
     guestFrameRegistry: globalRegistry.get('@neos-project/neos-ui-guest-frame')
 }))
 export default class ContentCanvas extends PureComponent {
@@ -43,7 +43,6 @@ export default class ContentCanvas extends PureComponent {
         currentEditPreviewMode: PropTypes.string.isRequired,
         baseNodeType: PropTypes.string,
 
-        editPreviewModes: PropTypes.object.isRequired,
         guestFrameRegistry: PropTypes.object.isRequired
     };
 
@@ -72,10 +71,11 @@ export default class ContentCanvas extends PureComponent {
             isFullScreen,
             src,
             currentEditPreviewMode,
-            editPreviewModes,
             guestFrameRegistry,
             backgroundColor
         } = this.props;
+
+        const editPreviewModes = getConfiguration(configuration => configuration.editPreviewModes);
         const {isVisible} = this.state;
         const classNames = mergeClassNames({
             [style.contentCanvas]: true,

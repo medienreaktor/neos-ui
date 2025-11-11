@@ -28,5 +28,5 @@ interface NodeTypeGroupsAndRolesProviderInterface
     /**
      * @return array{roles:mixed,groups:mixed}
      */
-    public function getNodeTypes(): array;
+    public function getNodeTypeGroupsAndRoles(): array;
 }

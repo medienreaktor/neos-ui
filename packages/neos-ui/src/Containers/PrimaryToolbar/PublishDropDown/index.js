@@ -11,7 +11,7 @@ import {actions, selectors} from '@neos-project/neos-ui-redux-store';
 import {PublishingMode, PublishingScope} from '@neos-project/neos-ui-redux-store/src/CR/Publishing';
 import {neos} from '@neos-project/neos-ui-decorators';
 
-const {publishableNodesSelector, publishableNodesInDocumentSelector, baseWorkspaceSelector, isWorkspaceReadOnlySelector, personalWorkspaceNameSelector} = selectors.CR.Workspaces;
+const {publishableNodesSelector, publishableNodesInDocumentSelector, baseWorkspaceSelector, isWorkspaceReadOnlySelector, personalWorkspaceNameSelector, allowedTargetWorkspacesSelector} = selectors.CR.Workspaces;
 
 import AbstractButton from './AbstractButton/index';
 import WorkspaceSelector from './WorkspaceSelector/index';
@@ -24,7 +24,8 @@ import style from './style.module.css';
     publishableNodesInDocument: publishableNodesInDocumentSelector(state),
     personalWorkspaceName: personalWorkspaceNameSelector(state),
     baseWorkspace: baseWorkspaceSelector(state),
-    isWorkspaceReadOnly: isWorkspaceReadOnlySelector(state)
+    isWorkspaceReadOnly: isWorkspaceReadOnlySelector(state),
+    allowedWorkspaces: allowedTargetWorkspacesSelector(state)
 }), {
     changeBaseWorkspaceAction: actions.CR.Workspaces.changeBaseWorkspace,
     start: actions.CR.Publishing.start
@@ -79,11 +80,11 @@ export default class PublishDropDown extends PureComponent {
             baseWorkspace,
             changeBaseWorkspaceAction,
             i18nRegistry,
-            neos
+            neos,
+            allowedWorkspaces
         } = this.props;
 
         const workspaceModuleUri = neos?.routes?.core?.modules?.workspace;
-        const allowedWorkspaces = neos?.configuration?.allowedTargetWorkspaces;
         const baseWorkspaceTitle = allowedWorkspaces?.[baseWorkspace]?.title;
         const canPublishLocally = !isSaving && !isPublishing && publishableNodesInDocument && (publishableNodesInDocument.length > 0);
         const canPublishGlobally = !isSaving && !isPublishing && publishableNodes && (publishableNodes.length > 0);

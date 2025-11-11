@@ -628,6 +628,9 @@ export default (routes: Routes) => {
     })).then(response => fetchWithErrorHandling.parseJson(response))
     .catch(reason => fetchWithErrorHandling.generalErrorHandler(reason));
 
+    /**
+     * @deprecated because unused, to be removed but potentially exposed to plugins
+     */
     const getJsonResource = (resourceUri: string) => fetchWithErrorHandling.withCsrfToken(() => ({
         url: resourceUri,
         method: 'GET',

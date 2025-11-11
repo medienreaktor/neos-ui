@@ -11,11 +11,13 @@ namespace Neos\Neos\Ui\Fusion\Helper;
  * source code.
  */
 
+use Neos\ContentRepository\Core\ContentRepository;
 use Neos\ContentRepository\Core\SharedModel\ContentRepository\ContentRepositoryId;
 use Neos\ContentRepositoryRegistry\ContentRepositoryRegistry;
 use Neos\Eel\ProtectedContextAwareInterface;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Security\Context;
+use Neos\Neos\Domain\Model\WorkspaceClassification;
 use Neos\Neos\Domain\Service\UserService;
 use Neos\Neos\Domain\Service\WorkspaceService;
 use Neos\Neos\Security\Authorization\ContentRepositoryAuthorizationService;
@@ -82,7 +84,32 @@ class WorkspaceHelper implements ProtectedContextAwareInterface
             'baseWorkspace' => $personalWorkspace->baseWorkspaceName?->value,
             'readOnly' => !($personalWorkspace->baseWorkspaceName !== null && $personalWorkspacePermissions->write),
             'status' => $personalWorkspace->status->value,
+            'allowedTargetWorkspaces' => $this->getAllowedTargetWorkspaces($contentRepository)
         ];
+    }
+
+    /**
+     * @return array<string,array{name:string,title:string,readonly:bool}>
+     */
+    private function getAllowedTargetWorkspaces(ContentRepository $contentRepository): array
+    {
+        $result = [];
+        foreach ($contentRepository->findWorkspaces() as $workspace) {
+            $workspaceMetadata = $this->workspaceService->getWorkspaceMetadata($contentRepository->id, $workspace->workspaceName);
+            if (!in_array($workspaceMetadata->classification, [WorkspaceClassification::ROOT, WorkspaceClassification::SHARED], true)) {
+                continue;
+            }
+            $workspacePermissions = $this->contentRepositoryAuthorizationService->getWorkspacePermissions($contentRepository->id, $workspace->workspaceName, $this->securityContext->getRoles(), $this->userService->getCurrentUser()?->getId());
+            if ($workspacePermissions->read === false) {
+                continue;
+            }
+            $result[$workspace->workspaceName->value] = [
+                'name' => $workspace->workspaceName->value,
+                'title' => $workspaceMetadata->title->value,
+                'readonly' => !$workspacePermissions->write,
+            ];
+        }
+        return $result;
     }
 
     /**

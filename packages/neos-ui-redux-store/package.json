@@ -13,7 +13,6 @@
     "@neos-project/neos-ui-error": "workspace:*",
     "@neos-project/neos-ui-validators": "workspace:*",
     "immer": "^9.0.0",
-    "lodash.assignin": "^4.2.0",
     "lodash.defaultsdeep": "^4.6.1",
     "lodash.isequal": "^4.5.0",
     "lodash.mapvalues": "^4.6.0",

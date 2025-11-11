@@ -31,7 +31,7 @@ final class NodeTypeGroupsAndRolesProvider implements NodeTypeGroupsAndRolesProv
     #[Flow\InjectConfiguration(path: 'nodeTypes.groups', package: 'Neos.Neos')]
     protected array $groups;
 
-    public function getNodeTypes(): array
+    public function getNodeTypeGroupsAndRoles(): array
     {
         return [
             'roles' => $this->roles,
