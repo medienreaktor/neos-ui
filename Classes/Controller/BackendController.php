@@ -277,8 +277,8 @@ class BackendController extends ActionController
                 $this->frontendConfigurationProvider->getFrontendConfiguration(
                     actionRequest: $this->request,
                 ),
-            'nodeTypes' =>
-                $this->nodeTypeGroupsAndRolesProvider->getNodeTypes(),
+            'nodeTypeGroupsAndRoles' =>
+                $this->nodeTypeGroupsAndRolesProvider->getNodeTypeGroupsAndRoles(),
             'menu' =>
                 $this->menuProvider->getMenu(
                     actionRequest: $this->request,

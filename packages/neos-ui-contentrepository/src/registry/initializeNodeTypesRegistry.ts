@@ -3,7 +3,7 @@ import {nodeTypesRegistry} from './NodeTypesRegistry';
 
 const LINK_ID_FOR_SCHEMA_NODE_TYPE_ROUTE = 'neos-ui-uri:/neos/schema/node-type.json';
 
-export const nodeTypes = getInlinedDataFromBackend('nodeTypes') as {
+const nodeTypeGroupsAndRoles = getInlinedDataFromBackend('nodeTypeGroupsAndRoles') as {
     groups: {
         [id: string]: {
             position?: number | string,
@@ -37,7 +37,7 @@ export async function initializeNodeTypesRegistry() {
     nodeTypesRegistry.setConstraints(nodeTypesSchema.constraints);
     nodeTypesRegistry.setInheritanceMap(nodeTypesSchema.inheritanceMap);
 
-    const {groups, roles} = nodeTypes;
+    const {groups, roles} = nodeTypeGroupsAndRoles;
     nodeTypesRegistry.setGroups(groups);
     nodeTypesRegistry.setRoles(roles);
 }
