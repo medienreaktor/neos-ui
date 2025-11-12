@@ -17,7 +17,7 @@ export default function * pasteNode({globalRegistry}) {
             state => state?.cr?.nodes?.clipboardMode
         );
 
-        const {contextPath: reference, fusionPath, insertMode} = action.payload;
+        const {contextPath: reference, fusionPath, position: insertMode} = action.payload;
         const state = yield select();
         const canBeInsertedAlongside = subject.every(contextPath => {
             return canBeInsertedAlongsideSelector(state, {subject: contextPath, reference});
