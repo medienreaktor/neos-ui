@@ -4,11 +4,11 @@ import {ILink, makeLinkType} from '../../../domain';
 import {IconCard, Layout} from '../../../presentation';
 import {isSuitableFor} from './MailToSpecification';
 import {translate} from '@neos-project/neos-ui-i18n';
-import {isEmail} from '@neos-project/utils-helpers';
 import {PromiseState} from '@neos-project/framework-promise-react';
 import {State} from '@neos-project/framework-observable';
 import {useLatestState} from '@neos-project/framework-observable-react';
 import {TextArea, TextInput, Tooltip} from '@neos-project/react-ui-components';
+import isEmail from 'isemail';
 
 type FormValue<T> = {
     value: T,
@@ -20,7 +20,8 @@ const validateRecipient = (recipient: string) => {
     if (!recipient) {
         return translate('Neos.Neos.Ui:LinkEditor.MailTo:recipient.validation.required', '');
     }
-    if (!isEmail(recipient)) {
+    if (!isEmail.validate(recipient)) {
+        // we use the library isemail here, but we only require some kind of soft email validation - anything can be an email if it wants to be :) Thus we only emit warnings. Could be a simple regex too.
         return translate('Neos.Neos.Ui:LinkEditor.MailTo:recipient.validation.email', '');
     }
     return undefined;
@@ -28,7 +29,7 @@ const validateRecipient = (recipient: string) => {
 
 const validateCc = (cc: string) => {
     if (cc) {
-        if (!cc.split(',').every(value => isEmail(value.trim()))) {
+        if (!cc.split(',').every(value => isEmail.validate(value.trim()))) {
             return translate('Neos.Neos.Ui:LinkEditor.MailTo:cc.validation.emaillist', '');
         }
     }
@@ -37,7 +38,7 @@ const validateCc = (cc: string) => {
 
 const validateBcc = (cc: string) => {
     if (cc) {
-        if (!cc.split(',').every(value => isEmail(value.trim()))) {
+        if (!cc.split(',').every(value => isEmail.validate(value.trim()))) {
             return translate('Neos.Neos.Ui:LinkEditor.MailTo:bcc.validation.emaillist', '');
         }
     }
