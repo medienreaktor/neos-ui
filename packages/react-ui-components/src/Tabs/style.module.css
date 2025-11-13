@@ -37,6 +37,7 @@
     display: flex;
     flex-direction: column;
     border-left: 1px solid var(--colors-ContrastDark);
+    width: max-content;
 }
 
 .tabNavigation__item {
