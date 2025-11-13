@@ -130,7 +130,6 @@ export const Node = makeLinkType<NodeLinkModel, NodeLinkOptions>('LinkEditor:Nod
     }) => {
         const model = useLatestState(model$);
         const setNodeId = React.useCallback((nodeId) => model$.update((values) => ({...values, isDirty: true, nodeId})), []);
-        const setAnchor = React.useCallback((anchor) => model$.update((values) => ({...values, isDirty: true, anchor})), []);
 
         const workspaceName = useSelector(selectors.CR.Workspaces.personalWorkspaceNameSelector);
         const dimensionValues = useSelector(selectors.CR.ContentDimensions.active);
@@ -159,34 +158,38 @@ export const Node = makeLinkType<NodeLinkModel, NodeLinkOptions>('LinkEditor:Nod
                     'Could not load node tree, because dimensionValues could not be determined.'
                 );
         } else {
-            return (<>
-                <Tree
-                    initialSearchTerm={initialSearchTerm}
-                    workspaceName={workspaceName}
-                    dimensionValues={dimensionValues}
-                    startingPoint={startingPoint}
-                    loadingDepth={options.loadingDepth ?? defaultLoadingDepth}
-                    baseNodeTypeFilter={options.baseNodeType ?? 'Neos.Neos:Document'}
-                    initialNarrowNodeTypeFilter={
-                            initialNarrowNodeTypeFilter
-                        }
-                    linkableNodeTypes={
-                            options.allowedNodeTypes as
-                                | undefined
-                                | string[]
-                        }
-                    selectedTreeNodeId={model?.nodeId ?? undefined}
-                    options={{
-                        enableSearch: true,
-                        enableNodeTypeFilter: true
-                    }}
-                    onSelect={setNodeId}
-                    />
-                <label>
-                    {translate('Neos.Neos.Ui:LinkEditor.Node:anchor.label', '')}:
-                    <TextInput type="text" value={model?.anchor ?? ''} placeholder={translate('Neos.Neos.Ui:LinkEditor.Node:anchor.placeholder', '')} onChange={setAnchor} />
-                </label>
-            </>);
+            return <Tree
+                initialSearchTerm={initialSearchTerm}
+                workspaceName={workspaceName}
+                dimensionValues={dimensionValues}
+                startingPoint={startingPoint}
+                loadingDepth={options.loadingDepth ?? defaultLoadingDepth}
+                baseNodeTypeFilter={options.baseNodeType ?? 'Neos.Neos:Document'}
+                initialNarrowNodeTypeFilter={
+                        initialNarrowNodeTypeFilter
+                    }
+                linkableNodeTypes={
+                        options.allowedNodeTypes as
+                            | undefined
+                            | string[]
+                    }
+                selectedTreeNodeId={model?.nodeId ?? undefined}
+                options={{
+                    enableSearch: true,
+                    enableNodeTypeFilter: true
+                }}
+                onSelect={setNodeId}
+            />;
         }
+    },
+
+    AdvancedEditor: ({model$}: { model$: State<NodeLinkModel | null> }) => {
+        const model = useLatestState(model$);
+        const setAnchor = React.useCallback((anchor) => model$.update((values) => ({...values, isDirty: true, anchor})), []);
+
+        return <label>
+            {translate('Neos.Neos.Ui:LinkEditor.Node:anchor.label', '')}:
+            <TextInput type="text" value={model?.anchor ?? ''} placeholder={translate('Neos.Neos.Ui:LinkEditor.Node:anchor.placeholder', '')} onChange={setAnchor} />
+        </label>
     }
 }));

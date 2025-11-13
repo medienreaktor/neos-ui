@@ -38,6 +38,10 @@ export interface ILinkType<ModelType = any, OptionsType extends object = {}> {
         model$: State<ModelType | null>
         options: OptionsType
     }>
+    AdvancedEditor?: React.FC<{
+        model$: State<ModelType | null>
+        options: OptionsType
+    }>
 }
 
 export interface ILinkTypeFactoryApi {

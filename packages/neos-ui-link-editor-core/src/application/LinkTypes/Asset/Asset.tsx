@@ -71,18 +71,21 @@ export const Asset = makeLinkType<AssetLinkModel>('LinkEditor:Asset', ({createEr
     Editor: ({model$}: {model$: State<AssetLinkModel | null>}) => {
         const model = useLatestState(model$);
         const setAsset = React.useCallback((identifier) => model$.update((values) => ({...values, isDirty: true, identifier})), []);
+
+        return <MediaBrowser
+            assetIdentifier={model?.identifier ?? null}
+            onSelectAsset={setAsset}
+        />;
+    },
+
+    AdvancedEditor: ({model$}: {model$: State<AssetLinkModel | null>}) => {
+        const model = useLatestState(model$);
         const setAnchor = React.useCallback((anchor) => model$.update((values) => ({...values, isDirty: true, anchor})), []);
 
-        return (<>
-            <MediaBrowser
-                assetIdentifier={model?.identifier ?? null}
-                onSelectAsset={setAsset}
-            />
-            <label>
-                {translate('Neos.Neos.Ui:LinkEditor.Asset:anchor.label', '')}:
-                <TextInput type="text" value={model?.anchor ?? ''} placeholder={translate('Neos.Neos.Ui:LinkEditor.Asset:anchor.placeholder', '')} onChange={setAnchor} />
-            </label>
-        </>);
-    }
+        return <label>
+            {translate('Neos.Neos.Ui:LinkEditor.Asset:anchor.label', '')}:
+            <TextInput type="text" value={model?.anchor ?? ''} placeholder={translate('Neos.Neos.Ui:LinkEditor.Asset:anchor.placeholder', '')} onChange={setAnchor} />
+        </label>;
+    },
 }));
 
