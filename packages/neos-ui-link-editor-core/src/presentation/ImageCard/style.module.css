@@ -11,7 +11,7 @@
     display: block;
     grid-column: 1 / span 1;
     width: 100%;
-    height: 56px;
+    height: 50px;
     object-fit: contain;
     background-color: #fff;
     background-size: 10px 10px;

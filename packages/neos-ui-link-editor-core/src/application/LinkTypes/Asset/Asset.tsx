@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {ILink, makeLinkType} from '../../../domain';
-import {ImageCard} from '../../../presentation';
+import {IconCard, ImageCard} from '../../../presentation';
 
 import {MediaBrowser} from './MediaBrowser';
 import {isSuitableFor} from './AssetSpecification';
@@ -55,6 +55,17 @@ export const Asset = makeLinkType<AssetLinkModel>('LinkEditor:Asset', ({createEr
             const {endpoints} = backend.get();
             return endpoints.assetDetail(model.identifier!);
         }, [model.identifier]);
+
+        if (asset.isLoading) {
+            return (
+                <IconCard
+                    icon="spinner"
+                    // todo lable
+                    title={'Loading …'}
+                    subTitle={`asset://${model.identifier}`}
+                />
+            );
+        }
 
         if (!asset.value) {
             return null;
