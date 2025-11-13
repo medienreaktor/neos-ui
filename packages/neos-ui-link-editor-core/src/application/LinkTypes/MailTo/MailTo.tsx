@@ -9,6 +9,7 @@ import {State} from '@neos-project/framework-observable';
 import {useLatestState} from '@neos-project/framework-observable-react';
 import {TextArea, TextInput, Tooltip} from '@neos-project/react-ui-components';
 import isEmail from 'isemail';
+import style from './style.module.css';
 
 type FormValue<T> = {
     value: T,
@@ -103,6 +104,31 @@ export const MailTo = makeLinkType<MailToLinkModel, MailToOptions>('LinkEditor:M
             );
         }
         const url = new URL(link.href);
+
+        const value = validateEmail({
+            recipient: {
+                value: url.pathname,
+                isDirty: false
+            },
+            subject: {
+                value: url.searchParams.get('subject') ?? '',
+                isDirty: false
+            },
+            cc: {
+                value: url.searchParams.get('cc') ?? '',
+                isDirty: false
+            },
+            bcc: {
+                value: url.searchParams.get('bcc') ?? '',
+                isDirty: false
+            },
+            body: {
+                value: url.searchParams.get('body') ?? '',
+                isDirty: false
+            }
+        });
+
+        // return usePromise(() => new Promise(r => setTimeout(() => r(value), 1000)), [])
 
         return PromiseState.forValue(validateEmail({
             recipient: {
@@ -264,6 +290,7 @@ export const MailTo = makeLinkType<MailToLinkModel, MailToOptions>('LinkEditor:M
                             id={`__neos__editor__property---${id}.body`}
                             value={email?.body?.value ?? ''}
                             onChange={setBody}
+                            className={style.textArea}
                         />
                         {email?.body?.warning ? (
                             <Tooltip renderInline asWarning>{email?.body.warning}</Tooltip>
