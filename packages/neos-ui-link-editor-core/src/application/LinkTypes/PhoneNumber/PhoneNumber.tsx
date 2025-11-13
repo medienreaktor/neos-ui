@@ -21,6 +21,14 @@ type PhoneNumberLinkModel = {
 
 const VALID_PHONE_NUMBER = /^(?:\+[1-9])?[0-9]+$/;
 
+const validateModel = (model: PhoneNumberLinkModel): PhoneNumberLinkModel => ({
+    ...model,
+    phoneNumber: {
+        ...model.phoneNumber,
+        warning: !model.phoneNumber.value ? translate('Neos.Neos.Ui:LinkEditor.PhoneNumber:phoneNumber.validation.required', '') : (!VALID_PHONE_NUMBER.test(model.phoneNumber.value) ? translate('Neos.Neos.Ui:LinkEditor.PhoneNumber:phoneNumber.validation.numbersOnly', '') : undefined)
+    }
+});
+
 export const PhoneNumber = makeLinkType<PhoneNumberLinkModel>('LinkEditor:PhoneNumber', ({createError, id}) => ({
     icon: 'phone-alt',
 
@@ -47,12 +55,12 @@ export const PhoneNumber = makeLinkType<PhoneNumberLinkModel>('LinkEditor:PhoneN
             );
         }
 
-        return PromiseState.forValue({
+        return PromiseState.forValue(validateModel({
             phoneNumber: {
                 value: link.href.replace('tel:', ''),
                 isDirty: false
             }
-        });
+        }));
     },
 
     convertModelToLink: (model: PhoneNumberLinkModel) => {
@@ -70,14 +78,13 @@ export const PhoneNumber = makeLinkType<PhoneNumberLinkModel>('LinkEditor:PhoneN
 
     Editor: ({model$}: { model$: State<PhoneNumberLinkModel | null> }) => {
         const model = useLatestState(model$);
-        const setPhoneNumber = React.useCallback((phoneNumber) => model$.update((values) => ({
+        const setPhoneNumber = React.useCallback((phoneNumber) => model$.update((values) => (validateModel({
             ...values,
             phoneNumber: {
                 value: phoneNumber,
-                warning: !phoneNumber ? translate('Neos.Neos.Ui:LinkEditor.PhoneNumber:phoneNumber.validation.required', '') : (!VALID_PHONE_NUMBER.test(phoneNumber) ? translate('Neos.Neos.Ui:LinkEditor.PhoneNumber:phoneNumber.validation.numbersOnly', '') : undefined),
                 isDirty: true
             }
-        })), []);
+        }))), []);
 
         return (
             <div>
