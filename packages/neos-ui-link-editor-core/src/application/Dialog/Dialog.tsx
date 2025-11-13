@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {Button, Tabs, Dialog} from '@neos-project/react-ui-components';
+import {Button, Tabs, Dialog, Icon} from '@neos-project/react-ui-components';
 
 import {ErrorBoundary, ErrorView} from '@neos-project/neos-ui-error';
 
@@ -404,34 +404,45 @@ const AdvancedOptions: React.FC<{
     const advancedOptions$ = React.useMemo(() => mapState(props.form$, (form) => {
         const activeModel = form.linkModels[form.activeLinkTypeId];
 
-        // todo use model$ instead of activeModel
         const modelIsDirty = activeModel && props.linkType.isDirty(activeModel);
 
+        const isOptionSet = Object.values(form.options ?? {}).some(Boolean);
+
         return {
-            // todo also add AdvancedEditor state here
-            isUsed: Object.values(form.options ?? {}).some(Boolean),
+            isUsed: isOptionSet || activeModel && props.linkType.isAdvanced?.(activeModel),
             enabled: modelIsDirty || (props.initialLinkType && !form.initialLinkWasDeleted ? props.initialLinkType.id === props.linkType.id : false)
         }
     }), []);
 
     const advancedOptions = useLatestState(advancedOptions$);
 
+    const [isOpen, setOpen] = React.useState<boolean | undefined>(undefined);
+
+    const toggleOpen = React.useCallback(() => setOpen(openState => {
+        const prevOpen = openState ?? advancedOptions.isUsed;
+        return !prevOpen;
+    }), [advancedOptions]);
+
     const {AdvancedEditor} = props.linkType;
 
-    if (!advancedOptions.enabled || (!enabledLinkOptions.length && !AdvancedEditor)) {
+    if (!enabledLinkOptions.length && !AdvancedEditor) {
         return null;
     }
 
-    return <details>
-        <summary>{advancedOptions.isUsed ? 'Edit advanced options' : 'Advanced options'}</summary>
-        <Layout.Stack>
-            {AdvancedEditor
-                ? <AdvancedEditor model$={props.model$} options={props.options} />
-                : null}
-            <LinkOptions
-                form$={props.form$}
-                enabledLinkOptions={enabledLinkOptions}
-            />
-        </Layout.Stack>
-    </details>
+    return <>
+        <Button disabled={!advancedOptions.enabled} style={advancedOptions.isUsed && isOpen === false ? 'warn' : undefined} onClick={toggleOpen} ><Icon icon='cogs' />&nbsp; Advanced</Button>
+        {
+            (isOpen ?? advancedOptions.isUsed) ? (
+                <Layout.Stack>
+                    {AdvancedEditor
+                        ? <AdvancedEditor model$={props.model$} options={props.options} />
+                        : null}
+                    <LinkOptions
+                        form$={props.form$}
+                        enabledLinkOptions={enabledLinkOptions}
+                    />
+                </Layout.Stack>
+            ) : null
+        }
+    </>
 };

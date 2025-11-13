@@ -33,6 +33,10 @@ export const Asset = makeLinkType<AssetLinkModel>('LinkEditor:Asset', ({createEr
         return Boolean(model.identifier);
     },
 
+    isAdvanced: (model) => {
+        return Boolean(model.anchor);
+    },
+
     useResolvedModel: (link: ILink) => {
         const match = /asset:\/\/([^#]*)(?:#(.*))?/.exec(link.href);
 

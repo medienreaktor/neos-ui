@@ -30,6 +30,10 @@ export interface ILinkType<ModelType = any, OptionsType extends object = {}> {
     convertModelToLink: (model: ModelType) => Pick<ILink, 'href'>
     isDirty: (model: ModelType) => boolean;
     isValid: (model: ModelType) => boolean;
+    /**
+     * Whether the AdvancedEditor was used to enter values to the model.
+     */
+    isAdvanced?: (model: ModelType) => boolean;
 
     LoadingPreview: React.FC<LinkTypeStaticProps<OptionsType>>
     Preview: React.FC<LinkTypeProps<ModelType, OptionsType>>

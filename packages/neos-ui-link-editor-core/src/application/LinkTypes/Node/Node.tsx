@@ -100,6 +100,10 @@ export const Node = makeLinkType<NodeLinkModel, NodeLinkOptions>('LinkEditor:Nod
         return Boolean(model.nodeId);
     },
 
+    isAdvanced: (model) => {
+        return Boolean(model.anchor);
+    },
+
     useResolvedModel: (link: ILink) => {
         const match = /node:\/\/([^#]*)(?:#(.*))?/.exec(link.href);
 
