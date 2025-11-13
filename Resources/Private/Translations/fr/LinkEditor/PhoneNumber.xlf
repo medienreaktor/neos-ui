@@ -3,8 +3,8 @@
     <file original="" product-name="Neos.Neos.Ui" source-language="en" datatype="plaintext" target-language="fr">
         <body>
             <trans-unit id="title" xml:space="preserve" approved="yes">
-                <source>Phone Number</source>
-                <target>Numéro de téléphone</target>
+                <source>Phone</source>
+                <target>Téléphone</target>
             </trans-unit>
             <trans-unit id="phoneNumber.label" xml:space="preserve" approved="yes">
                 <source>Phone Number:</source>
