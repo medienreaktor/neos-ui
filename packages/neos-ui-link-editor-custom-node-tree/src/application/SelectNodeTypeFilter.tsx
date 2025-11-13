@@ -59,7 +59,7 @@ export const SelectNodeTypeFilter: React.FC<Props> = (props) => {
     const options = React.useMemo(() => {
         return searchNodeTypeFilterOptions(
             filterTerm,
-            fetch__options.value ?? []
+            fetch__options.value ?? [{value: '', label: ''}] // empty entry to prevent content shift when dropdown icon is added as items exists.
         );
     }, [filterTerm, fetch__options.value]);
 
