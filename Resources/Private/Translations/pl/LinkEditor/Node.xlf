@@ -9,8 +9,8 @@
             </trans-unit>
 
             <trans-unit id="labelOfNonExistingNode" xml:space="preserve" approved="yes">
-                <source>Deleted Node</source>
-                <target>Usunięty węzeł</target>
+                <source>Document does not exist</source>
+                <target>Dokument nie istnieje</target>
             </trans-unit>
 
             <!-- Identifier -->

@@ -77,8 +77,7 @@ const NodePreview: React.FC<{ nodeId: string }> = (props) => {
         <IconCard
             icon={fetch__nodeSummary.value?.icon ?? 'ban'}
             title={
-                fetch__nodeSummary.value?.label ??
-                `[${translate('Neos.Neos.Ui:LinkEditor.Node:labelOfNonExistingNode', '')}]`
+                fetch__nodeSummary.value?.label ?? translate('Neos.Neos.Ui:LinkEditor.Node:labelOfNonExistingNode', '')
             }
             subTitle={breadcrumbs ?? `node://${props.nodeId}`}
         />

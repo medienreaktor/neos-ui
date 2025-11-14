@@ -9,8 +9,8 @@
             </trans-unit>
 
             <trans-unit id="labelOfNonExistingNode" xml:space="preserve" approved="yes">
-                <source>Deleted Node</source>
-                <target>Gelöschte Node</target>
+                <source>Document does not exist</source>
+                <target>Dokument existiert nicht</target>
             </trans-unit>
 
             <trans-unit id="loadingPreview" xml:space="preserve" approved="yes">
