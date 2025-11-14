@@ -9,6 +9,6 @@ export const Deletable: React.FC<{
 }> = props => (
     <div className={style.container} id={props.id}>
         <div>{props.children}</div>
-        <IconButton className={style.styledButton} icon="trash" hoverStyle="error" title="Delete Link" onClick={props.onDelete}/>
+        <IconButton className={style.styledButton} icon="xmark" hoverStyle="brand" title="Delete Link" onClick={props.onDelete}/>
     </div>
 )
