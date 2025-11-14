@@ -24,10 +24,9 @@ import * as NeosUiGuestFrameDom from '@neos-project/neos-ui-guest-frame/src/dom'
 import * as NeosUiRegistry from '@neos-project/neos-ui-registry';
 
 // We export most needed components from CKE5 to be used when making custom plugins.
-// It's not safe to just install CKE5 packages from the extension because then then "instanceof" checks will no longer work,
+// It's not safe to just install CKE5 packages from the extension because then "instanceof" checks will no longer work,
 // which would break CKE5 in some places.
-// Feel free to export more parts as needed.
-import {HighlightEditing} from '@ckeditor/ckeditor5-highlight';
+// Feel free to export and register shims for more ckeditor packages as needed.
 
 import {
     ViewDowncastWriter,
