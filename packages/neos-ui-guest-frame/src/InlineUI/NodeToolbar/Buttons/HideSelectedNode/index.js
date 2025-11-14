@@ -52,7 +52,7 @@ export default class HideSelectedNode extends PureComponent {
                 disabled={destructiveOperationsAreDisabled || !canBeEdited || !visibilityCanBeToggled}
                 onClick={isHidden ? this.handleShowNode : this.handleHideNode}
                 hoverStyle="brand"
-                style="clean"
+                style="transparent"
                 size="small"
                 title={i18nRegistry.translate('hideUnhide')}
             >

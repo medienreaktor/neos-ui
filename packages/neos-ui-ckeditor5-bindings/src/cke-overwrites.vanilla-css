@@ -17,27 +17,21 @@
     left: auto;
     right: anchor(right);
 }
+@position-try --neos-ck-toolbar-align-bottom {
+    top: anchor(bottom);
+    bottom: auto;
+}
 .ck.ck-toolbar.neos-ck-anchored-toolbar {
     position: fixed;
     bottom: anchor(top);
     left: anchor(left);
-    width: min-content;
-    max-width: 400px;
+    max-width: 500px;
     display: none;
-    position-try-fallbacks: --neos-ck-toolbar-align-right;
+    position-try-fallbacks: --neos-ck-toolbar-align-right, --neos-ck-toolbar-align-bottom;
     z-index: calc(2147480000 + 1); /* one above the NodeToolBar z-index */
 }
 .ck.ck-toolbar.neos-ck-anchored-toolbar--visible {
     display: flex;
-}
-
-/**
- * Reduce size of ck toolbar to match Neos UI design which has not spacing around buttons
- */
-.ck.ck-toolbar > .ck-toolbar__items > *:not(.ck-toolbar__line-break),
-.ck.ck-toolbar > .ck.ck-toolbar__grouped-dropdown {
-    margin-top: 0;
-    margin-bottom: 0;
 }
 
 /*
@@ -61,34 +55,39 @@
     --ck-ui-component-min-height: 2.3em;
 
     --ck-color-base-foreground: #fafafa;
-    --ck-color-base-background: #141414;
-    --ck-color-base-border: #141414;
-    --ck-color-base-action: #00a338;
-    --ck-color-base-focus: #00adee;
-    --ck-color-base-text: #fff;
-    --ck-color-base-active: #00adee;
-    --ck-color-base-active-focus: #35c3f8;
+    --ck-color-base-background: #fff; /* --colors-ContrastBrightest */
+    --ck-color-base-border: #141414; /* --colors-ContrastDarkest */
+    --ck-color-base-action: #00a338; /* --colors-PrimaryGreen */
+    --ck-color-base-focus: #00adee; /* --colors-PrimaryBlue */
+    --ck-color-base-text: #222; /* --colors-ContrastDarker */
+    --ck-color-base-text-focus: #fff; /* --colors-ContrastBrightest */
+    --ck-color-base-active: #00adee; /* --colors-PrimaryBlue */
+    --ck-color-base-active-focus: #35c3f8; /* --colors-PrimaryBlueHover */
 
-    --ck-color-panel-background: #141414;
-    --ck-color-panel-border: #141414;
+    --ck-color-panel-background: #fff; /* --colors-ContrastBrightest */
+    --ck-color-panel-border: #141414; /* --colors-ContrastDarkest */
 
-    --ck-color-toolbar-border: #3f3f3f;
+    --ck-color-toolbar-border: #3f3f3f; /* --colors-ContrastDark */
 
     --ck-color-button-on-background: var(--ck-color-base-active);
-    --ck-color-button-on-color: var(--ck-color-base-text);
+    --ck-color-button-on-color: var(--ck-color-base-text-focus);
     --ck-color-button-default-background: transparent;
-    --ck-color-button-default-hover-background: #35c3f8;
+    --ck-color-button-default-hover-background: #35c3f8; /* --colors-PrimaryBlueHover */
     --ck-color-button-default-active-background: var(--ck-color-base-active);
     --ck-color-button-default-disabled-background: transparent;
     --ck-color-button-on-hover-background: var(--ck-color-base-active-focus);
 
     --ck-color-split-button-hover-background: var(--ck-color-base-active-focus);
+    --ck-color-split-button-hover-border: var(--ck-color-base-active-focus);
 
-    --ck-color-focus-border: #35c3f8;
+    --ck-color-dropdown-panel-border: var(--ck-color-toolbar-border);
+
+    --ck-color-focus-border: #35c3f8; /* --colors-PrimaryBlueHover */
     --ck-color-focus-shadow: rgba(119, 186, 248, .5);
     --ck-color-focus-disabled-shadow: rgba(119, 186, 248, .3);
 
     --ck-color-text: var(--ck-color-base-text);
+    --ck-color-text-focus: #fff; /* --colors-ContrastBrightest */
 
     --ck-color-shadow-drop: rgba(0, 0, 0, .15);
     --ck-color-shadow-inner: rgba(0, 0, 0, .1);
@@ -131,6 +130,22 @@
     --ck-widget-handle-animation-curve: ease;
 
     --ck-style-panel-button-label-background: var(--ck-color-base-background);
+
+    /* Disable CK styling of inline editable text */
+    --ck-content-font-family: inherit;
+    --ck-content-font-size: inherit;
+    --ck-content-font-color: inherit;
+    --ck-content-line-height: inherit;
+    --ck-content-word-break: inherit;
+}
+
+/**
+ * Dark mode overrides
+ */
+.ck--dark {
+    --ck-color-base-background: #141414;
+    --ck-color-base-text: #fff;
+    --ck-color-panel-background: #141414;
 }
 
 /* Component overrides */
@@ -149,9 +164,18 @@ a.ck.ck-button {
     border-color: #3f3f3f;
 }
 
-.ck.ck-toolbar {
-    border: 1px solid var(--ck-color-toolbar-border);
-    padding: 0;
+.ck-content .table > figcaption,
+.ck-content figure.table > table > caption {
+    caption-side: bottom;
+}
+
+.ck.ck-splitbutton.ck-splitbutton_open > .ck-button:not(.ck-on):not(.ck-disabled):not(:hover),
+.ck.ck-splitbutton:hover > .ck-button:not(.ck-on):not(.ck-disabled):not(:hover),
+.ck.ck-button:not(.ck-disabled):active,
+a.ck.ck-button:not(.ck-disabled):active,
+.ck.ck-button:not(.ck-disabled):hover,
+a.ck.ck-button:not(.ck-disabled):hover {
+    color: var(--ck-color-base-text-focus);
 }
 
 .ck.ck-editor__editable_inline {
@@ -162,11 +186,20 @@ a.ck.ck-button {
     box-sizing: border-box;
 }
 
-.ck.ck-toolbar .ck.ck-toolbar__separator {
+.ck--dark .ck.ck-toolbar .ck.ck-toolbar__separator {
     height: auto;
     display: block;
     align-self: stretch;
     margin: 0;
+}
+
+/**
+ * Reduce size of ck toolbar to match Neos UI design which has not spacing around buttons
+ */
+.ck--dark .ck.ck-toolbar > .ck-toolbar__items > *:not(.ck-toolbar__line-break),
+.ck--dark .ck.ck-toolbar > .ck.ck-toolbar__grouped-dropdown {
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .ck.ck-style-panel .ck-style-grid .ck-style-grid__button {
@@ -174,6 +207,14 @@ a.ck.ck-button {
 }
 
 .ck.ck-style-panel .ck-style-grid {
+    --ck-color-base-border: #adadad;
+    --ck-color-toolbar-border: transparent;
+    --ck-style-panel-button-label-background: transparent;
+    --ck-style-panel-button-hover-label-background: var(--ck-color-base-active);
+    --ck-style-panel-button-hover-border-color: var(--ck-color-base-active);
+}
+
+.ck--dark .ck.ck-style-panel .ck-style-grid {
     --ck-style-panel-button-label-background: #323232;
     --ck-style-panel-button-hover-label-background: #3f3f3f;
     --ck-style-panel-button-hover-border-color: var(--ck-color-base-active);

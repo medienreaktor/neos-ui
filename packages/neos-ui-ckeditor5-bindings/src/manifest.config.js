@@ -19,7 +19,6 @@ import {Heading} from '@ckeditor/ckeditor5-heading';
 import {HorizontalLine} from '@ckeditor/ckeditor5-horizontal-line';
 import {IconBulletedList} from '@ckeditor/ckeditor5-icons';
 import {Indent} from '@ckeditor/ckeditor5-indent';
-import {Link} from '@ckeditor/ckeditor5-link';
 import {List} from '@ckeditor/ckeditor5-list';
 import {Paragraph} from '@ckeditor/ckeditor5-paragraph';
 import {RemoveFormat} from '@ckeditor/ckeditor5-remove-format';
@@ -149,7 +148,6 @@ export default ckEditorRegistry => {
     config.set('undo', addPlugin(Undo, editorOptions => editorOptions?.formatting?.undo));
 
     // Link related plugins
-    config.set('link', addPlugin(Link, editorOptions => editorOptions?.formatting?.a));
     config.set('linkTargetBlank', addPlugin(LinkTargetBlank, editorOptions => editorOptions?.formatting?.a));
     config.set('linkRelNofollow', addPlugin(LinkRelNofollow, editorOptions => editorOptions?.formatting?.a));
     config.set('linkDownload', addPlugin(LinkDownload, editorOptions => editorOptions?.formatting?.a));
@@ -284,7 +282,7 @@ export default ckEditorRegistry => {
             },
             toolbar: {
                 items: toolbarItems,
-                shouldNotGroupWhenFull: false
+                shouldNotGroupWhenFull: true
             },
             balloonToolbar: {
                 items: balloonToolbarItems,

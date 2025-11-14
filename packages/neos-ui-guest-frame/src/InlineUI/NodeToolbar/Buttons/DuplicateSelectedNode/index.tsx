@@ -40,7 +40,7 @@ const DuplicateSelectedNode: React.FC<DuplicateSelectNodeProps> = ({
             disabled={destructiveOperationsAreDisabled}
             onClick={handleDuplicateSelectedNode}
             hoverStyle="brand"
-            style="clean"
+            style="transparent"
             size="small"
             title={translate('Neos.Neos.Ui:Main:duplicate--title', 'Duplicate selected content')}
         >
