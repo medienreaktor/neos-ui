@@ -6,7 +6,7 @@
                 <source>Phone</source>
             </trans-unit>
             <trans-unit id="phoneNumber.label" xml:space="preserve" approved="yes">
-                <source>Phone Number:</source>
+                <source>Phone Number</source>
             </trans-unit>
             <trans-unit id="phoneNumber.placeholder" xml:space="preserve" approved="yes">
                 <source>your phone number without country code</source>

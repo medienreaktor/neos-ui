@@ -111,7 +111,7 @@ export const Web = makeLinkType<WebLinkModel>('LinkEditor:Web', ({id}) => ({
         return (
             <div>
                 <label htmlFor={`__neos__editor__property---${id}.href`}>
-                    {translate('Neos.Neos.Ui:LinkEditor.Web:label.link', '')}:
+                    {translate('Neos.Neos.Ui:LinkEditor.Web:label.link', '')}
                 </label>
                 <div>
                     <SelectBox

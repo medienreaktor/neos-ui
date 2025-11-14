@@ -98,7 +98,7 @@ export const Asset = makeLinkType<AssetLinkModel>('LinkEditor:Asset', ({createEr
         const setAnchor = React.useCallback((anchor) => model$.update((values) => ({...values, isDirty: true, anchor})), []);
 
         return <label>
-            {translate('Neos.Neos.Ui:LinkEditor.Asset:anchor.label', '')}:
+            {translate('Neos.Neos.Ui:LinkEditor.Asset:anchor.label', '')}
             <TextInput type="text" value={model?.anchor ?? ''} placeholder={translate('Neos.Neos.Ui:LinkEditor.Asset:anchor.placeholder', '')} onChange={setAnchor} />
         </label>;
     },

@@ -34,3 +34,7 @@
         position: absolute;
     }
 }
+
+.checkboxLabel {
+    display: flex;
+}

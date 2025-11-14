@@ -14,7 +14,7 @@
                 <target>Odbiorca</target>
             </trans-unit>
             <trans-unit id="recipient.placeholder" xml:space="preserve" approved="yes">
-                <source>e.g.: recipient@example.com</source>
+                <source>e.g.recipient@example.com</source>
                 <target>np.: odbiorca@przyklad.pl</target>
             </trans-unit>
             <trans-unit id="recipient.validation.required" xml:space="preserve" approved="yes">
