@@ -72,8 +72,8 @@
 }
 
 .tabs--vertical .tabNavigation__item {
-    border-left: 1px solid var(--colors-ContrastDark);
     border-right: unset;
+    margin-bottom: unset!important;
 }
 
 .tabs--vertical .tabNavigation__item--isActive {
