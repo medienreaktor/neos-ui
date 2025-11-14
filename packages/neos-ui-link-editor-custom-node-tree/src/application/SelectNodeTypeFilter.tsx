@@ -59,13 +59,13 @@ export const SelectNodeTypeFilter: React.FC<Props> = (props) => {
     const options = React.useMemo(() => {
         return searchNodeTypeFilterOptions(
             filterTerm,
-            fetch__options.value ?? [{value: '', label: ''}] // empty entry to prevent content shift when dropdown icon is added as items exists.
+            fetch__options.value ?? [{value: '', label: ''}] // empty entry to prevent content shift when dropdown icon is added as items exists -> if we fix that displayLoadingIndicator doesnt shift the layout we can remove this
         );
     }, [filterTerm, fetch__options.value]);
 
     return (
         <SelectBox
-            disabled={fetch__options.isLoading || fetch__options.error}
+            disabled={fetch__options.error}
             placeholder={translate('Neos.Neos:Main:filter', '')}
             placeholderIcon={'filter'}
             onValueChange={props.onChange}
