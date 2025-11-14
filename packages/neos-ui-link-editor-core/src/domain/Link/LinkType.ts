@@ -7,12 +7,7 @@ import {ILink} from './Link';
 import {IEditor} from '../Editor';
 import {useLatestState} from '@neos-project/framework-observable-react';
 import {State} from '@neos-project/framework-observable';
-import {IPromiseState} from '@neos-project/framework-promise-react';
 
-interface LinkTypeStaticProps<OptionsType extends object = {}> {
-    link?: ILink
-    options: OptionsType
-}
 interface LinkTypeProps<ModelType = any, OptionsType extends object = {}> {
     model: ModelType
     options: OptionsType
@@ -26,7 +21,7 @@ export interface ILinkType<ModelType = any, OptionsType extends object = {}> {
 
     isSuitableFor: (link: Pick<ILink, 'href'>) => boolean
 
-    useResolvedModel: (link: ILink) => IPromiseState<ModelType>
+    convertLinkToModel: (link: ILink) => ModelType
     convertModelToLink: (model: ModelType) => Pick<ILink, 'href'>
     isDirty: (model: ModelType) => boolean;
     isValid: (model: ModelType) => boolean;
@@ -35,9 +30,7 @@ export interface ILinkType<ModelType = any, OptionsType extends object = {}> {
      */
     isAdvanced?: (model: ModelType) => boolean;
 
-    LoadingPreview: React.FC<LinkTypeStaticProps<OptionsType>>
     Preview: React.FC<LinkTypeProps<ModelType, OptionsType>>
-    LoadingEditor: React.FC<LinkTypeStaticProps<OptionsType>>
     Editor: React.FC<{
         model$: State<ModelType | null>
         options: OptionsType
@@ -55,24 +48,14 @@ export interface ILinkTypeFactoryApi {
 
 export function makeLinkType<ModelType = any, OptionsType extends object = {}>(
     id: string,
-    createOptions: (factoryApi: ILinkTypeFactoryApi) => Omit<ILinkType<ModelType, OptionsType>, 'id' | 'LoadingPreview' | 'LoadingEditor'>
+    createOptions: (factoryApi: ILinkTypeFactoryApi) => Omit<ILinkType<ModelType, OptionsType>, 'id'>
 ): ILinkType<ModelType, OptionsType> {
     const createError = (message: string): Error => new Error(`[${id}]: ${message}`);
     const options = createOptions({createError, id});
 
     return {
         id,
-        ...options,
-        LoadingPreview: (options as any).LoadingPreview ?? (() => React.createElement(
-            'div',
-            {},
-            'Loading...'
-        )),
-        LoadingEditor: (options as any).LoadingEditor ?? (() => React.createElement(
-            'div',
-            {},
-            'Loading...'
-        ))
+        ...options
     };
 }
 

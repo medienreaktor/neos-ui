@@ -4,7 +4,6 @@ import {ILink, makeLinkType} from '../../../domain';
 import {IconCard} from '../../../presentation';
 import {isSuitableFor} from './WebSpecification';
 import {translate} from '@neos-project/neos-ui-i18n';
-import {PromiseState} from '@neos-project/framework-promise-react';
 import {State} from '@neos-project/framework-observable';
 import {useLatestState} from '@neos-project/framework-observable-react';
 import {SelectBox, Tooltip} from '@neos-project/react-ui-components';
@@ -70,14 +69,14 @@ export const Web = makeLinkType<WebLinkModel>('LinkEditor:Web', ({id}) => ({
         return model.href && model.href.value.trimEnd() !== '';
     },
 
-    useResolvedModel: (link: ILink) => {
+    convertLinkToModel: (link: ILink) => {
         // todo handle url encoding
-        return PromiseState.forValue(validateModel({
+        return validateModel({
             href: {
                 isDirty: false,
                 value: link.href || '#'
             }
-        }));
+        });
     },
 
     convertModelToLink: (model: WebLinkModel) => {

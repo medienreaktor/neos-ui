@@ -6,7 +6,7 @@ import {IconCard, ImageCard} from '../../../presentation';
 import {MediaBrowser} from './MediaBrowser';
 import {isSuitableFor} from './AssetSpecification';
 import {translate} from '@neos-project/neos-ui-i18n';
-import {PromiseState, usePromise} from '@neos-project/framework-promise-react';
+import {usePromise} from '@neos-project/framework-promise-react';
 import backend from '@neos-project/neos-ui-backend-connector';
 import {State} from '@neos-project/framework-observable';
 import {useLatestState} from '@neos-project/framework-observable-react';
@@ -37,17 +37,17 @@ export const Asset = makeLinkType<AssetLinkModel>('LinkEditor:Asset', ({createEr
         return Boolean(model.anchor);
     },
 
-    useResolvedModel: (link: ILink) => {
+    convertLinkToModel: (link: ILink) => {
         const match = /asset:\/\/([^#]*)(?:#(.*))?/.exec(link.href);
 
         if (!match) {
-            return PromiseState.forError(createError(`Cannot handle href "${link.href}".`));
+            throw createError(`Cannot handle href "${link.href}".`);
         }
 
         const identifier = match[1];
         const anchor = match[2];
 
-        return PromiseState.forValue({isDirty: false, identifier, anchor});
+        return {isDirty: false, identifier, anchor};
     },
 
     convertModelToLink: ({identifier, anchor}: AssetLinkModel) => ({

@@ -17,6 +17,7 @@
     cursor: pointer;
     line-height: var(--spacing-GoldenUnit);
     background: var(--colors-ContrastDarkest);
+    user-select: none;
 
     border: 1px solid var(--colors-ContrastDark);
     position: relative;

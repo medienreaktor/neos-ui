@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {Button, Tabs, Dialog, Icon} from '@neos-project/react-ui-components';
 
-import {ErrorBoundary, ErrorView} from '@neos-project/neos-ui-error';
+import {AnyError, ErrorBoundary, ErrorView} from '@neos-project/neos-ui-error';
 import style from './style.module.css';
 
 import {
@@ -56,12 +56,28 @@ const ActiveLinkEditorDialog: React.FC<{
 
     const availableLinkTypes = useSortedAndFilteredLinkTypes(editor);
 
+    const {error: initialError, model: initialModel} = React.useMemo(() => {
+        if (!initialLinkType || !initialValue) {
+            return {error: null, model: null};
+        }
+        try {
+            const model = initialLinkType.convertLinkToModel(initialValue);
+            return {error: null, model};
+        } catch (error) {
+            return {error: error as AnyError, model: null};
+        }
+    }, [initialLinkType, initialValue]);
+
     const form$ = React.useMemo(() => createState({
         isOptionsDirty: false,
         initialLinkWasDeleted: false,
         activeLinkTypeId: initialLinkType?.id ?? availableLinkTypes[0].id,
         options: initialValue?.options ?? {},
-        linkModels: {}
+        linkModels: initialLinkType
+            ? {
+                [initialLinkType.id]: initialModel
+            }
+            : {}
     } as FormValues), []);
 
     const formStatus$ = React.useMemo(() => mapState(form$, (form) => {
@@ -152,7 +168,8 @@ const ActiveLinkEditorDialog: React.FC<{
                         <DialogWithValue
                             form$={form$}
                             editor={editor}
-                            initialValue={initialValue}
+                            initialModel={initialModel}
+                            initialError={initialError}
                             initialLinkType={initialLinkType}
                             availableLinkTypes={availableLinkTypes}
                         />
@@ -222,36 +239,20 @@ const DialogWithEmptyValue: React.FC<{
 const DialogWithValue: React.FC<{
     form$: State<FormValues>
     editor: IEditor,
-    initialValue: ILink,
+    initialModel: any,
+    initialError: AnyError | null
     initialLinkType: ILinkType,
     availableLinkTypes: ReadonlyArray<ILinkType>
 }> = props => {
     const {editorOptions} = useLatestState(props.editor.state$);
-    const {isLoading, error, value: initialModel} = props.initialLinkType.useResolvedModel(props.initialValue);
 
     const setActiveTab = React.useCallback((linkId) => props.form$.update((values) => ({...values, activeLinkTypeId: linkId})), []);
     const activeTab$ = React.useMemo(() => mapState(props.form$, (form) => form.activeLinkTypeId), []);
     const activeTab = useLatestState(activeTab$);
 
-    React.useEffect(() => {
-        if (initialModel !== null) {
-            if (!props.form$.current.linkModels[props.initialLinkType.id]) {
-                // update state with initial value once available
-                props.form$.update((form) => ({
-                    ...form,
-                    linkModels: {
-                        ...form.linkModels,
-                        [props.initialLinkType.id]: initialModel
-                    }
-                }));
-            }
-        }
-    }, [initialModel]);
-
     const linkModels$ = React.useMemo(() => pickState(props.form$, 'linkModels'), []);
 
     const InitialPreview = props.initialLinkType.Preview;
-    const InitialLoadingPreview = props.initialLinkType.LoadingPreview;
 
     return (
         <>
@@ -261,20 +262,13 @@ const DialogWithValue: React.FC<{
                 availableLinkTypes={props.availableLinkTypes}
                 form$={props.form$}
                 initialLinkTypePreview={() => (
-                    error ? (
-                        <ErrorView error={error}/>
+                    props.initialError ? (
+                        <ErrorView error={props.initialError}/>
                     ) : (
-                        isLoading ? (
-                            <InitialLoadingPreview
-                                link={props.initialValue}
-                                options={editorOptions.linkTypes?.[props.initialLinkType.id] as any ?? {}}
-                            />
-                        ) : (
-                            <InitialPreview
-                                model={initialModel}
-                                options={editorOptions.linkTypes?.[props.initialLinkType.id] as any ?? {}}
-                            />
-                        )
+                        <InitialPreview
+                            model={props.initialModel}
+                            options={editorOptions.linkTypes?.[props.initialLinkType.id] as any ?? {}}
+                        />
                     )
                 )}
             />
@@ -284,7 +278,7 @@ const DialogWithValue: React.FC<{
                 vertical
             >
                 {props.availableLinkTypes.map((linkType) => {
-                    const {Editor, LoadingEditor} = linkType;
+                    const {Editor} = linkType;
                     const model$ = React.useMemo(() => pickState(linkModels$, linkType.id), [linkModels$])
 
                     return (
@@ -297,27 +291,18 @@ const DialogWithValue: React.FC<{
                         >
                             <Layout.Stack>
                                 <ErrorBoundary errorFallback={ErrorView}>
-                                    {isLoading && linkType.id === props.initialLinkType.id ? (
-                                        <LoadingEditor
-                                            link={props.initialValue}
-                                            options={editorOptions.linkTypes?.[props.initialLinkType.id] as any ?? {}}
-                                        />
-                                    ) : (
-                                        <>
-                                            <Editor
-                                                model$={model$}
-                                                options={editorOptions.linkTypes?.[linkType.id] as any ?? {}}
-                                            />
-                                            <AdvancedOptions
-                                                editor={props.editor}
-                                                form$={props.form$}
-                                                initialLinkType={props.initialLinkType}
-                                                linkType={linkType}
-                                                model$={model$}
-                                                options={editorOptions.linkTypes?.[linkType.id] as any ?? {}}
-                                            />
-                                        </>
-                                    )}
+                                    <Editor
+                                        model$={model$}
+                                        options={editorOptions.linkTypes?.[linkType.id] as any ?? {}}
+                                    />
+                                    <AdvancedOptions
+                                        editor={props.editor}
+                                        form$={props.form$}
+                                        initialLinkType={props.initialLinkType}
+                                        linkType={linkType}
+                                        model$={model$}
+                                        options={editorOptions.linkTypes?.[linkType.id] as any ?? {}}
+                                    />
                                 </ErrorBoundary>
 
                             </Layout.Stack>
@@ -402,28 +387,27 @@ const AdvancedOptions: React.FC<{
 }> = props => {
     const {enabledLinkOptions} = useLatestState(props.editor.state$);
 
-    const advancedOptions$ = React.useMemo(() => mapState(props.form$, (form) => {
-        const activeModel = form.linkModels[form.activeLinkTypeId];
-
-        const modelIsDirty = activeModel && props.linkType.isDirty(activeModel);
-
+    const formStatus$ = React.useMemo(() => mapState(props.form$, (form) => {
         const isOptionSet = Object.values(form.options ?? {}).some(Boolean);
 
         return {
-            isUsed: isOptionSet || Boolean(activeModel && props.linkType.isAdvanced?.(activeModel)),
-            enabled: modelIsDirty || (props.initialLinkType && !form.initialLinkWasDeleted ? props.initialLinkType.id === props.linkType.id : false)
+            isOptionSet,
+            initialLinkWasDeleted: form.initialLinkWasDeleted
         }
     }), []);
 
-    const advancedOptions = useLatestState(advancedOptions$);
+    const formStatus = useLatestState(formStatus$);
+    const model = useLatestState(props.model$);
 
-    // todo odd state, when removing last set value dialog closes
-    const [isOpen, setOpen] = React.useState<boolean | undefined>(undefined);
+    const modelIsDirty = model && props.linkType.isDirty(model);
 
-    const toggleOpen = React.useCallback(() => setOpen(openState => {
-        const prevOpen = openState ?? advancedOptions.isUsed;
-        return !prevOpen;
-    }), [advancedOptions]);
+    const enabled = modelIsDirty || (props.initialLinkType && !formStatus.initialLinkWasDeleted ? props.initialLinkType.id === props.linkType.id : false);
+
+    const isUsed = enabled && (formStatus.isOptionSet || Boolean(model && props.linkType.isAdvanced?.(model)));
+
+    const [isOpen, setOpen] = React.useState<boolean>(isUsed);
+
+    const toggleOpen = React.useCallback(() => enabled ? setOpen(openState => !openState) : null, [enabled]);
 
     const {AdvancedEditor} = props.linkType;
 
@@ -431,12 +415,10 @@ const AdvancedOptions: React.FC<{
         return null;
     }
 
-    const isAdvancedOpen = advancedOptions.enabled && (isOpen ?? advancedOptions.isUsed);
-
     return <div className={style.advanced}>
-        <div className={!advancedOptions.enabled ? style.advancedButtonDisabled : (isAdvancedOpen ? style.advancedButtonIsOpen : style.advancedButton)} onClick={toggleOpen} ><Icon icon='cogs' color={advancedOptions.isUsed ? 'primaryBlue' : undefined} />&nbsp; Advanced &nbsp; <Icon icon={isAdvancedOpen ? 'chevron-up' : 'chevron-down'}/></div>
+        <div className={!enabled ? style.advancedButtonDisabled : (isOpen ? style.advancedButtonIsOpen : style.advancedButton)} onClick={toggleOpen} ><Icon icon='cogs' color={isUsed ? 'primaryBlue' : undefined} />&nbsp; Advanced &nbsp; <Icon icon={isOpen ? 'chevron-up' : 'chevron-down'}/></div>
         {
-            isAdvancedOpen ? (
+            isOpen ? (
                 <div className={style.advancedContents}>
                     <Layout.Stack>
                         {AdvancedEditor

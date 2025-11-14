@@ -8,7 +8,7 @@
  * source code.
  */
 import React from 'react';
-import {PromiseState, usePromise} from '@neos-project/framework-promise-react';
+import {usePromise} from '@neos-project/framework-promise-react';
 
 import {selectors, useSelector} from '@neos-project/neos-ui-redux-store';
 import {Tree} from '@neos-project/neos-ui-link-editor-custom-node-tree';
@@ -103,17 +103,17 @@ export const Node = makeLinkType<NodeLinkModel, NodeLinkOptions>('LinkEditor:Nod
         return Boolean(model.anchor);
     },
 
-    useResolvedModel: (link: ILink) => {
+    convertLinkToModel: (link: ILink) => {
         const match = /node:\/\/([^#]*)(?:#(.*))?/.exec(link.href);
 
         if (!match) {
-            return PromiseState.forError(createError(`Cannot handle href "${link.href}".`));
+            throw createError(`Cannot handle href "${link.href}".`);
         }
 
         const nodeId = match[1];
         const anchor = match[2];
 
-        return PromiseState.forValue({isDirty: false, nodeId, anchor});
+        return {isDirty: false, nodeId, anchor};
     },
 
     convertModelToLink: ({nodeId, anchor}: NodeLinkModel) => ({

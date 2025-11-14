@@ -9,8 +9,6 @@ import {translate} from '@neos-project/neos-ui-i18n';
 import {State} from '@neos-project/framework-observable';
 import {useLatestState} from '@neos-project/framework-observable-react';
 
-import {PromiseState} from '@neos-project/framework-promise-react';
-
 type PhoneNumberLinkModel = {
     phoneNumber: {
         value: string
@@ -48,19 +46,17 @@ export const PhoneNumber = makeLinkType<PhoneNumberLinkModel>('LinkEditor:PhoneN
         return trimmedValue !== '' && trimmedValue !== '+';
     },
 
-    useResolvedModel: (link: ILink) => {
+    convertLinkToModel: (link: ILink) => {
         if (!link.href.startsWith('tel:')) {
-            return PromiseState.forError(
-                createError(`Cannot handle href "${link.href}".`)
-            );
+            throw createError(`Cannot handle href "${link.href}".`);
         }
 
-        return PromiseState.forValue(validateModel({
+        return validateModel({
             phoneNumber: {
                 value: link.href.replace('tel:', ''),
                 isDirty: false
             }
-        }));
+        });
     },
 
     convertModelToLink: (model: PhoneNumberLinkModel) => {

@@ -4,7 +4,6 @@ import {ILink, makeLinkType} from '../../../domain';
 import {IconCard, Layout} from '../../../presentation';
 import {isSuitableFor} from './MailToSpecification';
 import {translate} from '@neos-project/neos-ui-i18n';
-import {PromiseState} from '@neos-project/framework-promise-react';
 import {State} from '@neos-project/framework-observable';
 import {useLatestState} from '@neos-project/framework-observable-react';
 import {TextArea, TextInput, Tooltip} from '@neos-project/react-ui-components';
@@ -97,15 +96,13 @@ export const MailTo = makeLinkType<MailToLinkModel, MailToOptions>('LinkEditor:M
         return true;
     },
 
-    useResolvedModel: (link: ILink) => {
+    convertLinkToModel: (link: ILink) => {
         if (!link.href.startsWith('mailto:')) {
-            return PromiseState.forError(
-                createError(`Cannot handle href "${link.href}".`)
-            );
+            throw createError(`Cannot handle href "${link.href}".`);
         }
         const url = new URL(link.href);
 
-        const value = validateEmail({
+        return validateEmail({
             recipient: {
                 value: url.pathname,
                 isDirty: false
@@ -127,31 +124,6 @@ export const MailTo = makeLinkType<MailToLinkModel, MailToOptions>('LinkEditor:M
                 isDirty: false
             }
         });
-
-        // return usePromise(() => new Promise(r => setTimeout(() => r(value), 1000)), [])
-
-        return PromiseState.forValue(validateEmail({
-            recipient: {
-                value: url.pathname,
-                isDirty: false
-            },
-            subject: {
-                value: url.searchParams.get('subject') ?? '',
-                isDirty: false
-            },
-            cc: {
-                value: url.searchParams.get('cc') ?? '',
-                isDirty: false
-            },
-            bcc: {
-                value: url.searchParams.get('bcc') ?? '',
-                isDirty: false
-            },
-            body: {
-                value: url.searchParams.get('body') ?? '',
-                isDirty: false
-            }
-        }));
     },
 
     convertModelToLink: (email: MailToLinkModel) => {

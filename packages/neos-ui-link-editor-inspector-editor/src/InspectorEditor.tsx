@@ -6,7 +6,7 @@ import {
     Deletable,
     IEditor
 } from '@neos-project/neos-ui-link-editor-core';
-import {ErrorBoundary, ErrorView} from '@neos-project/neos-ui-error';
+import {AnyError, ErrorBoundary, ErrorView} from '@neos-project/neos-ui-error';
 import {ILink} from '@neos-project/neos-ui-link-editor-core/src/domain';
 import {ILinkOptions} from '@neos-project/neos-ui-link-editor-core/src/domain';
 import {
@@ -134,25 +134,26 @@ const InspectorEditorWithLinkType: React.FC<{
     editLink: () => Promise<void>
     reset: () => void
 }> = props => {
-    const {isLoading, error, value: model} = props.linkType.useResolvedModel(props.link);
-    const {Preview, LoadingPreview} = props.linkType;
+    const {error, model} = React.useMemo(() => {
+        try {
+            const model = props.linkType.convertLinkToModel(props.link);
+            return {error: null, model};
+        } catch (error) {
+            return {error: error as AnyError, model: null};
+        }
+    }, [props.link, props.linkType]);
+
+    const {Preview} = props.linkType;
 
     if (props.disabled) {
         // todo add grey overlay like with disabled button and invalid mouse cursor effect
         return error ? (
             <ErrorView error={error} />
         ) : (
-            isLoading ? (
-                <LoadingPreview
-                    link={props.link}
-                    options={props.options}
-                />
-            ) : (
-                <Preview
-                    model={model}
-                    options={props.options}
-                />
-            )
+            <Preview
+                model={model}
+                options={props.options}
+            />
         )
     }
 
@@ -165,19 +166,10 @@ const InspectorEditorWithLinkType: React.FC<{
                     title={translate('Neos.Neos.Ui:LinkEditor.Main:inspector.edit', '')}
                     onClick={props.editLink}
                 >
-                    {
-                        isLoading ? (
-                            <LoadingPreview
-                                link={props.link}
-                                options={props.options}
-                            />
-                        ) : (
-                            <Preview
-                                model={model}
-                                options={props.options}
-                            />
-                        )
-                    }
+                    <Preview
+                        model={model}
+                        options={props.options}
+                    />
                 </SeamlessButton>
             )}
         </Deletable>
