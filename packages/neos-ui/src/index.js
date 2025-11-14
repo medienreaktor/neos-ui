@@ -7,26 +7,41 @@ import merge from 'lodash.merge';
 import {actions} from '@neos-project/neos-ui-redux-store';
 import {createConsumerApi} from '@neos-project/neos-ui-extensibility';
 import fetchWithErrorHandling from '@neos-project/neos-ui-backend-connector/src/FetchWithErrorHandling';
-import backend from '@neos-project/neos-ui-backend-connector';
+import backend, {initializeJsAPI} from '@neos-project/neos-ui-backend-connector';
 import {handleActions} from '@neos-project/utils-redux';
 import {initializeI18n} from '@neos-project/neos-ui-i18n';
+import {initializeNodeTypesRegistry} from '@neos-project/neos-ui-contentrepository';
 import {showFlashMessage} from '@neos-project/neos-ui-error';
 
+import {getInlinedDataFromBackend} from '@neos-project/neos-ui-configuration/src/bootstrap';
 import {
     appContainer,
-    frontendConfiguration,
-    configuration,
-    routes,
-    serverState,
-    menu,
-    nodeTypes
+    csrfToken,
+    systemEnv
 } from './System';
+import {
+    getConfiguration,
+    getFullPackageFrontendConfiguration,
+    initializeFrontendConfiguration
+} from '@neos-project/neos-ui-configuration';
 import localStorageMiddleware from './localStorageMiddleware';
 import clipboardMiddleware from './clipboardMiddleware';
 import Root from './Containers/Root';
 import apiExposureMap from './apiExposureMap';
 import DelegatingReducer from './DelegatingReducer';
 import {getGlobalRegistry} from '@neos-project/neos-ui-registry';
+import {allowedTargetWorkspacesSelector} from '@neos-project/neos-ui-redux-store/src/CR/Workspaces/selectors';
+
+const serverState = getInlinedDataFromBackend('initialState');
+const routes = getInlinedDataFromBackend('routes');
+const menu = getInlinedDataFromBackend('menu');
+
+const configuration = getConfiguration();
+fetchWithErrorHandling.setCsrfToken(csrfToken);
+initializeJsAPI(window, {
+    systemEnv,
+    routes
+});
 
 const devToolsArePresent = typeof window === 'object' && typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined';
 const devToolsStoreEnhancer = () => devToolsArePresent ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f;
@@ -57,14 +72,14 @@ require('@neos-project/neos-ui-sagas/src/manifest');
 
 async function main() {
     initializePlugins();
-    initializeFrontendConfiguration();
+    initializeFrontendConfiguration(globalRegistry);
     initializeAdditionalReduxReducers();
     initializeAdditionalReduxSagas();
     initializeReduxState();
     initializeFetchWithErrorHandling();
 
     await Promise.all([
-        loadNodeTypesSchema(),
+        initializeNodeTypesRegistry(),
         initializeI18n(),
         loadImpersonateStatus()
     ]);
@@ -75,20 +90,10 @@ async function main() {
     reloadNodes();
 }
 
-function initializeFrontendConfiguration() {
-    const frontendConfigurationRegistry = globalRegistry.get('frontendConfiguration');
-
-    Object.keys(frontendConfiguration).forEach(key => {
-        frontendConfigurationRegistry.set(key, {
-            ...frontendConfiguration[key]
-        });
-    });
-}
-
 function initializePlugins() {
     manifests
         .map(manifest => manifest[Object.keys(manifest)[0]])
-        .forEach(({bootstrap}) => bootstrap(globalRegistry, {store, frontendConfiguration, configuration, routes}));
+        .forEach(({bootstrap}) => bootstrap(globalRegistry, {store, frontendConfiguration: getFullPackageFrontendConfiguration(), configuration, routes}));
 }
 
 function initializeAdditionalReduxReducers() {
@@ -151,26 +156,6 @@ function initializeFetchWithErrorHandling() {
     });
 }
 
-async function loadNodeTypesSchema() {
-    const {getJsonResource} = backend.get().endpoints;
-    const nodeTypesRegistry = globalRegistry.get('@neos-project/neos-ui-contentrepository');
-
-    const nodeTypesSchema = await getJsonResource(configuration.endpoints.nodeTypeSchema);
-    Object.keys(nodeTypesSchema.nodeTypes).forEach(nodeTypeName => {
-        nodeTypesRegistry.set(nodeTypeName, {
-            ...nodeTypesSchema.nodeTypes[nodeTypeName],
-            name: nodeTypeName
-        });
-    });
-
-    nodeTypesRegistry.setConstraints(nodeTypesSchema.constraints);
-    nodeTypesRegistry.setInheritanceMap(nodeTypesSchema.inheritanceMap);
-
-    const {groups, roles} = nodeTypes;
-    nodeTypesRegistry.setGroups(groups);
-    nodeTypesRegistry.setRoles(roles);
-}
-
 async function loadImpersonateStatus() {
     try {
         const {impersonateStatus} = backend.get().endpoints;
@@ -188,11 +173,16 @@ async function loadImpersonateStatus() {
 }
 
 function renderApplication() {
+    /**
+     * @deprecated if accessed via neos.configuration.allowedTargetWorkspaces this information now resides in the redux store see selectors.CR.Workspaces.allowedTargetWorkspacesSelector()
+     */
+    const allowedTargetWorkspaces = allowedTargetWorkspacesSelector(store.getState());
+
     ReactDOM.render(
         <Root
             globalRegistry={globalRegistry}
             menu={menu}
-            configuration={configuration}
+            configuration={{...configuration, allowedTargetWorkspaces}}
             routes={routes}
             store={store}
             />,

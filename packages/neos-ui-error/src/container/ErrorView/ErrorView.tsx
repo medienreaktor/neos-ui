@@ -10,6 +10,7 @@
 import React from 'react';
 
 import I18n from '@neos-project/neos-ui-i18n';
+import {isDevelopmentContext} from '@neos-project/neos-ui-configuration';
 
 import {AnyError, isECMAScriptError, isServerSideError, isStringError} from '../../types';
 
@@ -44,15 +45,6 @@ const ErrorMessage: React.FC<{ error: null | AnyError }> = (props) => {
             id="Neos.Neos.Ui:Error:unknown"
             fallback="An unkown error ocurred."
             />
-    );
-};
-
-const isDevelopmentContext = () => {
-    const env = ((window as any).appContainer?.dataset?.env ?? '') as string;
-
-    return (
-        env === 'Development'
-        || env.startsWith('Development/')
     );
 };
 

@@ -16,6 +16,8 @@ namespace Neos\Neos\Ui\Infrastructure\MVC;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\Routing\UriBuilder;
+use Neos\Neos\Service\UserService;
+use Neos\Neos\Ui\Domain\InitialData\CacheConfigurationVersionProviderInterface;
 use Neos\Neos\Ui\Domain\InitialData\RoutesProviderInterface;
 
 /**
@@ -24,6 +26,45 @@ use Neos\Neos\Ui\Domain\InitialData\RoutesProviderInterface;
 #[Flow\Scope("singleton")]
 final class RoutesProvider implements RoutesProviderInterface
 {
+    #[Flow\Inject]
+    protected UserService $userService;
+
+    #[Flow\Inject]
+    protected CacheConfigurationVersionProviderInterface $cacheConfigurationVersionProvider;
+
+    public function getPrefetchRoutes(UriBuilder $uriBuilder): array
+    {
+        return [
+            'nodeTypeSchema' => $uriBuilder->reset()
+                ->setCreateAbsoluteUri(true)
+                ->uriFor(
+                    actionName: 'nodeTypeSchema',
+                    controllerArguments: [
+                        'version' =>
+                            $this->cacheConfigurationVersionProvider
+                                ->getCacheConfigurationVersion(),
+                    ],
+                    controllerName: 'Backend\\Schema',
+                    packageKey: 'Neos.Neos',
+                ),
+            'translations' => $uriBuilder->reset()
+                ->setCreateAbsoluteUri(true)
+                ->uriFor(
+                    actionName: 'xliffAsJson',
+                    controllerArguments: [
+                        'locale' =>
+                            $this->userService
+                                ->getInterfaceLanguage(),
+                        'version' =>
+                            $this->cacheConfigurationVersionProvider
+                                ->getCacheConfigurationVersion(),
+                    ],
+                    controllerName: 'Backend\\Backend',
+                    packageKey: 'Neos.Neos',
+                ),
+        ];
+    }
+
     public function getRoutes(UriBuilder $uriBuilder): array
     {
         $helper = new RoutesProviderHelper($uriBuilder);

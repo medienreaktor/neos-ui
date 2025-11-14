@@ -7,6 +7,7 @@ import {SelectBox} from '@neos-project/react-ui-components';
 import {searchOptions} from '@neos-project/neos-ui-editors/src/Editors/SelectBox/selectBoxHelpers.js';
 
 import style from './style.module.css';
+import {getConfiguration} from '@neos-project/neos-ui-configuration';
 
 @neos(globalRegistry => ({
     i18nRegistry: globalRegistry.get('i18n'),
@@ -17,7 +18,6 @@ export default class NodeTreeFilter extends PureComponent {
     static propTypes = {
         i18nRegistry: PropTypes.object.isRequired,
         nodeTypesRegistry: PropTypes.object.isRequired,
-        neos: PropTypes.object.isRequired,
         onChange: PropTypes.func.isRequired,
         value: PropTypes.any
     }
@@ -31,10 +31,10 @@ export default class NodeTreeFilter extends PureComponent {
     }
 
     render() {
-        const {i18nRegistry, nodeTypesRegistry, neos, onChange, value} = this.props;
+        const {i18nRegistry, nodeTypesRegistry, onChange, value} = this.props;
         const label = i18nRegistry.translate('filter', 'Filter', {}, 'Neos.Neos', 'Main');
 
-        const presets = neos?.configuration?.nodeTree?.presets;
+        const presets = getConfiguration(configuration => configuration?.nodeTree?.presets);
         let options = Object.keys(presets)
             .filter(presetName => (presetName !== 'default'))
             .map(presetName => ({

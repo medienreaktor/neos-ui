@@ -16,5 +16,8 @@
   ],
   "scripts": {
     "build": "yarn tsc --declaration"
+  },
+  "devDependencies": {
+    "typescript": "^4.6.4"
   }
 }

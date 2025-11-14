@@ -96,6 +96,8 @@ build-production:
 	node esbuild.js --production
 
 build-e2e-testing:
+	yarn workspace @neos-project/neos-ui-extensibility run build
+	yarn workspace @neos-project/neos-ui-test-plugin run build
 	node esbuild.js --production --e2e-testing
 
 ################################################################################

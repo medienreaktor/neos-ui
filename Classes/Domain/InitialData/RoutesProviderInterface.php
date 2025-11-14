@@ -20,13 +20,13 @@ use Neos\Flow\Mvc\Routing\UriBuilder;
  * Retrieves routes/endpoints required for communication with the
  * Neos server application.
  *
- * Only exceptions are `nodeTypeSchema` and `translations`,
- * which are handled by {@see ConfigurationProviderInterface}.
- *
  * @internal
  */
 interface RoutesProviderInterface
 {
+    /** @return array{"nodeTypeSchema":string,"translations":string} */
+    public function getPrefetchRoutes(UriBuilder $uriBuilder): array;
+
     /** @return array<mixed> */
     public function getRoutes(UriBuilder $uriBuilder): array;
 }
