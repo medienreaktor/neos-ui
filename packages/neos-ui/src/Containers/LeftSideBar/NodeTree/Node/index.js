@@ -12,6 +12,7 @@ import {neos} from '@neos-project/neos-ui-decorators';
 
 import hashSum from 'hash-sum';
 import {urlWithParams} from '@neos-project/utils-helpers/src/urlWithParams';
+import {getConfiguration} from '@neos-project/neos-ui-configuration';
 
 const getContextPath = node => node?.contextPath;
 
@@ -391,7 +392,7 @@ const withNodeTypeRegistryAndI18nRegistry = neos(globalRegistry => ({
 }));
 
 export const PageTreeNode = withNodeTypeRegistryAndI18nRegistry(connect(
-    (state, {neos, nodeTypesRegistry}) => {
+    (state, {nodeTypesRegistry}) => {
         const allowedNodeTypes = nodeTypesRegistry.getSubTypesOf(nodeTypesRegistry.getRole('document'));
 
         const childrenOfSelector = selectors.CR.Nodes.makeChildrenOfSelector(allowedNodeTypes);
@@ -414,7 +415,7 @@ export const PageTreeNode = withNodeTypeRegistryAndI18nRegistry(connect(
                 focusedNodesContextPaths: selectors.UI.PageTree.getAllFocused(state),
                 areFocusedNodesNestedInEachOther: selectors.UI.PageTree.areFocusedNodesNestedInEachOther(state),
                 rootNode: selectors.CR.Nodes.siteNodeSelector(state),
-                loadingDepth: neos.configuration.nodeTree.loadingDepth,
+                loadingDepth: getConfiguration(configuration => configuration.nodeTree.loadingDepth),
                 childNodes: childrenOfSelector(state, getContextPath(node)),
                 hasChildren: hasChildrenSelector(state, getContextPath(node)),
                 isActive: selectors.CR.Nodes.documentNodeContextPathSelector(state) === node.contextPath,
@@ -437,7 +438,7 @@ export const PageTreeNode = withNodeTypeRegistryAndI18nRegistry(connect(
 )(Node));
 
 export const ContentTreeNode = withNodeTypeRegistryAndI18nRegistry(connect(
-    (state, {neos, nodeTypesRegistry}) => {
+    (state, {nodeTypesRegistry}) => {
         const allowedNodeTypes = [].concat(
             nodeTypesRegistry.getSubTypesOf(nodeTypesRegistry.getRole('content')),
             nodeTypesRegistry.getSubTypesOf(nodeTypesRegistry.getRole('contentCollection'))
@@ -463,7 +464,7 @@ export const ContentTreeNode = withNodeTypeRegistryAndI18nRegistry(connect(
                 focusedNodesContextPaths: selectors.UI.PageTree.getAllFocused(state),
                 areFocusedNodesNestedInEachOther: selectors.UI.PageTree.areFocusedNodesNestedInEachOther(state),
                 rootNode: selectors.CR.Nodes.documentNodeSelector(state),
-                loadingDepth: neos.configuration.structureTree.loadingDepth,
+                loadingDepth: getConfiguration(configuration => configuration.structureTree.loadingDepth),
                 childNodes: childrenOfSelector(state, getContextPath(node)),
                 hasChildren: hasChildrenSelector(state, getContextPath(node)),
                 isActive: selectors.CR.Nodes.documentNodeContextPathSelector(state) === node.contextPath,

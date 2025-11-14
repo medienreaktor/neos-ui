@@ -9,3 +9,11 @@ Neos:
           label: 'SelectBoxes'
           position: 300
           collapsed: false
+    Ui:
+      resources:
+        javascript:
+          '@neos-project/neos-ui-test-plugin':
+            resource: 'resource://Neos.TestNodeTypes/Public/JavaScript/Plugin.js'
+      frontendConfiguration:
+        '@neos-project/neos-ui-test-plugin':
+          testConfig: 'la li lu'

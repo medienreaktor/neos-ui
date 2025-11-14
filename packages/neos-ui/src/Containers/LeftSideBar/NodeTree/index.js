@@ -13,6 +13,7 @@ import {PageTreeNode, ContentTreeNode} from './Node/index';
 
 import style from './style.module.css';
 import {neos} from '@neos-project/neos-ui-decorators';
+import {getConfiguration} from '@neos-project/neos-ui-configuration';
 
 const ConnectedDragLayer = connect((state, {currentlyDraggedNodes}) => {
     const getNodeByContextPath = selectors.CR.Nodes.nodeByContextPath(state);
@@ -183,14 +184,14 @@ const withNodeTypeRegistryAndI18nRegistry = neos(globalRegistry => ({
 }));
 
 export const PageTree = withNodeTypeRegistryAndI18nRegistry(connect(
-    (state, {neos, nodeTypesRegistry}) => {
+    (state, {nodeTypesRegistry}) => {
         const documentNodesSelector = selectors.CR.Nodes.makeGetCollapsibleDocumentNodes(nodeTypesRegistry);
         return ({
             rootNode: selectors.CR.Nodes.siteNodeSelector(state),
             focusedNodesContextPaths: selectors.UI.PageTree.getAllFocused(state),
             ChildRenderer: PageTreeNode,
             allowOpeningNodesInNewWindow: true,
-            loadingDepth: neos.configuration.structureTree.loadingDepth,
+            loadingDepth: getConfiguration(configuration => configuration.nodeTree.loadingDepth),
             allCollapsibleNodes: documentNodesSelector(state)
         })
     }, {
@@ -208,14 +209,14 @@ export const PageTree = withNodeTypeRegistryAndI18nRegistry(connect(
 )(NodeTree));
 
 export const ContentTree = withNodeTypeRegistryAndI18nRegistry(connect(
-    (state, {neos, nodeTypesRegistry}) => {
+    (state, {nodeTypesRegistry}) => {
         const contentNodesSelector = selectors.CR.Nodes.makeGetCollapsibleContentNodes(nodeTypesRegistry);
         return ({
             rootNode: selectors.CR.Nodes.documentNodeSelector(state),
             focusedNodesContextPaths: selectors.CR.Nodes.focusedNodePathsSelector(state),
             ChildRenderer: ContentTreeNode,
             allowOpeningNodesInNewWindow: false,
-            loadingDepth: neos.configuration.structureTree.loadingDepth,
+            loadingDepth: getConfiguration(configuration => configuration.structureTree.loadingDepth),
             allCollapsibleNodes: contentNodesSelector(state)
         })
     }, {

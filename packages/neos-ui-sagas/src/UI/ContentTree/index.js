@@ -5,6 +5,7 @@ import {isNodeCollapsed} from '@neos-project/neos-ui-redux-store/src/CR/Nodes/he
 
 import backend from '@neos-project/neos-ui-backend-connector';
 import {showFlashMessage} from '@neos-project/neos-ui-error';
+import {getConfiguration} from '@neos-project/neos-ui-configuration';
 
 export function * watchReloadTree({globalRegistry}) {
     const nodeTypesRegistry = globalRegistry.get('@neos-project/neos-ui-contentrepository');
@@ -33,7 +34,7 @@ export function * watchReloadTree({globalRegistry}) {
     });
 }
 
-export function * watchNodeFocus({configuration}) {
+export function * watchNodeFocus() {
     yield takeLatest(actionTypes.CR.Nodes.FOCUS, function * loadContentNodeRootLine(action) {
         const {contextPath} = action.payload;
         const documentNodeContextPath = yield select(
@@ -43,7 +44,7 @@ export function * watchNodeFocus({configuration}) {
         let parentContextPath = contextPath;
 
         const documentNode = yield select(selectors.CR.Nodes.documentNodeSelector);
-        const {loadingDepth} = configuration.structureTree;
+        const loadingDepth = getConfiguration(configuration => configuration.structureTree.loadingDepth);
 
         while (parentContextPath !== documentNodeContextPath) {
             const parentContextPathSelector = selectors.CR.Nodes.makeGetNodeByContextPathSelector(parentContextPath);
@@ -142,7 +143,7 @@ export function * watchRequestChildrenForContextPath({globalRegistry}) {
     });
 }
 
-export function * watchCurrentDocument({globalRegistry, configuration}) {
+export function * watchCurrentDocument({globalRegistry}) {
     const nodeTypesRegistry = globalRegistry.get('@neos-project/neos-ui-contentrepository');
     const {q} = backend.get();
 
@@ -162,7 +163,7 @@ export function * watchCurrentDocument({globalRegistry, configuration}) {
         const nodeTypeFilter = `${nodeTypesRegistry.getRole('contentCollection')},${nodeTypesRegistry.getRole('content')}`;
         const nodes = yield q([contextPath]).neosUiDefaultNodes(
             nodeTypeFilter,
-            configuration.structureTree.loadingDepth,
+            getConfiguration((configuration) => configuration.structureTree.loadingDepth),
             [],
             []
         ).get();

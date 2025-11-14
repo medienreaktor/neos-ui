@@ -1,0 +1,15 @@
+{
+  "name": "@neos-project/neos-ui-test-plugin",
+  "version": "",
+  "description": "",
+  "private": true,
+  "main": "./src/index.ts",
+  "license": "GNU GPLv3",
+  "scripts": {
+    "build": "node esbuild.js"
+  },
+  "dependencies": {
+    "@neos-project/neos-ui-extensibility": "workspace:*",
+    "esbuild": "~0.17.0"
+  }
+}

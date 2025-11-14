@@ -1,0 +1,1 @@
+export {getInlinedDataFromBackend} from './getInlinedDataFromBackend'

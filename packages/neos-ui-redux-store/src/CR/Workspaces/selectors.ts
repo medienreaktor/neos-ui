@@ -1,4 +1,4 @@
-import {createSelector} from 'reselect';
+import {createSelector, defaultMemoize} from 'reselect';
 import {documentNodeContextPathSelector} from '../Nodes/selectors';
 import {GlobalState} from '../../..';
 import {NodeContextPath} from '@neos-project/neos-ts-interfaces';
@@ -8,6 +8,8 @@ export const personalWorkspaceNameSelector = (state: GlobalState) => state?.cr?.
 export const personalWorkspaceRebaseStatusSelector = (state: GlobalState) => state?.cr?.workspaces?.personalWorkspace?.status;
 
 export const baseWorkspaceSelector = (state: GlobalState) => state?.cr?.workspaces?.personalWorkspace?.baseWorkspace;
+
+export const allowedTargetWorkspacesSelector = defaultMemoize((state: GlobalState) => state?.cr?.workspaces?.personalWorkspace?.allowedTargetWorkspaces);
 
 export const isWorkspaceReadOnlySelector = (state: GlobalState) => {
     return state?.cr?.workspaces?.personalWorkspace?.readOnly || false

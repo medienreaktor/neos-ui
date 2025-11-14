@@ -72,6 +72,9 @@ Neos:
       'neos-test-twodimensions':
         contentRepository: 'twodimensions'
         contentDimensions:
+          defaultDimensionSpacePoint:
+            language: "en_US"
+            country: "deu"
           resolver:
             factoryClassName: Neos\Neos\FrontendRouting\DimensionResolution\Resolver\UriPathResolverFactory
             options:

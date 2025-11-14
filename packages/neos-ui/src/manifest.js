@@ -25,28 +25,6 @@ import {showFlashMessage} from '@neos-project/neos-ui-error';
 
 manifest('main', {}, (globalRegistry, {routes}) => {
     //
-    // Create edit preview mode registry
-    //
-    globalRegistry.set('frontendConfiguration', new SynchronousRegistry(`
-        # Frontend configuration registry
-
-        Any settings under 'Neos.Neos.Ui.frontendConfiguration' would be available here.
-        Might be used also for third parth packages to deliver own settings to the UI, but this is still experimental.
-        Settings from each package should be prefixed to avoid collisions (unprefixed settings are reserved for the core UI itself), e.g.:
-
-        Neos:
-            Neos:
-                Ui:
-                    frontendConfiguration:
-                        'Your.Own:Package':
-                            someKey: someValue
-
-        Then it may be accessed as:
-
-        globalRegistry.get('frontendConfiguration').get('Your.Own:Package').someKey
-    `));
-
-    //
     // Create inline editor registry
     //
     globalRegistry.set('inlineEditors', new SynchronousRegistry(`

@@ -9,6 +9,7 @@
     "compilerOptions": {
         "outDir": "dist",
         "allowJs": true,
-        "noEmit": false
+        "noEmit": false,
+        "noResolve": true
     }
 }
