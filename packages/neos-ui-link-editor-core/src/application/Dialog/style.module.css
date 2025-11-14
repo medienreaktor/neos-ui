@@ -10,13 +10,31 @@
 }
 
 .advancedButton {
+    height: var(--spacing-GoldenUnit);
+    padding: 0 var(--spacing-Full);
+    vertical-align: middle;
+    display: inline-block;
+    cursor: pointer;
+    line-height: var(--spacing-GoldenUnit);
     background: var(--colors-ContrastDarkest);
+
     border: 1px solid var(--colors-ContrastDark);
     position: relative;
 }
 
-.advancedButtonIsUsed {
-    background: var(--colors-PrimaryBlue);
+.advancedButton:hover {
+    color: var(--colors-PrimaryBlue);
+}
+
+.advancedButtonDisabled {
+    composes: advancedButton;
+
+    opacity: .5;
+    cursor: not-allowed;
+
+    &:hover {
+        color: var(--colors-ContrastBrightest);
+    }
 }
 
 .advancedButtonIsOpen {
