@@ -3,6 +3,7 @@ import * as React from 'react';
 import {Button, Tabs, Dialog, Icon} from '@neos-project/react-ui-components';
 
 import {ErrorBoundary, ErrorView} from '@neos-project/neos-ui-error';
+import style from './style.module.css';
 
 import {
     ILink,
@@ -409,13 +410,14 @@ const AdvancedOptions: React.FC<{
         const isOptionSet = Object.values(form.options ?? {}).some(Boolean);
 
         return {
-            isUsed: isOptionSet || activeModel && props.linkType.isAdvanced?.(activeModel),
+            isUsed: isOptionSet || Boolean(activeModel && props.linkType.isAdvanced?.(activeModel)),
             enabled: modelIsDirty || (props.initialLinkType && !form.initialLinkWasDeleted ? props.initialLinkType.id === props.linkType.id : false)
         }
     }), []);
 
     const advancedOptions = useLatestState(advancedOptions$);
 
+    // todo odd state, when removing last set value dialog closes
     const [isOpen, setOpen] = React.useState<boolean | undefined>(undefined);
 
     const toggleOpen = React.useCallback(() => setOpen(openState => {
@@ -429,20 +431,24 @@ const AdvancedOptions: React.FC<{
         return null;
     }
 
-    return <>
-        <Button disabled={!advancedOptions.enabled} style={advancedOptions.isUsed && isOpen === false ? 'warn' : undefined} onClick={toggleOpen} ><Icon icon='cogs' />&nbsp; Advanced</Button>
+    const isAdvancedOpen = advancedOptions.enabled && (isOpen ?? advancedOptions.isUsed);
+
+    return <div className={style.advanced}>
+        <Button disabled={!advancedOptions.enabled} className={isAdvancedOpen ? style.advancedButtonIsOpen : (advancedOptions.isUsed && isOpen === false ? style.advancedButtonIsUsed : style.advancedButton)} onClick={toggleOpen} ><Icon icon='cogs' />&nbsp; Advanced</Button>
         {
-            (isOpen ?? advancedOptions.isUsed) ? (
-                <Layout.Stack>
-                    {AdvancedEditor
-                        ? <AdvancedEditor model$={props.model$} options={props.options} />
-                        : null}
-                    <LinkOptions
-                        form$={props.form$}
-                        enabledLinkOptions={enabledLinkOptions}
-                    />
-                </Layout.Stack>
+            isAdvancedOpen ? (
+                <div className={style.advancedContents}>
+                    <Layout.Stack>
+                        {AdvancedEditor
+                            ? <AdvancedEditor model$={props.model$} options={props.options} />
+                            : null}
+                        <LinkOptions
+                            form$={props.form$}
+                            enabledLinkOptions={enabledLinkOptions}
+                        />
+                    </Layout.Stack>
+                </div>
             ) : null
         }
-    </>
+    </div>
 };
