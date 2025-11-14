@@ -81,8 +81,11 @@ class GuestFrameBodyCollection extends BodyCollection {
         }).render();
 
         const guestFrame = getGuestFrame();
-        const guestFrameDocument = getGuestFrameDocument();
+        if (!guestFrame) {
+            return;
+        }
 
+        const guestFrameDocument = getGuestFrameDocument();
         if (!guestFrameDocument || guestFrameDocument.readyState === 'loading') {
             // When we navigate to other documents we need to reattach the body collection after the guest frame is loaded.
             guestFrame.addEventListener('load', () => this.attachToDom(), {once: true});
