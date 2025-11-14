@@ -10,7 +10,7 @@
 import * as React from 'react';
 import {usePromise} from '@neos-project/framework-promise-react';
 
-import {Tree as NeosTree} from '@neos-project/react-ui-components';
+import {Icon, Tree as NeosTree} from '@neos-project/react-ui-components';
 
 import {TreeNode} from './TreeNode';
 import {Search} from './Search';
@@ -18,6 +18,7 @@ import {SelectNodeTypeFilter} from './SelectNodeTypeFilter';
 import {getTree} from '../infrastructure/http';
 import {NestedError} from '@neos-project/neos-ui-error';
 import debounce from 'lodash.debounce';
+import style from './style.module.css';
 
 interface Props {
     initialSearchTerm?: string;
@@ -96,7 +97,7 @@ export const Tree: React.FC<Props> = (props) => {
             fetch__getTree.error,
         );
     } else if (fetch__getTree.isLoading || !fetch__getTree.value) {
-        main = <div>Loading...</div>;
+        main = <div className={style.spinnerContainer}><Icon icon='spinner' spin size="2x"  /></div>
     } else {
         main = (
             <NeosTree>
