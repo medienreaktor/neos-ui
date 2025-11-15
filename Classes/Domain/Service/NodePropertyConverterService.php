@@ -30,7 +30,6 @@ use Neos\Flow\Property\PropertyMappingConfigurationInterface;
 use Neos\Flow\Property\TypeConverter\DenormalizingObjectConverter;
 use Neos\Flow\Property\TypeConverterInterface;
 use Neos\Neos\Utility\NodeTypeWithFallbackProvider;
-use Neos\Utility\ObjectAccess;
 use Neos\Utility\TypeHandling;
 use Psr\Log\LoggerInterface;
 
@@ -200,12 +199,12 @@ class NodePropertyConverterService
     {
         if ($propertyValue instanceof \JsonSerializable && DenormalizingObjectConverter::isDenormalizable($propertyValue::class)) {
             /**
-             * Value object support, as they can be stored directly the node properties flow_json_array
+             * Value object support, as they can be stored directly the node properties
              *
-             * If the value is json-serializable and deserializable via the {@see DenormalizingObjectConverter} (via e.g. fromArray)
+             * If the value is json-serializable and deserializable via the {@see \Neos\ContentRepository\Core\Infrastructure\Property\Normalizer\ValueObjectArrayDenormalizer} (via e.g. fromArray)
              * We return the json-serializable directly.
              *
-             * {@see \Neos\Flow\Persistence\Doctrine\DataTypes\JsonArrayType::deserializeValueObject()}
+             * FIXME the DenormalizingObjectConverter is not used by the 9.0 ESCR but our new symfony serializers dont provide a way to check if something is an value object and no other place either.
              */
             return $propertyValue;
         }
