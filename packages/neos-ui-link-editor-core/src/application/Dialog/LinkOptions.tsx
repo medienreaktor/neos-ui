@@ -31,7 +31,7 @@ export const LinkOptions: React.FC<{
                 </label>
             ) : null}
             {props.enabledLinkOptions.includes('targetBlank') || props.enabledLinkOptions.includes('relNofollow') || props.enabledLinkOptions.includes('download') ? (
-                <Layout.Columns>
+                <div className={style.checkboxColumns}>
                     {props.enabledLinkOptions.includes('targetBlank') ? (
                         <label className={style.checkboxLabel}>
                             <CheckBox onChange={setTargetBlank} isChecked={formOptions?.targetBlank ?? false}/>
@@ -50,7 +50,7 @@ export const LinkOptions: React.FC<{
                             {translate('Neos.Neos.Ui:LinkEditor.Main:options.label.download', '')}
                         </label>
                     ) : null}
-                </Layout.Columns>
+                </div>
             ) : null}
         </Layout.Stack>
     );

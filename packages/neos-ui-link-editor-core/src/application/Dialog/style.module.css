@@ -57,3 +57,9 @@
 .checkboxLabel {
     display: flex;
 }
+
+.checkboxColumns {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+}
