@@ -10,7 +10,7 @@ sauce:
       - e2e
     build: Github Run $GITHUB_RUN_ID
 testcafe:
-  version: 3.6.2
+  version: 3.7.2
 npm:
   registries:
     - url: https://registry.npmjs.org
