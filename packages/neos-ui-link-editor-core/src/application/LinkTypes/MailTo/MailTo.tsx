@@ -202,7 +202,7 @@ export const MailTo = makeLinkType<MailToLinkModel, MailToOptions>('LinkEditor:M
 
         return (
             <>
-                <div style={{gridColumn: '1 / -1'}}>
+                <div>
                     <label htmlFor={`__neos__editor__property---${id}.recipient`}>{translate('Neos.Neos.Ui:LinkEditor.MailTo:recipient.label', '')}</label>
                     <TextInput
                         id={`__neos__editor__property---${id}.recipient`}
@@ -215,7 +215,7 @@ export const MailTo = makeLinkType<MailToLinkModel, MailToOptions>('LinkEditor:M
                 </div>
 
                 {options.enabledFields?.subject !== false ? (
-                    <div style={{gridColumn: '1 / -1'}}>
+                    <div>
                         <label htmlFor={`__neos__editor__property---${id}.subject`}>{translate('Neos.Neos.Ui:LinkEditor.MailTo:subject.label', '')}</label>
                         <TextInput
                             id={`__neos__editor__property---${id}.subject`}
@@ -228,7 +228,7 @@ export const MailTo = makeLinkType<MailToLinkModel, MailToOptions>('LinkEditor:M
                     </div>
                 ) : null}
                 {options.enabledFields?.cc !== false ? (
-                    <div style={{gridColumn: '1 / -1'}}>
+                    <div>
                         <label htmlFor={`__neos__editor__property---${id}.cc`}>{translate('Neos.Neos.Ui:LinkEditor.MailTo:cc.label', '')}</label>
                         <TextInput
                             id={`__neos__editor__property---${id}.cc`}
@@ -242,7 +242,7 @@ export const MailTo = makeLinkType<MailToLinkModel, MailToOptions>('LinkEditor:M
                     </div>
                 ) : null}
                 {options.enabledFields?.bcc !== false ? (
-                    <div style={{gridColumn: '1 / -1'}}>
+                    <div>
                         <label htmlFor={`__neos__editor__property---${id}.bcc`}>{translate('Neos.Neos.Ui:LinkEditor.MailTo:bcc.label', '')}</label>
                         <TextInput
                             id={`__neos__editor__property---${id}.bcc`}
@@ -256,7 +256,7 @@ export const MailTo = makeLinkType<MailToLinkModel, MailToOptions>('LinkEditor:M
                     </div>
                 ) : null}
                 {options.enabledFields?.body !== false ? (
-                    <div style={{gridColumn: '1 / -1'}}>
+                    <div>
                         <label htmlFor={`__neos__editor__property---${id}.body`}>{translate('Neos.Neos.Ui:LinkEditor.MailTo:body.label', '')}</label>
                         <TextArea
                             id={`__neos__editor__property---${id}.body`}
