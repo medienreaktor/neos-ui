@@ -20,6 +20,25 @@
           <trans-unit id="href.formatOptions" xml:space="preserve">
                 <source>Format options</source>
           </trans-unit>
+
+          <trans-unit id="href.validation.javascriptSchema" xml:space="preserve" approved="yes">
+              <source>Javascript links are unsafe</source>
+          </trans-unit>
+          <trans-unit id="href.validation.nodeSchema" xml:space="preserve" approved="yes">
+              <source>Document links should be handled in the document tab</source>
+          </trans-unit>
+          <trans-unit id="href.validation.assetSchema" xml:space="preserve" approved="yes">
+              <source>Asset links should be handled in the asset tab</source>
+          </trans-unit>
+          <trans-unit id="href.validation.telSchema" xml:space="preserve" approved="yes">
+              <source>Telephone links should be handled in the phone tab</source>
+          </trans-unit>
+          <trans-unit id="href.validation.mailtoSchema" xml:space="preserve" approved="yes">
+              <source>Mail to links should be handled in the mail to tab</source>
+          </trans-unit>
+          <trans-unit id="href.validation.emptySpace" xml:space="preserve" approved="yes">
+              <source>Empty space is not a valid link</source>
+          </trans-unit>
         </body>
     </file>
 </xliff>

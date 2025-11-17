@@ -37,17 +37,17 @@ const validateModel = (values: WebLinkModel): WebLinkModel => ({
             !values.href?.value ? undefined : (
                 // eslint-disable-next-line no-script-url
                 values.href.value.includes('javascript:') ? (
-                    'Javascript urls are dangerous huiii buhh!'
+                    translate('Neos.Neos.Ui:LinkEditor.Web:href.validation.javascriptSchema', '')
                 ) : values.href.value.startsWith('node://') ? (
-                    'Node urls must be entered via the document tab'
+                    translate('Neos.Neos.Ui:LinkEditor.Web:href.validation.nodeSchema', '')
                 ) : values.href.value.startsWith('asset://') ? (
-                    'Asset urls must be entered via the asset tab'
+                    translate('Neos.Neos.Ui:LinkEditor.Web:href.validation.assetSchema', '')
                 ) : values.href.value.startsWith('tel:') ? (
-                    'Telephone urls must be entered via the phone tab'
+                    translate('Neos.Neos.Ui:LinkEditor.Web:href.validation.telSchema', '')
                 ) : values.href.value.startsWith('mailto:') ? (
-                    'Mail urls must be entered via the mail-to tab'
+                    translate('Neos.Neos.Ui:LinkEditor.Web:href.validation.telSchema', '')
                 ) : values.href.value.trimEnd() === '' ? (
-                    'Spaces are no valid url'
+                    translate('Neos.Neos.Ui:LinkEditor.Web:href.validation.emptySpace', '')
                 ) : undefined
             )
         )
@@ -126,6 +126,7 @@ export const Web = makeLinkType<WebLinkModel>('LinkEditor:Web', ({id}) => ({
                         displaySearchBox={true}
                         showDropDownToggle={false}
                         allowEmpty={false}
+                        // todo use custom component instead of leveraging select box as magic text field with search and options "hack"
                         searchTerm={model?.href?.value ?? ''}
                         onSearchTermChange={setHref}
                     />
