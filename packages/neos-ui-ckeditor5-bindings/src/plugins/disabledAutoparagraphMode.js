@@ -1,4 +1,4 @@
-import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
+import {Plugin} from '@ckeditor/ckeditor5-core';
 
 /**
  * HACK, since there is yet no native support for CKEditor 4 autoparagraph false

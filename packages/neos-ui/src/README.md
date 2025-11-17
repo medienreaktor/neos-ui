@@ -48,7 +48,7 @@ manifest('main', (registry) => {
 
 ## Internals
 
-For building code which is compatible with the Neos UI, you need a way to access the Neos components like Buttons, etc, but also
+For building code which is compatible with the Neos UI, you need a way to access the Neos components like Buttons, etc., but also
 we need to ensure that you use the same React instance as Neos.
 
 Background: This part is more complicated than it seems at first thought, because the Webpack build system encapsulates everything
@@ -76,4 +76,4 @@ basis. While this works for basic styles like h1, bold, ..., it gets rather mess
 - ACF automatic mode: In "normal" CKEditor, ACF is auto-configured by the editor toolbar configuration: If you e.g. add a "table" button, then all Table
 markup is automatically allowed; and conversely, if you remove a certain button, the ACF is configured to prevent the associated markup automatically.
 
-For the integrated CKeditor, we basically use ACF automatic mode, but without actually rendering the toolbar. We discussed this with the CKeditor team.
+For the integrated CKeditor, we basically use ACF automatic mode.

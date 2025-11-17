@@ -30,4 +30,52 @@ test('Check plugin status via developer api (console)', async t => {
             testConfig: 'la li lu'
         }
     );
+
+    subSection('Legacy CKEditor API ("ckeditor5-exports")');
+    const ckeditorObjectsAndFunctionsViaLegacyExport = await t.eval(() => window.neosUiTestPlugin.ckeditorObjectsAndFunctionsViaLegacyExport);
+    await t.expect([
+        'Plugin',
+        'Command',
+        'Widget',
+        'toWidget',
+        'viewToModelPositionOutsideModelElement',
+        'HighlightEditing',
+        'ModelDocument',
+        'ModelDocumentFragment',
+        'ModelDocumentSelection',
+        'ModelElement',
+        'ModelNode',
+        'ModelNodeList',
+        'ModelPosition',
+        'ModelRange',
+        'ModelSchema',
+        'ModelSelection',
+        'ModelText',
+        'ModelTextProxy',
+        'ModelTreeWalker',
+        'ModelWriter',
+        'ViewAttributeElement',
+        'ViewContainerElement',
+        'ViewDocument',
+        'ViewDocumentFragment',
+        'ViewDocumentSelection',
+        'ViewDOMConverter',
+        'ViewEditableElement',
+        'ViewElement',
+        'ViewEmptyElement',
+        // 'ViewFiller', with CKEditor 47 the ViewFiller was removed.
+        'ViewMatcher',
+        'ViewNode',
+        'ViewPlaceholder',
+        'ViewPosition',
+        'ViewRange',
+        'ViewRenderer',
+        'ViewSelection',
+        'ViewText',
+        'ViewTextProxy',
+        'ViewTreeWalker',
+        'ViewUIElement',
+        'View',
+        'DownCastWriter'
+    ].filter((key) => !ckeditorObjectsAndFunctionsViaLegacyExport.includes(key))).eql([]);
 });

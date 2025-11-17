@@ -1,4 +1,4 @@
-import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
+import {Plugin} from '@ckeditor/ckeditor5-core';
 
 // same as ItalicEditing Plugin from CKEditor5
 const ITALIC = 'italic';

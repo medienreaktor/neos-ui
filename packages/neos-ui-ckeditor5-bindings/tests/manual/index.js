@@ -34,11 +34,55 @@ createInlineEditor({
     propertyDomNode: document.getElementById('input'),
     propertyName: 'test',
     editorOptions: {
-        autoparagraph: false,
+        autoparagraph: true,
         formatting: {
+            splitAdd: true,
+            strong: true,
+            em: true,
+            underline: true,
+            sub: true,
+            sup: true,
+            indent: true,
+            p: true,
             h1: true,
             h2: true,
-            strong: true
+            h3: true,
+            h4: true,
+            h5: true,
+            pre: true,
+            table: true,
+            a: true,
+            ul: true,
+            ol: true,
+            left: true,
+            right: true,
+            center: true,
+            justify: true,
+            removeFormat: true,
+            code: true,
+            horizontalLine: true,
+            styleDefinitions: [
+                {
+                    name: 'Lead',
+                    element: 'p',
+                    classes: ['lead'],
+                },
+                {
+                    name: 'Animated',
+                    element: 'p',
+                    classes: ['animated'],
+                },
+                {
+                    name: 'Highlight',
+                    element: 'span',
+                    classes: ['highlight'],
+                },
+                {
+                    name: 'Mark',
+                    element: 'mark',
+                    classes: ['mark'],
+                },
+            ]
         }
     },
     globalRegistry: fakeGlobalRegistry,

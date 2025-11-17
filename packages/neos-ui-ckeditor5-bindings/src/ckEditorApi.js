@@ -1,13 +1,12 @@
 import debounce from 'lodash.debounce';
 import {actions} from '@neos-project/neos-ui-redux-store';
 import {getGuestFrame, getGuestFrameDocument} from '@neos-project/neos-ui-guest-frame/src/dom';
-import DecoupledEditor from '@ckeditor/ckeditor5-editor-decoupled/src/decouplededitor';
-import {Template, BodyCollection} from '@ckeditor/ckeditor5-ui/src';
+import {DecoupledEditor} from '@ckeditor/ckeditor5-editor-decoupled';
+import {Template, BodyCollection} from '@ckeditor/ckeditor5-ui';
 import {createElement} from '@ckeditor/ckeditor5-utils';
 
 import {cleanupContentBeforeCommit} from './cleanupContentBeforeCommit'
 
-// FIXME import from @ckeditor/ckeditor5-engine/theme/placeholder.css instead! (Needs build setup configuration)
 import '@ckeditor/ckeditor5-theme-lark/dist/index.css';
 import '@ckeditor/ckeditor5-clipboard/dist/index.css';
 import '@ckeditor/ckeditor5-core/dist/index.css';
@@ -82,8 +81,11 @@ class GuestFrameBodyCollection extends BodyCollection {
         }).render();
 
         const guestFrame = getGuestFrame();
-        const guestFrameDocument = getGuestFrameDocument();
+        if (!guestFrame) {
+            return;
+        }
 
+        const guestFrameDocument = getGuestFrameDocument();
         if (!guestFrameDocument || guestFrameDocument.readyState === 'loading') {
             // When we navigate to other documents we need to reattach the body collection after the guest frame is loaded.
             guestFrame.addEventListener('load', () => this.attachToDom(), {once: true});
@@ -133,39 +135,42 @@ export const createEditor = store => async options => {
         .then(editor => {
             const debouncedOnChange = debounce(() => onChange(cleanupContentBeforeCommit(editor.getData())), 1500, {maxWait: 5000});
             editor.model.document.on('change:data', debouncedOnChange);
-            editor.ui.focusTracker.on('change:isFocused', (event, data, isFocused) => {
+            editor.ui.focusTracker.on('change:isFocused', (event, name, isFocused) => {
                 if (!isFocused) {
-                    // Use setTimeout to check activeElement after the browser has updated focus
-                    // This prevents premature blur detection when clicking from toolbar to editable area
-                    setTimeout(() => {
-                        // Double-check that the editor is still not focused
-                        if (editor.ui.focusTracker.isFocused) {
-                            return;
-                        }
+                    // Double-check that the editor is still not focused
+                    if (editor.ui.focusTracker.isFocused) {
+                        return;
+                    }
 
-                        // Check if focus moved to a CKEditor UI element (like the toolbar)
-                        // If so, we should not treat this as leaving the editor
-                        // TODO: Verify whether this is precise enough, or we should instead check all editor components instead
-                        const {activeElement} = getGuestFrameDocument();
-                        const isWithinEditor = activeElement === editor.sourceElement;
-                        if (isWithinEditor) {
-                            return;
-                        }
+                    // Check if focus moved to a CKEditor UI element (like the toolbar) or refocused the window.
+                    // If so, we should not treat this as leaving the editor
+                    const {activeElement} = getGuestFrameDocument();
+                    const isWithinEditor =
+                        activeElement === editor.sourceElement ||
+                        editor.ui.view.toolbar.element.contains(activeElement);
+                    if (isWithinEditor) {
+                        return;
+                    }
 
-                        // when another editor is focused commit all possible pending changes
-                        debouncedOnChange.flush();
-                        editor.ui.view.toolbar.element.classList.remove('neos-ck-anchored-toolbar--visible');
-                    }, 0);
+                    // when another editor is focused commit all possible pending changes
+                    debouncedOnChange.flush();
+                    editor.ui.view.toolbar.element.classList.remove('neos-ck-anchored-toolbar--visible');
+                    currentEditor = null;
                     return;
                 }
 
-                currentEditor = editor;
-                editor.ui.view.toolbar.element.classList.add('neos-ck-anchored-toolbar--visible');
+                if (currentEditor !== editor) {
+                    currentEditor = editor;
+                    if (editor.ui.view.toolbar.items.length > 0) {
+                        editor.ui.view.toolbar.element.classList.add('neos-ck-anchored-toolbar--visible');
+                    }
 
-                editorConfig.setCurrentlyEditedPropertyName(propertyName);
+                    editorConfig.setCurrentlyEditedPropertyName(propertyName);
+                }
                 handleUserInteractionCallback();
             });
 
+            // TODO: Remove when link editor is a CKE5 plugin with a configured keystroke
             editor.keystrokes.set('Ctrl+K', (_, cancel) => {
                 store.dispatch(actions.UI.ContentCanvas.toggleLinkEditor());
                 cancel();
@@ -174,8 +179,13 @@ export const createEditor = store => async options => {
             editor.model.document.on('change', () => handleUserInteractionCallback());
 
             // As we use the DecoupledEditor, we need to add the toolbar to the Neos backend container, so it is visible in the UI
-            const backendContainer = getGuestFrameDocument().getElementById('neos-backend-container');
-            backendContainer.appendChild(editor.ui.view.toolbar.element);
+            const ckeditorContainer = getGuestFrameDocument()?.getElementById('neos-backend-container') || document.getElementById('neos-backend-container');
+            // const ckeditorContainer = getGuestFrameDocument().querySelector('.ck-body-wrapper');
+            if (!ckeditorContainer) {
+                console.error('Neos.Ui: Could not find neos-backend-container in guest frame document. CKEditor toolbar cannot be attached.');
+                return editor;
+            }
+            ckeditorContainer.appendChild(editor.ui.view.toolbar.element);
 
             // Anchor the toolbar to the dom-node representing the edited property
             editor.ui.view.toolbar.element.style.positionAnchor = propertyDomNode.dataset.neosInlineEditorAnchorName;

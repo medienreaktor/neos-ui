@@ -12,6 +12,11 @@
     "reselect": "@neos-project/neos-ui-extensibility/dist/shims/vendor/reselect",
     "@friendsofreactjs/react-css-themr": "@neos-project/neos-ui-extensibility/dist/shims/vendor/react-css-themr",
     "ckeditor5-exports": "@neos-project/neos-ui-extensibility/dist/shims/vendor/ckeditor5-exports",
+    "@ckeditor/ckeditor5-core": "@neos-project/neos-ui-extensibility/dist/shims/vendor/ckeditor5-core",
+    "@ckeditor/ckeditor5-engine": "@neos-project/neos-ui-extensibility/dist/shims/vendor/ckeditor5-engine",
+    "@ckeditor/ckeditor5-widget": "@neos-project/neos-ui-extensibility/dist/shims/vendor/ckeditor5-widget",
+    "@ckeditor/ckeditor5-highlight": "@neos-project/neos-ui-extensibility/dist/shims/vendor/ckeditor5-highlight",
+    "@ckeditor/ckeditor5-ui": "@neos-project/neos-ui-extensibility/dist/shims/vendor/ckeditor5-ui",
 
     "@neos-project/react-ui-components": "@neos-project/neos-ui-extensibility/dist/shims/neosProjectPackages/react-ui-components",
     "@neos-project/neos-ui-backend-connector": "@neos-project/neos-ui-extensibility/dist/shims/neosProjectPackages/neos-ui-backend-connector",

@@ -120,11 +120,15 @@ const ContextToolbar: React.FC<ContextToolbarProps & InjectedContextToolbarProps
         <div className={classNames} id="inline-ui-toolbar-popover">
             <div className={style.toolBar} data-ignore_click_outside="true">
                 {contextButtons.map((Item, key) => <Item key={key} {...buttonProps} />)}
-                <Label htmlFor="neos-InlineToolbar-ContextMenu-toggle" className={style.contextToolbar__nodeLabel}>
+                <Label
+                    htmlFor="neos-InlineToolbar-ContextMenu-toggle"
+                    className={style.contextToolbar__nodeLabel}
+                    popovertarget="neos-InlineToolbar-ContextMenu"
+                >
                     <Icon icon={focusedNodeTypeIcon}/>
                     {focusedNodeLabel}
                 </Label>
-                <div>
+                <div className={style.toolBar__contextMenuWrapper}>
                     <IconButton
                         id="neos-InlineToolbar-ContextMenu-toggle"
                         className={style.toolBar__contextMenuToggle}
