@@ -7,3 +7,19 @@
     justify-content: center;
     opacity: .5;
 }
+
+.treeContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    background-color: #141414;
+    border: 1px solid #3f3f3f;
+}
+
+.treeNodeArea {
+    margin-top: -5px;
+    border-top: 1px solid #3f3f3f;
+    grid-column: 1 / span 2;
+    height: 50vh;
+    max-height: 300px;
+    overflow-y: auto;
+}

@@ -137,46 +137,20 @@ export const Tree: React.FC<Props> = (props) => {
     }
 
     return (
-        <div
-            style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(2, 1fr)',
-                backgroundColor: '#141414',
-                border: '1px solid #3f3f3f'
-            }}
-        >
+        <div className={style.treeContainer}>
             {search ? (
-                <div
-                    style={{
-                        gridColumn: filter ? '1 / span 1' : '1 / span 2'
-                    }}
-                >
+                <div style={{gridColumn: filter ? '1 / span 1' : '1 / span 2'}}>
                     {search}
                 </div>
             ) : null}
             {filter ? (
-                <div
-                    style={{
-                        gridColumn: search ? '2 / span 1' : '1 / span 2'
-                    }}
-                >
+                <div style={{gridColumn: search ? '2 / span 1' : '1 / span 2'}}>
                     {filter}
                 </div>
             ) : null}
-            {main ? (
-                <div
-                    style={{
-                        marginTop: '-5px',
-                        borderTop: '1px solid #3f3f3f',
-                        gridColumn: '1 / span 2',
-                        height: '50vh',
-                        maxHeight: '300px',
-                        overflowY: 'auto'
-                    }}
-                >
-                    {main}
-                </div>
-            ) : null}
+            <div className={style.treeNodeArea}>
+                {main}
+            </div>
         </div>
     );
 };
