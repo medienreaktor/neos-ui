@@ -46,8 +46,8 @@ const validateModel = (values: WebLinkModel): WebLinkModel => ({
                     translate('Neos.Neos.Ui:LinkEditor.Web:href.validation.telSchema', '')
                 ) : values.href.value.startsWith('mailto:') ? (
                     translate('Neos.Neos.Ui:LinkEditor.Web:href.validation.telSchema', '')
-                ) : values.href.value.trimEnd() === '' ? (
-                    translate('Neos.Neos.Ui:LinkEditor.Web:href.validation.emptySpace', '')
+                ) : (values.href.value.startsWith(' ') || values.href.value.endsWith(' ')) ? (
+                    translate('Neos.Neos.Ui:LinkEditor.Web:href.validation.leadingOrTrailingSpace', '')
                 ) : undefined
             )
         )

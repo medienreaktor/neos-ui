@@ -7,11 +7,18 @@
                 <source>Asset</source>
             </trans-unit>
 
+            <trans-unit id="loadingPreview" xml:space="preserve" approved="yes">
+                  <source>Loading ...</source>
+            </trans-unit>
+
             <trans-unit id="anchor.label" xml:space="preserve" approved="yes">
                   <source>Anchor</source>
               </trans-unit>
             <trans-unit id="anchor.placeholder" xml:space="preserve" approved="no">
                   <source>Enter anchor name</source>
+            </trans-unit>
+            <trans-unit id="anchor.validation.leadingOrTrailingSpace" xml:space="preserve" approved="yes">
+                <source>Anchor contains leading or trailing empty space</source>
             </trans-unit>
         </body>
     </file>

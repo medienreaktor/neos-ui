@@ -21,14 +21,31 @@ import {useSiteNodeAggregateId} from './useSiteNodeAggregateId';
 import {translate} from '@neos-project/neos-ui-i18n';
 import {State} from '@neos-project/framework-observable';
 import {useLatestState} from '@neos-project/framework-observable-react';
-import {getConfiguration} from "@neos-project/neos-ui-configuration";
-import {TextInput} from '@neos-project/react-ui-components';
+import {getConfiguration} from '@neos-project/neos-ui-configuration';
+import {TextInput, Tooltip} from '@neos-project/react-ui-components';
 
 type NodeLinkModel = {
     isDirty: boolean;
     nodeId?: string;
-    anchor?: string;
-};
+    anchor?: {
+        warning?: string,
+        value?: string
+    }
+}
+
+const validateModel = (values: NodeLinkModel): NodeLinkModel => ({
+    ...values,
+    anchor: {
+        ...values.anchor,
+        warning: (
+            !values.anchor?.value ? undefined : (
+                (values.anchor.value.startsWith(' ') || values.anchor.value.endsWith(' ')) ? (
+                    translate('Neos.Neos.Ui:LinkEditor.Node:anchor.validation.leadingOrTrailingSpace', '')
+                ) : undefined
+            )
+        )
+    }
+});
 
 type NodeLinkOptions = {
     startingPoint?: string;
@@ -100,7 +117,7 @@ export const Node = makeLinkType<NodeLinkModel, NodeLinkOptions>('LinkEditor:Nod
     },
 
     isAdvanced: (model) => {
-        return Boolean(model.anchor);
+        return Boolean(model.anchor?.value);
     },
 
     convertLinkToModel: (link: ILink) => {
@@ -113,11 +130,11 @@ export const Node = makeLinkType<NodeLinkModel, NodeLinkOptions>('LinkEditor:Nod
         const nodeId = match[1];
         const anchor = match[2];
 
-        return {isDirty: false, nodeId, anchor};
+        return validateModel({isDirty: false, nodeId, anchor: {value: anchor}});
     },
 
-    convertModelToLink: ({nodeId, anchor}: NodeLinkModel) => ({
-        href: `node://${nodeId}${anchor ? `#${anchor}` : ''}`
+    convertModelToLink: (model: NodeLinkModel) => ({
+        href: `node://${model.nodeId}${model.anchor?.value ? `#${model.anchor.value}` : ''}`
     }),
 
     Preview: (props: { model: NodeLinkModel }) => {
@@ -132,7 +149,7 @@ export const Node = makeLinkType<NodeLinkModel, NodeLinkOptions>('LinkEditor:Nod
         options: NodeLinkOptions;
     }) => {
         const model = useLatestState(model$);
-        const setNodeId = React.useCallback((nodeId) => model$.update((values) => ({...values, isDirty: true, nodeId})), []);
+        const setNodeId = React.useCallback((nodeId) => model$.update((values) => validateModel({...values, isDirty: true, nodeId})), []);
 
         const workspaceName = useSelector(selectors.CR.Workspaces.personalWorkspaceNameSelector);
         const dimensionValues = useSelector(selectors.CR.ContentDimensions.active);
@@ -188,11 +205,14 @@ export const Node = makeLinkType<NodeLinkModel, NodeLinkOptions>('LinkEditor:Nod
 
     AdvancedEditor: ({model$}: { model$: State<NodeLinkModel | null> }) => {
         const model = useLatestState(model$);
-        const setAnchor = React.useCallback((anchor) => model$.update((values) => ({...values, isDirty: true, anchor})), []);
+        const setAnchor = React.useCallback((anchor) => model$.update((values) => validateModel({...values, isDirty: true, anchor: {value: anchor}})), []);
 
         return <label>
             {translate('Neos.Neos.Ui:LinkEditor.Node:anchor.label', '')}
-            <TextInput type="text" value={model?.anchor ?? ''} placeholder={translate('Neos.Neos.Ui:LinkEditor.Node:anchor.placeholder', '')} onChange={setAnchor} />
+            <TextInput type="text" value={model?.anchor?.value ?? ''} placeholder={translate('Neos.Neos.Ui:LinkEditor.Node:anchor.placeholder', '')} onChange={setAnchor} />
+            {model?.anchor?.warning ? (
+                <Tooltip renderInline asWarning>{model.anchor.warning}</Tooltip>
+            ) : null}
         </label>
     }
 }));

@@ -10,13 +10,30 @@ import {usePromise} from '@neos-project/framework-promise-react';
 import backend from '@neos-project/neos-ui-backend-connector';
 import {State} from '@neos-project/framework-observable';
 import {useLatestState} from '@neos-project/framework-observable-react';
-import {TextInput} from '@neos-project/react-ui-components';
+import {TextInput, Tooltip} from '@neos-project/react-ui-components';
 
 type AssetLinkModel = {
     isDirty: boolean
     identifier?: string,
-    anchor?: string
+    anchor?: {
+        warning?: string,
+        value?: string
+    }
 }
+
+const validateModel = (values: AssetLinkModel): AssetLinkModel => ({
+    ...values,
+    anchor: {
+        ...values.anchor,
+        warning: (
+            !values.anchor?.value ? undefined : (
+                (values.anchor.value.startsWith(' ') || values.anchor.value.endsWith(' ')) ? (
+                    translate('Neos.Neos.Ui:LinkEditor.Asset:anchor.validation.leadingOrTrailingSpace', '')
+                ) : undefined
+            )
+        )
+    }
+});
 
 export const Asset = makeLinkType<AssetLinkModel>('LinkEditor:Asset', ({createError}) => ({
     icon: 'camera',
@@ -34,7 +51,7 @@ export const Asset = makeLinkType<AssetLinkModel>('LinkEditor:Asset', ({createEr
     },
 
     isAdvanced: (model) => {
-        return Boolean(model.anchor);
+        return Boolean(model.anchor?.value);
     },
 
     convertLinkToModel: (link: ILink) => {
@@ -47,11 +64,11 @@ export const Asset = makeLinkType<AssetLinkModel>('LinkEditor:Asset', ({createEr
         const identifier = match[1];
         const anchor = match[2];
 
-        return {isDirty: false, identifier, anchor};
+        return validateModel({isDirty: false, identifier, anchor: {value: anchor}});
     },
 
-    convertModelToLink: ({identifier, anchor}: AssetLinkModel) => ({
-        href: `asset://${identifier}${anchor ? `#${anchor}` : ''}`
+    convertModelToLink: (model: AssetLinkModel) => ({
+        href: `asset://${model.identifier}${model.anchor?.value ? `#${model.anchor.value}` : ''}`
     }),
 
     Preview: ({model}: {model: AssetLinkModel}) => {
@@ -64,8 +81,7 @@ export const Asset = makeLinkType<AssetLinkModel>('LinkEditor:Asset', ({createEr
             return (
                 <IconCard
                     icon="spinner"
-                    // todo lable
-                    title={'Loading …'}
+                    title={translate('Neos.Neos.Ui:LinkEditor.Asset:loadingPreview', '')}
                     subTitle={`asset://${model.identifier}`}
                 />
             );
@@ -85,7 +101,7 @@ export const Asset = makeLinkType<AssetLinkModel>('LinkEditor:Asset', ({createEr
 
     Editor: ({model$}: {model$: State<AssetLinkModel | null>}) => {
         const model = useLatestState(model$);
-        const setAsset = React.useCallback((identifier) => model$.update((values) => ({...values, isDirty: true, identifier})), []);
+        const setAsset = React.useCallback((identifier) => model$.update((values) => validateModel({...values, isDirty: true, identifier})), []);
 
         return <MediaBrowser
             assetIdentifier={model?.identifier ?? null}
@@ -95,12 +111,15 @@ export const Asset = makeLinkType<AssetLinkModel>('LinkEditor:Asset', ({createEr
 
     AdvancedEditor: ({model$}: {model$: State<AssetLinkModel | null>}) => {
         const model = useLatestState(model$);
-        const setAnchor = React.useCallback((anchor) => model$.update((values) => ({...values, isDirty: true, anchor})), []);
+        const setAnchor = React.useCallback((anchor) => model$.update((values) => validateModel({...values, isDirty: true, anchor: {value: anchor}})), []);
 
         return <label>
             {translate('Neos.Neos.Ui:LinkEditor.Asset:anchor.label', '')}
-            <TextInput type="text" value={model?.anchor ?? ''} placeholder={translate('Neos.Neos.Ui:LinkEditor.Asset:anchor.placeholder', '')} onChange={setAnchor} />
+            <TextInput type="text" value={model?.anchor?.value ?? ''} placeholder={translate('Neos.Neos.Ui:LinkEditor.Asset:anchor.placeholder', '')} onChange={setAnchor} />
+            {model?.anchor?.warning ? (
+                <Tooltip renderInline asWarning>{model.anchor.warning}</Tooltip>
+            ) : null}
         </label>;
-    },
+    }
 }));
 

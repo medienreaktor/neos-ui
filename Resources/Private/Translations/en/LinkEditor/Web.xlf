@@ -36,8 +36,8 @@
           <trans-unit id="href.validation.mailtoSchema" xml:space="preserve" approved="yes">
               <source>Mail to links should be handled in the mail to tab</source>
           </trans-unit>
-          <trans-unit id="href.validation.emptySpace" xml:space="preserve" approved="yes">
-              <source>Empty space is not a valid link</source>
+          <trans-unit id="href.validation.leadingOrTrailingSpace" xml:space="preserve" approved="yes">
+              <source>Link starts or ends with trailing empty space</source>
           </trans-unit>
         </body>
     </file>
