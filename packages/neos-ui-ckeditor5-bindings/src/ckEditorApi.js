@@ -135,39 +135,42 @@ export const createEditor = store => async options => {
         .then(editor => {
             const debouncedOnChange = debounce(() => onChange(cleanupContentBeforeCommit(editor.getData())), 1500, {maxWait: 5000});
             editor.model.document.on('change:data', debouncedOnChange);
-            editor.ui.focusTracker.on('change:isFocused', (event, data, isFocused) => {
+            editor.ui.focusTracker.on('change:isFocused', (event, name, isFocused) => {
                 if (!isFocused) {
-                    // Use setTimeout to check activeElement after the browser has updated focus
-                    // This prevents premature blur detection when clicking from toolbar to editable area
-                    setTimeout(() => {
-                        // Double-check that the editor is still not focused
-                        if (editor.ui.focusTracker.isFocused) {
-                            return;
-                        }
+                    // Double-check that the editor is still not focused
+                    if (editor.ui.focusTracker.isFocused) {
+                        return;
+                    }
 
-                        // Check if focus moved to a CKEditor UI element (like the toolbar)
-                        // If so, we should not treat this as leaving the editor
-                        // TODO: Verify whether this is precise enough, or we should instead check all editor components instead
-                        const {activeElement} = getGuestFrameDocument();
-                        const isWithinEditor = activeElement === editor.sourceElement;
-                        if (isWithinEditor) {
-                            return;
-                        }
+                    // Check if focus moved to a CKEditor UI element (like the toolbar) or refocused the window.
+                    // If so, we should not treat this as leaving the editor
+                    const {activeElement} = getGuestFrameDocument();
+                    const isWithinEditor =
+                        activeElement === editor.sourceElement ||
+                        editor.ui.view.toolbar.element.contains(activeElement);
+                    if (isWithinEditor) {
+                        return;
+                    }
 
-                        // when another editor is focused commit all possible pending changes
-                        debouncedOnChange.flush();
-                        editor.ui.view.toolbar.element.classList.remove('neos-ck-anchored-toolbar--visible');
-                    }, 0);
+                    // when another editor is focused commit all possible pending changes
+                    debouncedOnChange.flush();
+                    editor.ui.view.toolbar.element.classList.remove('neos-ck-anchored-toolbar--visible');
+                    currentEditor = null;
                     return;
                 }
 
-                currentEditor = editor;
-                editor.ui.view.toolbar.element.classList.add('neos-ck-anchored-toolbar--visible');
+                if (currentEditor !== editor) {
+                    currentEditor = editor;
+                    if (editor.ui.view.toolbar.items.length > 0) {
+                        editor.ui.view.toolbar.element.classList.add('neos-ck-anchored-toolbar--visible');
+                    }
 
-                editorConfig.setCurrentlyEditedPropertyName(propertyName);
+                    editorConfig.setCurrentlyEditedPropertyName(propertyName);
+                }
                 handleUserInteractionCallback();
             });
 
+            // TODO: Remove when link editor is a CKE5 plugin with a configured keystroke
             editor.keystrokes.set('Ctrl+K', (_, cancel) => {
                 store.dispatch(actions.UI.ContentCanvas.toggleLinkEditor());
                 cancel();
