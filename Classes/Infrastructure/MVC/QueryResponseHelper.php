@@ -12,17 +12,17 @@
 
 declare(strict_types=1);
 
-namespace Neos\Neos\Ui\LinkEditor\Framework\MVC;
+namespace Neos\Neos\Ui\Infrastructure\MVC;
 
 use GuzzleHttp\Psr7\Response;
 use Neos\Flow\Annotations as Flow;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * @internal
+ * @internal only to be used inside the Neos Ui package
  */
 #[Flow\Proxy(false)]
-final class QueryResponse
+final class QueryResponseHelper
 {
     private const STATUS_CODE_OK = 200;
     private const STATUS_CODE_BAD_REQUEST = 400;
@@ -32,31 +32,25 @@ final class QueryResponse
     private const DISCRIMINATOR_SUCCESS = 'success';
     private const DISCRIMINATOR_ERROR = 'error';
 
-    /**
-     * @param array<mixed>|\JsonSerializable $payload
-     */
-    private function __construct(
-        private readonly int $statusCode,
-        private readonly string $discriminator,
-        private readonly array|\JsonSerializable $payload,
-    ) {
+    private function __construct()
+    {
     }
 
     /**
      * @param array<mixed>|\JsonSerializable $payload
      */
-    public static function createSuccess(array|\JsonSerializable $payload): self
+    public static function createSuccess(array|\JsonSerializable $payload): ResponseInterface
     {
-        return new self(
+        return self::toHttpResponse(
             statusCode: self::STATUS_CODE_OK,
             discriminator: self::DISCRIMINATOR_SUCCESS,
             payload: $payload,
         );
     }
 
-    public static function createServerSideErrorForBadRequest(\Exception $exception): self
+    public static function createServerSideErrorForBadRequest(\Exception $exception): ResponseInterface
     {
-        return new self(
+        return self::toHttpResponse(
             statusCode: self::STATUS_CODE_BAD_REQUEST,
             discriminator: self::DISCRIMINATOR_ERROR,
             payload: [
@@ -67,10 +61,10 @@ final class QueryResponse
         );
     }
 
-    public static function createServerSideError(\Exception $exception, bool $includeStackTrace): self
+    public static function createServerSideError(\Exception $exception, bool $includeStackTrace): ResponseInterface
     {
-        return new self(
-            // todo set response code correctly to 500 (which upsets the fetchWithErrorHandling and avoids the error view)
+        return self::toHttpResponse(
+            // todo set response code correctly to 500 (self::STATUS_CODE_INTERNAL_SERVER_ERROR) (which upsets the fetchWithErrorHandling and avoids the error view)
             statusCode: self::STATUS_CODE_OK,
             discriminator: self::DISCRIMINATOR_ERROR,
             payload: [
@@ -82,15 +76,18 @@ final class QueryResponse
         );
     }
 
-    public function toHttpResponse(): ResponseInterface
+    /**
+     * @param array<mixed>|\JsonSerializable $payload
+     */
+    private static function toHttpResponse(int $statusCode, string $discriminator, array|\JsonSerializable $payload): ResponseInterface
     {
         return new Response(
-            status: $this->statusCode,
+            status: $statusCode,
             headers: [
                 'Content-Type' => 'application/json'
             ],
             body: json_encode(
-                [$this->discriminator => $this->payload],
+                [$discriminator => $payload],
                 JSON_THROW_ON_ERROR
             )
         );

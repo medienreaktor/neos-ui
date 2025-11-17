@@ -13,7 +13,7 @@ privilegeTargets:
       matcher: 'method(Neos\Neos\Ui\Controller\BackendServiceController->.*())'
 
     'Neos.Neos.Ui:LinkEditor.ApiAccess':
-      matcher: 'method(Neos\Neos\Ui\LinkEditor\Application\.*\Controller\.*Controller->processRequest())'
+      matcher: 'method(Neos\Neos\Ui\LinkEditor\Application\.*\Controller\.*Controller->.*())'
 
   'Neos\Neos\Security\Authorization\Privilege\ModulePrivilege':
 

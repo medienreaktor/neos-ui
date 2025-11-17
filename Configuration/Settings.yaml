@@ -236,6 +236,13 @@ Neos:
       routes:
         'Neos.Neos.Ui':
           position: 'before Neos.Neos'
+        'Neos.Neos.Ui:Endpoints':
+          position: 'before Neos.Neos'
+          providerFactory: Neos\Flow\Mvc\Routing\AttributeRoutesProviderFactory
+          providerOptions:
+            classNames:
+              - Neos\Neos\Ui\LinkEditor\Application\*\Controller\*Controller
+
   Fusion:
     defaultContext:
       Neos.Ui.StaticResources: Neos\Neos\Ui\Fusion\Helper\StaticResourcesHelper

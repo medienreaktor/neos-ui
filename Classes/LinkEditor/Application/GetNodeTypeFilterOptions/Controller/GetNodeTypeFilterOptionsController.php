@@ -15,22 +15,32 @@ declare(strict_types=1);
 namespace Neos\Neos\Ui\LinkEditor\Application\GetNodeTypeFilterOptions\Controller;
 
 use Neos\Flow\Annotations as Flow;
+use Neos\Neos\FrontendRouting\SiteDetection\SiteDetectionResult;
+use Neos\Neos\Ui\Infrastructure\MVC\AbstractQueryController;
+use Neos\Neos\Ui\Infrastructure\MVC\QueryResponseHelper;
 use Neos\Neos\Ui\LinkEditor\Application\GetNodeTypeFilterOptions\GetNodeTypeFilterOptionsQuery;
 use Neos\Neos\Ui\LinkEditor\Application\GetNodeTypeFilterOptions\GetNodeTypeFilterOptionsQueryHandler;
-use Neos\Neos\Ui\LinkEditor\Framework\MVC\QueryController;
-use Neos\Neos\Ui\LinkEditor\Framework\MVC\QueryResponse;
+use Psr\Http\Message\ResponseInterface;
 
 #[Flow\Scope("singleton")]
-final class GetNodeTypeFilterOptionsController extends QueryController
+final class GetNodeTypeFilterOptionsController extends AbstractQueryController
 {
     #[Flow\Inject]
     protected GetNodeTypeFilterOptionsQueryHandler $queryHandler;
 
-    public function processQuery(array $arguments): QueryResponse
+    #[Flow\Route('neos/link-editor/get-node-type-filter-options')]
+    public function processQueryAction(): ResponseInterface
     {
+        $arguments = $this->request->getArguments();
+        if (!isset($arguments['contentRepositoryId'])) {
+            /** @todo send from UI */
+            $siteDetectionResult = SiteDetectionResult::fromRequest($this->request->getHttpRequest());
+            $arguments['contentRepositoryId'] = $siteDetectionResult->contentRepositoryId->value;
+        }
+
         $query = GetNodeTypeFilterOptionsQuery::fromArray($arguments);
         $queryResult = $this->queryHandler->handle($query);
 
-        return QueryResponse::createSuccess($queryResult);
+        return QueryResponseHelper::createSuccess($queryResult);
     }
 }
