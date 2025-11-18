@@ -1,4 +1,5 @@
 import * as React from 'react';
+import mergeClassNames from 'classnames';
 
 import {Button, Tabs, Dialog, Icon} from '@neos-project/react-ui-components';
 
@@ -415,8 +416,18 @@ const AdvancedOptions: React.FC<{
         return null;
     }
 
+    const classNames = mergeClassNames({
+        [style.advancedButton]: true,
+        [style.advancedButtonDisabled]: !enabled,
+        [style.advancedButtonIsOpen]: isOpen,
+    });
+
     return <div className={style.advanced}>
-        <div className={!enabled ? style.advancedButtonDisabled : (isOpen ? style.advancedButtonIsOpen : style.advancedButton)} onClick={toggleOpen}><Icon icon="cogs" color={isUsed ? 'primaryBlue' : undefined} />&nbsp; Advanced &nbsp; <Icon icon={isOpen ? 'chevron-up' : 'chevron-down'}/></div>
+        <div className={classNames} onClick={toggleOpen}>
+            <Icon icon="cogs" color={isUsed ? 'primaryBlue' : undefined} />
+            {translate('Neos.Neos.Ui:LinkEditor.Main:options.title','Advanced')}
+            <Icon icon={isOpen ? 'chevron-up' : 'chevron-down'}/>
+        </div>
         {
             isOpen ? (
                 <div className={style.advancedContents}>
