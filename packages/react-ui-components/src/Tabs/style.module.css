@@ -36,8 +36,15 @@
 .tabs--vertical .tabNavigation {
     display: flex;
     flex-direction: column;
-    border-left: 1px solid var(--colors-ContrastDark);
+    border: 1px solid var(--colors-ContrastDark);
     width: max-content;
+    min-height: 0;
+    height: min-content;
+}
+
+.tabs--sticky .tabNavigation {
+    position: sticky;
+    top: 0;
 }
 
 .tabNavigation__item {
@@ -72,7 +79,7 @@
 }
 
 .tabs--vertical .tabNavigation__item {
-    border-right: unset;
+    border: none;
     margin-bottom: unset!important;
 }
 
@@ -113,6 +120,7 @@
     width: 100%;
     text-align: left;
     display: block;
+    white-space: nowrap;
 }
 .tabNavigation__itemBtnIcon {
     color: currentColor;

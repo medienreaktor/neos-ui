@@ -23,6 +23,8 @@ export interface TabsProps {
 
     readonly vertical?: boolean;
 
+    readonly sticky?: boolean;
+
     /**
      * The children panels to render.
      */
@@ -37,6 +39,7 @@ export interface TabsProps {
 interface TabsTheme extends TabMenuItemTheme {
     readonly 'tabs': string;
     readonly 'tabs--vertical': string;
+    readonly 'tabs--sticky': string;
     readonly 'tabs__content': string;
     readonly 'tabs__panel': string;
     readonly 'tabNavigation': string;
@@ -149,10 +152,11 @@ export default class Tabs extends PureComponent<TabsProps> {
     }
 
     public render(): JSX.Element {
-        const {theme, className, vertical} = this.props;
+        const {theme, className, vertical, sticky} = this.props;
         const finalClassName = mergeClassNames(
             theme!.tabs, {
-                [theme!['tabs--vertical']]: vertical
+                [theme!['tabs--vertical']]: vertical,
+                [theme!['tabs--sticky']]: sticky,
             },
             className
         );
