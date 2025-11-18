@@ -27,9 +27,9 @@ use Neos\Flow\Property\Exception as PropertyException;
 use Neos\Flow\Property\PropertyMapper;
 use Neos\Flow\Property\PropertyMappingConfiguration;
 use Neos\Flow\Property\PropertyMappingConfigurationInterface;
+use Neos\Flow\Property\TypeConverter\DenormalizingObjectConverter;
 use Neos\Flow\Property\TypeConverterInterface;
 use Neos\Neos\Utility\NodeTypeWithFallbackProvider;
-use Neos\Utility\ObjectAccess;
 use Neos\Utility\TypeHandling;
 use Psr\Log\LoggerInterface;
 
@@ -188,15 +188,27 @@ class NodePropertyConverterService
     }
 
     /**
-     * Convert the given value to a simple type or an array of simple types.
+     * Convert the given value to a simple type or an array of simple types or to a \JsonSerializable.
      *
-     * @param mixed $propertyValue
-     * @param string $dataType
-     * @return mixed
+     * @param mixed $propertyValue the deserialized node property value
+     * @param string $dataType the property type from the node type schema
+     * @return \JsonSerializable|int|float|string|bool|null|array<mixed>
      * @throws PropertyException
      */
     protected function convertValue($propertyValue, $dataType)
     {
+        if ($propertyValue instanceof \JsonSerializable && DenormalizingObjectConverter::isDenormalizable($propertyValue::class)) {
+            /**
+             * Value object support, as they can be stored directly the node properties
+             *
+             * If the value is json-serializable and deserializable via the {@see \Neos\ContentRepository\Core\Infrastructure\Property\Normalizer\ValueObjectArrayDenormalizer} (via e.g. fromArray)
+             * We return the json-serializable directly.
+             *
+             * FIXME the DenormalizingObjectConverter is not used by the 9.0 ESCR but our new symfony serializers dont provide a way to check if something is an value object and no other place either.
+             */
+            return $propertyValue;
+        }
+
         $parsedType = TypeHandling::parseType($dataType);
 
         // This hardcoded handling is to circumvent rewriting PropertyMappers that convert objects.
