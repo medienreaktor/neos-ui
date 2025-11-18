@@ -5,8 +5,8 @@ import {getRegistryById} from '@neos-project/neos-ui-registry';
 import {ErrorView} from '@neos-project/neos-ui-error';
 
 interface Props {
-	assetIdentifier: null | string
-	onSelectAsset: (assetIdentifier: string) => void
+    assetIdentifier: null | string
+    onSelectAsset: (assetIdentifier: string) => void
 }
 
 export const MediaBrowser: React.FC<Props> = (props) => {
@@ -20,7 +20,7 @@ export const MediaBrowser: React.FC<Props> = (props) => {
 
     const MediaSelectionScreenComponent = secondaryEditor?.component;
 
-	// The standard MediaBrowser of Neos uses an iframe and requires some styles to be applied to the iframe content
+    // The standard MediaBrowser of Neos uses an iframe and requires some styles to be applied to the iframe content
     const iframe = containerRef.current?.querySelector('& > iframe') as HTMLIFrameElement
 
     React.useEffect(() => {
@@ -53,7 +53,8 @@ export const MediaBrowser: React.FC<Props> = (props) => {
                         onComplete={props.onSelectAsset}
                         constraints={{mediaTypes: []}}
                     />
-                ) : <ErrorView error={`Cannot find secondary editor "${secondaryEditorId}". Selected asset "${props.assetIdentifier}"`} />
+                ) : <ErrorView
+                    error={`Cannot find secondary editor "${secondaryEditorId}". Selected asset "${props.assetIdentifier}"`}/>
             }
         </div>
     )
