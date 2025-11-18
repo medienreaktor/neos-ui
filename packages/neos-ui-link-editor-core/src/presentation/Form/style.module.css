@@ -1,6 +1,6 @@
 .form {
-    padding: 0 16px;
-    & > * + * {
-        margin-top: 16px;
-    }
+    padding: 0 var(--spacing-Full);
+    display: flex;
+    gap: var(--spacing-Full);
+    flex-direction: column;
 }

@@ -1,6 +1,5 @@
 
 .advanced {
-    margin-top: 1rem;
 }
 
 .advancedContents {
@@ -57,6 +56,6 @@
 
 .checkboxColumns {
     display: grid;
-    gap: 16px;
+    gap: var(--spacing-Full);
     grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
 }

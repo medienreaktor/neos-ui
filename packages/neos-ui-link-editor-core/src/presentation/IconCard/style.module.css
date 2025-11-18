@@ -1,11 +1,11 @@
 
 .container {
     display: grid;
-    grid-gap: 8px;
+    grid-gap: var(--spacing-Half);
     grid-template-columns: 20px 1fr;
     grid-template-rows: repeat(2, 1fr);
     background-color: #141414;
-    padding: 8px 16px;
+    padding: var(--spacing-Half) var(--spacing-Full);
     height: 50px;
 }
 
