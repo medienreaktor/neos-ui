@@ -17,7 +17,7 @@
     line-height: var(--spacing-GoldenUnit);
     background: var(--colors-ContrastDarkest);
     user-select: none;
-    display: flex;
+    display: inline-flex;
     align-items: baseline;
     gap: 1ch;
     border: 1px solid var(--colors-ContrastDark);
