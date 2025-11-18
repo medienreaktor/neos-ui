@@ -1,5 +1,5 @@
 .stack {
-    > * + * {
-        margin-top: 16px;
-    }
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
 }
