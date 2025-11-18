@@ -113,7 +113,7 @@ export const createLinkButton = (editor: IEditor) => (props: Props) => {
         <IconButton
             title={translate('Neos.Neos.Ui:LinkEditor.Main:linkButton.title', '')}
             isActive={Boolean(props.formattingUnderCursor.link)}
-            icon={props.formattingUnderCursor.link ? 'unlink' : 'link'}
+            icon="link"
             onClick={handleLinkButtonClick}
         />
     );
