@@ -31,7 +31,7 @@
         reloadIfChanged: true
 
     linkObject:
-      type: Neos\Neos\Ui\LinkEditor\Link
+      type: Neos\Neos\Domain\Link\Link
       ui:
         label: Link Object
         inspector:

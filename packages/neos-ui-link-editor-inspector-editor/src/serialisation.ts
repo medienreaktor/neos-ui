@@ -1,7 +1,7 @@
 import {ILink} from '@neos-project/neos-ui-link-editor-core/src/domain';
 
 /**
- * Translates to php's {@see \Neos\Neos\Ui\LinkEditor\Link}
+ * Translates to php's {@see \Neos\Neos\Domain\Link\Link}
  */
 export type LinkValueObject = {
     href: string;
@@ -19,7 +19,7 @@ export enum LinkDataType {
 /**
  * These are the possible formats from {@see LinkDataType} to store the link in the Node.
  *  The string is the default
- *  The valueObject is on php side this vo: {@see \Neos\Neos\Ui\LinkEditor\Link}
+ *  The valueObject is on php side this vo: {@see \Neos\Neos\Domain\Link\Link}
  */
 export type SerializeableLink = {
     dataType: LinkDataType.valueObject,
