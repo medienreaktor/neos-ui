@@ -1,9 +1,8 @@
-import {describe, it} from 'node:test';
-import {equal} from 'node:assert/strict';
+import {isSuitableFor} from './AssetSpecification';
 
-import {isSuitableFor} from './PhoneNumberSpecification';
+const equal = (a: any, b: any) => expect(a).toBe(b);
 
-describe('LinkType: PhoneNumber', () => {
+describe('LinkType: Asset', () => {
     it('is not satisfied by http:// links', () => {
         const link = {
             href: 'http://www.example.com'
@@ -28,12 +27,12 @@ describe('LinkType: PhoneNumber', () => {
         equal(isSuitableFor(link), false);
     });
 
-    it('is not satisfied by asset:// links', () => {
+    it('is satisfied by asset:// links', () => {
         const link = {
             href: 'asset://97c9a6e3-4b50-4559-9f60-b5ad68f25758'
         };
 
-        equal(isSuitableFor(link), false);
+        equal(isSuitableFor(link), true);
     });
 
     it('is not satisfied by mailto: links', () => {
@@ -52,11 +51,11 @@ describe('LinkType: PhoneNumber', () => {
         equal(isSuitableFor(link), false);
     });
 
-    it('is satisfied by tel: links', () => {
+    it('is not satisfied by tel: links', () => {
         const link = {
             href: 'tel:+491258795857'
         };
 
-        equal(isSuitableFor(link), true);
+        equal(isSuitableFor(link), false);
     });
 });

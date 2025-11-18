@@ -15,10 +15,9 @@
   },
   "scripts": {
     "lint": "tsc --noemit && stylelint 'packages/*/src/**/*.css' && yarn eslint 'packages/*/src/**/*.{js,jsx,ts,tsx}'",
-    "test-jest-legacy": "NODE_ENV=test jest --testMatch '**/packages/*/src/**/*.spec.{js,jsx,ts,tsx}'",
-    "test-update-snapshots": "yarn test-jest-legacy -u",
-    "test-node": "echo 'TODO install tsx as dependeny and update esbuild node --import=tsx --test packages'",
-    "test": "yarn test-node && yarn test-jest-legacy"
+    "test": "NODE_ENV=test jest --testMatch '**/packages/*/src/**/*.spec.{js,jsx,ts,tsx}'",
+    "test-watch": "yarn test --watch",
+    "test-update-snapshots": "yarn test -u"
   },
   "engines": {
     "node": "~20"

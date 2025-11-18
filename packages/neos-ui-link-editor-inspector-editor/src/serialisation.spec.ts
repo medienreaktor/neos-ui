@@ -1,6 +1,7 @@
-import {describe, it} from 'node:test';
-import {deepEqual, equal} from 'node:assert/strict';
 import {convertILinkToSerializedLinkValue, LinkDataType, serializedLinkToILink, resolveSerializedLinkFromValue} from './serialisation';
+
+const deepEqual = (a: any, b: any) => expect(a).toStrictEqual(b);
+const equal = (a: any, b: any) => expect(a).toBe(b);
 
 describe('InspectorEditor: serialisation', () => {
     it('resolveSerializedLinkFromValue for string ', () => {

@@ -1,7 +1,6 @@
-import {describe, it} from 'node:test';
-import {equal} from 'node:assert/strict';
-
 import {isSuitableFor} from './MailToSpecification';
+
+const equal = (a: any, b: any) => expect(a).toBe(b);
 
 describe('LinkType: MailTo', () => {
     it('is not satisfied by http:// links', () => {

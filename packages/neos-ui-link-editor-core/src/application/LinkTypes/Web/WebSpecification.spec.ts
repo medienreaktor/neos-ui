@@ -1,7 +1,6 @@
-import {describe, it} from 'node:test';
-import {equal} from 'node:assert/strict';
-
 import {isSuitableFor} from './WebSpecification';
+
+const equal = (a: any, b: any) => expect(a).toBe(b);
 
 describe('LinkType: Web', () => {
     it('is satisfied by http:// links', () => {
