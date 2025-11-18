@@ -70,7 +70,6 @@ export const Web = makeLinkType<WebLinkModel>('LinkEditor:Web', ({id}) => ({
     },
 
     convertLinkToModel: (link: ILink) => {
-        // todo handle url encoding
         return validateModel({
             href: {
                 isDirty: false,
@@ -80,7 +79,6 @@ export const Web = makeLinkType<WebLinkModel>('LinkEditor:Web', ({id}) => ({
     },
 
     convertModelToLink: (model: WebLinkModel) => {
-        // todo handle url encoding
         return {
             href: model.href.value
         }

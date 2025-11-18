@@ -97,7 +97,7 @@ export const Tree: React.FC<Props> = (props) => {
             fetch__getTree.error,
         );
     } else if (fetch__getTree.isLoading || !fetch__getTree.value) {
-        main = <div className={style.spinnerContainer}><Icon icon='spinner' spin size="2x"  /></div>
+        main = <div className={style.spinnerContainer}><Icon icon="spinner" spin size="2x" /></div>
     } else {
         main = (
             <NeosTree>
