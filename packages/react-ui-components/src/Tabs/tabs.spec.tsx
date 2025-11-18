@@ -23,6 +23,7 @@ describe('<Tabs/>', () => {
         ...tabsDefaultProps,
         theme: {
             'tabs': 'baseTabsClassName',
+            'tabs--vertical': 'tabsVerticalClassName',
             'tabs__content': 'baseTabsContentsClassName',
             'tabs__panel': 'baseTabsPanelsClassName',
             'tabNavigation': 'baseTabsNavigationClassName',

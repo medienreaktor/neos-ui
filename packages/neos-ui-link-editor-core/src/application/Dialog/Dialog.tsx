@@ -416,7 +416,7 @@ const AdvancedOptions: React.FC<{
     }
 
     return <div className={style.advanced}>
-        <div className={!enabled ? style.advancedButtonDisabled : (isOpen ? style.advancedButtonIsOpen : style.advancedButton)} onClick={toggleOpen} ><Icon icon="cogs" color={isUsed ? 'primaryBlue' : undefined} />&nbsp; Advanced &nbsp; <Icon icon={isOpen ? 'chevron-up' : 'chevron-down'}/></div>
+        <div className={!enabled ? style.advancedButtonDisabled : (isOpen ? style.advancedButtonIsOpen : style.advancedButton)} onClick={toggleOpen}><Icon icon="cogs" color={isUsed ? 'primaryBlue' : undefined} />&nbsp; Advanced &nbsp; <Icon icon={isOpen ? 'chevron-up' : 'chevron-down'}/></div>
         {
             isOpen ? (
                 <div className={style.advancedContents}>

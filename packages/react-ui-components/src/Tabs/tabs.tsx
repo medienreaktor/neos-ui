@@ -36,6 +36,7 @@ export interface TabsProps {
 
 interface TabsTheme extends TabMenuItemTheme {
     readonly 'tabs': string;
+    readonly 'tabs--vertical': string;
     readonly 'tabs__content': string;
     readonly 'tabs__panel': string;
     readonly 'tabNavigation': string;
