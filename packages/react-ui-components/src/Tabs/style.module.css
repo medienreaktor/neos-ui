@@ -100,7 +100,6 @@
     cursor: pointer;
     border: 0;
     background: 0;
-    width: max-content;
 
     &:hover {
         color: var(--colors-PrimaryBlue);
@@ -109,6 +108,11 @@
     &:focus {
         outline: 0;
     }
+}
+.tabs--vertical .tabNavigation__itemBtn {
+    width: 100%;
+    text-align: left;
+    display: block;
 }
 .tabNavigation__itemBtnIcon {
     color: currentColor;
