@@ -1,6 +1,6 @@
 import debounce from 'lodash.debounce';
 import {actions} from '@neos-project/neos-ui-redux-store';
-import {getGuestFrame, getGuestFrameDocument} from '@neos-project/neos-ui-guest-frame/src/dom';
+import {getGuestFrame, getGuestFrameDocument, getGuestFrameWindow} from '@neos-project/neos-ui-guest-frame/src/dom';
 import {DecoupledEditor} from '@ckeditor/ckeditor5-editor-decoupled';
 import {Template, BodyCollection} from '@ckeditor/ckeditor5-ui';
 import {createElement} from '@ckeditor/ckeditor5-utils';
@@ -27,8 +27,16 @@ import '@ckeditor/ckeditor5-widget/dist/index.css';
 import './cke-overwrites.vanilla-css';
 import './placeholder.vanilla-css';
 
+// We need to detect if the browser supports CSS anchor positioning.
+// If not, we need to manually position the toolbars on scroll/resize.
+// This fallback should be removed once all supported browsers have CSS anchor support.
+// See https://caniuse.com/css-anchor-position
+const supportsCSSAnchors = "anchorName" in document.documentElement.style;
+
 let currentEditor = null;
+let currentPropertyDomNode = null;
 let editorConfig = {};
+let resizeObserver = null;
 
 // We cache the "formattingUnderCursor"; to only emit events when it really changed.
 // As there is only a single cursor active at any given time, it is safe to do this caching here inside the singleton object.
@@ -52,6 +60,23 @@ const handleUserInteractionCallback = () => {
         editorConfig.setFormattingUnderCursor(formattingUnderCursor);
         lastFormattingUnderCursorSerialized = formattingUnderCursorSerialized;
     }
+};
+
+// Helper function to update toolbar position when CSS anchors are not supported
+const updateToolbarPosition = () => {
+    if (!currentEditor || !currentPropertyDomNode || supportsCSSAnchors) {
+        return;
+    }
+
+    const toolbar = currentEditor.ui.view.toolbar.element;
+    // Only reposition if toolbar is visible
+    if (!toolbar.classList.contains('neos-ck-anchored-toolbar--visible')) {
+        return;
+    }
+
+    const guestFrameWindow = getGuestFrameWindow();
+    toolbar.style.left = (currentPropertyDomNode.getBoundingClientRect().left + guestFrameWindow.scrollX) + 'px';
+    toolbar.style.top = (currentPropertyDomNode.getBoundingClientRect().top - toolbar.offsetHeight + guestFrameWindow.scrollY) + 'px';
 };
 
 export const bootstrap = _editorConfig => {
@@ -127,6 +152,17 @@ export const createEditor = store => async options => {
             // Use our own BodyCollection implementation that works within the guest frame
             // noinspection JSConstantReassignment
             this.ui.view.body = new GuestFrameBodyCollection(this.locale);
+
+            if (!supportsCSSAnchors) {
+                // Set up ResizeObserver to update toolbar position on window resize
+                if (resizeObserver) {
+                    return;
+                }
+                resizeObserver = new ResizeObserver(() => {
+                    updateToolbarPosition();
+                });
+                resizeObserver.observe(getGuestFrameDocument().documentElement);
+            }
         }
     }
 
@@ -156,13 +192,19 @@ export const createEditor = store => async options => {
                     debouncedOnChange.flush();
                     editor.ui.view.toolbar.element.classList.remove('neos-ck-anchored-toolbar--visible');
                     currentEditor = null;
+                    currentPropertyDomNode = null;
                     return;
                 }
 
                 if (currentEditor !== editor) {
                     currentEditor = editor;
+                    currentPropertyDomNode = propertyDomNode;
+
                     if (editor.ui.view.toolbar.items.length > 0) {
                         editor.ui.view.toolbar.element.classList.add('neos-ck-anchored-toolbar--visible');
+                        if (!supportsCSSAnchors) {
+                            updateToolbarPosition();
+                        }
                     }
 
                     editorConfig.setCurrentlyEditedPropertyName(propertyName);
@@ -179,8 +221,7 @@ export const createEditor = store => async options => {
             editor.model.document.on('change', () => handleUserInteractionCallback());
 
             // As we use the DecoupledEditor, we need to add the toolbar to the Neos backend container, so it is visible in the UI
-            const ckeditorContainer = getGuestFrameDocument()?.getElementById('neos-backend-container') || document.getElementById('neos-backend-container');
-            // const ckeditorContainer = getGuestFrameDocument().querySelector('.ck-body-wrapper');
+            const ckeditorContainer = getGuestFrameDocument().querySelector('.ck-body-wrapper') || document.getElementById('neos-backend-container');
             if (!ckeditorContainer) {
                 console.error('Neos.Ui: Could not find neos-backend-container in guest frame document. CKEditor toolbar cannot be attached.');
                 return editor;

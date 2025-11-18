@@ -117,7 +117,7 @@ const ContextToolbar: React.FC<ContextToolbarProps & InjectedContextToolbarProps
     // we need to disable the enhanceWithClickOutside handling to prevent hick ups in the event
     // registration after guest frame reload.
     return (
-        <div className={classNames} id="inline-ui-toolbar-popover">
+        <div className={classNames} id="inline-ui-context-toolbar">
             <div className={style.toolBar} data-ignore_click_outside="true">
                 {contextButtons.map((Item, key) => <Item key={key} {...buttonProps} />)}
                 <Label

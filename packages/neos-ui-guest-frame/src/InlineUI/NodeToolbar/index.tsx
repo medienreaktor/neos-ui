@@ -27,6 +27,8 @@ type InjectedNodeToolbarProps = {
     i18nRegistry: I18nRegistry;
 }
 
+const supportsCSSAnchors = "anchorName" in document.documentElement.style;
+
 const withNeosGlobals = neos<NodeToolbarProps, InjectedNodeToolbarProps>((globalRegistry) => ({
     nodeTypesRegistry: globalRegistry.get('@neos-project/neos-ui-contentrepository'),
     i18nRegistry: globalRegistry.get('i18n')
@@ -201,18 +203,27 @@ const NodeToolbar: React.FC<NodeToolbarProps & InjectedNodeToolbarProps> = ({
         return null;
     }
 
-    // TODO: Try to read toolbars from registry
-    return (
+    // The anchor positioning fallback requires both toolbars to be wrapped inside the anchor element. CSS anchors require them to be separate.
+    return supportsCSSAnchors ? (
         <>
             <div
                 className={style.toolBar__anchor}
                 id="inline-ui-node-anchor"
-                popovertarget="inline-ui-toolbar-popover"
                 style={anchorPosition}
-            ></div>
+            >
+            </div>
             <ContextToolbar buttonProps={toolbarButtonProps} fusionPath={fusionPath}/>
             <StructuralToolbar insertPosition={insertPosition} buttonProps={toolbarButtonProps}/>
         </>
+    ) : (
+        <div
+            className={style.toolBar__anchor}
+            id="inline-ui-node-anchor"
+            style={anchorPosition}
+        >
+            <ContextToolbar buttonProps={toolbarButtonProps} fusionPath={fusionPath}/>
+            <StructuralToolbar insertPosition={insertPosition} buttonProps={toolbarButtonProps}/>
+        </div>
     );
 };
 

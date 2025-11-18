@@ -50,7 +50,7 @@ export default ({globalRegistry, store}) => function * initializeGuestFrame() {
     // We need to set the src to the actual src of the iframe, and not retrive it from documentInformation, as it may differ, e.g. contain additional arguments.
     yield put(actions.UI.ContentCanvas.setSrc(guestFrameWindow.document.location.href));
 
-    // If we have no document information, guest frame intialziation ends here
+    // If we have no document information, guest frame initialization ends here
     if (Object.entries(documentInformation).length === 0) {
         return;
     }

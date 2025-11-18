@@ -24,25 +24,45 @@
     position-anchor: --inline-ui-context-toolbar-anchor;
     position-area: center left;
     position-try-fallbacks: --structural-toolbar-align-right;
+    border: 1px solid #35c3f8;
+    border-bottom-width: 0;
+    height: max-content;
 }
 .structuralToolBar__popover:hover {
     z-index: calc(var(--zIndex-NodeToolBar) + 2);
 }
 
-.structuralToolBar__popover--isBelow {
+.structuralToolBar__popover.structuralToolBar__popover--isBelow {
     position-anchor: --inline-ui-node-toolbar-anchor;
     position-area: bottom center;
-    top: 10px;
-    border-left: 2px solid white;
-    border-bottom: 2px solid white;
-    border-right: 2px solid white;
     position-try-fallbacks: none;
+    top: 12px;
+    border-top-width: 0;
+    border-bottom-width: 1px;
 }
 
-.structuralToolBar__popover--isInside {
+.structuralToolBar__popover.structuralToolBar__popover--isInside {
     position-anchor: --inline-ui-node-toolbar-anchor;
     position-area: center center;
-    top: 10px;
-    border: 2px solid white;
     position-try-fallbacks: none;
+    top: 10px;
+    border-bottom-width: 1px;
+}
+
+@supports not (anchor-name: --inline-ui-node-toolbar-anchor) {
+    .structuralToolBar__popover {
+        pointer-events: all;
+        bottom: calc(100% + 12px);
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .structuralToolBar__popover.structuralToolBar__popover--isBelow {
+        top: calc(100% + 12px);
+    }
+
+    .structuralToolBar__popover.structuralToolBar__popover--isInside {
+        top: 50%;
+        transform: translateY(-50%);
+    }
 }

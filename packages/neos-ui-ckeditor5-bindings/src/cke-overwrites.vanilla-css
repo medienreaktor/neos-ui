@@ -34,6 +34,12 @@
     display: flex;
 }
 
+@supports not (anchor-name: --inline-ui-node-toolbar-anchor) {
+    .ck.ck-toolbar.neos-ck-anchored-toolbar {
+        position: absolute;
+    }
+}
+
 /*
  * Adjust the CKEditor 5 UI to match Neos UI design
  * See https://ckeditor.com/docs/ckeditor5/latest/getting-started/setup/css.html
