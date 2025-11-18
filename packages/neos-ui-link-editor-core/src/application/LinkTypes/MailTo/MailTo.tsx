@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {ILink, makeLinkType} from '../../../domain';
+import {ILink, ILinkType} from '../../../domain';
 import {IconCard} from '../../../presentation';
 import {isSuitableFor} from './MailToSpecification';
 import {translate} from '@neos-project/neos-ui-i18n';
@@ -78,7 +78,11 @@ type MailToOptions = {
     }
 }
 
-export const MailTo = makeLinkType<MailToLinkModel, MailToOptions>('LinkEditor:MailTo', ({createError, id}) => ({
+const id = 'LinkEditor:MailTo';
+
+export const MailTo: ILinkType<MailToLinkModel, MailToOptions> = {
+    id,
+
     icon: 'envelope',
 
     getTitle: () => translate('Neos.Neos.Ui:LinkEditor.MailTo:title', ''),
@@ -98,7 +102,7 @@ export const MailTo = makeLinkType<MailToLinkModel, MailToOptions>('LinkEditor:M
 
     convertLinkToModel: (link: ILink) => {
         if (!link.href.startsWith('mailto:')) {
-            throw createError(`Cannot handle href "${link.href}".`);
+            throw new Error(`[${id}]: Cannot handle href "${link.href}".`);
         }
         const url = new URL(link.href);
 
@@ -272,4 +276,4 @@ export const MailTo = makeLinkType<MailToLinkModel, MailToOptions>('LinkEditor:M
             </>
         );
     }
-}));
+};

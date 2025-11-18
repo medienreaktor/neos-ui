@@ -13,7 +13,7 @@ import {usePromise} from '@neos-project/framework-promise-react';
 import {selectors, useSelector} from '@neos-project/neos-ui-redux-store';
 import {Tree} from '@neos-project/neos-ui-link-editor-custom-node-tree';
 
-import {ILink, makeLinkType} from '../../../domain';
+import {ILink, ILinkType} from '../../../domain';
 import {IconCard} from '../../../presentation';
 import {getNodeSummary} from '../../../infrastructure/http';
 import {isSuitableFor} from './NodeSpecification';
@@ -101,7 +101,12 @@ const NodePreview: React.FC<{ nodeId: string }> = (props) => {
     );
 };
 
-export const Node = makeLinkType<NodeLinkModel, NodeLinkOptions>('LinkEditor:Node', ({createError, id}) => ({
+const id = 'LinkEditor:Node';
+const createError = (message: string): Error => new Error(`[${id}]: ${message}`);
+
+export const Node: ILinkType<NodeLinkModel, NodeLinkOptions> = {
+    id,
+
     icon: 'file',
 
     getTitle: () => translate('Neos.Neos.Ui:LinkEditor.Node:title', ''),
@@ -225,4 +230,4 @@ export const Node = makeLinkType<NodeLinkModel, NodeLinkOptions>('LinkEditor:Nod
             </div>
         );
     }
-}));
+};

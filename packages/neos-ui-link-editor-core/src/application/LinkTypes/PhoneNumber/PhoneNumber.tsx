@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {Label, TextInput, Tooltip} from '@neos-project/react-ui-components';
 
-import {ILink, makeLinkType} from '../../../domain';
+import {ILink, ILinkType} from '../../../domain';
 import {IconCard} from '../../../presentation';
 import {isSuitableFor} from './PhoneNumberSpecification';
 import {translate} from '@neos-project/neos-ui-i18n';
@@ -27,7 +27,11 @@ const validateModel = (model: PhoneNumberLinkModel): PhoneNumberLinkModel => ({
     }
 });
 
-export const PhoneNumber = makeLinkType<PhoneNumberLinkModel>('LinkEditor:PhoneNumber', ({createError, id}) => ({
+const id = 'LinkEditor:PhoneNumber';
+
+export const PhoneNumber: ILinkType<PhoneNumberLinkModel> = {
+    id,
+
     icon: 'phone-alt',
 
     getTitle: () => translate('Neos.Neos.Ui:LinkEditor.PhoneNumber:title', ''),
@@ -48,7 +52,7 @@ export const PhoneNumber = makeLinkType<PhoneNumberLinkModel>('LinkEditor:PhoneN
 
     convertLinkToModel: (link: ILink) => {
         if (!link.href.startsWith('tel:')) {
-            throw createError(`Cannot handle href "${link.href}".`);
+            throw new Error(`[${id}]: Cannot handle href "${link.href}".`);
         }
 
         return validateModel({
@@ -99,4 +103,4 @@ export const PhoneNumber = makeLinkType<PhoneNumberLinkModel>('LinkEditor:PhoneN
             </div>
         );
     }
-}));
+};

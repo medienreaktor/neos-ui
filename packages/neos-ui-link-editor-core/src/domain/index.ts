@@ -1,6 +1,5 @@
 export type {ILink, ILinkOptions, ILinkType} from './Link';
 export {
-    makeLinkType,
     useLinkTypes,
     useLinkTypeForHref,
     useSortedAndFilteredLinkTypes

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {ILink, makeLinkType} from '../../../domain';
+import {ILink, ILinkType} from '../../../domain';
 import {IconCard} from '../../../presentation';
 import {isSuitableFor} from './WebSpecification';
 import {translate} from '@neos-project/neos-ui-i18n';
@@ -54,7 +54,11 @@ const validateModel = (values: WebLinkModel): WebLinkModel => ({
     }
 });
 
-export const Web = makeLinkType<WebLinkModel>('LinkEditor:Web', ({id}) => ({
+const id = 'LinkEditor:Web';
+
+export const Web: ILinkType<WebLinkModel> = {
+    id,
+
     icon: 'globe',
 
     getTitle: () => translate('Neos.Neos.Ui:LinkEditor.Web:title', ''),
@@ -135,4 +139,4 @@ export const Web = makeLinkType<WebLinkModel>('LinkEditor:Web', ({id}) => ({
             </div>
         );
     }
-}));
+};

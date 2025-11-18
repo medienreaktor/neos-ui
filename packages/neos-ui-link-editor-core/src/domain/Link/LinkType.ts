@@ -42,21 +42,7 @@ export interface ILinkType<ModelType = any, OptionsType extends object = {}> {
 }
 
 export interface ILinkTypeFactoryApi {
-    id: string
     createError: (message: string) => Error
-}
-
-export function makeLinkType<ModelType = any, OptionsType extends object = {}>(
-    id: string,
-    createOptions: (factoryApi: ILinkTypeFactoryApi) => Omit<ILinkType<ModelType, OptionsType>, 'id'>
-): ILinkType<ModelType, OptionsType> {
-    const createError = (message: string): Error => new Error(`[${id}]: ${message}`);
-    const options = createOptions({createError, id});
-
-    return {
-        id,
-        ...options
-    };
 }
 
 export function useLinkTypes(): ILinkType[] {

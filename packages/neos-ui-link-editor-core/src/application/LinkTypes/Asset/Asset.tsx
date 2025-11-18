@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {ILink, makeLinkType} from '../../../domain';
+import {ILink, ILinkType} from '../../../domain';
 import {IconCard, ImageCard} from '../../../presentation';
 
 import {MediaBrowser} from './MediaBrowser';
@@ -35,7 +35,11 @@ const validateModel = (values: AssetLinkModel): AssetLinkModel => ({
     }
 });
 
-export const Asset = makeLinkType<AssetLinkModel>('LinkEditor:Asset', ({createError, id}) => ({
+const id = 'LinkEditor:Asset';
+
+export const Asset: ILinkType<AssetLinkModel> = {
+    id,
+
     icon: 'camera',
 
     getTitle: () => translate('Neos.Neos.Ui:LinkEditor.Asset:title', ''),
@@ -58,7 +62,7 @@ export const Asset = makeLinkType<AssetLinkModel>('LinkEditor:Asset', ({createEr
         const match = /asset:\/\/([^#]*)(?:#(.*))?/.exec(link.href);
 
         if (!match) {
-            throw createError(`Cannot handle href "${link.href}".`);
+            throw new Error(`[${id}]: Cannot handle href "${link.href}".`);
         }
 
         const identifier = match[1];
@@ -131,4 +135,4 @@ export const Asset = makeLinkType<AssetLinkModel>('LinkEditor:Asset', ({createEr
             </div>
         );
     }
-}));
+};
