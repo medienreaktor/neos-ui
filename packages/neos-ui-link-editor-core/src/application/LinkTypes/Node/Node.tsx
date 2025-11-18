@@ -22,7 +22,7 @@ import {translate} from '@neos-project/neos-ui-i18n';
 import {State} from '@neos-project/framework-observable';
 import {useLatestState} from '@neos-project/framework-observable-react';
 import {getConfiguration} from '@neos-project/neos-ui-configuration';
-import {TextInput, Tooltip} from '@neos-project/react-ui-components';
+import {Label, TextInput, Tooltip} from '@neos-project/react-ui-components';
 
 type NodeLinkModel = {
     isDirty: boolean;
@@ -101,7 +101,7 @@ const NodePreview: React.FC<{ nodeId: string }> = (props) => {
     );
 };
 
-export const Node = makeLinkType<NodeLinkModel, NodeLinkOptions>('LinkEditor:Node', ({createError}) => ({
+export const Node = makeLinkType<NodeLinkModel, NodeLinkOptions>('LinkEditor:Node', ({createError, id}) => ({
     icon: 'file',
 
     getTitle: () => translate('Neos.Neos.Ui:LinkEditor.Node:title', ''),
@@ -207,12 +207,22 @@ export const Node = makeLinkType<NodeLinkModel, NodeLinkOptions>('LinkEditor:Nod
         const model = useLatestState(model$);
         const setAnchor = React.useCallback((anchor) => model$.update((values) => validateModel({...values, isDirty: true, anchor: {value: anchor}})), []);
 
-        return <label>
-            {translate('Neos.Neos.Ui:LinkEditor.Node:anchor.label', '')}
-            <TextInput type="text" value={model?.anchor?.value ?? ''} placeholder={translate('Neos.Neos.Ui:LinkEditor.Node:anchor.placeholder', '')} onChange={setAnchor} />
-            {model?.anchor?.warning ? (
-                <Tooltip renderInline asWarning>{model.anchor.warning}</Tooltip>
-            ) : null}
-        </label>
+        return (
+            <div>
+                <Label htmlFor={`${id}-anchor`}>
+                    {translate('Neos.Neos.Ui:LinkEditor.Node:anchor.label', '')}
+                </Label>
+                <TextInput
+                    id={`${id}-anchor`}
+                    type="text"
+                    value={model?.anchor?.value ?? ''}
+                    placeholder={translate('Neos.Neos.Ui:LinkEditor.Node:anchor.placeholder', '')}
+                    onChange={setAnchor}
+                />
+                {model?.anchor?.warning ? (
+                    <Tooltip renderInline asWarning>{model.anchor.warning}</Tooltip>
+                ) : null}
+            </div>
+        );
     }
 }));

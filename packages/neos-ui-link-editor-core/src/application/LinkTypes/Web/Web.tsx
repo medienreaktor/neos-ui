@@ -6,7 +6,7 @@ import {isSuitableFor} from './WebSpecification';
 import {translate} from '@neos-project/neos-ui-i18n';
 import {State} from '@neos-project/framework-observable';
 import {useLatestState} from '@neos-project/framework-observable-react';
-import {SelectBox, Tooltip} from '@neos-project/react-ui-components';
+import {Label, SelectBox, Tooltip} from '@neos-project/react-ui-components';
 
 type WebLinkModel = {
     href: {
@@ -107,12 +107,12 @@ export const Web = makeLinkType<WebLinkModel>('LinkEditor:Web', ({id}) => ({
 
         return (
             <div>
-                <label htmlFor={`__neos__editor__property---${id}.href`}>
+                <Label htmlFor={`${id}-href`}>
                     {translate('Neos.Neos.Ui:LinkEditor.Web:label.link', '')}
-                </label>
+                </Label>
                 <div>
                     <SelectBox
-                        id={`__neos__editor__property---${id}.href`}
+                        id={`${id}-href`}
                         options={model?.href.formattingOptions ?? []}
                         optionValueField="value"
                         value={''}

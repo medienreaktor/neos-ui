@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {TextInput, CheckBox} from '@neos-project/react-ui-components';
+import {TextInput, CheckBox, Label} from '@neos-project/react-ui-components';
 
 import {ILinkOptions} from '../../domain';
 import {Layout} from '../../presentation';
@@ -25,30 +25,38 @@ export const LinkOptions: React.FC<{
     return (
         <Layout.Stack>
             {props.enabledLinkOptions.includes('title') ? (
-                <label>
-                    {translate('Neos.Neos.Ui:LinkEditor.Main:options.label.title', '')}
-                    <TextInput type="text" value={formOptions?.title ?? ''} placeholder={translate('Neos.Neos.Ui:LinkEditor.Main:options.placeholder.title', '')} onChange={setTitle} />
-                </label>
+                <div>
+                    <Label htmlFor="neos-LinkOptions-title">
+                        {translate('Neos.Neos.Ui:LinkEditor.Main:options.label.title', '')}
+                    </Label>
+                    <TextInput
+                        id="neos-LinkOptions-title"
+                        type="text"
+                        value={formOptions?.title ?? ''}
+                        placeholder={translate('Neos.Neos.Ui:LinkEditor.Main:options.placeholder.title', '')}
+                        onChange={setTitle}
+                    />
+                </div>
             ) : null}
             {props.enabledLinkOptions.includes('targetBlank') || props.enabledLinkOptions.includes('relNofollow') || props.enabledLinkOptions.includes('download') ? (
                 <div className={style.checkboxColumns}>
                     {props.enabledLinkOptions.includes('targetBlank') ? (
-                        <label className={style.checkboxLabel}>
+                        <Label className={style.checkboxLabel}>
                             <CheckBox onChange={setTargetBlank} isChecked={formOptions?.targetBlank ?? false}/>
                             {translate('Neos.Neos.Ui:LinkEditor.Main:options.label.targetBlank', '')}
-                        </label>
+                        </Label>
                     ) : null}
                     {props.enabledLinkOptions.includes('relNofollow') ? (
-                        <label className={style.checkboxLabel}>
+                        <Label className={style.checkboxLabel}>
                             <CheckBox onChange={setRelNofollow} isChecked={formOptions?.relNofollow ?? false}/>
                             {translate('Neos.Neos.Ui:LinkEditor.Main:options.label.relNofollow', '')}
-                        </label>
+                        </Label>
                     ) : null}
                     {props.enabledLinkOptions.includes('download') ? (
-                        <label className={style.checkboxLabel}>
+                        <Label className={style.checkboxLabel}>
                             <CheckBox onChange={setDownload} isChecked={formOptions?.download ?? false}/>
                             {translate('Neos.Neos.Ui:LinkEditor.Main:options.label.download', '')}
-                        </label>
+                        </Label>
                     ) : null}
                 </div>
             ) : null}

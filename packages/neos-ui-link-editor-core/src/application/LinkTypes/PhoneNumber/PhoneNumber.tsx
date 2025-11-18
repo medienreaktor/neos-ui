@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {TextInput, Tooltip} from '@neos-project/react-ui-components';
+import {Label, TextInput, Tooltip} from '@neos-project/react-ui-components';
 
 import {ILink, makeLinkType} from '../../../domain';
 import {IconCard} from '../../../presentation';
@@ -84,9 +84,9 @@ export const PhoneNumber = makeLinkType<PhoneNumberLinkModel>('LinkEditor:PhoneN
 
         return (
             <div>
-                <label htmlFor={`__neos__editor__property---${id}.phoneNumber`}>
+                <Label htmlFor={`__neos__editor__property---${id}.phoneNumber`}>
                     {translate('Neos.Neos.Ui:LinkEditor.PhoneNumber:phoneNumber.label', '')}
-                </label>
+                </Label>
                 <TextInput
                     id={`__neos__editor__property---${id}.phoneNumber`}
                     value={model?.phoneNumber?.value ?? ''}
