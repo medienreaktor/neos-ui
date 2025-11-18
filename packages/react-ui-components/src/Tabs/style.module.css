@@ -14,6 +14,10 @@
     flex-grow: 1;
 }
 
+.tabs--vertical .tabs__content {
+    overflow-y: unset;
+}
+
 .tabNavigation {
     composes: reset from '../reset.module.css';
     display: block;
@@ -132,4 +136,8 @@
 .panel {
     composes: reset from '../reset.module.css';
     overflow-y: auto;
+}
+
+.tabs--vertical .panel {
+    overflow-y: unset;
 }
