@@ -1,5 +1,3 @@
-import {SynchronousRegistry} from '@neos-project/neos-ui-registry';
-
 import {IEditor} from '@neos-project/neos-ui-link-editor-core';
 
 import {createInspectorEditor} from './InspectorEditor';
@@ -17,7 +15,7 @@ export function registerInspectorEditors(
         return;
     }
 
-    const editorsRegistry = inspectorRegistry.get<SynchronousRegistry<any>>('editors');
+    const editorsRegistry = inspectorRegistry.get('editors');
     if (!editorsRegistry) {
         console.warn('[Neos.Neos.Ui:LinkEditor]: Could not find inspector editors registry.');
         console.warn('[Neos.Neos.Ui:LinkEditor]: Skipping registration of InspectorEditor...');

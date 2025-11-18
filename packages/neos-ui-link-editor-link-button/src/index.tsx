@@ -1,5 +1,3 @@
-import {SynchronousRegistry} from '@neos-project/neos-ui-registry';
-
 import {IEditor} from '@neos-project/neos-ui-link-editor-core';
 
 import {createLinkButton} from './LinkButton';
@@ -16,7 +14,7 @@ export function registerLinkButton(
         return;
     }
 
-    const richtextToolbarRegistry = ckeditor5Registry.get<SynchronousRegistry<any>>('richtextToolbar');
+    const richtextToolbarRegistry = ckeditor5Registry.get('richtextToolbar');
     if (!richtextToolbarRegistry) {
         console.warn('[Neos.Neos.Ui:LinkEditor]: Could not find ckeditor5 richtextToolbar registry.');
         console.warn('[Neos.Neos.Ui:LinkEditor]: Skipping registration of RTE formatter...');

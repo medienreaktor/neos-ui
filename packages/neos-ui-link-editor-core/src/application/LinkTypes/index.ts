@@ -6,6 +6,7 @@ import {Asset} from './Asset';
 import {MailTo} from './MailTo';
 import {PhoneNumber} from './PhoneNumber';
 import {GlobalRegistry} from '@neos-project/neos-ui-registry';
+import {ILinkType} from '../../domain';
 
 export function registerLinkTypes(globalRegistry: GlobalRegistry): void {
     const linkTypeRegistry = new SynchronousRegistry(`
@@ -19,4 +20,10 @@ export function registerLinkTypes(globalRegistry: GlobalRegistry): void {
     linkTypeRegistry.set(PhoneNumber.id, PhoneNumber);
 
     globalRegistry.set('@neos-project/neos-ui-link-editor/link-types', linkTypeRegistry);
+}
+
+declare module '@neos-project/neos-ui-registry' {
+    interface GlobalRegistry {
+        get(key: '@neos-project/neos-ui-link-editor/link-types'): SynchronousRegistry<ILinkType>;
+    }
 }

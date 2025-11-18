@@ -2,6 +2,7 @@ import * as React from 'react'
 import style from './mediaBrowserStyle.module.css'
 
 import {getRegistryById} from '@neos-project/neos-ui-registry';
+import {ErrorView} from '@neos-project/neos-ui-error';
 
 interface Props {
 	assetIdentifier: null | string
@@ -14,9 +15,10 @@ export const MediaBrowser: React.FC<Props> = (props) => {
 
     const secondaryEditorsRegistry = getRegistryById('inspector')?.get('secondaryEditors');
 
-    const {component: MediaSelectionScreenComponent} = secondaryEditorsRegistry?.get(
-		'Neos.Neos/Inspector/Secondary/Editors/MediaSelectionScreen'
-	)
+    const secondaryEditorId = 'Neos.Neos/Inspector/Secondary/Editors/MediaSelectionScreen';
+    const secondaryEditor = secondaryEditorsRegistry?.get(secondaryEditorId);
+
+    const MediaSelectionScreenComponent = secondaryEditor?.component;
 
 	// The standard MediaBrowser of Neos uses an iframe and requires some styles to be applied to the iframe content
     const iframe = containerRef.current?.querySelector('& > iframe') as HTMLIFrameElement
@@ -43,12 +45,16 @@ export const MediaBrowser: React.FC<Props> = (props) => {
 
     return (
         <div className={style.container} ref={containerRef}>
-            <MediaSelectionScreenComponent
-                ref={selectionRef}
-                assetIdentifier={props.assetIdentifier}
-                onComplete={props.onSelectAsset}
-                constraints={{mediaTypes: []}}
-			/>
+            {
+                MediaSelectionScreenComponent ? (
+                    <MediaSelectionScreenComponent
+                        ref={selectionRef}
+                        assetIdentifier={props.assetIdentifier}
+                        onComplete={props.onSelectAsset}
+                        constraints={{mediaTypes: []}}
+                    />
+                ) : <ErrorView error={`Cannot find secondary editor "${secondaryEditorId}". Selected asset "${props.assetIdentifier}"`} />
+            }
         </div>
     )
 }
