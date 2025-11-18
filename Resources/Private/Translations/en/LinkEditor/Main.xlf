@@ -31,6 +31,9 @@
 
             <!-- Link Options -->
 
+          <trans-unit id="options.title" xml:space="preserve" approved="yes">
+                <source>Advanced</source>
+            </trans-unit>
             <trans-unit id="options.label.title" xml:space="preserve" approved="yes">
                 <source>Title</source>
             </trans-unit>
