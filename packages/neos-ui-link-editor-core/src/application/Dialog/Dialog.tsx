@@ -423,7 +423,7 @@ const AdvancedOptions: React.FC<{
         [style.advancedButtonIsOpen]: isOpen
     });
 
-    return <div className={style.advanced}>
+    return <div>
         <button disabled={!enabled} className={classNames} onClick={toggleOpen}>
             <Icon icon="cogs" color={isUsed ? 'primaryBlue' : undefined} />
             {translate('Neos.Neos.Ui:LinkEditor.Main:options.title', 'Advanced')}

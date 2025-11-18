@@ -178,6 +178,7 @@ describe('InspectorEditor: serialisation', () => {
         )
 
         equal(
+            /** @ts-expect-error user input / state is unpredictable and we stil have to handle this */
             serializedLinkToILink({dataType: LinkDataType.valueObject, value: ''}),
             null
         )
@@ -188,6 +189,7 @@ describe('InspectorEditor: serialisation', () => {
                 title: undefined,
                 target: undefined,
                 rel: [],
+                /** @ts-expect-error user input / state is unpredictable and we stil have to handle this */
                 download: undefined
             }}),
             {
@@ -226,6 +228,7 @@ describe('InspectorEditor: serialisation', () => {
                 title: 'some title',
                 target: undefined,
                 rel: [],
+                /** @ts-expect-error user input / state */
                 download: undefined
             }}),
             {
@@ -245,6 +248,7 @@ describe('InspectorEditor: serialisation', () => {
                 title: undefined,
                 target: '_self',
                 rel: [],
+                /** @ts-expect-error user input / state */
                 download: undefined
             }}),
             {
@@ -264,6 +268,7 @@ describe('InspectorEditor: serialisation', () => {
                 title: undefined,
                 target: '_blank',
                 rel: [],
+                /** @ts-expect-error user input / state */
                 download: undefined
             }}),
             {
@@ -283,6 +288,7 @@ describe('InspectorEditor: serialisation', () => {
                 title: undefined,
                 target: undefined,
                 rel: ['noopener'],
+                /** @ts-expect-error user input / state */
                 download: undefined
             }}),
             {
@@ -302,6 +308,7 @@ describe('InspectorEditor: serialisation', () => {
                 title: undefined,
                 target: undefined,
                 rel: ['nofollow'],
+                /** @ts-expect-error user input / state */
                 download: undefined
             }}),
             {

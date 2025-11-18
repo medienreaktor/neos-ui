@@ -115,10 +115,10 @@ export const Web: ILinkType<WebLinkModel> = {
                 <div>
                     <SelectBox
                         id="neos-LinkEditor-Web-href"
-                        options={model?.href.formattingOptions ?? []}
+                        options={model?.href?.formattingOptions ?? []}
                         optionValueField="value"
                         value={''}
-                        plainInputMode={!model?.href.formattingOptions?.length}
+                        plainInputMode={!model?.href?.formattingOptions?.length}
                         placeholderIcon={'link'}
                         onValueChange={setHref}
                         threshold={0}
