@@ -66,8 +66,8 @@ const CkEditor5 = {
         enableViewPlaceholder,
         hideViewPlaceholder,
         needsViewPlaceholder,
-        showViewPlaceholder,
-    },
+        showViewPlaceholder
+    }
 };
 
 export default {

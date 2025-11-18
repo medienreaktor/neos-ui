@@ -27,7 +27,7 @@ type InjectedNodeToolbarProps = {
     i18nRegistry: I18nRegistry;
 }
 
-const supportsCSSAnchors = "anchorName" in document.documentElement.style;
+const supportsCSSAnchors = 'anchorName' in document.documentElement.style;
 
 const withNeosGlobals = neos<NodeToolbarProps, InjectedNodeToolbarProps>((globalRegistry) => ({
     nodeTypesRegistry: globalRegistry.get('@neos-project/neos-ui-contentrepository'),

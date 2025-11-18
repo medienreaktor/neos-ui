@@ -31,7 +31,7 @@ import './placeholder.vanilla-css';
 // If not, we need to manually position the toolbars on scroll/resize.
 // This fallback should be removed once all supported browsers have CSS anchor support.
 // See https://caniuse.com/css-anchor-position
-const supportsCSSAnchors = "anchorName" in document.documentElement.style;
+const supportsCSSAnchors = 'anchorName' in document.documentElement.style;
 
 let currentEditor = null;
 let currentPropertyDomNode = null;
