@@ -53,8 +53,7 @@ export const MediaBrowser: React.FC<Props> = (props) => {
                         onComplete={props.onSelectAsset}
                         constraints={{mediaTypes: []}}
                     />
-                ) : <ErrorView
-                    error={`Cannot find secondary editor "${secondaryEditorId}". Selected asset "${props.assetIdentifier}"`}/>
+                ) : <ErrorView error={`Cannot find secondary editor "${secondaryEditorId}". Selected asset "${props.assetIdentifier}"`}/>
             }
         </div>
     )

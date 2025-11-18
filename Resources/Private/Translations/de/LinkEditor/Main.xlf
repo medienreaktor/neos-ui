@@ -37,6 +37,10 @@
             </trans-unit>
 
             <!-- Link Options -->
+          <trans-unit id="options.title" xml:space="preserve" approved="yes">
+                <source>Advanced</source>
+                <target>Erweitert</target>
+            </trans-unit>
             <trans-unit id="options.label.title" xml:space="preserve" approved="yes">
                 <source>Title</source>
                 <target>Titel</target>

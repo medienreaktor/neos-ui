@@ -54,10 +54,8 @@ const validateModel = (values: WebLinkModel): WebLinkModel => ({
     }
 });
 
-const id = 'LinkEditor:Web';
-
 export const Web: ILinkType<WebLinkModel> = {
-    id,
+    id: 'LinkEditor:Web',
 
     icon: 'globe',
 
@@ -111,12 +109,12 @@ export const Web: ILinkType<WebLinkModel> = {
 
         return (
             <div>
-                <Label htmlFor={`${id}-href`}>
+                <Label htmlFor="neos-LinkEditor-Web-href">
                     {translate('Neos.Neos.Ui:LinkEditor.Web:label.link', '')}
                 </Label>
                 <div>
                     <SelectBox
-                        id={`${id}-href`}
+                        id="neos-LinkEditor-Web-href"
                         options={model?.href.formattingOptions ?? []}
                         optionValueField="value"
                         value={''}

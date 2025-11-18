@@ -420,16 +420,15 @@ const AdvancedOptions: React.FC<{
 
     const classNames = mergeClassNames({
         [style.advancedButton]: true,
-        [style.advancedButtonDisabled]: !enabled,
-        [style.advancedButtonIsOpen]: isOpen,
+        [style.advancedButtonIsOpen]: isOpen
     });
 
     return <div className={style.advanced}>
-        <div className={classNames} onClick={toggleOpen}>
+        <button disabled={!enabled} className={classNames} onClick={toggleOpen}>
             <Icon icon="cogs" color={isUsed ? 'primaryBlue' : undefined} />
-            {translate('Neos.Neos.Ui:LinkEditor.Main:options.title','Advanced')}
+            {translate('Neos.Neos.Ui:LinkEditor.Main:options.title', 'Advanced')}
             <Icon icon={isOpen ? 'chevron-up' : 'chevron-down'}/>
-        </div>
+        </button>
         {
             isOpen ? (
                 <div className={style.advancedContents}>

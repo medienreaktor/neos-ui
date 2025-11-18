@@ -156,7 +156,7 @@ export default class Tabs extends PureComponent<TabsProps> {
         const finalClassName = mergeClassNames(
             theme!.tabs, {
                 [theme!['tabs--vertical']]: vertical,
-                [theme!['tabs--sticky']]: sticky,
+                [theme!['tabs--sticky']]: sticky
             },
             className
         );

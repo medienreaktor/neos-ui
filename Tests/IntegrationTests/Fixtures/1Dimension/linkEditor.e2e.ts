@@ -38,7 +38,7 @@ test('Open and close link editor dialog without saving the change', async t => {
 
     subSection('Open and press cancel directly');
     await t.click(LinkStringProperty.withExactText('Create Link'));
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Create Document Link').exists).ok();
 
     await t.expect(Selector('#neos-LinkEditor button').withExactText('Apply').hasAttribute('disabled')).ok();
     await t.expect(Selector('#neos-LinkEditor button').withExactText('Cancel').hasAttribute('disabled')).notOk();
@@ -48,15 +48,13 @@ test('Open and close link editor dialog without saving the change', async t => {
 
     subSection('Open and press escape directly');
     await t.click(LinkStringProperty.withExactText('Create Link'));
-
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Create Document Link').exists).ok();
     await t.pressKey('esc')
     await t.expect(OpenLinkEditor.exists).notOk();
 
     subSection('Open and press cancel after selecting target node');
     await t.click(LinkStringProperty.withExactText('Create Link'));
-
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Create Document Link').exists).ok();
 
     await t.click(LinkEditorNodeTreeItem.withExactText('Link target'));
 
@@ -72,8 +70,7 @@ test('Open and close link editor dialog without saving the change', async t => {
 
     subSection('Open and select target node but discard change in inspector');
     await t.click(LinkStringProperty.withExactText('Create Link'));
-
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Create Document Link').exists).ok();
 
     await t.click(LinkEditorNodeTreeItem.withExactText('Link target'));
 
@@ -92,8 +89,7 @@ test('Open and close link editor dialog without saving the change', async t => {
 
     subSection('Open and select target node but delete via trash can on property in inspector');
     await t.click(LinkStringProperty.withExactText('Create Link'));
-
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Create Document Link').exists).ok();
     await t.click(LinkEditorNodeTreeItem.withExactText('Link target'));
     await t.click(Selector('#neos-LinkEditor button').withExactText('Apply'));
     await t.expect(OpenLinkEditor.exists).notOk();
@@ -109,8 +105,7 @@ test('Open and close link editor dialog without saving the change', async t => {
 
     subSection('Open and select target node and directly delete target and cancel');
     await t.click(LinkStringProperty.withExactText('Create Link'));
-
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Create Document Link').exists).ok();
 
     await t.click(LinkEditorNodeTreeItem.withExactText('Link target'));
     await t.click('#neos-LinkEditor-Preview [title="Delete Link"]');
@@ -131,11 +126,10 @@ test('Open and close link editor dialog without saving the change', async t => {
 
     subSection('Open and select web link and directly delete link and cancel');
     await t.click(LinkStringProperty.withExactText('Create Link'));
-
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Create Document Link').exists).ok();
 
     await t.click(Selector('#neos-LinkEditor [role="tab"]').withExactText('Web'));
-    await t.typeText(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:Web.href"]'), 'www.neos.io')
+    await t.typeText(Selector('#neos-LinkEditor-Web-href'), 'www.neos.io')
 
     await t.click('#neos-LinkEditor-Preview [title="Delete Link"]');
     await t.expect(Selector('#neos-LinkEditor-Preview').exists).notOk();
@@ -155,8 +149,7 @@ test('Open and close link editor dialog without saving the change', async t => {
 
     subSection('Open and apply target node, Reopen and delete target and apply');
     await t.click(LinkStringProperty.withExactText('Create Link'));
-
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Create Document Link').exists).ok();
 
     await t.click(LinkEditorNodeTreeItem.withExactText('Link target'));
     await t.click(Selector('#neos-LinkEditor button').withExactText('Apply'));
@@ -165,7 +158,7 @@ test('Open and close link editor dialog without saving the change', async t => {
     await t.expect(LinkStringProperty.withExactText('Create Link').exists).notOk();
     await t.click(LinkStringProperty.find('[title="Edit Link"]'));
 
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Edit Document Link').exists).ok();
     await t.click('#neos-LinkEditor-Preview [title="Delete Link"]');
     await t.expect(Selector('#neos-LinkEditor-Preview').exists).notOk();
 
@@ -180,8 +173,7 @@ test('Open and close link editor dialog without saving the change', async t => {
 
     subSection('Open and apply target node, Reopen and edit anchor option');
     await t.click(LinkStringProperty.withExactText('Create Link'));
-
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Create Document Link').exists).ok();
 
     await t.click(LinkEditorNodeTreeItem.withExactText('Link target'));
     await t.click(Selector('#neos-LinkEditor button').withExactText('Apply'));
@@ -192,11 +184,14 @@ test('Open and close link editor dialog without saving the change', async t => {
     await t.expect(LinkStringProperty.withExactText('Create Link').exists).notOk();
     await t.click(LinkStringProperty.find('[title="Edit Link"]'));
 
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Edit Document Link').exists).ok();
 
     // apply button is initially disabled
     await t.expect(Selector('#neos-LinkEditor button').withExactText('Apply').hasAttribute('disabled')).ok();
-    await t.typeText(Selector('#neos-LinkEditor label').withExactText('Anchor:').find('input'), 'my-anchor')
+
+    await t.expect(Selector('#neos-LinkEditor button').withExactText('Advanced').hasAttribute('disabled')).notOk();
+    await t.click(Selector('#neos-LinkEditor button').withExactText('Advanced'));
+    await t.typeText(Selector('#neos-LinkEditor-Node-anchor'), 'my-anchor');
 
     await t.click(Selector('#neos-LinkEditor button').withExactText('Apply'));
     await t.expect(OpenLinkEditor.exists).notOk();
@@ -208,11 +203,10 @@ test('Open and close link editor dialog without saving the change', async t => {
 
     subSection('Open and apply web link, Reopen and insert asset but delete link');
     await t.click(LinkStringProperty.withExactText('Create Link'));
-
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Create Document Link').exists).ok();
 
     await t.click(Selector('#neos-LinkEditor [role="tab"]').withExactText('Web'));
-    await t.typeText(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:Web.href"]'), 'https://www.neos.io#my-anchor')
+    await t.typeText(Selector('#neos-LinkEditor-Web-href'), 'https://www.neos.io#my-anchor')
 
     await t.click(Selector('#neos-LinkEditor button').withExactText('Apply'));
     await t.expect(OpenLinkEditor.exists).notOk();
@@ -222,7 +216,7 @@ test('Open and close link editor dialog without saving the change', async t => {
     await t.expect(LinkStringProperty.withExactText('Create Link').exists).notOk();
     await t.click(LinkStringProperty.find('[title="Edit Link"]'));
 
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Edit Web Link').exists).ok();
 
     await t.click(Selector('#neos-LinkEditor [role="tab"]').withExactText('Asset'));
 
@@ -230,8 +224,9 @@ test('Open and close link editor dialog without saving the change', async t => {
         .click(Selector('.asset').withText('neos_primary.png'))
         .switchToMainWindow();
 
-    // anchor is unset
-    await t.expect(Selector('#neos-LinkEditor label').withExactText('Anchor:').find('input').value).eql('')
+    // anchor is not set
+    await t.click(Selector('#neos-LinkEditor button').withExactText('Advanced'));
+    await t.expect(Selector('#neos-LinkEditor-Asset-anchor').value).eql('')
 
     await t.click('#neos-LinkEditor-Preview [title="Delete Link"]');
     await t.expect(Selector('#neos-LinkEditor-Preview').exists).notOk();
@@ -249,21 +244,26 @@ test('Open and close link editor dialog without saving the change', async t => {
 
     subSection('Open and select target node and anchor switch to web and set link and apply');
     await t.click(LinkStringProperty.withExactText('Create Link'));
+    await t.expect(OpenLinkEditor.withText('Create Document Link').exists).ok();
 
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    // anchor cannot be set alone
+    await t.expect(Selector('#neos-LinkEditor button').withExactText('Advanced').hasAttribute('disabled')).ok();
 
-    await t.typeText(Selector('#neos-LinkEditor label').withExactText('Anchor:').find('input'), 'my-anchor');
-    // an anchor alone cannot be applied
     await t.expect(Selector('#neos-LinkEditor button').withExactText('Apply').hasAttribute('disabled')).ok();
 
     await t.click(LinkEditorNodeTreeItem.withExactText('Link target'));
+
+    await t.expect(Selector('#neos-LinkEditor button').withExactText('Advanced').hasAttribute('disabled')).notOk();
+    await t.click(Selector('#neos-LinkEditor button').withExactText('Advanced'));
+    await t.typeText(Selector('#neos-LinkEditor-Node-anchor'), 'my-anchor');
+
     await t.expect(Selector('#neos-LinkEditor button').withExactText('Apply').hasAttribute('disabled')).notOk();
 
     await t.click(Selector('#neos-LinkEditor [role="tab"]').withExactText('Web'));
 
     await t.expect(Selector('#neos-LinkEditor button').withExactText('Apply').hasAttribute('disabled')).ok();
 
-    await t.typeText(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:Web.href"]'), 'https://www.neos.io')
+    await t.typeText(Selector('#neos-LinkEditor-Web-href'), 'https://www.neos.io')
 
     await t.click(Selector('#neos-LinkEditor button').withExactText('Apply'));
     await t.expect(OpenLinkEditor.exists).notOk();
@@ -275,19 +275,18 @@ test('Open and close link editor dialog without saving the change', async t => {
 
     subSection('Open and enter invalid email which shows warnings');
     await t.click(LinkStringProperty.withExactText('Create Link'));
-
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Create Document Link').exists).ok();
     await t.click(Selector('#neos-LinkEditor [role="tab"]').withExactText('Mail to'));
 
     // "mail" is not a valid email address, we emit a warning but do not prevent apply because validating a full email is almost impossible :D
-    await t.typeText(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:MailTo.recipient"]'), 'mail');
+    await t.typeText(Selector('#neos-LinkEditor-MailTo-recipient'), 'mail');
     await t.expect(Selector('#neos-LinkEditor button').withExactText('Apply').hasAttribute('disabled')).notOk();
 
     await t.expect(WarningOrErrorTooltips.exists).ok();
     await t.expect(OpenLinkEditor.withText('Recipient should be a valid E-Mail Address').exists).ok();
 
     // turn the text into a valid mail
-    await t.typeText(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:MailTo.recipient"]'), '@neos.io');
+    await t.typeText(Selector('#neos-LinkEditor-MailTo-recipient'), '@neos.io');
     await t.expect(WarningOrErrorTooltips.exists).notOk();
     await t.expect(OpenLinkEditor.withText('Recipient should be a valid E-Mail Address').exists).notOk();
 
@@ -301,12 +300,11 @@ test('Open and close link editor dialog without saving the change', async t => {
 
     subSection('Open and enter invalid email and apply change in other tab');
     await t.click(LinkStringProperty.withExactText('Create Link'));
-
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Create Document Link').exists).ok();
     await t.click(Selector('#neos-LinkEditor [role="tab"]').withExactText('Mail to'));
 
     // an empty spaced string is not a valid email address
-    await t.typeText(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:MailTo.recipient"]'), '   ');
+    await t.typeText(Selector('#neos-LinkEditor-MailTo-recipient'), '   ');
     await t.expect(Selector('#neos-LinkEditor button').withExactText('Apply').hasAttribute('disabled')).ok();
     await t.expect(WarningOrErrorTooltips.exists).ok();
     await t.expect(OpenLinkEditor.withText('Recipient should be a valid E-Mail Address').exists).ok();
@@ -336,8 +334,7 @@ test('Open and close link editor dialog without saving the change', async t => {
 
     subSection('Open and enter invalid web targets');
     await t.click(LinkStringProperty.withExactText('Create Link'));
-
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Create Document Link').exists).ok();
     await t.click(Selector('#neos-LinkEditor [role="tab"]').withExactText('Web'));
 
     await t.expect(Selector('#neos-LinkEditor button').withExactText('Apply').hasAttribute('disabled')).ok();
@@ -345,18 +342,18 @@ test('Open and close link editor dialog without saving the change', async t => {
     await t.expect(Selector('#neos-LinkEditor button').withExactText('Apply').hasAttribute('disabled')).ok();
 
     // valid https url
-    await t.typeText(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:Web.href"]'), 'neos.io')
+    await t.typeText(Selector('#neos-LinkEditor-Web-href'), 'neos.io')
     await t.expect(WarningOrErrorTooltips.exists).notOk();
     await t.expect(Selector('#neos-LinkEditor button').withExactText('Apply').hasAttribute('disabled')).notOk();
 
     // empty url is invalid
-    await t.click(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:Web.href"]')).pressKey('ctrl+a delete')
+    await t.click(Selector('#neos-LinkEditor-Web-href')).pressKey('ctrl+a delete')
     // todo await t.expect(WarningOrErrorTooltips.exists).ok();
     // todo await t.expect(OpenLinkEditor.withText('URL is required').exists).ok();
     await t.expect(Selector('#neos-LinkEditor button').withExactText('Apply').hasAttribute('disabled')).ok();
 
     // invalid javascript url
-    await t.typeText(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:Web.href"]'), 'javascript:alert()')
+    await t.typeText(Selector('#neos-LinkEditor-Web-href'), 'javascript:alert()')
     await t.expect(OpenLinkEditor.find('[class*="tooltip--asWarning"]').exists).ok();
     // todo await t.expect(OpenLinkEditor.withText('Invalid url').exists).ok();
     // soft validation
@@ -370,13 +367,12 @@ test('Open and close link editor dialog without saving the change', async t => {
 
     subSection('Open and select empty relative web target and apply');
     await t.click(LinkStringProperty.withExactText('Create Link'));
-
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Create Document Link').exists).ok();
     await t.click(Selector('#neos-LinkEditor [role="tab"]').withExactText('Web'));
 
     await t.expect(Selector('#neos-LinkEditor button').withExactText('Apply').hasAttribute('disabled')).ok();
 
-    await t.typeText(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:Web.href"]'), '#')
+    await t.typeText(Selector('#neos-LinkEditor-Web-href'), '#')
     // change can be applied
     await t.expect(Selector('#neos-LinkEditor button').withExactText('Apply').hasAttribute('disabled')).notOk();
 
@@ -390,13 +386,12 @@ test('Open and close link editor dialog without saving the change', async t => {
 
     subSection('Open and select empty relative web target with anchor and apply');
     await t.click(LinkStringProperty.withExactText('Create Link'));
-
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Create Document Link').exists).ok();
     await t.click(Selector('#neos-LinkEditor [role="tab"]').withExactText('Web'));
 
     await t.expect(Selector('#neos-LinkEditor button').withExactText('Apply').hasAttribute('disabled')).ok();
 
-    await t.typeText(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:Web.href"]'), '#my-anchor')
+    await t.typeText(Selector('#neos-LinkEditor-Web-href'), '#my-anchor')
 
     await t.expect(Selector('#neos-LinkEditor button').withExactText('Apply').hasAttribute('disabled')).notOk();
 
@@ -410,13 +405,12 @@ test('Open and close link editor dialog without saving the change', async t => {
 
     subSection('Open and select empty relative web target apply and reopen to set anchor');
     await t.click(LinkStringProperty.withExactText('Create Link'));
-
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Create Document Link').exists).ok();
     await t.click(Selector('#neos-LinkEditor [role="tab"]').withExactText('Web'));
 
     await t.expect(Selector('#neos-LinkEditor button').withExactText('Apply').hasAttribute('disabled')).ok();
 
-    await t.typeText(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:Web.href"]'), '#')
+    await t.typeText(Selector('#neos-LinkEditor-Web-href'), '#')
 
     await t.expect(Selector('#neos-LinkEditor button').withExactText('Apply').hasAttribute('disabled')).notOk();
 
@@ -426,10 +420,10 @@ test('Open and close link editor dialog without saving the change', async t => {
     await t.expect(LinkStringValue).eql('#');
 
     await t.click(LinkStringProperty.find('[title="Edit Link"]'));
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Edit Web Link').exists).ok();
     await t.expect(Selector('#neos-LinkEditor button').withExactText('Apply').hasAttribute('disabled')).ok();
 
-    await t.typeText(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:Web.href"]'), 'my-anchor')
+    await t.typeText(Selector('#neos-LinkEditor-Web-href'), 'my-anchor')
 
     await t.click(Selector('#neos-LinkEditor button').withExactText('Apply'));
     await t.expect(OpenLinkEditor.exists).notOk();
@@ -456,7 +450,7 @@ test('Can edit property links via inspector and save the change', async t => {
     await t.expect(Selector('#neos-LinkEditor [role="tab"]').withExactText('Web').getAttribute('aria-selected')).eql('false');
 
     subSection('Select node target and save change');
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Create Document Link').exists).ok();
 
     await t.click(LinkEditorNodeTreeItem.withExactText('Link target'));
 
@@ -471,7 +465,7 @@ test('Can edit property links via inspector and save the change', async t => {
 
     subSection('Reopen and validate selected node');
     await t.click(LinkStringProperty.find('[title="Edit Link"]'));
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Edit Document Link').exists).ok();
     await t.expect(Selector('#neos-LinkEditor [role="tab"]').withExactText('Document').getAttribute('aria-selected')).eql('true');
     await t.expect(LinkEditorNodeTreeItem.withExactText('Link target').parent('[role="button"][class*="_header__data--isActive"]').exists).ok();
     await t.expect(Selector('#neos-LinkEditor-Preview span').withExactText('Link target').exists).ok();
@@ -480,12 +474,16 @@ test('Can edit property links via inspector and save the change', async t => {
     subSection('Select asset target with anchor and save change');
     await t.click(Selector('#neos-LinkEditor [role="tab"]').withExactText('Asset'));
 
-    await t.typeText(Selector('#neos-LinkEditor label').withExactText('Anchor:').find('input'), 'my-anchor');
-    await t.expect(Selector('#neos-LinkEditor button').withExactText('Apply').hasAttribute('disabled')).ok(); // anchor cannot be applied alone
+    // anchor cannot be set alone
+    await t.expect(Selector('#neos-LinkEditor button').withExactText('Advanced').hasAttribute('disabled')).ok();
 
     await t.switchToIframe(Selector('[name="neos-media-selection-screen"]', {timeout: 2000}))
         .click(Selector('.asset').withText('neos_primary.png'))
         .switchToMainWindow();
+
+    await t.expect(Selector('#neos-LinkEditor button').withExactText('Advanced').hasAttribute('disabled')).notOk();
+    await t.click(Selector('#neos-LinkEditor button').withExactText('Advanced'));
+    await t.typeText(Selector('#neos-LinkEditor-Asset-anchor'), 'my-anchor');
 
     await t.expect(WarningOrErrorTooltips.exists).notOk();
     await t.click(Selector('#neos-LinkEditor button').withExactText('Apply'));
@@ -498,7 +496,7 @@ test('Can edit property links via inspector and save the change', async t => {
 
     subSection('Reopen and validate selected asset');
     await t.click(LinkStringProperty.find('[title="Edit Link"]'));
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Edit Asset Link').exists).ok();
     await t.expect(Selector('#neos-LinkEditor [role="tab"]').withExactText('Asset').getAttribute('aria-selected')).eql('true');
     await t.expect(Selector('#neos-LinkEditor-Preview span').withExactText('neos_primary.png').exists).ok();
     await t.expect(Selector('#neos-LinkEditor-Preview img').getAttribute('src')).contains('neos_primary-');
@@ -506,9 +504,9 @@ test('Can edit property links via inspector and save the change', async t => {
     subSection('Select web target with anchor and save change');
     await t.click(Selector('#neos-LinkEditor [role="tab"]').withExactText('Web'));
 
-    await t.typeText(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:Web.href"]'), 'www.neos.io')
+    await t.typeText(Selector('#neos-LinkEditor-Web-href'), 'www.neos.io')
     await t.click(Selector('[role="button"]').withExactText('Format as http link?'))
-    await t.typeText(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:Web.href"]'), '#my-anchor')
+    await t.typeText(Selector('#neos-LinkEditor-Web-href'), '#my-anchor')
 
     await t.expect(WarningOrErrorTooltips.exists).notOk();
     await t.click(Selector('#neos-LinkEditor button').withExactText('Apply'));
@@ -521,17 +519,17 @@ test('Can edit property links via inspector and save the change', async t => {
 
     subSection('Reopen and validate selected web link');
     await t.click(LinkStringProperty.find('[title="Edit Link"]'));
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Edit Web Link').exists).ok();
     await t.expect(Selector('#neos-LinkEditor [role="tab"]').withExactText('Web').getAttribute('aria-selected')).eql('true');
     await t.expect(Selector('#neos-LinkEditor-Preview span').withExactText('https://www.neos.io#my-anchor').exists).ok();
-    await t.expect(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:Web.href"] input').value).eql('https://www.neos.io#my-anchor')
+    await t.expect(Selector('#neos-LinkEditor-Web-href input').value).eql('https://www.neos.io#my-anchor')
 
     subSection('Select mail to target and save change');
     await t.click(Selector('#neos-LinkEditor [role="tab"]').withExactText('Mail to'));
 
-    await t.typeText(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:MailTo.recipient"]'), 'mail@neos.io')
-    await t.typeText(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:MailTo.subject"]'), 'My Subject')
-    await t.typeText(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:MailTo.body"]'), 'My Body' + "\n\n" + 'Bye')
+    await t.typeText(Selector('#neos-LinkEditor-MailTo-recipient'), 'mail@neos.io')
+    await t.typeText(Selector('#neos-LinkEditor-MailTo-subject'), 'My Subject')
+    await t.typeText(Selector('#neos-LinkEditor-MailTo-body'), 'My Body' + "\n\n" + 'Bye')
 
     await t.expect(WarningOrErrorTooltips.exists).notOk();
     await t.click(Selector('#neos-LinkEditor button').withExactText('Apply'));
@@ -544,19 +542,19 @@ test('Can edit property links via inspector and save the change', async t => {
 
     subSection('Reopen and validate selected web link');
     await t.click(LinkStringProperty.find('[title="Edit Link"]'));
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Edit Mail to Link').exists).ok();
     await t.expect(Selector('#neos-LinkEditor [role="tab"]').withExactText('Mail to').getAttribute('aria-selected')).eql('true');
     await t.expect(Selector('#neos-LinkEditor-Preview span').withExactText('mail@neos.io').exists).ok();
     await t.expect(Selector('#neos-LinkEditor-Preview span').withExactText('My Subject My Body Bye').exists).ok();
 
-    await t.expect(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:MailTo.recipient"]').value).eql('mail@neos.io');
-    await t.expect(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:MailTo.subject"]').value).eql('My Subject');
-    await t.expect(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:MailTo.body"]').value).eql('My Body' + "\n\n" + 'Bye');
+    await t.expect(Selector('#neos-LinkEditor-MailTo-recipient').value).eql('mail@neos.io');
+    await t.expect(Selector('#neos-LinkEditor-MailTo-subject').value).eql('My Subject');
+    await t.expect(Selector('#neos-LinkEditor-MailTo-body').value).eql('My Body' + "\n\n" + 'Bye');
 
     subSection('Select phone target and save change');
-    await t.click(Selector('#neos-LinkEditor [role="tab"]').withExactText('Phone Number'));
+    await t.click(Selector('#neos-LinkEditor [role="tab"]').withExactText('Phone'));
 
-    await t.typeText(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:PhoneNumber.phoneNumber"]'), '+45123456789')
+    await t.typeText(Selector('#neos-LinkEditor-Phone-number'), '+45123456789')
 
     await t.expect(WarningOrErrorTooltips.exists).notOk();
     await t.click(Selector('#neos-LinkEditor button').withExactText('Apply'));
@@ -567,20 +565,21 @@ test('Can edit property links via inspector and save the change', async t => {
     await t.expect(Selector('[data-link-editor-string]').innerText).eql(JSON.stringify('tel:+45123456789'))
     await t.switchToMainWindow();
 
-    subSection('Reopen and validate selected phone number');
+    subSection('Reopen and validate selected Phone');
     await t.click(LinkStringProperty.find('[title="Edit Link"]'));
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
-    await t.expect(Selector('#neos-LinkEditor [role="tab"]').withExactText('Phone Number').getAttribute('aria-selected')).eql('true');
+    await t.expect(OpenLinkEditor.withText('Edit Phone Link').exists).ok();
+    await t.expect(Selector('#neos-LinkEditor [role="tab"]').withExactText('Phone').getAttribute('aria-selected')).eql('true');
     await t.expect(Selector('#neos-LinkEditor-Preview span').withExactText('+45123456789').exists).ok();
 
-    await t.expect(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:PhoneNumber.phoneNumber"]').value).eql('+45123456789')
+    await t.expect(Selector('#neos-LinkEditor-Phone-number').value).eql('+45123456789')
 
     subSection('Select node target with anchor and save change');
     await t.click(Selector('#neos-LinkEditor [role="tab"]').withExactText('Document'));
 
     await t.click(LinkEditorNodeTreeItem.withExactText('Link target'));
 
-    await t.typeText(Selector('#neos-LinkEditor label').withExactText('Anchor:').find('input'), 'my-anchor')
+    await t.click(Selector('#neos-LinkEditor button').withExactText('Advanced'));
+    await t.typeText(Selector('#neos-LinkEditor-Node-anchor'), 'my-anchor');
 
     await t.expect(WarningOrErrorTooltips.exists).notOk();
     await t.click(Selector('#neos-LinkEditor button').withExactText('Apply'));
@@ -593,8 +592,7 @@ test('Can edit property links via inspector and save the change', async t => {
 
     subSection('Value Object: Select node target and save change');
     await t.click(LinkObjectProperty.withText('Create Link'));
-
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Create Document Link').exists).ok();
 
     await t.click(LinkEditorNodeTreeItem.withExactText('Link target'));
 
@@ -610,15 +608,14 @@ test('Can edit property links via inspector and save the change', async t => {
     subSection('Value Object: Select node target with anchor, title, rel, target and save change');
     await t.click(LinkObjectProperty.find('[title="Edit Link"]'));
 
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Edit Document Link').exists).ok();
 
     await t.click(LinkEditorNodeTreeItem.withExactText('Link target'));
 
-    await t.typeText(Selector('#neos-LinkEditor label').withExactText('Anchor:').find('input'), 'my-anchor')
+    await t.click(Selector('#neos-LinkEditor button').withExactText('Advanced'));
+    await t.typeText(Selector('#neos-LinkEditor-Node-anchor'), 'my-anchor');
 
-    await t.click(Selector('#neos-LinkEditor-Options'));
-
-    await t.typeText(Selector('#neos-LinkEditor label').withExactText('Title:').find('input'), 'My title')
+    await t.typeText(Selector('#neos-LinkEditor-Options-title'), 'My title')
     await t.click(Selector('#neos-LinkEditor label').withExactText('Open in new window').find('input'))
     await t.click(Selector('#neos-LinkEditor label').withExactText('No follow (SEO)').find('input'))
 
@@ -634,12 +631,13 @@ test('Can edit property links via inspector and save the change', async t => {
     subSection('Value Object: Select web target with anchor, title, rel, target, download and save change');
     await t.click(LinkObjectProperty.find('[title="Edit Link"]'));
 
-    await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
+    await t.expect(OpenLinkEditor.withText('Edit Document Link').exists).ok();
 
     await t.click(Selector('#neos-LinkEditor [role="tab"]').withExactText('Web'));
 
-    await t.typeText(Selector('#neos-LinkEditor [id="__neos__editor__property---LinkEditor:Web.href"]'), 'https://www.neos.io#my-anchor')
+    await t.typeText(Selector('#neos-LinkEditor-Web-href'), 'https://www.neos.io#my-anchor')
 
+    await t.click(Selector('#neos-LinkEditor button').withExactText('Advanced'));
     await t.click(Selector('#neos-LinkEditor label').withExactText('No follow (SEO)').find('input'))
 
     await t.click(Selector('#neos-LinkEditor label').withExactText('Download target').find('input'))

@@ -78,10 +78,8 @@ type MailToOptions = {
     }
 }
 
-const id = 'LinkEditor:MailTo';
-
 export const MailTo: ILinkType<MailToLinkModel, MailToOptions> = {
-    id,
+    id: 'LinkEditor:MailTo',
 
     icon: 'envelope',
 
@@ -102,7 +100,7 @@ export const MailTo: ILinkType<MailToLinkModel, MailToOptions> = {
 
     convertLinkToModel: (link: ILink) => {
         if (!link.href.startsWith('mailto:')) {
-            throw new Error(`[${id}]: Cannot handle href "${link.href}".`);
+            throw new Error(`MailTo link type cannot handle href "${link.href}".`);
         }
         const url = new URL(link.href);
 
@@ -207,9 +205,9 @@ export const MailTo: ILinkType<MailToLinkModel, MailToOptions> = {
         return (
             <>
                 <div>
-                    <Label htmlFor={`${id}-recipient`}>{translate('Neos.Neos.Ui:LinkEditor.MailTo:recipient.label', '')}</Label>
+                    <Label htmlFor="neos-LinkEditor-MailTo-recipient">{translate('Neos.Neos.Ui:LinkEditor.MailTo:recipient.label', '')}</Label>
                     <TextInput
-                        id={`${id}-recipient`}
+                        id="neos-LinkEditor-MailTo-recipient"
                         value={email?.recipient?.value ?? ''}
                         onChange={setRecipient}
                     />
@@ -220,9 +218,9 @@ export const MailTo: ILinkType<MailToLinkModel, MailToOptions> = {
 
                 {options.enabledFields?.subject !== false ? (
                     <div>
-                        <Label htmlFor={`${id}-subject`}>{translate('Neos.Neos.Ui:LinkEditor.MailTo:subject.label', '')}</Label>
+                        <Label htmlFor="neos-LinkEditor-MailTo-subject">{translate('Neos.Neos.Ui:LinkEditor.MailTo:subject.label', '')}</Label>
                         <TextInput
-                            id={`${id}-subject`}
+                            id="neos-LinkEditor-MailTo-subject"
                             value={email?.subject?.value ?? ''}
                             onChange={setSubject}
                         />
@@ -233,9 +231,9 @@ export const MailTo: ILinkType<MailToLinkModel, MailToOptions> = {
                 ) : null}
                 {options.enabledFields?.cc !== false ? (
                     <div>
-                        <Label htmlFor={`${id}-cc`}>{translate('Neos.Neos.Ui:LinkEditor.MailTo:cc.label', '')}</Label>
+                        <Label htmlFor="neos-LinkEditor-MailTo-cc">{translate('Neos.Neos.Ui:LinkEditor.MailTo:cc.label', '')}</Label>
                         <TextInput
-                            id={`${id}-cc`}
+                            id="neos-LinkEditor-MailTo-cc"
                             value={email?.cc?.value ?? ''}
                             onChange={setCc}
                             placeholder={translate('Neos.Neos.Ui:LinkEditor.MailTo:cc.placeholder', '')}
@@ -247,9 +245,9 @@ export const MailTo: ILinkType<MailToLinkModel, MailToOptions> = {
                 ) : null}
                 {options.enabledFields?.bcc !== false ? (
                     <div>
-                        <Label htmlFor={`${id}-bcc`}>{translate('Neos.Neos.Ui:LinkEditor.MailTo:bcc.label', '')}</Label>
+                        <Label htmlFor="neos-LinkEditor-MailTo-bcc">{translate('Neos.Neos.Ui:LinkEditor.MailTo:bcc.label', '')}</Label>
                         <TextInput
-                            id={`${id}-bcc`}
+                            id="neos-LinkEditor-MailTo-bcc"
                             value={email?.bcc?.value ?? ''}
                             onChange={setBcc}
                             placeholder={translate('Neos.Neos.Ui:LinkEditor.MailTo:bcc.placeholder', '')}
@@ -261,9 +259,9 @@ export const MailTo: ILinkType<MailToLinkModel, MailToOptions> = {
                 ) : null}
                 {options.enabledFields?.body !== false ? (
                     <div>
-                        <Label htmlFor={`${id}-body`}>{translate('Neos.Neos.Ui:LinkEditor.MailTo:body.label', '')}</Label>
+                        <Label htmlFor="neos-LinkEditor-MailTo-body">{translate('Neos.Neos.Ui:LinkEditor.MailTo:body.label', '')}</Label>
                         <TextArea
-                            id={`${id}-body`}
+                            id="neos-LinkEditor-MailTo-body"
                             value={email?.body?.value ?? ''}
                             onChange={setBody}
                             className={style.textArea}

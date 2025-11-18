@@ -27,10 +27,8 @@ const validateModel = (model: PhoneNumberLinkModel): PhoneNumberLinkModel => ({
     }
 });
 
-const id = 'LinkEditor:PhoneNumber';
-
 export const PhoneNumber: ILinkType<PhoneNumberLinkModel> = {
-    id,
+    id: 'LinkEditor:PhoneNumber',
 
     icon: 'phone-alt',
 
@@ -52,7 +50,7 @@ export const PhoneNumber: ILinkType<PhoneNumberLinkModel> = {
 
     convertLinkToModel: (link: ILink) => {
         if (!link.href.startsWith('tel:')) {
-            throw new Error(`[${id}]: Cannot handle href "${link.href}".`);
+            throw new Error(`Phone link type cannot handle href "${link.href}".`);
         }
 
         return validateModel({
@@ -88,11 +86,11 @@ export const PhoneNumber: ILinkType<PhoneNumberLinkModel> = {
 
         return (
             <div>
-                <Label htmlFor={`__neos__editor__property---${id}.phoneNumber`}>
+                <Label htmlFor="neos-LinkEditor-Phone-number">
                     {translate('Neos.Neos.Ui:LinkEditor.PhoneNumber:phoneNumber.label', '')}
                 </Label>
                 <TextInput
-                    id={`__neos__editor__property---${id}.phoneNumber`}
+                    id="neos-LinkEditor-Phone-number"
                     value={model?.phoneNumber?.value ?? ''}
                     onChange={setPhoneNumber}
                     placeholder={translate('Neos.Neos.Ui:LinkEditor.Web:phoneNumber.placeholder', '')}

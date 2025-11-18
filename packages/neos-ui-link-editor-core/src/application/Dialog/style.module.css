@@ -9,13 +9,13 @@
 }
 
 .advancedButton {
+    color: var(--colors-ContrastBrightest);
     height: var(--spacing-GoldenUnit);
     padding: 0 var(--spacing-Full);
     vertical-align: middle;
     cursor: pointer;
     line-height: var(--spacing-GoldenUnit);
     background: var(--colors-ContrastDarkest);
-    user-select: none;
     display: inline-flex;
     align-items: baseline;
     gap: 1ch;
@@ -27,7 +27,7 @@
     color: var(--colors-PrimaryBlue);
 }
 
-.advancedButtonDisabled {
+.advancedButton[disabled] {
     opacity: .5;
     cursor: not-allowed;
 

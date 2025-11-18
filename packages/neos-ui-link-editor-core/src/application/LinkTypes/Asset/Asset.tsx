@@ -35,10 +35,8 @@ const validateModel = (values: AssetLinkModel): AssetLinkModel => ({
     }
 });
 
-const id = 'LinkEditor:Asset';
-
 export const Asset: ILinkType<AssetLinkModel> = {
-    id,
+    id: 'LinkEditor:Asset',
 
     icon: 'camera',
 
@@ -62,7 +60,7 @@ export const Asset: ILinkType<AssetLinkModel> = {
         const match = /asset:\/\/([^#]*)(?:#(.*))?/.exec(link.href);
 
         if (!match) {
-            throw new Error(`[${id}]: Cannot handle href "${link.href}".`);
+            throw new Error(`Asset link type cannot handle href "${link.href}".`);
         }
 
         const identifier = match[1];
@@ -119,11 +117,11 @@ export const Asset: ILinkType<AssetLinkModel> = {
 
         return (
             <div>
-                <Label htmlFor={`${id}-anchor`}>
+                <Label htmlFor="neos-LinkEditor-Asset-anchor">
                     {translate('Neos.Neos.Ui:LinkEditor.Asset:anchor.label', '')}
                 </Label>
                 <TextInput
-                    id={`${id}-anchor`}
+                    id="neos-LinkEditor-Asset-anchor"
                     type="text"
                     value={model?.anchor?.value ?? ''}
                     placeholder={translate('Neos.Neos.Ui:LinkEditor.Asset:anchor.placeholder', '')}

@@ -101,11 +101,10 @@ const NodePreview: React.FC<{ nodeId: string }> = (props) => {
     );
 };
 
-const id = 'LinkEditor:Node';
-const createError = (message: string): Error => new Error(`[${id}]: ${message}`);
+const createError = (message: string): Error => new Error(`[Node link type]: ${message}`);
 
 export const Node: ILinkType<NodeLinkModel, NodeLinkOptions> = {
-    id,
+    id: 'LinkEditor:Node',
 
     icon: 'file',
 
@@ -190,14 +189,8 @@ export const Node: ILinkType<NodeLinkModel, NodeLinkOptions> = {
                 startingPoint={startingPoint}
                 loadingDepth={options.loadingDepth ?? defaultLoadingDepth}
                 baseNodeTypeFilter={options.baseNodeType ?? 'Neos.Neos:Document'}
-                initialNarrowNodeTypeFilter={
-                        initialNarrowNodeTypeFilter
-                    }
-                linkableNodeTypes={
-                        options.allowedNodeTypes as
-                            | undefined
-                            | string[]
-                    }
+                initialNarrowNodeTypeFilter={initialNarrowNodeTypeFilter}
+                linkableNodeTypes={options.allowedNodeTypes}
                 selectedTreeNodeId={model?.nodeId ?? undefined}
                 options={{
                     enableSearch: true,
@@ -214,11 +207,11 @@ export const Node: ILinkType<NodeLinkModel, NodeLinkOptions> = {
 
         return (
             <div>
-                <Label htmlFor={`${id}-anchor`}>
+                <Label htmlFor="neos-LinkEditor-Node-anchor">
                     {translate('Neos.Neos.Ui:LinkEditor.Node:anchor.label', '')}
                 </Label>
                 <TextInput
-                    id={`${id}-anchor`}
+                    id="neos-LinkEditor-Node-anchor"
                     type="text"
                     value={model?.anchor?.value ?? ''}
                     placeholder={translate('Neos.Neos.Ui:LinkEditor.Node:anchor.placeholder', '')}

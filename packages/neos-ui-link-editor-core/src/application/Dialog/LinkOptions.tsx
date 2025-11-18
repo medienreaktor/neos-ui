@@ -26,11 +26,11 @@ export const LinkOptions: React.FC<{
         <Layout.Stack>
             {props.enabledLinkOptions.includes('title') ? (
                 <div>
-                    <Label htmlFor="neos-LinkOptions-title">
+                    <Label htmlFor="neos-LinkEditor-Options-title">
                         {translate('Neos.Neos.Ui:LinkEditor.Main:options.label.title', '')}
                     </Label>
                     <TextInput
-                        id="neos-LinkOptions-title"
+                        id="neos-LinkEditor-Options-title"
                         type="text"
                         value={formOptions?.title ?? ''}
                         placeholder={translate('Neos.Neos.Ui:LinkEditor.Main:options.placeholder.title', '')}
