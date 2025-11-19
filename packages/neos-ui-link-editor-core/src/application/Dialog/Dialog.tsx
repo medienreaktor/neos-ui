@@ -209,11 +209,9 @@ const DialogWithEmptyValue: React.FC<{
                         title={linkType.getTitle()}
                         icon={linkType.icon}
                     >
-                        <Layout.Stack>
-                            <ErrorBoundary errorFallback={ErrorView}>
-                                <Editor model$={model$} options={options}/>
-                            </ErrorBoundary>
-                        </Layout.Stack>
+                        <ErrorBoundary errorFallback={ErrorView}>
+                            <Editor model$={model$} options={options}/>
+                        </ErrorBoundary>
                         <AdvancedOptions
                             editor={props.editor}
                             form$={props.form$}
@@ -282,23 +280,20 @@ const DialogWithValue: React.FC<{
                             title={linkType.getTitle()}
                             icon={linkType.icon}
                         >
-                            <Layout.Stack>
-                                <ErrorBoundary errorFallback={ErrorView}>
-                                    <Editor
-                                        model$={model$}
-                                        options={editorOptions.linkTypes?.[linkType.id] as any ?? {}}
-                                    />
-                                    <AdvancedOptions
-                                        editor={props.editor}
-                                        form$={props.form$}
-                                        initialLinkType={props.initialLinkType}
-                                        linkType={linkType}
-                                        model$={model$}
-                                        options={editorOptions.linkTypes?.[linkType.id] as any ?? {}}
-                                    />
-                                </ErrorBoundary>
-
-                            </Layout.Stack>
+                            <ErrorBoundary errorFallback={ErrorView}>
+                                <Editor
+                                    model$={model$}
+                                    options={editorOptions.linkTypes?.[linkType.id] as any ?? {}}
+                                />
+                                <AdvancedOptions
+                                    editor={props.editor}
+                                    form$={props.form$}
+                                    initialLinkType={props.initialLinkType}
+                                    linkType={linkType}
+                                    model$={model$}
+                                    options={editorOptions.linkTypes?.[linkType.id] as any ?? {}}
+                                />
+                            </ErrorBoundary>
                         </TabsPanel>
                     )
                 })}

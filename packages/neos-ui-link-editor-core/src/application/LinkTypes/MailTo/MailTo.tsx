@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {ILink, ILinkType} from '../../../domain';
-import {IconCard} from '../../../presentation';
+import {IconCard, Layout} from '../../../presentation';
 import {isSuitableFor} from './MailToSpecification';
 import {translate} from '@neos-project/neos-ui-i18n';
 import {State} from '@neos-project/framework-observable';
@@ -203,7 +203,7 @@ export const MailTo: ILinkType<MailToLinkModel, MailToOptions> = {
         const email = useLatestState(model$);
 
         return (
-            <>
+            <Layout.Stack>
                 <div>
                     <Label htmlFor="neos-LinkEditor-MailTo-recipient">{translate('Neos.Neos.Ui:LinkEditor.MailTo:recipient.label', '')}</Label>
                     <TextInput
@@ -271,7 +271,7 @@ export const MailTo: ILinkType<MailToLinkModel, MailToOptions> = {
                         ) : null}
                     </div>
                 ) : null}
-            </>
+            </Layout.Stack>
         );
     }
 };
