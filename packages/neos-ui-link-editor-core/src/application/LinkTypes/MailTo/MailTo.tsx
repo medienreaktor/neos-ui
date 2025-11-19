@@ -79,7 +79,7 @@ type MailToOptions = {
 }
 
 export const MailTo: ILinkType<MailToLinkModel, MailToOptions> = {
-    id: 'LinkEditor:MailTo',
+    id: 'MailTo',
 
     icon: 'envelope',
 

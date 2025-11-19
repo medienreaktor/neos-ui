@@ -13,7 +13,7 @@ interface Props {
             relNofollow?: boolean
             targetBlank?: boolean
             download?: boolean
-            // legacy root level option, linkTypes."LinkEditor:Node".startingPoint should be used instead
+            // legacy root level option, linkTypes.Node.startingPoint should be used instead
             startingPoint?: string
             linkTypes?: {
                 [key: string]: object
@@ -40,10 +40,10 @@ export const createLinkButton = (editor: IEditor) => (props: Props) => {
 
     if (props.inlineEditorOptions?.linking?.startingPoint) {
         // handle legacy root level option
-        editorOptions.linkTypes['LinkEditor:Node'] = {
-            ...editorOptions.linkTypes['LinkEditor:Node'],
+        editorOptions.linkTypes['Node'] = {
+            ...editorOptions.linkTypes['Node'],
             startingPoint:
-                (editorOptions.linkTypes['LinkEditor:Node'] as any).startingPoint
+                (editorOptions.linkTypes['Node'] as any).startingPoint
                     ?? props.inlineEditorOptions.linking.startingPoint
         };
     }

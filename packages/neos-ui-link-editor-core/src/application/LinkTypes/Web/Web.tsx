@@ -55,7 +55,7 @@ const validateModel = (values: WebLinkModel): WebLinkModel => ({
 });
 
 export const Web: ILinkType<WebLinkModel> = {
-    id: 'LinkEditor:Web',
+    id: 'Web',
 
     icon: 'globe',
 

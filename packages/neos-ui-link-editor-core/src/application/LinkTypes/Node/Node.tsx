@@ -104,7 +104,7 @@ const NodePreview: React.FC<{ nodeId: string }> = (props) => {
 const createError = (message: string): Error => new Error(`[Node link type]: ${message}`);
 
 export const Node: ILinkType<NodeLinkModel, NodeLinkOptions> = {
-    id: 'LinkEditor:Node',
+    id: 'Node',
 
     icon: 'file',
 

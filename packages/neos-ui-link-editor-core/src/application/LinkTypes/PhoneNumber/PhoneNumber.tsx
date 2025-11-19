@@ -28,7 +28,7 @@ const validateModel = (model: PhoneNumberLinkModel): PhoneNumberLinkModel => ({
 });
 
 export const PhoneNumber: ILinkType<PhoneNumberLinkModel> = {
-    id: 'LinkEditor:PhoneNumber',
+    id: 'PhoneNumber',
 
     icon: 'phone-alt',
 

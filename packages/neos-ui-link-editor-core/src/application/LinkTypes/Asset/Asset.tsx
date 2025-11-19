@@ -36,7 +36,7 @@ const validateModel = (values: AssetLinkModel): AssetLinkModel => ({
 });
 
 export const Asset: ILinkType<AssetLinkModel> = {
-    id: 'LinkEditor:Asset',
+    id: 'Asset',
 
     icon: 'camera',
 
