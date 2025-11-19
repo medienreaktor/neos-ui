@@ -1,6 +1,7 @@
 
 .container {
-    width: calc(-80px - 64px + 100vw);
+    width: max-content;
+    height: calc(80vh - 190px);
     max-width: 1260px;
 
     & > div {
