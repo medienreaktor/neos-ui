@@ -21,8 +21,10 @@ export interface TabsProps {
      */
     readonly className?: string
 
+    /** @internal experimental api for now, only to be used in the Neos.Ui core */
     readonly vertical?: boolean;
 
+    /** @internal experimental api for now, only to be used in the Neos.Ui core */
     readonly sticky?: boolean;
 
     /**
