@@ -33,13 +33,3 @@
     width: 1px;
     background: var(--colors-ContrastDark);
 }
-
-.checkboxLabel {
-    display: flex;
-}
-
-.checkboxColumns {
-    display: grid;
-    gap: var(--spacing-Full);
-    grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
-}

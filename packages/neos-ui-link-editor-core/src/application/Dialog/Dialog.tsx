@@ -1,27 +1,17 @@
 import * as React from 'react';
-import mergeClassNames from 'classnames';
 
-import {Button, Tabs, Dialog, Icon} from '@neos-project/react-ui-components';
+import {Button, Dialog, Tabs} from '@neos-project/react-ui-components';
 
 import {AnyError, ErrorBoundary, ErrorView} from '@neos-project/neos-ui-error';
-import style from './style.module.css';
 
-import {
-    ILink,
-    ILinkOptions,
-    useLinkTypeForHref,
-    useSortedAndFilteredLinkTypes,
-    IEditor,
-    ILinkType
-} from '../../domain';
-import {Layout, Form, Deletable} from '../../presentation';
-
-import {LinkOptions} from './LinkOptions';
+import {IEditor, ILink, ILinkOptions, ILinkType, useLinkTypeForHref, useSortedAndFilteredLinkTypes} from '../../domain';
+import {Deletable, Form, Layout} from '../../presentation';
 import {useLatestState} from '@neos-project/framework-observable-react';
 import {useSelector} from '@neos-project/neos-ui-redux-store';
 import {translate} from '@neos-project/neos-ui-i18n';
-import {createState, pickState, mapState, State} from '@neos-project/framework-observable';
+import {createState, mapState, pickState, State} from '@neos-project/framework-observable';
 import {PanelProps} from '@neos-project/react-ui-components/src/Tabs/panel';
+import {AdvancedOptions} from './AdvancedOptions';
 
 export type FormValues = {
     isOptionsDirty: boolean
@@ -40,13 +30,13 @@ export const createDialog = (editor: IEditor) => () => {
     const {isOpen, initialValue} = useLatestState(editor.state$);
 
     if (isOpen) {
-        return <ActiveLinkEditorDialog editor={editor} initialValue={initialValue}/>;
+        return <LinkEditorDialog editor={editor} initialValue={initialValue}/>;
     }
 
     return null;
 };
 
-const ActiveLinkEditorDialog: React.FC<{
+const LinkEditorDialog: React.FC<{
     editor: IEditor
     initialValue: ILink | null
 }> = ({editor, initialValue}) => {
@@ -378,71 +368,4 @@ const PreviewForLinkType: React.FC<{
             </ErrorBoundary>
         </Deletable>
     ) : null)
-};
-
-const AdvancedOptions: React.FC<{
-    editor: IEditor,
-    form$: State<FormValues>
-    initialLinkType?: ILinkType,
-    linkType: ILinkType
-    model$: State<any>
-    options: any
-}> = props => {
-    const {enabledLinkOptions} = useLatestState(props.editor.state$);
-
-    const formStatus$ = React.useMemo(() => mapState(props.form$, (form) => {
-        const isOptionSet = Object.values(form.options ?? {}).some(Boolean);
-
-        return {
-            isOptionSet,
-            initialLinkWasDeleted: form.initialLinkWasDeleted
-        }
-    }), []);
-
-    const formStatus = useLatestState(formStatus$);
-    const model = useLatestState(props.model$);
-
-    const modelIsDirty = model && props.linkType.isDirty(model);
-
-    const enabled = modelIsDirty || (props.initialLinkType && !formStatus.initialLinkWasDeleted ? props.initialLinkType.id === props.linkType.id : false);
-
-    const isUsed = enabled && (formStatus.isOptionSet || Boolean(model && props.linkType.isAdvanced?.(model)));
-
-    const [isOpen, setOpen] = React.useState<boolean>(false);
-
-    const toggleOpen = React.useCallback(() => enabled ? setOpen(openState => !openState) : null, [enabled]);
-
-    const {AdvancedEditor} = props.linkType;
-
-    if (!enabledLinkOptions.length && !AdvancedEditor) {
-        return null;
-    }
-
-    const classNames = mergeClassNames({
-        [style.advancedButton]: true,
-        [style.advancedButtonIsOpen]: isOpen
-    });
-
-    return <div className={style.advanced}>
-        <Button disabled={!enabled} style="lighter" hoverStyle="brand" className={classNames} onClick={toggleOpen}>
-            <Icon icon="cogs" color={isUsed ? 'primaryBlue' : undefined} padded="right"/>
-            {translate('Neos.Neos.Ui:LinkEditor.Main:options.title', 'Advanced')}
-            <Icon icon={isOpen ? 'chevron-left' : 'chevron-right'} padded="left"/>
-        </Button>
-        {
-            isOpen ? (
-                <div className={style.advancedContents}>
-                    <Layout.Stack>
-                        {AdvancedEditor
-                            ? <AdvancedEditor model$={props.model$} options={props.options} />
-                            : null}
-                        <LinkOptions
-                            form$={props.form$}
-                            enabledLinkOptions={enabledLinkOptions}
-                        />
-                    </Layout.Stack>
-                </div>
-            ) : null
-        }
-    </div>
 };

@@ -2,13 +2,13 @@ import * as React from 'react';
 
 import {TextInput, CheckBox, Label} from '@neos-project/react-ui-components';
 
-import {ILinkOptions} from '../../domain';
-import {Layout} from '../../presentation';
+import {ILinkOptions} from '../../../domain';
+import {Layout} from '../../../presentation';
 import {translate} from '@neos-project/neos-ui-i18n';
 import {mapState, State} from '@neos-project/framework-observable';
-import {FormValues} from './Dialog';
 import {useLatestState} from '@neos-project/framework-observable-react';
 import style from './style.module.css';
+import {FormValues} from "../Dialog";
 
 export const LinkOptions: React.FC<{
     form$: State<FormValues>
