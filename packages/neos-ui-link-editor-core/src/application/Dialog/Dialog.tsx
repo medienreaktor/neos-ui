@@ -5,7 +5,7 @@ import {Button, Dialog, Tabs} from '@neos-project/react-ui-components';
 import {AnyError, ErrorBoundary, ErrorView} from '@neos-project/neos-ui-error';
 
 import {IEditor, ILink, ILinkOptions, ILinkType, useLinkTypeForHref, useSortedAndFilteredLinkTypes} from '../../domain';
-import {Deletable, Form, Layout} from '../../presentation';
+import {Deletable, Form} from '../../presentation';
 import {useLatestState} from '@neos-project/framework-observable-react';
 import {useSelector} from '@neos-project/neos-ui-redux-store';
 import {translate} from '@neos-project/neos-ui-i18n';

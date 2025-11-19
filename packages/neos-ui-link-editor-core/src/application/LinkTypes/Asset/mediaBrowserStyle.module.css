@@ -8,10 +8,10 @@
         padding: 0;
     }
 
+    /** hacky FIXME should be moved to MediaSelectionScreen component instead */
     & > iframe {
         width: calc(100vw - 160px);
         max-width: 100%;
-        height: calc(100vh - 580px);
         position: relative;
     }
 }
