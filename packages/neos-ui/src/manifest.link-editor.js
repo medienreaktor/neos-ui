@@ -1,8 +1,8 @@
 import manifest from '@neos-project/neos-ui-extensibility';
 
 import {registerLinkTypes, registerDialog, createEditor} from '@neos-project/neos-ui-link-editor-core';
-import {registerInspectorEditors} from '@neos-project/neos-ui-link-editor-inspector-editor';
-import {registerLinkButton} from '@neos-project/neos-ui-link-editor-link-button';
+import {registerInspectorEditors} from '@neos-project/neos-ui-link-editor-inspector';
+import {registerLinkButton} from '@neos-project/neos-ui-link-editor-inline';
 
 manifest('link-editor', {}, (globalRegistry) => {
     const editor = createEditor();

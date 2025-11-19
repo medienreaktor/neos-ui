@@ -3669,9 +3669,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@neos-project/neos-ui-link-editor-inspector-editor@workspace:*, @neos-project/neos-ui-link-editor-inspector-editor@workspace:packages/neos-ui-link-editor-inspector-editor":
+"@neos-project/neos-ui-link-editor-inline@workspace:*, @neos-project/neos-ui-link-editor-inline@workspace:packages/neos-ui-link-editor-inline":
   version: 0.0.0-use.local
-  resolution: "@neos-project/neos-ui-link-editor-inspector-editor@workspace:packages/neos-ui-link-editor-inspector-editor"
+  resolution: "@neos-project/neos-ui-link-editor-inline@workspace:packages/neos-ui-link-editor-inline"
   dependencies:
     "@neos-project/neos-ui-link-editor-core": "workspace:*"
     "@neos-project/react-ui-components": "workspace:*"
@@ -3679,9 +3679,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@neos-project/neos-ui-link-editor-link-button@workspace:*, @neos-project/neos-ui-link-editor-link-button@workspace:packages/neos-ui-link-editor-link-button":
+"@neos-project/neos-ui-link-editor-inspector@workspace:*, @neos-project/neos-ui-link-editor-inspector@workspace:packages/neos-ui-link-editor-inspector":
   version: 0.0.0-use.local
-  resolution: "@neos-project/neos-ui-link-editor-link-button@workspace:packages/neos-ui-link-editor-link-button"
+  resolution: "@neos-project/neos-ui-link-editor-inspector@workspace:packages/neos-ui-link-editor-inspector"
   dependencies:
     "@neos-project/neos-ui-link-editor-core": "workspace:*"
     "@neos-project/react-ui-components": "workspace:*"
@@ -3808,8 +3808,8 @@ __metadata:
     "@neos-project/neos-ui-i18n": "workspace:*"
     "@neos-project/neos-ui-inspector": "workspace:*"
     "@neos-project/neos-ui-link-editor-core": "workspace:*"
-    "@neos-project/neos-ui-link-editor-inspector-editor": "workspace:*"
-    "@neos-project/neos-ui-link-editor-link-button": "workspace:*"
+    "@neos-project/neos-ui-link-editor-inline": "workspace:*"
+    "@neos-project/neos-ui-link-editor-inspector": "workspace:*"
     "@neos-project/neos-ui-redux-store": "workspace:*"
     "@neos-project/neos-ui-registry": "workspace:*"
     "@neos-project/neos-ui-sagas": "workspace:*"
