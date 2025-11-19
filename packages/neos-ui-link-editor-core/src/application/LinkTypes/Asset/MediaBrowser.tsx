@@ -11,7 +11,6 @@ interface Props {
 
 export const MediaBrowser: React.FC<Props> = (props) => {
     const containerRef = React.useRef<HTMLDivElement>(null)
-    const selectionRef = React.useRef<HTMLElement>(null)
 
     const secondaryEditorsRegistry = getRegistryById('inspector')?.get('secondaryEditors');
 
@@ -48,7 +47,6 @@ export const MediaBrowser: React.FC<Props> = (props) => {
             {
                 MediaSelectionScreenComponent ? (
                     <MediaSelectionScreenComponent
-                        ref={selectionRef}
                         assetIdentifier={props.assetIdentifier}
                         onComplete={props.onSelectAsset}
                         constraints={{mediaTypes: []}}
