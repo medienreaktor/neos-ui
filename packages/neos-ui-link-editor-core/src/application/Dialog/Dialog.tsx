@@ -408,7 +408,7 @@ const AdvancedOptions: React.FC<{
 
     const isUsed = enabled && (formStatus.isOptionSet || Boolean(model && props.linkType.isAdvanced?.(model)));
 
-    const [isOpen, setOpen] = React.useState<boolean>(isUsed);
+    const [isOpen, setOpen] = React.useState<boolean>(false);
 
     const toggleOpen = React.useCallback(() => enabled ? setOpen(openState => !openState) : null, [enabled]);
 
@@ -423,11 +423,11 @@ const AdvancedOptions: React.FC<{
         [style.advancedButtonIsOpen]: isOpen
     });
 
-    return <div>
+    return <div className={style.advanced}>
         <button disabled={!enabled} className={classNames} onClick={toggleOpen}>
             <Icon icon="cogs" color={isUsed ? 'primaryBlue' : undefined} />
             {translate('Neos.Neos.Ui:LinkEditor.Main:options.title', 'Advanced')}
-            <Icon icon={isOpen ? 'chevron-up' : 'chevron-down'}/>
+            <Icon icon={isOpen ? 'chevron-left' : 'chevron-right'}/>
         </button>
         {
             isOpen ? (
