@@ -7,7 +7,6 @@
 
 .advancedButton {
     color: var(--colors-ContrastBrightest);
-    height: var(--spacing-GoldenUnit);
     padding: 0 var(--spacing-Full);
     vertical-align: middle;
     cursor: pointer;
