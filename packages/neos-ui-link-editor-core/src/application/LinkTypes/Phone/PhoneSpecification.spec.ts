@@ -1,4 +1,4 @@
-import {isSuitableFor} from './PhoneNumberSpecification';
+import {isSuitableFor} from './PhoneSpecification';
 
 const equal = (a: any, b: any) => expect(a).toBe(b);
 

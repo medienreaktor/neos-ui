@@ -4,12 +4,12 @@ import {Label, TextInput, Tooltip} from '@neos-project/react-ui-components';
 
 import {ILink, ILinkType} from '../../../domain';
 import {IconCard} from '../../../presentation';
-import {isSuitableFor} from './PhoneNumberSpecification';
+import {isSuitableFor} from './PhoneSpecification';
 import {translate} from '@neos-project/neos-ui-i18n';
 import {State} from '@neos-project/framework-observable';
 import {useLatestState} from '@neos-project/framework-observable-react';
 
-type PhoneNumberLinkModel = {
+type PhoneLinkModel = {
     phoneNumber: {
         value: string
         isDirty: boolean
@@ -19,20 +19,20 @@ type PhoneNumberLinkModel = {
 
 const VALID_PHONE_NUMBER = /^(?:\+[1-9])?[0-9]+$/;
 
-const validateModel = (model: PhoneNumberLinkModel): PhoneNumberLinkModel => ({
+const validateModel = (model: PhoneLinkModel): PhoneLinkModel => ({
     ...model,
     phoneNumber: {
         ...model.phoneNumber,
-        warning: !model.phoneNumber.value ? translate('Neos.Neos.Ui:LinkEditor.PhoneNumber:phoneNumber.validation.required', '') : (!VALID_PHONE_NUMBER.test(model.phoneNumber.value) ? translate('Neos.Neos.Ui:LinkEditor.PhoneNumber:phoneNumber.validation.numbersOnly', '') : undefined)
+        warning: !model.phoneNumber.value ? translate('Neos.Neos.Ui:LinkEditor.Phone:phoneNumber.validation.required', '') : (!VALID_PHONE_NUMBER.test(model.phoneNumber.value) ? translate('Neos.Neos.Ui:LinkEditor.Phone:phoneNumber.validation.numbersOnly', '') : undefined)
     }
 });
 
-export const PhoneNumber: ILinkType<PhoneNumberLinkModel> = {
-    id: 'PhoneNumber',
+export const Phone: ILinkType<PhoneLinkModel> = {
+    id: 'Phone',
 
     icon: 'phone-alt',
 
-    getTitle: () => translate('Neos.Neos.Ui:LinkEditor.PhoneNumber:title', ''),
+    getTitle: () => translate('Neos.Neos.Ui:LinkEditor.Phone:title', ''),
 
     isSuitableFor,
 
@@ -61,11 +61,11 @@ export const PhoneNumber: ILinkType<PhoneNumberLinkModel> = {
         });
     },
 
-    convertModelToLink: (model: PhoneNumberLinkModel) => {
+    convertModelToLink: (model: PhoneLinkModel) => {
         return {href: `tel:${model.phoneNumber.value.trim()}`};
     },
 
-    Preview: ({model}: { model: PhoneNumberLinkModel }) => {
+    Preview: ({model}: { model: PhoneLinkModel }) => {
         return (
             <IconCard
                 icon="phone-alt"
@@ -74,7 +74,7 @@ export const PhoneNumber: ILinkType<PhoneNumberLinkModel> = {
         )
     },
 
-    Editor: ({model$}: { model$: State<PhoneNumberLinkModel | null> }) => {
+    Editor: ({model$}: { model$: State<PhoneLinkModel | null> }) => {
         const model = useLatestState(model$);
         const setPhoneNumber = React.useCallback((phoneNumber) => model$.update((values) => (validateModel({
             ...values,
@@ -87,13 +87,13 @@ export const PhoneNumber: ILinkType<PhoneNumberLinkModel> = {
         return (
             <div>
                 <Label htmlFor="neos-LinkEditor-Phone-number">
-                    {translate('Neos.Neos.Ui:LinkEditor.PhoneNumber:phoneNumber.label', '')}
+                    {translate('Neos.Neos.Ui:LinkEditor.Phone:phoneNumber.label', '')}
                 </Label>
                 <TextInput
                     id="neos-LinkEditor-Phone-number"
                     value={model?.phoneNumber?.value ?? ''}
                     onChange={setPhoneNumber}
-                    placeholder={translate('Neos.Neos.Ui:LinkEditor.Web:phoneNumber.placeholder', '')}
+                    placeholder={translate('Neos.Neos.Ui:LinkEditor.Phone:phoneNumber.placeholder', '')}
                 />
                 {model?.phoneNumber?.warning ? (
                     <Tooltip renderInline asWarning>{model.phoneNumber.warning}</Tooltip>

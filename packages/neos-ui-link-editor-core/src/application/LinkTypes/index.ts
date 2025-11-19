@@ -4,7 +4,7 @@ import {Web} from './Web';
 import {Node} from './Node';
 import {Asset} from './Asset';
 import {MailTo} from './MailTo';
-import {PhoneNumber} from './PhoneNumber';
+import {Phone} from './Phone';
 import {GlobalRegistry} from '@neos-project/neos-ui-registry';
 import {ILinkType} from '../../domain';
 
@@ -17,7 +17,7 @@ export function registerLinkTypes(globalRegistry: GlobalRegistry): void {
     linkTypeRegistry.set(Node.id, Node);
     linkTypeRegistry.set(Asset.id, Asset);
     linkTypeRegistry.set(MailTo.id, MailTo);
-    linkTypeRegistry.set(PhoneNumber.id, PhoneNumber);
+    linkTypeRegistry.set(Phone.id, Phone);
 
     globalRegistry.set('@neos-project/neos-ui-link-editor/link-types', linkTypeRegistry);
 }
