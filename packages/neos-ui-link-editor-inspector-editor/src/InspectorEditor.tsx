@@ -112,14 +112,13 @@ export const createInspectorEditor = (dataType: LinkDataType, editor: IEditor) =
     if (serializedLink.value === null) {
         return (
             <Button id={props.id} disabled={props.options?.disabled} onClick={editLink}>
-                <Icon icon="plus"/>
-                &nbsp;&nbsp;&nbsp;&nbsp;
+                <Icon icon="link" padded="right"/>
                 {translate('Neos.Neos.Ui:LinkEditor.Main:inspector.create', '')}
             </Button>
         );
     }
     return (
-        <Deletable id={props.id} onDelete={reset}>
+        <Deletable id={props.id} onDelete={reset} hoverStyle="brand">
             <ErrorView error={translate('Neos.Neos.Ui:LinkEditor.Main:inspector.notfound', 'Could not determine link editor for value {href}', {href: JSON.stringify(serializedLink.value)})} />
         </Deletable>
     );
@@ -158,7 +157,7 @@ const InspectorEditorWithLinkType: React.FC<{
     }
 
     return (
-        <Deletable id={props.htmlId} onDelete={props.reset}>
+        <Deletable id={props.htmlId} onDelete={props.reset} hoverStyle="brand">
             {error ? (
                 <ErrorView error={error} />
             ) : (

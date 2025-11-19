@@ -424,11 +424,11 @@ const AdvancedOptions: React.FC<{
     });
 
     return <div className={style.advanced}>
-        <button disabled={!enabled} className={classNames} onClick={toggleOpen}>
-            <Icon icon="cogs" color={isUsed ? 'primaryBlue' : undefined} />
+        <Button disabled={!enabled} style="lighter" hoverStyle="brand" className={classNames} onClick={toggleOpen}>
+            <Icon icon="cogs" color={isUsed ? 'primaryBlue' : undefined} padded="right"/>
             {translate('Neos.Neos.Ui:LinkEditor.Main:options.title', 'Advanced')}
-            <Icon icon={isOpen ? 'chevron-left' : 'chevron-right'}/>
-        </button>
+            <Icon icon={isOpen ? 'chevron-left' : 'chevron-right'} padded="left"/>
+        </Button>
         {
             isOpen ? (
                 <div className={style.advancedContents}>

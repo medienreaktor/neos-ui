@@ -1,7 +1,7 @@
 .button {
     display: block;
-    border: none;
     margin: 0;
+    border: 0;
     padding: 0;
     width: 100%;
     overflow: visible;
@@ -10,9 +10,4 @@
     font: inherit;
     line-height: normal;
     cursor: pointer;
-    filter: brightness(1);
-
-    &:hover {
-        filter: brightness(2);
-    }
 }

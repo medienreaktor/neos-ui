@@ -3,8 +3,12 @@
     display: grid;
     grid-template-columns: 1fr 40px;
     justify-content: stretch;
-    border: 1px solid #3f3f3f;
     max-width: 420px;
+    border: 1px solid var(--colors-ContrastDark);
+}
+
+.hoverStyleBrand:hover {
+    border: 1px solid var(--colors-PrimaryBlue);
 }
 
 .styledButton {
