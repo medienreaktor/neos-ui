@@ -3,6 +3,7 @@
     width: max-content;
     height: calc(80vh - 190px);
     max-width: 1260px;
+    padding-bottom: 5px; /* Required to prevent an additional scrollbar */
 
     & > div {
         padding: 0;
