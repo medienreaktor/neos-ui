@@ -153,7 +153,7 @@ export default class Tabs extends PureComponent<TabsProps> {
         const {theme, className, vertical} = this.props;
         const finalClassName = mergeClassNames(
             theme!.tabs, {
-                [theme!['tabs--vertical']]: vertical,
+                [theme!['tabs--vertical']]: vertical
             },
             className
         );
