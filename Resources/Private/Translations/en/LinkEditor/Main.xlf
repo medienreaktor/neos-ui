@@ -19,18 +19,23 @@
             </trans-unit>
 
             <!-- Dialog -->
-            <trans-unit id="dialog.title" xml:space="preserve" approved="yes">
+            <trans-unit id="dialog.title.create" xml:space="preserve" approved="yes">
+                <source>Create Link</source>
+            </trans-unit>
+            <trans-unit id="dialog.title.edit" xml:space="preserve" approved="yes">
                 <source>Edit Link</source>
             </trans-unit>
             <trans-unit id="dialog.action.cancel" xml:space="preserve" approved="yes">
                 <source>Cancel</source>
             </trans-unit>
-            <trans-unit id="dialog.action.apply" xml:space="preserve" approved="yes">
-                <source>Apply</source>
+            <trans-unit id="dialog.action.update" xml:space="preserve" approved="yes">
+                <source>Update</source>
+            </trans-unit>
+            <trans-unit id="dialog.action.create" xml:space="preserve" approved="yes">
+                <source>Create</source>
             </trans-unit>
 
-            <!-- Link Options -->
-
+          <!-- Link Options -->
           <trans-unit id="options.title" xml:space="preserve" approved="yes">
                 <source>Advanced</source>
             </trans-unit>

@@ -12,20 +12,9 @@
                 <target>Link</target>
             </trans-unit>
 
-            <!-- Protocol -->
-            <trans-unit id="protocol.validation.required" xml:space="preserve" approved="yes">
-                <source>Protocol is required</source>
-                <target>Protokoll ist erforderlich</target>
-            </trans-unit>
-
-            <!-- URL -->
-            <trans-unit id="urlWithoutProtocol.placeholder" xml:space="preserve" approved="yes">
-                <source>e.g. www.example.com</source>
-                <target>z.B. www.example.com</target>
-            </trans-unit>
-            <trans-unit id="urlWithoutProtocol.validation.required" xml:space="preserve" approved="yes">
-                <source>URL is required</source>
-                <target>URL ist erforderlich</target>
+            <trans-unit id="href.placeholder" xml:space="preserve">
+                <source>Enter or paste a link</source>
+                <target>Link eingeben oder einfügen</target>
             </trans-unit>
         </body>
     </file>

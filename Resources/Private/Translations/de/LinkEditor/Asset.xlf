@@ -5,7 +5,7 @@
             <!-- Common -->
             <trans-unit id="title" xml:space="preserve" approved="yes">
                 <source>Asset</source>
-                <target>Mediendatei</target>
+                <target>Medien</target>
             </trans-unit>
 
             <trans-unit id="anchor.label" xml:space="preserve" approved="yes">

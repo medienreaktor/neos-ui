@@ -5,7 +5,7 @@
             <!-- Common -->
             <trans-unit id="title" xml:space="preserve" approved="yes">
                 <source>Mail to</source>
-                <target>Mail an</target>
+                <target>Mail</target>
             </trans-unit>
 
             <!-- Recipient -->

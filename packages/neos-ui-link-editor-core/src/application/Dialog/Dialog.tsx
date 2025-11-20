@@ -82,8 +82,7 @@ const LinkEditorDialog: React.FC<{
         return {
             isDirty: form.isOptionsDirty || (model ? linkType.isDirty(model) : false),
             isValid: model ? linkType.isValid(model) : false,
-            initialLinkWasDeleted: form.initialLinkWasDeleted,
-            activeLinkTypeId: form.activeLinkTypeId
+            initialLinkWasDeleted: form.initialLinkWasDeleted
         };
     }), []);
 
@@ -122,15 +121,16 @@ const LinkEditorDialog: React.FC<{
         return null;
     }
 
-    const currentLinkType = availableLinkTypes.find(linkType => linkType.id === formStatus.activeLinkTypeId)!;
-
     return (
         <Dialog
             id="neos-LinkEditor"
             isOpen={true}
             preventClosing={formStatus.isDirty}
             onRequestClose={dismiss}
-            title={<div>{(initialValue === null && initialLinkType === null) || initialLinkType?.id !== currentLinkType.id || formStatus.initialLinkWasDeleted ? `Create ${currentLinkType.getTitle()} Link` : `Edit ${currentLinkType.getTitle()} Link`}</div>}
+            title={<div>{initialValue === null
+                ? translate('Neos.Neos.Ui:LinkEditor.Main:dialog.title.create', 'Create Link')
+                : translate('Neos.Neos.Ui:LinkEditor.Main:dialog.title.edit', 'Edit Link')
+            }</div>}
             style="wide"
             autoFocus={true}
             actions={[
@@ -138,12 +138,15 @@ const LinkEditorDialog: React.FC<{
                     {translate('Neos.Neos.Ui:LinkEditor.Main:dialog.action.cancel', '')}
                 </Button>,
                 <Button
+                    id="neos-LinkEditor-submit"
                     style="success"
                     type="submit"
                     disabled={!formStatus.initialLinkWasDeleted && (!formStatus.isDirty || !formStatus.isValid)}
                     onClick={handleSubmit}
                 >
-                    {translate('Neos.Neos.Ui:LinkEditor.Main:dialog.action.apply', '')}
+                    {initialValue === null
+                        ? translate('Neos.Neos.Ui:LinkEditor.Main:dialog.action.create', '')
+                        : translate('Neos.Neos.Ui:LinkEditor.Main:dialog.action.update', '')}
                 </Button>
             ]}
         >
