@@ -46,11 +46,6 @@
     height: min-content;
 }
 
-.tabs--sticky .tabNavigation {
-    position: sticky;
-    top: 0;
-}
-
 .tabNavigation__item {
     composes: reset from '../reset.module.css';
     position: relative;

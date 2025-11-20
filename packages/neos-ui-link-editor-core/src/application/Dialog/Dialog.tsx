@@ -194,7 +194,6 @@ const DialogWithEmptyValue: React.FC<{
             activeTab={activeTab}
             onActiveTabChange={setActiveTab}
             vertical
-            sticky
         >
             {props.availableLinkTypes.map((linkType) => {
                 const {Editor} = linkType;
@@ -266,7 +265,6 @@ const DialogWithValue: React.FC<{
                 activeTab={activeTab}
                 onActiveTabChange={setActiveTab}
                 vertical
-                sticky
             >
                 {props.availableLinkTypes.map((linkType) => {
                     const {Editor} = linkType;

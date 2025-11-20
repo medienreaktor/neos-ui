@@ -8,7 +8,7 @@ import {translate} from '@neos-project/neos-ui-i18n';
 import {mapState, State} from '@neos-project/framework-observable';
 import {useLatestState} from '@neos-project/framework-observable-react';
 import style from './style.module.css';
-import {FormValues} from "../Dialog";
+import {FormValues} from '../Dialog';
 
 export const LinkOptions: React.FC<{
     form$: State<FormValues>

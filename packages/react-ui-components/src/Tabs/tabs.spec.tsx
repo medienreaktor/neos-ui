@@ -24,7 +24,6 @@ describe('<Tabs/>', () => {
         theme: {
             'tabs': 'baseTabsClassName',
             'tabs--vertical': 'tabsVerticalClassName',
-            'tabs--sticky': 'tabsStickyClassName',
             'tabs__content': 'baseTabsContentsClassName',
             'tabs__panel': 'baseTabsPanelsClassName',
             'tabNavigation': 'baseTabsNavigationClassName',

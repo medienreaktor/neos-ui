@@ -2,7 +2,7 @@ import * as React from 'react';
 import style from './style.module.css';
 
 import {IconButton} from '@neos-project/react-ui-components';
-import mergeClassNames from "classnames";
+import mergeClassNames from 'classnames';
 
 export const Deletable: React.FC<{
     id?: string,

@@ -40,10 +40,10 @@ export const createLinkButton = (editor: IEditor) => (props: Props) => {
 
     if (props.inlineEditorOptions?.linking?.startingPoint) {
         // handle legacy root level option
-        editorOptions.linkTypes['Node'] = {
-            ...editorOptions.linkTypes['Node'],
+        editorOptions.linkTypes.Node = {
+            ...editorOptions.linkTypes.Node,
             startingPoint:
-                (editorOptions.linkTypes['Node'] as any).startingPoint
+                (editorOptions.linkTypes.Node as any).startingPoint
                     ?? props.inlineEditorOptions.linking.startingPoint
         };
     }
