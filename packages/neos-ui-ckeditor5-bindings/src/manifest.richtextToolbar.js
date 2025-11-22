@@ -1,4 +1,3 @@
-import LinkButton from './EditorToolbar/LinkButton';
 import StyleSelect from './EditorToolbar/StyleSelect';
 import RichTextToolbarRegistry from './registry/RichTextToolbarRegistry';
 
@@ -30,16 +29,6 @@ export default ckEditorRegistry => {
                 // all other properties are directly passed on to the component.
             }
     `));
-
-    //
-    // Configure richtext editing toolbar
-    //
-
-    richtextToolbar.set('link', {
-        commandName: 'link',
-        component: LinkButton,
-        isVisible: formattingUnderCursor => formattingUnderCursor?.formatting?.a
-    });
 
     /**
      * Extensible style selector

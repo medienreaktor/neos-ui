@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file original="" product-name="Neos.Neos.Ui" source-language="en" datatype="plaintext">
+        <body>
+            <!-- Common -->
+            <trans-unit id="title" xml:space="preserve" approved="yes">
+                <source>Web</source>
+            </trans-unit>
+            <trans-unit id="label.link" xml:space="preserve" approved="yes">
+                <source>Link</source>
+            </trans-unit>
+
+            <!-- HREF -->
+          <trans-unit id="href.placeholder" xml:space="preserve">
+                <source>Enter or paste a link</source>
+            </trans-unit>
+          <trans-unit id="href.formatAsHttp" xml:space="preserve">
+                <source>Format as http link?</source>
+            </trans-unit>
+          <trans-unit id="href.formatOptions" xml:space="preserve">
+                <source>Format options</source>
+          </trans-unit>
+
+          <trans-unit id="href.validation.javascriptSchema" xml:space="preserve" approved="yes">
+              <source>Javascript links are unsafe</source>
+          </trans-unit>
+          <trans-unit id="href.validation.nodeSchema" xml:space="preserve" approved="yes">
+              <source>Document links should be handled in the document tab</source>
+          </trans-unit>
+          <trans-unit id="href.validation.assetSchema" xml:space="preserve" approved="yes">
+              <source>Asset links should be handled in the asset tab</source>
+          </trans-unit>
+          <trans-unit id="href.validation.telSchema" xml:space="preserve" approved="yes">
+              <source>Telephone links should be handled in the phone tab</source>
+          </trans-unit>
+          <trans-unit id="href.validation.mailtoSchema" xml:space="preserve" approved="yes">
+              <source>Mail to links should be handled in the mail to tab</source>
+          </trans-unit>
+          <trans-unit id="href.validation.leadingOrTrailingSpace" xml:space="preserve" approved="yes">
+              <source>Link starts or ends with trailing empty space</source>
+          </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -19,7 +19,10 @@ export interface TabsProps {
     /**
      * An optional className to render on the wrapping div.
      */
-    readonly className?: string;
+    readonly className?: string
+
+    /** @internal experimental api for now, only to be used in the Neos.Ui core */
+    readonly vertical?: boolean;
 
     /**
      * The children panels to render.
@@ -29,11 +32,12 @@ export interface TabsProps {
     /**
      * A css theme to be injected.
      */
-    readonly theme: TabsTheme;
+    readonly theme?: TabsTheme;
 }
 
 interface TabsTheme extends TabMenuItemTheme {
     readonly 'tabs': string;
+    readonly 'tabs--vertical': string;
     readonly 'tabs__content': string;
     readonly 'tabs__panel': string;
     readonly 'tabNavigation': string;
@@ -107,7 +111,7 @@ export default class Tabs extends PureComponent<TabsProps> {
         ));
 
         return (
-            <ul className={theme.tabNavigation}>
+            <ul className={theme!.tabNavigation}>
                 {menuItems}
             </ul>
         );
@@ -122,7 +126,7 @@ export default class Tabs extends PureComponent<TabsProps> {
         const activeTab = this.getActiveTab();
 
         return (
-            <div className={theme.tabs__content}>
+            <div className={theme!.tabs__content}>
                 {children.map((panel, index) => {
                     const isActive = activeTab === (isNaN(activeTab as number) ? panel.props.id : index);
                     const style = {
@@ -131,7 +135,7 @@ export default class Tabs extends PureComponent<TabsProps> {
 
                     return (
                         <div
-                            className={theme.tabs__panel}
+                            className={theme!.tabs__panel}
                             key={index}
                             style={style}
                             role="tabpanel"
@@ -146,8 +150,13 @@ export default class Tabs extends PureComponent<TabsProps> {
     }
 
     public render(): JSX.Element {
-        const {theme, className} = this.props;
-        const finalClassName = mergeClassNames(theme.tabs, className);
+        const {theme, className, vertical} = this.props;
+        const finalClassName = mergeClassNames(
+            theme!.tabs, {
+                [theme!['tabs--vertical']]: vertical
+            },
+            className
+        );
 
         return (
             <div className={finalClassName} role="tablist">

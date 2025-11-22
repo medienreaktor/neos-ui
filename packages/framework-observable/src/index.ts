@@ -10,5 +10,10 @@
 export type {Observable} from './Observable';
 export {createObservable} from './Observable';
 
-export type {State} from './State';
-export {createState} from './State';
+export type {State, ReadonlyState} from './State';
+export {createState, pickState, mapState} from './State';
+
+export type {Subscription} from './Subscription';
+
+export type {Channel} from './Channel';
+export {createChannel} from './Channel';

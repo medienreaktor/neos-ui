@@ -43,9 +43,14 @@ export interface IconButtonProps extends HTMLButtonElementAttributesExceptStyle 
      */
     readonly disabled?: boolean;
 
+    /**
+     * This prop controls the visual active state of the `Button`.
+     */
+    readonly isActive?: boolean;
+
     readonly style?: ButtonStyle;
 
-    readonly hoverStyle: ButtonHoverStyle;
+    readonly hoverStyle?: ButtonHoverStyle;
 }
 
 type DefaultProps = PickDefaultProps<IconButtonProps, 'hoverStyle' | 'size' | 'style'>;

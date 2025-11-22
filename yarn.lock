@@ -3483,6 +3483,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@neos-project/framework-promise-react@workspace:*, @neos-project/framework-promise-react@workspace:packages/framework-promise-react":
+  version: 0.0.0-use.local
+  resolution: "@neos-project/framework-promise-react@workspace:packages/framework-promise-react"
+  dependencies:
+    react: ^16.12.0
+  languageName: unknown
+  linkType: soft
+
 "@neos-project/jest-preset-neos-ui@workspace:*, @neos-project/jest-preset-neos-ui@workspace:packages/jest-preset-neos-ui":
   version: 0.0.0-use.local
   resolution: "@neos-project/jest-preset-neos-ui@workspace:packages/jest-preset-neos-ui"
@@ -3749,6 +3757,53 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@neos-project/neos-ui-link-editor-core@workspace:*, @neos-project/neos-ui-link-editor-core@workspace:packages/neos-ui-link-editor-core":
+  version: 0.0.0-use.local
+  resolution: "@neos-project/neos-ui-link-editor-core@workspace:packages/neos-ui-link-editor-core"
+  dependencies:
+    "@neos-project/framework-observable": "workspace:*"
+    "@neos-project/framework-observable-react": "workspace:*"
+    "@neos-project/framework-promise-react": "workspace:*"
+    "@neos-project/neos-ui-editors": "workspace:*"
+    "@neos-project/neos-ui-link-editor-custom-node-tree": "workspace:*"
+    "@neos-project/positional-array-sorter": "workspace:*"
+    "@neos-project/react-ui-components": "workspace:*"
+    "@neos-project/utils-helpers": "workspace:*"
+    typesafe-actions: ^5.1.0
+  languageName: unknown
+  linkType: soft
+
+"@neos-project/neos-ui-link-editor-custom-node-tree@workspace:*, @neos-project/neos-ui-link-editor-custom-node-tree@workspace:packages/neos-ui-link-editor-custom-node-tree":
+  version: 0.0.0-use.local
+  resolution: "@neos-project/neos-ui-link-editor-custom-node-tree@workspace:packages/neos-ui-link-editor-custom-node-tree"
+  dependencies:
+    "@neos-project/framework-promise-react": "workspace:*"
+    "@neos-project/react-ui-components": "workspace:*"
+    lodash.debounce: ^4.0.8
+    react: ^16.12.0
+  languageName: unknown
+  linkType: soft
+
+"@neos-project/neos-ui-link-editor-inline@workspace:*, @neos-project/neos-ui-link-editor-inline@workspace:packages/neos-ui-link-editor-inline":
+  version: 0.0.0-use.local
+  resolution: "@neos-project/neos-ui-link-editor-inline@workspace:packages/neos-ui-link-editor-inline"
+  dependencies:
+    "@neos-project/neos-ui-link-editor-core": "workspace:*"
+    "@neos-project/react-ui-components": "workspace:*"
+    react: ^16.12.0
+  languageName: unknown
+  linkType: soft
+
+"@neos-project/neos-ui-link-editor-inspector@workspace:*, @neos-project/neos-ui-link-editor-inspector@workspace:packages/neos-ui-link-editor-inspector":
+  version: 0.0.0-use.local
+  resolution: "@neos-project/neos-ui-link-editor-inspector@workspace:packages/neos-ui-link-editor-inspector"
+  dependencies:
+    "@neos-project/neos-ui-link-editor-core": "workspace:*"
+    "@neos-project/react-ui-components": "workspace:*"
+    react: ^16.12.0
+  languageName: unknown
+  linkType: soft
+
 "@neos-project/neos-ui-redux-store@workspace:*, @neos-project/neos-ui-redux-store@workspace:packages/neos-ui-redux-store":
   version: 0.0.0-use.local
   resolution: "@neos-project/neos-ui-redux-store@workspace:packages/neos-ui-redux-store"
@@ -3867,6 +3922,9 @@ __metadata:
     "@neos-project/neos-ui-guest-frame": "workspace:*"
     "@neos-project/neos-ui-i18n": "workspace:*"
     "@neos-project/neos-ui-inspector": "workspace:*"
+    "@neos-project/neos-ui-link-editor-core": "workspace:*"
+    "@neos-project/neos-ui-link-editor-inline": "workspace:*"
+    "@neos-project/neos-ui-link-editor-inspector": "workspace:*"
     "@neos-project/neos-ui-redux-store": "workspace:*"
     "@neos-project/neos-ui-registry": "workspace:*"
     "@neos-project/neos-ui-sagas": "workspace:*"
@@ -4477,6 +4535,15 @@ __metadata:
   version: 0.0.29
   resolution: "@types/json5@npm:0.0.29"
   checksum: e60b153664572116dfea673c5bda7778dbff150498f44f998e34b5886d8afc47f16799280e4b6e241c0472aef1bc36add771c569c68fc5125fc2ae519a3eb9ac
+  languageName: node
+  linkType: hard
+
+"@types/lodash.debounce@npm:^4.0.8":
+  version: 4.0.9
+  resolution: "@types/lodash.debounce@npm:4.0.9"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: 8183a152e01928e3b97ca773f6ae6038b8695e76493ba8bf6b743ec143948a62294fbc9d49fa4a78b52265b3ba4892ef57534e0c13d04aa0f111671b5a944feb
   languageName: node
   linkType: hard
 
@@ -14977,6 +15044,7 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@neos-project/eslint-config-neos": ^2.6.1
+    "@types/lodash.debounce": ^4.0.8
     "@types/react-redux": ^7.1.3
     "@typescript-eslint/eslint-plugin": ^5.44.0
     "@typescript-eslint/parser": ^5.44.0

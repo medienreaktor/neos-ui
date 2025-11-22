@@ -1,0 +1,35 @@
+.advanced {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+.advancedContents {
+    background: var(--colors-ContrastDarkest);
+    border: 1px solid var(--colors-ContrastDark);
+    border-bottom: 0;
+    padding: 1rem;
+    position: absolute;
+    left: 100%;
+    bottom: 0;
+    width: max-content;
+    min-width: 300px;
+}
+
+.advancedButton:hover svg {
+    color: currentColor;
+}
+
+.advancedButtonIsOpen {
+    border-right: unset;
+}
+
+.advancedButtonIsOpen::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 100%;
+    bottom: 0;
+    width: 1px;
+    background: var(--colors-ContrastDark);
+}

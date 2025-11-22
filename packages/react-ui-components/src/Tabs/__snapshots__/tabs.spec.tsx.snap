@@ -24,6 +24,7 @@ exports[`<Tabs/> should render correctly. 1`] = `
           "tabNavigation__itemBtnIcon": "baseTabsNavigationItemBtnIconClassName",
           "tabNavigation__itemBtnIcon--hasLabel": "baseTabsNavigationItemBtnIconWithLabelClassName",
           "tabs": "baseTabsClassName",
+          "tabs--vertical": "tabsVerticalClassName",
           "tabs__content": "baseTabsContentsClassName",
           "tabs__panel": "baseTabsPanelsClassName",
         }
@@ -46,6 +47,7 @@ exports[`<Tabs/> should render correctly. 1`] = `
           "tabNavigation__itemBtnIcon": "baseTabsNavigationItemBtnIconClassName",
           "tabNavigation__itemBtnIcon--hasLabel": "baseTabsNavigationItemBtnIconWithLabelClassName",
           "tabs": "baseTabsClassName",
+          "tabs--vertical": "tabsVerticalClassName",
           "tabs__content": "baseTabsContentsClassName",
           "tabs__panel": "baseTabsPanelsClassName",
         }
@@ -68,6 +70,7 @@ exports[`<Tabs/> should render correctly. 1`] = `
           "tabNavigation__itemBtnIcon": "baseTabsNavigationItemBtnIconClassName",
           "tabNavigation__itemBtnIcon--hasLabel": "baseTabsNavigationItemBtnIconWithLabelClassName",
           "tabs": "baseTabsClassName",
+          "tabs--vertical": "tabsVerticalClassName",
           "tabs__content": "baseTabsContentsClassName",
           "tabs__panel": "baseTabsPanelsClassName",
         }
