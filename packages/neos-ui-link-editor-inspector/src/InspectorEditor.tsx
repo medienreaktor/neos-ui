@@ -118,7 +118,7 @@ export const createInspectorEditor = (dataType: LinkDataType, editor: IEditor) =
         );
     }
     return (
-        <Deletable id={props.id} onDelete={reset} hoverStyle="brand">
+        <Deletable id={props.id} onDelete={reset} hoverStyle="brand" label={translate('Neos.Neos.Ui:LinkEditor.Main:inspector.delete', '')}>
             <ErrorView error={translate('Neos.Neos.Ui:LinkEditor.Main:inspector.notfound', 'Could not determine link editor for value {href}', {href: JSON.stringify(serializedLink.value)})} />
         </Deletable>
     );
@@ -157,7 +157,7 @@ const InspectorEditorWithLinkType: React.FC<{
     }
 
     return (
-        <Deletable id={props.htmlId} onDelete={props.reset} hoverStyle="brand">
+        <Deletable id={props.htmlId} onDelete={props.reset} hoverStyle="brand" label={translate('Neos.Neos.Ui:LinkEditor.Main:inspector.delete', '')}>
             {error ? (
                 <ErrorView error={error} />
             ) : (

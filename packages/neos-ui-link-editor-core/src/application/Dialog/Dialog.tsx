@@ -167,7 +167,7 @@ const LinkEditorDialog: React.FC<{
             <ErrorBoundary errorFallback={ErrorView}>
                 <Form>
                     {formStatus.isDirty && formStatus.isValid ? (
-                        <Deletable id="neos-LinkEditor-Preview" onDelete={unsetLinkModels}>
+                        <Deletable id="neos-LinkEditor-Preview" onDelete={unsetLinkModels} label={translate('Neos.Neos.Ui:LinkEditor.Main:dialog.action.delete', '')}>
                             <ErrorBoundary errorFallback={ErrorView}>
                                 {
                                     React.createElement(formStatus.activeLinkType.Preview, {
@@ -179,7 +179,7 @@ const LinkEditorDialog: React.FC<{
                         </Deletable>
                     ) : (
                         !formStatus.initialLinkWasDeleted && initialLinkType ? (
-                            <Deletable id="neos-LinkEditor-Preview" onDelete={unsetLinkModels}>
+                            <Deletable id="neos-LinkEditor-Preview" onDelete={unsetLinkModels} label={translate('Neos.Neos.Ui:LinkEditor.Main:dialog.action.delete', '')}>
                                 <ErrorBoundary errorFallback={ErrorView}>
                                     {
                                         initialError ? (
