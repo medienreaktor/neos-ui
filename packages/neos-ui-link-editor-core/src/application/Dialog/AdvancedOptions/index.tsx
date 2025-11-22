@@ -13,7 +13,7 @@ import {Layout} from '../../../presentation';
 export const AdvancedOptions: React.FC<{
     editor: IEditor,
     form$: State<FormValues>
-    initialLinkType?: ILinkType,
+    initialLinkType: ILinkType | null,
     linkType: ILinkType
     model$: State<any>
     options: any
