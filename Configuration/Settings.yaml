@@ -21,6 +21,9 @@ Neos:
         dataTypes:
           Neos\Media\Domain\Model\ImageInterface:
             typeConverter: Neos\Media\TypeConverter\ImageInterfaceArrayPresenter
+
+          Neos\Neos\Domain\Link\Link:
+            editor: Neos.Neos/Inspector/Editors/ValueObjectLinkEditor
       translation:
         autoInclude:
           'Neos.Neos.Ui':
@@ -28,6 +31,7 @@ Neos:
             - Main
             - PublishingDialog
             - SyncWorkspaceDialog
+            - 'LinkEditor/*'
     fusion:
       autoInclude:
         Neos.Neos.Ui: true
@@ -41,16 +45,16 @@ Neos:
 
         javascript:
           'Neos.Neos.UI:Host':
-           resource: '${"resource://" + Neos.Ui.StaticResources.compiledResourcePackage() + "/Public/Build/Host.js"}'
-           position: 'start 900'
+            resource: '${"resource://" + Neos.Ui.StaticResources.compiledResourcePackage() + "/Public/Build/Host.js"}'
+            position: 'start 900'
 
         stylesheets:
           'Neos.Neos.UI:Host':
             resource: '${"resource://" + Neos.Ui.StaticResources.compiledResourcePackage() + "/Public/Build/Host.css"}'
             position: 'start 1000'
           'Neos.Neos.UI:HostOnlyStyles':
-           resource: '${"resource://" + Neos.Ui.StaticResources.compiledResourcePackage() + "/Public/Build/HostOnlyStyles.css"}'
-           position: 'start 900'
+            resource: '${"resource://" + Neos.Ui.StaticResources.compiledResourcePackage() + "/Public/Build/HostOnlyStyles.css"}'
+            position: 'start 900'
 
       contentCanvas:
         backgroundColor: '#ffffff'
@@ -220,10 +224,22 @@ Neos:
                 pattern: ControllerObjectName
                 patternOptions:
                   controllerObjectNamePattern: 'Neos\Neos\Ui\Controller\.*'
+
+              'Neos.Neos.Ui:LinkEditor.ApiControllers':
+                pattern: ControllerObjectName
+                patternOptions:
+                  controllerObjectNamePattern: 'Neos\Neos\Ui\LinkEditor\Application\.*\Controller\.*Controller'
     mvc:
       routes:
         'Neos.Neos.Ui':
           position: 'before Neos.Neos'
+        'Neos.Neos.Ui:Endpoints':
+          position: 'before Neos.Neos'
+          providerFactory: Neos\Flow\Mvc\Routing\AttributeRoutesProviderFactory
+          providerOptions:
+            classNames:
+              - Neos\Neos\Ui\LinkEditor\Application\*\Controller\*Controller
+
   Fusion:
     defaultContext:
       Neos.Ui.StaticResources: Neos\Neos\Ui\Fusion\Helper\StaticResourcesHelper

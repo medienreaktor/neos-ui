@@ -16,8 +16,13 @@ export type {
 } from './types';
 
 export {
+    NestedError
+} from './types'
+
+export {
     ErrorBoundary,
     ErrorView,
+    FatalErrorView,
     FlashMessages,
     showFlashMessage,
     terminateDueToFatalInitializationError

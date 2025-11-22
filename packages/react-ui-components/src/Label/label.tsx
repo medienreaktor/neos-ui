@@ -3,10 +3,6 @@ import React from 'react';
 
 export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
     /**
-     * The `for` standard html attribute, defined to make it always required.
-     */
-    readonly htmlFor: string;
-    /**
      * An optional className to render on the label node.
      */
     readonly className?: string;

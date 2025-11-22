@@ -1,0 +1,5 @@
+
+.textArea {
+    /** prevent content shift as text box is initially to small */
+    min-height: 52px;
+}

@@ -34,6 +34,7 @@ class FeatureContext implements Context
     use ContentRepositorySecurityTrait;
     use UserServiceTrait;
     use RoutingTrait;
+    use LinkEditorTrait;
 
     private ContentRepositoryRegistry $contentRepositoryRegistry;
 

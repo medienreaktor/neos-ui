@@ -93,7 +93,7 @@ export class Header extends PureComponent {
     static propTypes = {
         id: PropTypes.string,
         labelIdentifier: PropTypes.string,
-        nodeDndType: PropTypes.string.isRequired,
+        nodeDndType: PropTypes.string,
         hasChildren: PropTypes.bool.isRequired,
         isLastChild: PropTypes.bool,
         isCollapsed: PropTypes.bool.isRequired,
@@ -212,14 +212,14 @@ export class Header extends PureComponent {
         return (
             <div>
                 <div className={theme.header}>
-                    <NodeDropTarget
+                    {nodeDndType && <NodeDropTarget
                         id={id}
                         theme={theme}
                         dragAndDropContext={dragAndDropContext}
                         nodeDndType={nodeDndType}
                         mode="before"
                         level={level}
-                        />
+                        />}
                     {connectDropTarget(connectDragSource(
                         <div
                             role="button"
@@ -247,7 +247,7 @@ export class Header extends PureComponent {
                             </div>
                         </div>
                     ))}
-                    {isLastChild && (
+                    {isLastChild && nodeDndType && (
                         <NodeDropTarget
                             id={id}
                             theme={theme}

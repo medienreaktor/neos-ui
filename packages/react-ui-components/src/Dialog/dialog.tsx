@@ -25,17 +25,22 @@ interface DialogTheme {
 
 export interface DialogProps {
     /**
+     * An optional `id` to attach to the wrapper.
+     */
+    readonly id?: string;
+
+    /**
      * This prop controls the rendered state of the Dialog, when falsy, nothing gets rendered into the DOM.
      */
     readonly isOpen: boolean;
 
     /**
-     * An optional handler, which gets called once the user clicks on the close symbol in the top right corner of the Dialog.
+     * An optional handler, which gets called once the user clicks outside the dialog to close it or presses the escape key. If preventClosing is set the dialog will never be requested to be closed.
      */
     readonly onRequestClose?: () => void;
 
     /**
-     * An optional boolean flag to keep the user in the dialog.
+     * An optional boolean flag to keep the dialog open when clicking outside or pressing the escape key.
      */
     readonly preventClosing?: boolean;
 
@@ -47,7 +52,7 @@ export interface DialogProps {
     /**
      * The `type` prop defines the type of the `Dialog`.
      */
-    readonly type: DialogType;
+    readonly type?: DialogType;
 
     /**
      * The `style` prop defines the visual style of the `Dialog`.
@@ -82,7 +87,7 @@ export interface DialogProps {
     /**
      * An optional css theme to be injected.
      */
-    readonly theme: DialogTheme;
+    readonly theme?: DialogTheme;
 }
 
 const dialogManager = new DialogManager({
@@ -130,11 +135,11 @@ class DialogWithOverlay extends PureComponent<DialogProps> {
         const {title, children, actions, theme, type} = this.props;
 
         const finalClassNameBody = mergeClassNames(
-            theme.dialog__body,
-            this.state.isShaking ? theme['dialog--warn'] : {
-                [theme['dialog--success']]: type === 'success',
-                [theme['dialog--warn']]: type === 'warn',
-                [theme['dialog--error']]: type === 'error'
+            theme!.dialog__body,
+            this.state.isShaking ? theme!['dialog--warn'] : {
+                [theme!['dialog--success']]: type === 'success',
+                [theme!['dialog--warn']]: type === 'warn',
+                [theme!['dialog--error']]: type === 'error'
             },
             'dialog__body'
         );
@@ -142,18 +147,18 @@ class DialogWithOverlay extends PureComponent<DialogProps> {
         return (
             <div
                 ref={this.handleReference}
-                className={theme.dialog__contentsPosition}
+                className={theme!.dialog__contentsPosition}
                 tabIndex={0}
             >
                 <div className={mergeClassNames(
-                    theme.dialog__contents,
-                    this.state.isShaking && theme['dialog--effect__shake']
+                    theme!.dialog__contents,
+                    this.state.isShaking && theme!['dialog--effect__shake']
                 )}>
-                    <div className={theme.dialog__title}>{title}</div>
+                    <div className={theme!.dialog__title}>{title}</div>
                     <div className={finalClassNameBody}>{children}</div>
 
                     {actions && actions.length ? (
-                        <div className={theme.dialog__actions}>
+                        <div className={theme!.dialog__actions}>
                             {React.Children.map(actions, (action, index) => (
                                 <span key={index}>{action}</span>
                             ))}
@@ -185,6 +190,7 @@ class DialogWithOverlay extends PureComponent<DialogProps> {
     public render(): JSX.Element | null {
         /* eslint-disable @typescript-eslint/no-unused-vars */
         const {
+            id,
             className,
             title,
             style,
@@ -200,16 +206,16 @@ class DialogWithOverlay extends PureComponent<DialogProps> {
         /* eslint-enable @typescript-eslint/no-unused-vars */
 
         const sectionClassName = mergeClassNames(
-            theme.dialog,
+            theme!.dialog,
             {
-                [theme['dialog--wide']]: style === 'wide',
-                [theme['dialog--jumbo']]: style === 'jumbo',
-                [theme['dialog--narrow']]: style === 'narrow'
+                [theme!['dialog--wide']]: style === 'wide',
+                [theme!['dialog--jumbo']]: style === 'jumbo',
+                [theme!['dialog--narrow']]: style === 'narrow'
             },
-            this.state.isShaking ? theme['dialog--warn'] : {
-                [theme['dialog--success']]: type === 'success',
-                [theme['dialog--warn']]: type === 'warn',
-                [theme['dialog--error']]: type === 'error'
+            this.state.isShaking ? theme!['dialog--warn'] : {
+                [theme!['dialog--success']]: type === 'success',
+                [theme!['dialog--warn']]: type === 'warn',
+                [theme!['dialog--error']]: type === 'error'
             },
             className,
         );
@@ -221,6 +227,7 @@ class DialogWithOverlay extends PureComponent<DialogProps> {
         return createPortal(
             <section
                 {...rest}
+                id={id}
                 className={sectionClassName}
                 role="dialog"
                 tabIndex={0}

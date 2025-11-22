@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file original="" product-name="Neos.Neos.Ui" source-language="en" datatype="plaintext">
+        <body>
+            <!-- Common -->
+            <trans-unit id="title" xml:space="preserve" approved="yes">
+                <source>Document</source>
+            </trans-unit>
+
+            <trans-unit id="labelOfNonExistingNode" xml:space="preserve" approved="yes">
+                <source>Document does not exist</source>
+            </trans-unit>
+
+            <trans-unit id="loadingPreview" xml:space="preserve" approved="yes">
+                <source>Loading ...</source>
+            </trans-unit>
+
+            <trans-unit id="anchor.label" xml:space="preserve" approved="yes">
+                  <source>Anchor</source>
+              </trans-unit>
+            <trans-unit id="anchor.placeholder" xml:space="preserve" approved="no">
+                  <source>Enter anchor name</source>
+            </trans-unit>
+            <trans-unit id="anchor.validation.leadingOrTrailingSpace" xml:space="preserve" approved="yes">
+                <source>Anchor contains leading or trailing empty space</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

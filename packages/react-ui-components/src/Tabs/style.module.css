@@ -3,9 +3,19 @@
     height: 100%;
 }
 
+.tabs--vertical {
+    display: flex;
+    gap: var(--spacing-Full);
+}
+
 .tabs__content {
     composes: reset from '../reset.module.css';
     overflow-y: auto;
+    flex-grow: 1;
+}
+
+.tabs--vertical .tabs__content {
+    overflow-y: unset;
 }
 
 .tabNavigation {
@@ -26,6 +36,16 @@
         clear: both;
     }
 }
+
+.tabs--vertical .tabNavigation {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--colors-ContrastDark);
+    width: max-content;
+    min-height: 0;
+    height: min-content;
+}
+
 .tabNavigation__item {
     composes: reset from '../reset.module.css';
     position: relative;
@@ -56,6 +76,27 @@
         color: var(--colors-PrimaryBlue);
     }
 }
+
+.tabs--vertical .tabNavigation__item {
+    border: none;
+    margin-bottom: unset!important;
+}
+
+.tabs--vertical .tabNavigation__item--isActive {
+
+    &:after {
+        display: block;
+        content: ' ';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: -1px;
+        height: 100%;
+        width: 2px;
+        background: var(--colors-PrimaryBlue);
+    }
+}
+
 .tabNavigation__itemBtn {
     composes: reset from '../reset.module.css';
     display: inline-block;
@@ -74,6 +115,12 @@
         outline: 0;
     }
 }
+.tabs--vertical .tabNavigation__itemBtn {
+    width: 100%;
+    text-align: left;
+    display: block;
+    white-space: nowrap;
+}
 .tabNavigation__itemBtnIcon {
     color: currentColor;
 }
@@ -84,4 +131,8 @@
 .panel {
     composes: reset from '../reset.module.css';
     overflow-y: auto;
+}
+
+.tabs--vertical .panel {
+    overflow-y: unset;
 }

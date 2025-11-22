@@ -1,0 +1,18 @@
+
+.container {
+    width: max-content;
+    height: calc(80vh - 190px);
+    max-width: 1260px;
+    padding-bottom: 5px; /* Required to prevent an additional scrollbar */
+
+    & > div {
+        padding: 0;
+    }
+
+    /** hacky FIXME should be moved to MediaSelectionScreen component instead */
+    & > iframe {
+        width: calc(100vw - 160px);
+        max-width: 100%;
+        position: relative;
+    }
+}

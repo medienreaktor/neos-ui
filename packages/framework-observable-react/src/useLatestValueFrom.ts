@@ -10,6 +10,7 @@
 import React from 'react';
 
 import type {Observable} from '@neos-project/framework-observable';
+import {shallowEqual} from './shallowEqual';
 
 export function useLatestValueFrom<V>(observable$: Observable<V>): null | V;
 export function useLatestValueFrom<V, D>(
@@ -25,10 +26,13 @@ export function useLatestValueFrom<V, D>(
         defaultValue ?? null
     );
 
+    const valueRef = React.useRef(value);
+    valueRef.current = value;
+
     React.useEffect(() => {
         const subscription = observable$.subscribe({
             next: (incomingValue) => {
-                if (incomingValue !== value) {
+                if (!shallowEqual(valueRef.current, incomingValue)) {
                     setValue(incomingValue);
                 }
             }

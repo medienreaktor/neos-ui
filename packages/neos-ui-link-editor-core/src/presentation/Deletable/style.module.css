@@ -1,0 +1,16 @@
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 40px;
+    justify-content: stretch;
+    max-width: 420px;
+    border: 1px solid var(--colors-ContrastDark);
+}
+
+.hoverStyleBrand:hover {
+    border: 1px solid var(--colors-PrimaryBlue);
+}
+
+.styledButton {
+    height: 100%;
+}
