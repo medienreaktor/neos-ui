@@ -1,19 +1,44 @@
-.advanced {
+.advancedCorner {
     position: absolute;
     left: 0;
     bottom: 0;
+
+    /* legacy support for non anchor CSS */
+    display: flex;
+    flex-direction: row-reverse;
+    /* legacy support for non anchor CSS */
 }
 
 .advancedContents {
     background: var(--colors-ContrastDarkest);
-    border: 1px solid var(--colors-ContrastDark);
-    border-bottom: 0;
+    border: 1px solid var(--colors-PrimaryBlue);
     padding: 1rem;
-    position: absolute;
-    left: 0;
-    bottom: 0;
+    margin: 0;
+    inset: auto;
+
     width: max-content;
     min-width: 300px;
+
+    /* legacy support for non anchor CSS */
+    transform: translate(calc(100%), calc(-100% + 40px));
+    /* legacy support for non anchor CSS */
+}
+
+@supports (position-anchor: --neos-LinkEditor-Advanced-anchor) {
+    .advancedContents {
+        position-anchor: --neos-LinkEditor-Advanced-anchor;
+        left: anchor(right);
+        top: anchor(bottom);
+        transform: translateY(-100%);
+    }
+}
+
+.advancedButton {
+    anchor-name: --neos-LinkEditor-Advanced-anchor;
+}
+
+.advancedButton:focus {
+    outline: none;
 }
 
 .advancedContents:popover-open + .advancedButton .advancedOpenerIcon {
