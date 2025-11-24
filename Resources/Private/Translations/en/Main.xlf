@@ -131,6 +131,21 @@
             <trans-unit id="ckeditor__toolbar__indent" xml:space="preserve">
                 <source>Indent</source>
             </trans-unit>
+            <trans-unit id="ckeditor__toolbar__lists" xml:space="preserve">
+                <source>Lists</source>
+            </trans-unit>
+            <trans-unit id="ckeditor__toolbar__formatting" xml:space="preserve">
+                <source>Formatting options</source>
+            </trans-unit>
+            <trans-unit id="ckeditor__toolbar__formatting.tooltip" xml:space="preserve">
+                <source>Additional formatting options</source>
+            </trans-unit>
+            <trans-unit id="Neos.Neos.Ui:Main:ckeditor__toolbar__more" xml:space="preserve">
+                <source>More</source>
+            </trans-unit>
+            <trans-unit id="Neos.Neos.Ui:Main:ckeditor__toolbar__more.tooltip" xml:space="preserve">
+                <source>Additional elements</source>
+            </trans-unit>
             <trans-unit id="ckeditor__toolbar__setTableColumnHeader" xml:space="preserve">
                 <source>Header column</source>
             </trans-unit>
