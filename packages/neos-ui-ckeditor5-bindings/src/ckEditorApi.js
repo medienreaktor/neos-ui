@@ -191,24 +191,20 @@ export const createEditor = store => async options => {
                     // when another editor is focused commit all possible pending changes
                     debouncedOnChange.flush();
                     editor.ui.view.toolbar.element.classList.remove('neos-ck-anchored-toolbar--visible');
-                    currentEditor = null;
-                    currentPropertyDomNode = null;
                     return;
                 }
 
-                if (currentEditor !== editor) {
-                    currentEditor = editor;
-                    currentPropertyDomNode = propertyDomNode;
+                currentEditor = editor;
+                currentPropertyDomNode = propertyDomNode;
 
-                    if (editor.ui.view.toolbar.items.length > 0) {
-                        editor.ui.view.toolbar.element.classList.add('neos-ck-anchored-toolbar--visible');
-                        if (!supportsCSSAnchors) {
-                            updateToolbarPosition();
-                        }
+                if (editor.ui.view.toolbar.items.length > 0) {
+                    editor.ui.view.toolbar.element.classList.add('neos-ck-anchored-toolbar--visible');
+                    if (!supportsCSSAnchors) {
+                        updateToolbarPosition();
                     }
-
-                    editorConfig.setCurrentlyEditedPropertyName(propertyName);
                 }
+
+                editorConfig.setCurrentlyEditedPropertyName(propertyName);
                 handleUserInteractionCallback();
             });
 
@@ -243,7 +239,7 @@ export const createEditor = store => async options => {
 };
 
 export const executeCommand = (command, argument, reFocusEditor = true) => {
-    currentEditor.execute(command, argument);
+    currentEditor?.execute(command, argument);
     if (reFocusEditor) {
         currentEditor.editing.view.focus();
     }
