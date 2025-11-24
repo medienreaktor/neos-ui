@@ -80,25 +80,19 @@
     outline: 0;
 }
 
-@position-try --context-menu-align-right {
-    left: auto;
-    right: anchor(right);
-    top: anchor(bottom);
-}
 .toolBar__contextMenu {
     width: max-content;
-    position: fixed;
     position-anchor: --inline-ui-node-context-menu-anchor;
-    left: anchor(left);
+    right: anchor(right);
     top: anchor(bottom);
+    left: auto;
     margin: 0;
     padding: 0;
     background-color: var(--colors-ContrastBrightest);
-    position-try-fallbacks: --context-menu-align-right;
     border: 1px solid var(--colors-ContrastDark);
 }
 
-@supports not (anchor-name: --inline-ui-node-toolbar-anchor) {
+@supports not (anchor-name: --inline-ui-node-context-menu-anchor) {
     .toolBar__contextMenu:popover-open {
         all: initial;
         position: absolute;
