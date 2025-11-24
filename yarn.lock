@@ -3558,6 +3558,7 @@ __metadata:
     "@neos-project/neos-ui-redux-store": "workspace:*"
     "@neos-project/react-ui-components": "workspace:*"
     "@neos-project/utils-helpers": "workspace:*"
+    "@types/lodash.debounce": ^4.0.9
     classnames: ^2.2.3
     lodash.debounce: ^4.0.8
     lodash.omit: ^4.5.0
@@ -3713,6 +3714,7 @@ __metadata:
     "@neos-project/neos-ui-validators": "workspace:*"
     "@neos-project/react-ui-components": "workspace:*"
     "@neos-project/utils-helpers": "workspace:*"
+    "@types/lodash.debounce": ^4.0.9
     amator: ^1.0.1
     classnames: ^2.2.3
     lodash.debounce: ^4.0.8
@@ -4538,7 +4540,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash.debounce@npm:^4.0.8":
+"@types/lodash.debounce@npm:^4.0.8, @types/lodash.debounce@npm:^4.0.9":
   version: 4.0.9
   resolution: "@types/lodash.debounce@npm:4.0.9"
   dependencies:

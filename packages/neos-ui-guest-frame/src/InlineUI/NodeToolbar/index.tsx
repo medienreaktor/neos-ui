@@ -1,6 +1,4 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-// @ts-ignore
-import debounce from 'lodash.debounce';
 
 import {
     animateScrollToElementInGuestFrame,
@@ -66,7 +64,6 @@ const NodeToolbar: React.FC<NodeToolbarProps & InjectedNodeToolbarProps> = ({
     const [anchorPosition, setAnchorPosition] = useState<{top: number, left: number, height: number, right: number, width: number}|null>(null);
 
     const iframeWindow = useRef(getGuestFrameWindow()).current;
-    const debouncedUpdateRef = useRef();
 
     const contextPath = focusedNode?.contextPath;
 
@@ -117,12 +114,6 @@ const NodeToolbar: React.FC<NodeToolbarProps & InjectedNodeToolbarProps> = ({
         });
     }, [contextPath, fusionPath, visible]);
 
-    const forceUpdate = useCallback(() => {
-        // Force re-render by updating a dummy state if needed
-        // In most cases, the dependencies should handle updates automatically
-        // TODO: Check if this is still needed
-    }, []);
-
     const scrollIntoView = useCallback(() => {
         // Only scroll into view when triggered from content tree (on focus change)
         if (shouldScrollIntoView) {
@@ -150,23 +141,11 @@ const NodeToolbar: React.FC<NodeToolbarProps & InjectedNodeToolbarProps> = ({
         };
     }, [i18nRegistry, contextPath, fusionPath, destructiveOperationsAreDisabled, canBeDeleted, canBeEdited, isCopied, isCut, visibilityCanBeToggled, insertPosition]);
 
-    // Initialize debounced functions
-    useEffect(() => {
-        debouncedUpdateRef.current = debounce(forceUpdate, 5);
-
-        return () => {
-            // @ts-ignore
-            debouncedUpdateRef.current?.cancel();
-        };
-    }, [forceUpdate]);
-
     useEffect(() => {
         if (!iframeWindow) {
             return;
         }
 
-        iframeWindow.addEventListener('resize', debouncedUpdateRef.current);
-        iframeWindow.addEventListener('load', debouncedUpdateRef.current);
         iframeWindow.addEventListener('mousemove', handleMouseMove);
 
         // With the observer we can immediately react to size changes during inline editing
@@ -181,8 +160,6 @@ const NodeToolbar: React.FC<NodeToolbarProps & InjectedNodeToolbarProps> = ({
 
         return () => {
             resizeObserver.disconnect();
-            iframeWindow.removeEventListener('resize', debouncedUpdateRef.current);
-            iframeWindow.removeEventListener('load', debouncedUpdateRef.current);
             iframeWindow.removeEventListener('mousemove', handleMouseMove);
         };
     }, [contextPath, fusionPath, handleMouseMove, scrollIntoView, updateAnchorPosition]);

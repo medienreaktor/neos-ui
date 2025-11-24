@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {DecoupledEditor} from '@ckeditor/ckeditor5-editor-decoupled';
-// @ts-ignore
 import debounce from 'lodash.debounce';
 
 import {neos} from '@neos-project/neos-ui-decorators';

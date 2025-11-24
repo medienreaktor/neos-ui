@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import mergeClassNames from 'classnames';
-// @ts-ignore
 import debounce from 'lodash.debounce';
 
 // @ts-ignore
@@ -67,7 +66,7 @@ const ContextToolbar: React.FC<ContextToolbarProps & InjectedContextToolbarProps
     const focusedNode = useSelector(selectors.CR.Nodes.focusedSelector);
     const iframeWindow = useRef(getGuestFrameWindow()).current;
     const [isSticky, setIsSticky] = useState(false);
-    const debouncedStickyRef = useRef();
+    const debouncedStickyRef = useRef<any>();
 
     const updateStickiness = useCallback(() => {
         if (!focusedNode) {
@@ -83,6 +82,12 @@ const ContextToolbar: React.FC<ContextToolbarProps & InjectedContextToolbarProps
 
     useEffect(() => {
         debouncedStickyRef.current = debounce(updateStickiness, 5);
+
+        return () => {
+            if (debouncedStickyRef.current && debouncedStickyRef.current.cancel) {
+                debouncedStickyRef.current.cancel();
+            }
+        }
     }, [updateStickiness]);
 
     useEffect(() => {

@@ -34,6 +34,7 @@
     "@neos-project/neos-ui-redux-store": "workspace:*",
     "@neos-project/react-ui-components": "workspace:*",
     "@neos-project/utils-helpers": "workspace:*",
+    "@types/lodash.debounce": "^4.0.9",
     "classnames": "^2.2.3",
     "lodash.debounce": "^4.0.8",
     "lodash.omit": "^4.5.0"
