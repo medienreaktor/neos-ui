@@ -38,7 +38,6 @@ const CKEditorWrap: React.FC<CKEditorWrapProps> = ({
     const [formattingUnderCursor, setFormattingUnderCursor] = useState({});
     const [lastFormattingUnderCursorSerialized, setLastFormattingUnderCursorSerialized] = useState('');
     const editorRef = useRef<HTMLDivElement>(null);
-    const toolbarWrapRef = useRef<HTMLDivElement>(null);
     const [currentEditor, setCurrentEditor] = useState<DecoupledEditor>();
 
     const executeCommand = useCallback((command, argument, reFocusEditor = true) => {
@@ -92,8 +91,8 @@ const CKEditorWrap: React.FC<CKEditorWrapProps> = ({
                 setCurrentEditor(editor);
 
                 // As we use the DecoupledEditor, we need to add the toolbar to the secondary editor
-                if (toolbarWrapRef.current) {
-                    toolbarWrapRef.current.appendChild(editor.ui.view.toolbar.element as Node);
+                if (editorRef.current) {
+                    editorRef.current.before(editor.ui.view.toolbar.element as Node);
                 }
 
                 editor.model.document.on('change', handleUserInteractionCallback);
@@ -103,7 +102,7 @@ const CKEditorWrap: React.FC<CKEditorWrapProps> = ({
 
     return (
         <div className={style.wrap}>
-            <div className={style.toolBar__wrap} ref={toolbarWrapRef}>
+            <div className={style.toolBar__wrap}>
                 <EditorToolbar
                     executeCommand={executeCommand}
                     editorOptions={options}
