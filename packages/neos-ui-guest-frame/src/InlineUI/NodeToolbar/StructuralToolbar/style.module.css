@@ -15,6 +15,7 @@
  */
 @position-try --structural-toolbar-align-right {
     left: anchor(left);
+    right: auto;
     bottom: anchor(top);
     position-area: none;
 }
@@ -22,10 +23,9 @@
     z-index: var(--zIndex-NodeToolBar);
     position: absolute;
     position-anchor: --inline-ui-context-toolbar-anchor;
-    position-area: center left;
+    right: anchor(left);
+    bottom: anchor(bottom);
     position-try-fallbacks: --structural-toolbar-align-right;
-    border: 1px solid #35c3f8;
-    border-bottom-width: 0;
     height: max-content;
 }
 .structuralToolBar__popover:hover {
@@ -36,17 +36,19 @@
     position-anchor: --inline-ui-node-toolbar-anchor;
     position-area: bottom center;
     position-try-fallbacks: none;
+    right: auto;
     top: 12px;
+    border: 1px solid #35c3f8;
     border-top-width: 0;
-    border-bottom-width: 1px;
 }
 
 .structuralToolBar__popover.structuralToolBar__popover--isInside {
     position-anchor: --inline-ui-node-toolbar-anchor;
     position-area: center center;
     position-try-fallbacks: none;
+    right: auto;
     top: 10px;
-    border-bottom-width: 1px;
+    border: 1px solid #35c3f8;
 }
 
 @supports not (anchor-name: --inline-ui-node-toolbar-anchor) {

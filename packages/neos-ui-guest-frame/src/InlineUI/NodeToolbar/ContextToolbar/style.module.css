@@ -45,7 +45,7 @@
         z-index: var(--zIndex-NodeToolBar);
         position: absolute;
         right: calc(-10px - 2px);
-        top: -10px;
+        top: -42px;
         pointer-events: all;
     }
 
@@ -64,9 +64,7 @@
 }
 
 .toolBar__contextMenuWrapper {
-    position: absolute;
-    top: 100%;
-    right: 0;
+    position: relative;
 }
 
 .toolBar__contextMenuToggle {
