@@ -3,10 +3,6 @@ import {stripTags} from '@neos-project/utils-helpers';
 import {translate} from '@neos-project/neos-ui-i18n';
 
 import DisabledAutoparagraphMode from './plugins/disabledAutoparagraphMode';
-import LinkTargetBlank from './plugins/linkTargetBlank';
-import LinkRelNofollow from './plugins/linkRelNofollow';
-import LinkDownload from './plugins/linkDownload';
-import LinkTitle from './plugins/linkTitle';
 import ItalicWithEm from './plugins/italicWithEm';
 
 import {Alignment} from '@ckeditor/ckeditor5-alignment';
@@ -32,6 +28,7 @@ import {RemoveFormat} from '@ckeditor/ckeditor5-remove-format';
 import {Style} from '@ckeditor/ckeditor5-style';
 import {Table, TableCaption, TableToolbar} from '@ckeditor/ckeditor5-table';
 import {Undo} from '@ckeditor/ckeditor5-undo';
+import {Link} from './plugins/link';
 
 const addPlugin = (Plugin, isEnabled) => (ckEditorConfiguration, options) => {
     // LEGACY: we duplicate editorOptions here so it would be possible to write smth like `$get('formatting.sup')`
@@ -155,12 +152,7 @@ export default ckEditorRegistry => {
     config.set('superscript', addPlugin(Superscript, editorOptions => editorOptions?.formatting?.sup));
     config.set('underline', addPlugin(Underline, editorOptions => editorOptions?.formatting?.underline));
     config.set('undo', addPlugin(Undo, editorOptions => editorOptions?.formatting?.undo));
-
-    // Link related plugins
-    config.set('linkTargetBlank', addPlugin(LinkTargetBlank, editorOptions => editorOptions?.formatting?.a));
-    config.set('linkRelNofollow', addPlugin(LinkRelNofollow, editorOptions => editorOptions?.formatting?.a));
-    config.set('linkDownload', addPlugin(LinkDownload, editorOptions => editorOptions?.formatting?.a));
-    config.set('linkTitle', addPlugin(LinkTitle, editorOptions => editorOptions?.formatting?.a));
+    config.set('link', addPlugin(Link, editorOptions => editorOptions?.formatting?.a));
 
     // Toolbar plugins
     config.set('balloonToolbar', addPlugin(BalloonToolbar));
