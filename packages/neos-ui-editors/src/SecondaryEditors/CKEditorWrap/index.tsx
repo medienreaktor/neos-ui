@@ -70,7 +70,7 @@ const CKEditorWrap: React.FC<CKEditorWrapProps> = ({
     }, []);
 
     useEffect(() => {
-        if (!editorRef.current) {
+        if (!editorRef.current || currentEditor) {
             return;
         }
         const domNode = editorRef.current;
