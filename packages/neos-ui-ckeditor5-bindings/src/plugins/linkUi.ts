@@ -17,6 +17,7 @@ import {
     ViewPosition
 } from '@ckeditor/ckeditor5-engine';
 import {DomOptimalPositionOptions} from '@ckeditor/ckeditor5-utils';
+import {editor as neosLinkEditor, ILinkOptions} from "@neos-project/neos-ui-link-editor-core";
 
 const VISUAL_SELECTION_MARKER_NAME = 'neos-link-ui';
 
@@ -87,6 +88,80 @@ export class LinkUi extends Plugin {
         }
     }
 
+    private async _handleLinkEditing() {
+        const {neos} = this.editor;
+
+        const editorOptions = {
+            linkTypes: {
+                ...neos.editorOptions?.linking?.linkTypes
+            }
+        };
+
+        if (neos.editorOptions?.linking?.startingPoint) {
+            // handle legacy root level option
+            editorOptions.linkTypes.Node = {
+                ...editorOptions.linkTypes.Node,
+                startingPoint:
+                    (editorOptions.linkTypes.Node as any).startingPoint
+                    ?? neos.editorOptions.linking.startingPoint
+            };
+        }
+
+
+        const linkCommand: LinkCommand = this.editor.commands.get('link')!;
+
+        const link = linkCommand.value ? {
+            href: linkCommand.value,
+            options: {
+                title: this.editor.commands.get('linkTitle')?.value,
+                targetBlank: this.editor.commands.get('linkTargetBlank')?.value,
+                relNofollow: this.editor.commands.get('linkRelNofollow')?.value,
+                download: this.editor.commands.get('linkDownload')?.value,
+            }
+        } : null;
+
+        const enabledLinkOptions: (keyof ILinkOptions)[] = [];
+
+        if (neos.editorOptions?.linking?.title) {
+            enabledLinkOptions.push('title');
+        }
+
+        if (neos.editorOptions?.linking?.relNofollow) {
+            enabledLinkOptions.push('relNofollow');
+        }
+
+        if (neos.editorOptions?.linking?.targetBlank) {
+            enabledLinkOptions.push('targetBlank');
+        }
+
+        if (neos.editorOptions?.linking?.download) {
+            enabledLinkOptions.push('download');
+        }
+
+        const result = await neosLinkEditor.transactions.editLink(link, enabledLinkOptions, editorOptions);
+
+        if (result.change) {
+            if (result.value === null) {
+                this.editor.execute('linkTitle', false);
+                this.editor.execute('linkRelNofollow', false);
+                this.editor.execute('linkTargetBlank', false);
+                this.editor.execute('linkDownload', false);
+                this.editor.execute('unlink');
+                this.editor.focus();
+            } else {
+                this.editor.execute('linkTitle', result.value.options?.title || false);
+                this.editor.execute('linkRelNofollow', result.value.options?.relNofollow ?? false);
+                this.editor.execute('linkTargetBlank', result.value.options?.targetBlank ?? false);
+                this.editor.execute('linkDownload', result.value.options?.download ?? false);
+
+                this.editor.execute('link', result.value.href);
+                this.editor.focus();
+            }
+        } else {
+            this.editor.focus();
+        }
+    }
+
     private _createViews() {
         this.toolbarView = this._createToolbarView();
 
@@ -102,6 +177,19 @@ export class LinkUi extends Plugin {
 
         const {t} = editor.locale;
 
+        const linkCommand: LinkCommand = editor.commands.get('link')!;
+        const editButton = new ButtonView(editor.locale);
+        editButton.set({
+            label: t('Edit link'),
+            icon: IconPencil,
+            tooltip: true
+        });
+        editButton.bind('isEnabled').to(linkCommand);
+        this.listenTo<ButtonExecuteEvent>(editButton, 'execute', () => {
+            this._handleLinkEditing();
+        });
+        toolbarView.items.add(editButton);
+
         const unlinkCommand: UnlinkCommand = editor.commands.get('unlink')!;
         const unlinkButton = new ButtonView(editor.locale);
         unlinkButton.set({
@@ -116,19 +204,6 @@ export class LinkUi extends Plugin {
         });
         toolbarView.items.add(unlinkButton);
 
-        const linkCommand: LinkCommand = editor.commands.get('link')!;
-        const editButton = new ButtonView(editor.locale);
-        editButton.set({
-            label: t('Edit link'),
-            icon: IconPencil,
-            tooltip: true
-        });
-        editButton.bind('isEnabled').to(linkCommand);
-        this.listenTo<ButtonExecuteEvent>(editButton, 'execute', () => {
-            console.log('todo what now? open dialog?')
-        });
-        toolbarView.items.add(editButton);
-
         // Close the panel on esc key press when the **link toolbar have focus**.
         toolbarView.keystrokes.set('Esc', (data, cancel) => {
             this._hideUI();
@@ -137,7 +212,7 @@ export class LinkUi extends Plugin {
 
         // Open the form view on Ctrl+K when the **link toolbar have focus**..
         toolbarView.keystrokes.set(LINK_KEYSTROKE, (data, cancel) => {
-            console.log('todo what now? open dialog?')
+            this._handleLinkEditing();
 
             cancel();
         });
@@ -204,7 +279,7 @@ export class LinkUi extends Plugin {
             // Open the form view on-top of the toolbar view if it's already visible.
             // It should be visible every time the link is selected.
             if (this._getSelectedLinkElement()) {
-                console.log('todo what now? open dialog?')
+                this._handleLinkEditing();
             }
         });
 
@@ -313,12 +388,12 @@ export class LinkUi extends Plugin {
                 this._balloon.showStack('main');
             }
 
-            console.log('todo what now? open dialog?')
+            this._handleLinkEditing();
         } else {
             // If there's a link under the selection...
             // Go to the editing UI if toolbar is already visible.
             if (this._isToolbarVisible) {
-                console.log('todo what now? open dialog?')
+                this._handleLinkEditing();
             } else {
                 // Otherwise display just the toolbar.
                 this._addToolbarView();

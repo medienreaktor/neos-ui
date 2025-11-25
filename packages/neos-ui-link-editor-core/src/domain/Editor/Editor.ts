@@ -101,4 +101,7 @@ export function createEditor() {
     });
 }
 
+// TODO evaluate if this is a good idea to use a singleton instance here :) -> use that also in other places
+export const editor = createEditor();
+
 export type IEditor = ReturnType<typeof createEditor>;

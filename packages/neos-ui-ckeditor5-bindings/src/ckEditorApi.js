@@ -1,5 +1,4 @@
 import debounce from 'lodash.debounce';
-import {actions} from '@neos-project/neos-ui-redux-store';
 import {getGuestFrame, getGuestFrameDocument, getGuestFrameWindow} from '@neos-project/neos-ui-guest-frame/src/dom';
 import {DecoupledEditor} from '@ckeditor/ckeditor5-editor-decoupled';
 import {Template, BodyCollection} from '@ckeditor/ckeditor5-ui';
@@ -133,7 +132,7 @@ class GuestFrameBodyCollection extends BodyCollection {
     }
 }
 
-export const createEditor = store => async options => {
+export const createEditor = () => async options => {
     const {propertyDomNode, propertyName, editorOptions, globalRegistry, userPreferences, onChange} = options;
     const ckEditorConfig = editorConfig.configRegistry.getCkeditorConfig({
         editorOptions,
@@ -206,12 +205,6 @@ export const createEditor = store => async options => {
 
                 editorConfig.setCurrentlyEditedPropertyName(propertyName);
                 handleUserInteractionCallback();
-            });
-
-            // TODO: Remove when link editor is a CKE5 plugin with a configured keystroke
-            editor.keystrokes.set('Ctrl+K', (_, cancel) => {
-                store.dispatch(actions.UI.ContentCanvas.toggleLinkEditor());
-                cancel();
             });
 
             editor.model.document.on('change', () => handleUserInteractionCallback());
