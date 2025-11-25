@@ -13,7 +13,8 @@ const withReduxState = connect((state: GlobalState) => ({
     focusedNodeParentLine: selectors.CR.Nodes.focusedNodeParentLineSelector(state),
     focusedNode: selectors.CR.Nodes.focusedSelector(state)
 }), {
-    focusNode: actions.CR.Nodes.focus
+    focusNode: actions.CR.Nodes.focus,
+    requestScrollIntoView: actions.UI.ContentCanvas.requestScrollIntoView
 });
 
 const withNeosGlobals = neos((globalRegistry) => ({
@@ -24,17 +25,20 @@ const Breadcrumb: React.FC<{
     focusedNode: Node | null,
     focusedNodeParentLine: Node[],
     focusNode: (contextPath: string) => void,
-    nodeTypesRegistry: NodeTypesRegistry
+    nodeTypesRegistry: NodeTypesRegistry,
+    requestScrollIntoView: (value: boolean) => void
 }> = ({
     focusedNode,
     focusedNodeParentLine,
     focusNode,
-    nodeTypesRegistry
+    nodeTypesRegistry,
+    requestScrollIntoView
 }) => {
     const handleSelectNode = React.useCallback((selectedNodeContextPath: string) => {
         if (selectedNodeContextPath && selectedNodeContextPath !== focusedNode?.contextPath) {
             focusNode(selectedNodeContextPath);
         }
+        requestScrollIntoView(true);
     }, [focusNode, focusedNode]);
 
     const closestDocumentNodeInParentLineIndex = focusedNodeParentLine
