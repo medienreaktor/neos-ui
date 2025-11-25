@@ -2756,6 +2756,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ckeditor/ckeditor5-utils@patch:@ckeditor/ckeditor5-utils@npm:47.2.0#patches/@ckeditor-ckeditor5-utils-npm-47.2.0.patch::locator=root-workspace-0b6124%40workspace%3A.":
+  version: 47.2.0
+  resolution: "@ckeditor/ckeditor5-utils@patch:@ckeditor/ckeditor5-utils@npm%3A47.2.0#patches/@ckeditor-ckeditor5-utils-npm-47.2.0.patch::version=47.2.0&hash=1a487d&locator=root-workspace-0b6124%40workspace%3A."
+  dependencies:
+    "@ckeditor/ckeditor5-ui": 47.2.0
+    es-toolkit: 1.39.5
+  checksum: 9b39ae4e69bb00e20cfb592fc5970444e0823971a20c4d68239255a0f84775f90d837a4160d4d4e17139adaec6a8b71064782c4d987bc9e5ea12fe9329416843
+  languageName: node
+  linkType: hard
+
 "@ckeditor/ckeditor5-watchdog@npm:47.2.0":
   version: 47.2.0
   resolution: "@ckeditor/ckeditor5-watchdog@npm:47.2.0"
