@@ -216,13 +216,8 @@ export const createEditor = store => async options => {
 
             editor.model.document.on('change', () => handleUserInteractionCallback());
 
-            // As we use the DecoupledEditor, we need to add the toolbar to the Neos backend container, so it is visible in the UI
-            const ckeditorContainer = getGuestFrameDocument().querySelector('.ck-body-wrapper') || document.getElementById('neos-backend-container');
-            if (!ckeditorContainer) {
-                console.error('Neos.Ui: Could not find neos-backend-container in guest frame document. CKEditor toolbar cannot be attached.');
-                return editor;
-            }
-            ckeditorContainer.appendChild(editor.ui.view.toolbar.element);
+            // As we use the DecoupledEditor, we need to manually add the toolbar to the Neos backend container, so it is visible in the UI
+            editor.ui.view.body.bodyCollectionContainer.appendChild(editor.ui.view.toolbar.element)
 
             // Anchor the toolbar to the dom-node representing the edited property
             editor.ui.view.toolbar.element.style.positionAnchor = propertyDomNode.dataset.neosInlineEditorAnchorName;
