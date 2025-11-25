@@ -9,10 +9,11 @@ import LinkRelNofollow from './linkRelNofollow';
 import LinkDownload from './linkDownload';
 /** @ts-expect-error */
 import LinkTitle from './linkTitle';
+import {LinkUi} from './linkUi';
 
 export class Link extends Plugin {
     static get requires() {
-        return [LinkEditing, LinkTargetBlank, LinkRelNofollow, LinkDownload, LinkTitle];
+        return [LinkEditing, LinkTargetBlank, LinkRelNofollow, LinkDownload, LinkTitle, LinkUi];
     }
 
     static get pluginName() {

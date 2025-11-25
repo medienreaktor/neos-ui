@@ -304,7 +304,9 @@ export default ckEditorRegistry => {
         if (formatting.code) {
             balloonToolbarItems.push('code');
         }
-
+        if (formatting.a) {
+            toolbarItems.push('link');
+        }
         const tableItems = formatting.table ? [
             'tableColumn',
             'tableRow',
