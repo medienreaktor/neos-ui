@@ -63,6 +63,13 @@
     font-size: var(--fontSize-Small);
 }
 
+.contextToolbar__nodeLabel span {
+    max-width: 100px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
 .toolBar__contextMenuWrapper {
     position: relative;
 }

@@ -25,7 +25,7 @@ const HTML_ENTITIES: Record<string, string> = {
 /**
  * Format node label by replacing html entities and trimming to max length
  */
-const formatNodeLabel = (label: string, maxLength = 20) => {
+const formatNodeLabel = (label: string, maxLength = 0) => {
     let nodeLabel = label;
 
     // Replace html special characters, unmatched entities are replaced with a space
@@ -34,7 +34,7 @@ const formatNodeLabel = (label: string, maxLength = 20) => {
     });
 
     // Trim to max length characters
-    return nodeLabel.substring(0, maxLength) + (nodeLabel.length > maxLength ? '…' : '');
+    return maxLength > 0 ? nodeLabel.substring(0, maxLength) + (nodeLabel.length > maxLength ? '…' : '') : nodeLabel;
 }
 
 type InjectedContextToolbarProps = {
@@ -104,7 +104,7 @@ const ContextToolbar: React.FC<ContextToolbarProps & InjectedContextToolbarProps
     }, [updateStickiness]);
 
     const focusedNodeType = focusedNode ? nodeTypesRegistry.get(focusedNode.nodeType) : null;
-    const focusedNodeLabel = focusedNode ? formatNodeLabel(focusedNode.label) : null;
+    const focusedNodeLabel = focusedNode ? formatNodeLabel(focusedNode.label) : '';
     const focusedNodeTypeIcon = focusedNodeType?.ui?.icon || 'cube';
 
     const buttons = guestFrameRegistry.getChildren('NodeToolbar/SecondaryButtons');
@@ -129,9 +129,10 @@ const ContextToolbar: React.FC<ContextToolbarProps & InjectedContextToolbarProps
                     htmlFor="neos-InlineToolbar-ContextMenu-toggle"
                     className={style.contextToolbar__nodeLabel}
                     popovertarget="neos-InlineToolbar-ContextMenu"
+                    title={focusedNodeLabel}
                 >
                     <Icon icon={focusedNodeTypeIcon}/>
-                    {focusedNodeLabel}
+                    <span>{focusedNodeLabel}</span>
                 </Label>
                 <div className={style.toolBar__contextMenuWrapper}>
                     <IconButton
