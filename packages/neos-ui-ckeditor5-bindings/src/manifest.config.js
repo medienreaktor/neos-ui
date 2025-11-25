@@ -334,7 +334,7 @@ export default ckEditorRegistry => {
             },
             toolbar: {
                 items: toolbarItems,
-                shouldNotGroupWhenFull: true
+                shouldNotGroupWhenFull: false
             },
             balloonToolbar: {
                 items: balloonToolbarItems,
