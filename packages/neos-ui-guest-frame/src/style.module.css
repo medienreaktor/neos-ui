@@ -51,8 +51,7 @@
 .addEmptyContentCollectionOverlay:hover {
     outline: 1px solid var(--colors-ContrastBrighter);
 }
-.addEmptyContentCollectionOverlay::before,
-.addEmptyContentCollectionOverlay::after {
+.addEmptyContentCollectionOverlay::before {
     display: inline-block;
     color: #adadad;
     opacity: .5;
@@ -66,16 +65,6 @@
 }
 .addEmptyContentCollectionOverlay::before {
     content: var(--collection-label);
-}
-.addEmptyContentCollectionOverlay::after {
-    margin: 0 1rem;
-    content: '\21e7';
-    transition: transform .2s ease;
-}
-.addEmptyContentCollectionOverlay:hover::after {
-    margin: 0 1rem;
-    content: '\21e7';
-    transform: rotate(-90deg);
 }
 
 .markActiveNodeAsFocused--focusedNode {
