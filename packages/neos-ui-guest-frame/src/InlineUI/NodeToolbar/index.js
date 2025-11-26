@@ -109,6 +109,7 @@ export default class NodeToolbar extends PureComponent {
                 }
             });
             this.resizeObserver.observe(this.nodeToolbarRef.current);
+            this.resizeObserver.observe(getGuestFrameWindow().document.body);
             const nodeElement = findNodeInGuestFrame(this.props.contextPath, this.props.fusionPath);
             if (nodeElement) {
                 this.resizeObserver.observe(nodeElement);
