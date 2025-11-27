@@ -1,5 +1,5 @@
 
-import {Plugin} from '@ckeditor/ckeditor5-core';
+import {Plugin, type Editor} from '@ckeditor/ckeditor5-core';
 import {isLinkElement, LinkCommand, LinkEditing, UnlinkCommand, _LINK_KEYSTROKE as LINK_KEYSTROKE} from '@ckeditor/ckeditor5-link';
 import {
     ButtonView,
@@ -10,13 +10,13 @@ import {
 import {isWidget} from '@ckeditor/ckeditor5-widget';
 import {IconLink, IconPencil, IconUnlink} from '@ckeditor/ckeditor5-icons';
 import {
-    ClickObserver,
+    ClickObserver, Observer,
     ViewAttributeElement,
     ViewDocumentClickEvent,
     ViewElement,
     ViewPosition
 } from '@ckeditor/ckeditor5-engine';
-import {DomOptimalPositionOptions} from '@ckeditor/ckeditor5-utils';
+import {DomOptimalPositionOptions, FocusTracker} from '@ckeditor/ckeditor5-utils';
 import {IEditor, ILinkOptions} from '@neos-project/neos-ui-link-editor-core';
 /** @ts-expect-error */
 import {LinkTargetBlankPlugin} from './LinkTargetBlankPlugin';
@@ -57,12 +57,25 @@ export function createLinkUiPlugin(neosLinkEditor: IEditor, neosEditorOptions: N
 
         private _balloon!: ContextualBalloon;
 
+        /**
+         * To hide the toolbar when clicking outside the editor we use the focusTracker
+         * Inspired from the Balloontoolbar https://github.com/ckeditor/ckeditor5/blob/v47.2.0/packages/ckeditor5-ui/src/toolbar/balloon/balloontoolbar.ts
+         */
+        private focusTracker!: FocusTracker;
+
         public static get requires() {
             return [ContextualBalloon, LinkEditing, LinkTargetBlankPlugin, LinkRelNofollowPlugin, LinkDownloadPlugin, LinkTitlePlugin];
         }
 
         public static get pluginName() {
             return 'LinkUi';
+        }
+
+        public constructor(editor: Editor) {
+            super(editor);
+            this.focusTracker = new FocusTracker();
+            // Track focusable elements in the toolbar and the editable elements.
+            this._trackFocusableEditableElements();
         }
 
         public init(): void {
@@ -99,6 +112,13 @@ export function createLinkUiPlugin(neosLinkEditor: IEditor, neosEditorOptions: N
                     );
 
                     return markerElement;
+                }
+            });
+
+            this.listenTo(this.focusTracker, 'change:isFocused', (_evt, _name, isFocused) => {
+                const isToolbarVisible = this._balloon.visibleView === this.toolbarView;
+                if (!isFocused && isToolbarVisible) {
+                    this._hideUI();
                 }
             });
         }
@@ -184,6 +204,7 @@ export function createLinkUiPlugin(neosLinkEditor: IEditor, neosEditorOptions: N
 
         private _createViews() {
             this.toolbarView = this._createToolbarView();
+            this.focusTracker.add(this.toolbarView);
 
             // Attach lifecycle actions to the the balloon.
             this._enableUserBalloonInteractions();
@@ -252,6 +273,24 @@ export function createLinkUiPlugin(neosLinkEditor: IEditor, neosEditorOptions: N
             });
 
             return toolbarView;
+        }
+
+        /**
+         * Add or remove editable elements to the focus tracker. It watches added and removed roots
+         * and adds or removes their editable elements to the focus tracker.
+         */
+        _trackFocusableEditableElements() {
+            const {editor, focusTracker} = this;
+            const {editing} = editor;
+            editing.view.addObserver(class TrackEditableElements extends Observer {
+                observe(domElement: Element) {
+                    focusTracker.add(domElement);
+                }
+
+                stopObserving(domElement: Element) {
+                    focusTracker.remove(domElement);
+                }
+            });
         }
 
         /**
