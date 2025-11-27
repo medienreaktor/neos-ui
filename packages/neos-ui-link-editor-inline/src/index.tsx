@@ -1,9 +1,9 @@
 import {IEditor} from '@neos-project/neos-ui-link-editor-core';
 
-import {createLinkButton} from './LinkButton';
 import {GlobalRegistry} from '@neos-project/neos-ui-registry';
+import {createLinkUiPlugin} from './LinkUiPlugin';
 
-export function registerLinkButton(
+export function registerInlineLinkEditor(
     globalRegistry: GlobalRegistry,
     editor: IEditor
 ): void {
@@ -14,16 +14,18 @@ export function registerLinkButton(
         return;
     }
 
-    const richtextToolbarRegistry = ckeditor5Registry.get('richtextToolbar');
-    if (!richtextToolbarRegistry) {
-        console.warn('[Neos.Neos.Ui:LinkEditor]: Could not find ckeditor5 richtextToolbar registry.');
+    const configRegistry = ckeditor5Registry.get('config');
+    if (!configRegistry) {
+        console.warn('[Neos.Neos.Ui:LinkEditor]: Could not find ckeditor5 config registry.');
         console.warn('[Neos.Neos.Ui:LinkEditor]: Skipping registration of RTE formatter...');
         return;
     }
 
-    richtextToolbarRegistry.set('link', {
-        commandName: 'link',
-        component: createLinkButton(editor),
-        isVisible: (formattingUnderCursor: any) => formattingUnderCursor?.formatting?.a
-    });
+    configRegistry.set('link', (ckEditorConfiguration, {editorOptions}) => ({
+        ...ckEditorConfiguration,
+        plugins: [
+            ...(ckEditorConfiguration.plugins ?? []),
+            ...(editorOptions?.formatting?.a ? [createLinkUiPlugin(editor, editorOptions)] : [])
+        ]
+    }));
 }

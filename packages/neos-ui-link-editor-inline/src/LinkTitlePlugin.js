@@ -3,7 +3,7 @@ import LinkAttributeCommand from './linkAttributeCommand';
 
 const TITLE = 'linkTitle';
 
-export default class LinkTitle extends Plugin {
+export class LinkTitlePlugin extends Plugin {
     static get pluginName() {
         return 'LinkTitle';
     }

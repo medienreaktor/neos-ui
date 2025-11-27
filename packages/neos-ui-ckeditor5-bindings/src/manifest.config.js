@@ -28,7 +28,6 @@ import {RemoveFormat} from '@ckeditor/ckeditor5-remove-format';
 import {Style} from '@ckeditor/ckeditor5-style';
 import {Table, TableCaption, TableToolbar} from '@ckeditor/ckeditor5-table';
 import {Undo} from '@ckeditor/ckeditor5-undo';
-import {Link} from './plugins/link';
 
 const addPlugin = (Plugin, isEnabled) => (ckEditorConfiguration, options) => {
     // LEGACY: we duplicate editorOptions here so it would be possible to write smth like `$get('formatting.sup')`
@@ -152,7 +151,6 @@ export default ckEditorRegistry => {
     config.set('superscript', addPlugin(Superscript, editorOptions => editorOptions?.formatting?.sup));
     config.set('underline', addPlugin(Underline, editorOptions => editorOptions?.formatting?.underline));
     config.set('undo', addPlugin(Undo, editorOptions => editorOptions?.formatting?.undo));
-    config.set('link', addPlugin(Link, editorOptions => editorOptions?.formatting?.a));
 
     // Toolbar plugins
     config.set('balloonToolbar', addPlugin(BalloonToolbar));
