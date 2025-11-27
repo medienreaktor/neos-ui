@@ -225,13 +225,13 @@ export function createLinkUiPlugin(neosLinkEditor: IEditor, neosEditorOptions: N
             toolbarView.items.add(unlinkButton);
 
             // Close the panel on esc key press when the **link toolbar have focus**.
-            toolbarView.keystrokes.set('Esc', (data, cancel) => {
+            toolbarView.keystrokes.set('Esc', (_data, cancel) => {
                 this._hideUI();
                 cancel();
             });
 
             // Open the form view on Ctrl+K when the **link toolbar have focus**..
-            toolbarView.keystrokes.set(LINK_KEYSTROKE, (data, cancel) => {
+            toolbarView.keystrokes.set(LINK_KEYSTROKE, (_data, cancel) => {
                 this._handleLinkEditing();
 
                 cancel();
@@ -326,7 +326,7 @@ export function createLinkUiPlugin(neosLinkEditor: IEditor, neosEditorOptions: N
             });
 
             // Handle the `Ctrl+K` keystroke and show the panel.
-            editor.keystrokes.set(LINK_KEYSTROKE, (keyEvtData, cancel) => {
+            editor.keystrokes.set(LINK_KEYSTROKE, (_keyEvtData, cancel) => {
                 // Prevent focusing the search bar in FF, Chrome and Edge. See https://github.com/ckeditor/ckeditor5/issues/4811.
                 cancel();
 
@@ -343,7 +343,7 @@ export function createLinkUiPlugin(neosLinkEditor: IEditor, neosEditorOptions: N
          */
         private _enableUserBalloonInteractions(): void {
             // Focus the form if the balloon is visible and the Tab key has been pressed.
-            this.editor.keystrokes.set('Tab', (data, cancel) => {
+            this.editor.keystrokes.set('Tab', (_data, cancel) => {
                 if (this._isToolbarVisible && !this.toolbarView!.focusTracker.isFocused) {
                     this.toolbarView!.focus();
                     cancel();
@@ -356,7 +356,7 @@ export function createLinkUiPlugin(neosLinkEditor: IEditor, neosEditorOptions: N
             });
 
             // Close the panel on the Esc key press when the editable has focus and the balloon is visible.
-            this.editor.keystrokes.set('Esc', (data, cancel) => {
+            this.editor.keystrokes.set('Esc', (_data, cancel) => {
                 if (this._isUIVisible) {
                     this._hideUI();
                     cancel();
@@ -514,7 +514,7 @@ export function createLinkUiPlugin(neosLinkEditor: IEditor, neosEditorOptions: N
         }
 
         private get _isToolbarInPanel(): boolean {
-            return Boolean(this.toolbarView) && this._balloon.hasView(this.toolbarView);
+            return this.toolbarView !== null && this._balloon.hasView(this.toolbarView);
         }
 
         private get _isToolbarVisible(): boolean {
@@ -600,7 +600,7 @@ export function createLinkUiPlugin(neosLinkEditor: IEditor, neosEditorOptions: N
             const startLink = findLinkElementAncestor(range.start);
             const endLink = findLinkElementAncestor(range.end);
 
-            if (!startLink || startLink != endLink) {
+            if (!startLink || startLink !== endLink) {
                 return null;
             }
 
