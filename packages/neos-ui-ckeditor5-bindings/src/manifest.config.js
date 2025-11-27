@@ -30,8 +30,7 @@ import {Table, TableCaption, TableToolbar} from '@ckeditor/ckeditor5-table';
 import {Undo} from '@ckeditor/ckeditor5-undo';
 
 const addPlugin = (Plugin, isEnabled) => (ckEditorConfiguration, options) => {
-    // LEGACY: we duplicate editorOptions here so it would be possible to write smth like `$get('formatting.sup')`
-    if (!isEnabled || isEnabled(options.editorOptions, options)) {
+    if (!isEnabled || isEnabled(options.editorOptions)) {
         return {
             ...ckEditorConfiguration,
             plugins: [
@@ -45,7 +44,7 @@ const addPlugin = (Plugin, isEnabled) => (ckEditorConfiguration, options) => {
 
 // If the editable is a span or a heading, we automatically disable paragraphs and enable the soft break mode
 // Also possible to force this behavior with `autoparagraph: false`
-const disableAutoparagraph = (editorOptions, {propertyDomNode}) =>
+const disableAutoparagraph = ({editorOptions, propertyDomNode}) =>
     editorOptions?.autoparagraph === false ||
     propertyDomNode.tagName === 'SPAN' ||
     propertyDomNode.tagName === 'H1' ||
@@ -130,7 +129,13 @@ export default ckEditorRegistry => {
     config.set('autoformat', addPlugin(Autoformat));
     config.set('essentials', addPlugin(Essentials));
     config.set('removeFormat', addPlugin(RemoveFormat, editorOptions => editorOptions?.formatting?.removeFormat));
-    config.set('disabledAutoparagraphMode', addPlugin(DisabledAutoparagraphMode, disableAutoparagraph));
+    config.set('disabledAutoparagraphMode', (ckEditorConfiguration, options) => ({
+        ...ckEditorConfiguration,
+        plugins: [
+            ...(ckEditorConfiguration.plugins ?? []),
+            ...(disableAutoparagraph(options) ? [DisabledAutoparagraphMode] : [])
+        ]
+    }));
 
     config.set('blockquote', addPlugin(BlockQuote, editorOptions => editorOptions?.formatting?.blockquote));
     config.set('blockquoteUi', addPlugin(BlockQuoteUI, editorOptions => editorOptions?.formatting?.blockquote));
