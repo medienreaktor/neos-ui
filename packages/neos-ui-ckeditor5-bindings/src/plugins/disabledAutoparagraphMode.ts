@@ -6,7 +6,7 @@ import {Plugin} from '@ckeditor/ckeditor5-core';
  *
  * We will try to find a serious alternative see https://github.com/neos/neos-ui/pull/3553
  */
-export default class DisabledAutoparagraphMode extends Plugin {
+export class DisabledAutoparagraphMode extends Plugin {
     static get pluginName() {
         return 'DisabledAutoparagraphMode';
     }

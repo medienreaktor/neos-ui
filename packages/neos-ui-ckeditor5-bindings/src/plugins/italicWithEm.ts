@@ -9,12 +9,12 @@ const ITALIC = 'italic';
  *
  * Original Italic Plugin at '@ckeditor/ckeditor5-basic-styles/src/italic/italicediting.js'
  */
-export default class ItalicWithEmEditing extends Plugin {
+export class ItalicWithEm extends Plugin {
     /**
      * @inheritDoc
      */
     static get pluginName() {
-        return 'ItalicWithEmEditing';
+        return 'ItalicWithEm';
     }
 
     /**

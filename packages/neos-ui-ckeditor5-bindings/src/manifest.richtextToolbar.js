@@ -1,5 +1,5 @@
 import StyleSelect from './EditorToolbar/StyleSelect';
-import RichTextToolbarRegistry from './registry/RichTextToolbarRegistry';
+import {RichTextToolbarRegistry} from './registry/RichTextToolbarRegistry';
 
 //
 // Create richtext editing toolbar registry

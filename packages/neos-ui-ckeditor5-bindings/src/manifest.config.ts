@@ -1,9 +1,13 @@
-import CkEditorConfigRegistry from './registry/CkEditorConfigRegistry';
+import {
+    CkEditorConfigRegistry,
+    CKEditorConfigurationProcessor,
+    CKEditorConfigurationProcessorOptions
+} from './registry/CkEditorConfigRegistry';
 import {stripTags} from '@neos-project/utils-helpers';
 import {translate} from '@neos-project/neos-ui-i18n';
 
-import DisabledAutoparagraphMode from './plugins/disabledAutoparagraphMode';
-import ItalicWithEm from './plugins/italicWithEm';
+import {DisabledAutoparagraphMode} from './plugins/disabledAutoparagraphMode';
+import {ItalicWithEm} from './plugins/italicWithEm';
 
 import {Alignment} from '@ckeditor/ckeditor5-alignment';
 import {Autoformat} from '@ckeditor/ckeditor5-autoformat';
@@ -28,8 +32,10 @@ import {RemoveFormat} from '@ckeditor/ckeditor5-remove-format';
 import {Style} from '@ckeditor/ckeditor5-style';
 import {Table, TableCaption, TableToolbar} from '@ckeditor/ckeditor5-table';
 import {Undo} from '@ckeditor/ckeditor5-undo';
+import {PluginConstructor} from '@ckeditor/ckeditor5-core';
+import {SynchronousMetaRegistry} from "@neos-project/neos-ui-registry";
 
-const addPlugin = (Plugin, isEnabled) => (ckEditorConfiguration, options) => {
+const addPlugin = (Plugin: PluginConstructor, isEnabled?: (editorOptions: any) => boolean): CKEditorConfigurationProcessor => (ckEditorConfiguration, options) => {
     if (!isEnabled || isEnabled(options.editorOptions)) {
         return {
             ...ckEditorConfiguration,
@@ -44,7 +50,7 @@ const addPlugin = (Plugin, isEnabled) => (ckEditorConfiguration, options) => {
 
 // If the editable is a span or a heading, we automatically disable paragraphs and enable the soft break mode
 // Also possible to force this behavior with `autoparagraph: false`
-const disableAutoparagraph = ({editorOptions, propertyDomNode}) =>
+const disableAutoparagraph = ({editorOptions, propertyDomNode}: CKEditorConfigurationProcessorOptions) =>
     editorOptions?.autoparagraph === false ||
     propertyDomNode.tagName === 'SPAN' ||
     propertyDomNode.tagName === 'H1' ||
@@ -55,7 +61,7 @@ const disableAutoparagraph = ({editorOptions, propertyDomNode}) =>
     propertyDomNode.tagName === 'H6';
 
 // Checks if the formatting options contains any block element
-const hasBlockFormat = (editorOptions) => {
+const hasBlockFormat = (editorOptions: any) => {
     if (!editorOptions?.formatting) {
         return false;
     }
@@ -76,8 +82,8 @@ const hasBlockFormat = (editorOptions) => {
 //
 // Create richtext editing toolbar registry
 //
-export default ckEditorRegistry => {
-    const config = ckEditorRegistry.set('config', new CkEditorConfigRegistry(`
+export default (ckEditorRegistry: SynchronousMetaRegistry<unknown>) => {
+    const config: CkEditorConfigRegistry = ckEditorRegistry.set('config', new CkEditorConfigRegistry(`
         Contains custom config for CkEditor
 
         In CKE all things are configured via a single configuration object: plugins, custom configs, etc (@see https://docs.ckeditor.com/ckeditor5/latest/builds/guides/integration/configuration.html)
@@ -114,12 +120,13 @@ export default ckEditorRegistry => {
     // - configuration of language
     // - and placeholder feature see https://ckeditor.com/docs/ckeditor5/16.0.0/api/module_core_editor_editorconfig-EditorConfig.html#member-placeholder
     //
-    config.set('baseConfiguration', (ckEditorConfiguration, {editorOptions, userPreferences}) => {
+    config.set('baseConfiguration', (ckEditorConfiguration, {editorOptions, userPreferences, globalRegistry}) => {
+        const i18nRegistry = globalRegistry.get('i18n');
         const placeholder = editorOptions?.placeholder;
         return {
             ...ckEditorConfiguration,
             // stripTags, because we allow `<p>Edit text here</p>` as placeholder for legacy
-            placeholder: placeholder ? stripTags(translate(placeholder)) : undefined,
+            placeholder: placeholder ? stripTags(i18nRegistry.translate(placeholder) || '') : undefined,
             language: String(userPreferences?.interfaceLanguage),
             licenseKey: 'GPL'
         };
@@ -334,6 +341,7 @@ export default ckEditorRegistry => {
                     {model: 'heading4', title: 'Heading 4', view: 'h4'},
                     {model: 'heading5', title: 'Heading 5', view: 'h5'},
                     {model: 'heading6', title: 'Heading 6', view: 'h6'},
+                    // TODO Setting the icon like this does not look well crafted
                     {model: 'pre', title: 'Preformatted', view: 'pre', icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free v6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M64 128l0-32 128 0 0 128-16 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-16 0 0-128 128 0 0 32c0 17.7 14.3 32 32 32s32-14.3 32-32l0-48c0-26.5-21.5-48-48-48L224 32 48 32C21.5 32 0 53.5 0 80l0 48c0 17.7 14.3 32 32 32s32-14.3 32-32zM9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3l64 64c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6l0-32 192 0 0 32c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l64-64c12.5-12.5 12.5-32.8 0-45.3l-64-64c-9.2-9.2-22.9-11.9-34.9-6.9s-19.8 16.6-19.8 29.6l0 32-192 0 0-32c0-12.9-7.8-24.6-19.8-29.6s-25.7-2.2-34.9 6.9l-64 64z"/></svg>'}
                 ]
             },
