@@ -27,12 +27,12 @@ type CKEditorWrapProps = {
 }
 
 const CKEditorWrap: React.FC<CKEditorWrapProps> = ({
-                                                       onChange,
-                                                       value,
-                                                       options,
-                                                       configRegistry,
-                                                       globalRegistry
-                                                   }) => {
+    onChange,
+    value,
+    options,
+    configRegistry,
+    globalRegistry
+}) => {
     const userPreferences = useSelector(state => state?.user?.preferences);
     const [formattingUnderCursor, setFormattingUnderCursor] = useState({});
     const [lastFormattingUnderCursorSerialized, setLastFormattingUnderCursorSerialized] = useState('');

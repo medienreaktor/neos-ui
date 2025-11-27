@@ -20,12 +20,12 @@ const withReduxState = connect(() => ({}), {
 });
 
 const DuplicateSelectedNode: React.FC<DuplicateSelectNodeProps> = ({
-                                                                       contextPath,
-                                                                       fusionPath,
-                                                                       destructiveOperationsAreDisabled,
-                                                                       className,
-                                                                       duplicateNode
-                                                                   }) => {
+   contextPath,
+   fusionPath,
+   destructiveOperationsAreDisabled,
+   className,
+   duplicateNode
+}) => {
     const focusedNodeContextPath = useSelector(selectors.CR.Nodes.focusedNodePathSelector);
     const handleDuplicateSelectedNode = useCallback(() => {
         if (focusedNodeContextPath) {
