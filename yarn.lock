@@ -3580,6 +3580,7 @@ __metadata:
     "@ckeditor/ckeditor5-engine": 47.2.0
     "@ckeditor/ckeditor5-essentials": 47.2.0
     "@ckeditor/ckeditor5-heading": 47.2.0
+    "@ckeditor/ckeditor5-highlight": 47.2.0
     "@ckeditor/ckeditor5-horizontal-line": 47.2.0
     "@ckeditor/ckeditor5-html-support": 47.2.0
     "@ckeditor/ckeditor5-icons": 47.2.0
@@ -3944,7 +3945,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@neos-project/neos-ui@workspace:packages/neos-ui"
   dependencies:
-    "@ckeditor/ckeditor5-highlight": 47.2.0
     "@fortawesome/fontawesome-svg-core": ^6.5.2
     "@fortawesome/free-brands-svg-icons": ^6.5.2
     "@fortawesome/free-regular-svg-icons": ^6.5.2

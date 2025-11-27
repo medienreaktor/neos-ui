@@ -14,6 +14,7 @@
     "@ckeditor/ckeditor5-engine": "47.2.0",
     "@ckeditor/ckeditor5-essentials": "47.2.0",
     "@ckeditor/ckeditor5-heading": "47.2.0",
+    "@ckeditor/ckeditor5-highlight": "47.2.0",
     "@ckeditor/ckeditor5-horizontal-line": "47.2.0",
     "@ckeditor/ckeditor5-html-support": "47.2.0",
     "@ckeditor/ckeditor5-icons": "47.2.0",
