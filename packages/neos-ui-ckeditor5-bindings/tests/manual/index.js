@@ -82,11 +82,7 @@ bootstrap({
     configRegistry
 })
 
-const fakeStore = {
-    dispatch: () => {}
-}
-
-const createInlineEditor = createEditor(fakeStore);
+const createInlineEditor = createEditor();
 
 
 // test in host frame
