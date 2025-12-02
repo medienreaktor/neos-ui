@@ -19,7 +19,7 @@ export default ({store, globalRegistry, nodeTypesRegistry, inlineEditorRegistry}
     }
 
     const isHidden = nodes?.[contextPath]?.properties?._hidden;
-    const hasChildren = Boolean(nodes?.[contextPath]?.children);
+    const hasChildren = Boolean(nodes?.[contextPath]?.children?.length);
     const isInlineEditable = nodeTypesRegistry.isInlineEditable(nodes?.[contextPath]?.nodeType);
     const matchesCurrentDimensions = !nodes?.[contextPath]?.matchesCurrentDimensions;
 
