@@ -11,9 +11,9 @@ declare module '@neos-project/neos-ui-extensibility' {
     type BootstrapDependencies = {
         // correct store type depends on https://github.com/neos/neos-ui/pull/4010
         store: any;
-        /** @deprecated use `import {getFrontendConfigurationForPackage} from '@neos-project/neos-ui-configuration'` instead */
+        /** @deprecated use "import {getFrontendConfigurationForPackage} from '@neos-project/neos-ui-configuration'" instead */
         frontendConfiguration: Record<string, any>;
-        /** @deprecated use `import {getConfiguration} from '@neos-project/neos-ui-registry'` instead */
+        /** @deprecated use "import {getConfiguration} from '@neos-project/neos-ui-registry'" instead */
         configuration: Configuration;
         routes: Routes;
     };
