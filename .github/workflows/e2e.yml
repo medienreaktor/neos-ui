@@ -83,6 +83,7 @@ jobs:
         run: |
           cd "../${{ env.PACKAGE_FOLDER }}"
           make build-e2e-testing
+          make build-subpackages
 
       - name: Cache Composer packages
         uses: actions/cache@v4
