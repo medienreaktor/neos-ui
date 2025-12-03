@@ -44,7 +44,6 @@ make install
 # actual release process
 
 # build
-make build-production
 make build-subpackages
 
 # code quality

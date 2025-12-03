@@ -78,9 +78,10 @@ setup: check-requirements install build ## Run a clean setup
 # Builds
 ################################################################################
 
-# Builds the subpackages for standalone use.
+# Builds the subpackages for standalone use. The test plugin is built last, as it depends on the other packages being finished.
 build-subpackages:
-	yarn workspaces foreach --parallel run build
+	yarn workspaces foreach --parallel --exclude @neos-project/neos-ui-test-plugin run build
+	yarn workspace @neos-project/neos-ui-test-plugin run build
 
 ## Runs the development build.
 build:
