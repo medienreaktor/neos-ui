@@ -78,10 +78,9 @@ setup: check-requirements install build ## Run a clean setup
 # Builds
 ################################################################################
 
-# Builds the subpackages for standalone use. The test plugin is built last, as it depends on the other packages being finished.
+# Builds the subpackages for standalone use.
 build-subpackages:
-	yarn workspaces foreach --parallel --exclude @neos-project/neos-ui-test-plugin run build
-	yarn workspace @neos-project/neos-ui-test-plugin run build
+	yarn workspaces foreach --parallel run build
 
 ## Runs the development build.
 build:
@@ -98,7 +97,7 @@ build-production:
 
 build-e2e-testing:
 	yarn workspace @neos-project/neos-ui-extensibility run build
-	yarn workspace @neos-project/neos-ui-test-plugin run build
+	yarn workspace @neos-project/neos-ui-test-plugin run build-testing
 	node esbuild.js --production --e2e-testing
 
 ################################################################################
