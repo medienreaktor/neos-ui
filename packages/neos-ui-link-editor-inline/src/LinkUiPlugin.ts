@@ -301,13 +301,7 @@ export function createLinkUiPlugin(neosLinkEditor: IEditor, neosEditorOptions: N
             // Show the panel on button click.
             this.listenTo<ButtonExecuteEvent>(view, 'execute', () => {
                 editor.editing.view.scrollToTheSelection();
-                this._showUI(true);
-
-                // Open the form view on-top of the toolbar view if it's already visible.
-                // It should be visible every time the link is selected.
-                if (this._getSelectedLinkElement()) {
-                    this._handleLinkEditing();
-                }
+                this._handleLinkEditing();
             });
 
             return view;
