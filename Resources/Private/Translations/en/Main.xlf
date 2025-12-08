@@ -376,6 +376,9 @@
             <trans-unit id="invalidValue" xml:space="preserve">
                 <source>Invalid value</source>
             </trans-unit>
+            <trans-unit id="emptyCollection" xml:space="preserve">
+                <source>Add content</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>

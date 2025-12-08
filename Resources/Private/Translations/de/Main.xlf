@@ -654,6 +654,10 @@
         <source>Invalid value</source>
         <target state="needs-translation">Ungültiger Wert</target>
       </trans-unit>
+      <trans-unit id="emptyCollection" xml:space="preserve">
+        <source>Add content</source>
+        <target state="translated">Inhalt hinzufügen</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

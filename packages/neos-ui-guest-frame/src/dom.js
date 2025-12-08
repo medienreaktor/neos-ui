@@ -5,6 +5,7 @@
 import animate from 'amator';
 
 import style from './style.module.css';
+import {translate} from "@neos-project/neos-ui-i18n";
 
 //
 // Get the guest frame's document object
@@ -163,6 +164,7 @@ export const createEmptyContentCollectionPlaceholderIfMissing = collectionDomNod
         if (!hasChildNodes && !hasEmptyContentCollectionOverlay) {
             const emptyContentCollectionOverlay = document.createElement('div');
             emptyContentCollectionOverlay.setAttribute('class', style.addEmptyContentCollectionOverlay);
+            emptyContentCollectionOverlay.innerText = translate('Neos.Neos.Ui:Main:emptyCollection', 'Add content');
             collectionDomNode.appendChild(emptyContentCollectionOverlay);
         }
     }

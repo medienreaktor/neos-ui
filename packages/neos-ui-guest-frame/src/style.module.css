@@ -46,25 +46,14 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    transition: outline .2s ease-in-out;
+    transition: outline .2s ease-in-out, color .2s ease;
+    color: rgba(173, 173, 173, 0.5);
+    line-height: 41px;
+    user-select: none;
 }
 .addEmptyContentCollectionOverlay:hover {
     outline: 1px solid var(--colors-ContrastBrighter);
-}
-.addEmptyContentCollectionOverlay::before {
-    display: inline-block;
-    color: #adadad;
-    opacity: .5;
-    transition: opacity .2s ease;
-    line-height: 41px;
-}
-
-.addEmptyContentCollectionOverlay:hover::before,
-.addEmptyContentCollectionOverlay:hover::after {
-    opacity: 1;
-}
-.addEmptyContentCollectionOverlay::before {
-    content: var(--collection-label);
+    color: var(--colors-ContrastBrighter);
 }
 
 .markActiveNodeAsFocused--focusedNode {
