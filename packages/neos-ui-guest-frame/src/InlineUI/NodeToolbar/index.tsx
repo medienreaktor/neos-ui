@@ -71,6 +71,8 @@ const NodeToolbar: React.FC<NodeToolbarProps & InjectedNodeToolbarProps> = ({
         return focusedNode ? nodeTypesRegistry.hasRole(focusedNode.nodeType, 'contentCollection') : false
     }, [focusedNode, nodeTypesRegistry]);
 
+    const nodeElement = useMemo(() => findNodeInGuestFrame(contextPath, fusionPath), [contextPath, fusionPath]);
+
     // Track mouse position for toolbar positioning
     const handleMouseMove = useCallback((event: MouseEvent) => {
         if (!focusedNode || !anchorPosition) {
@@ -96,11 +98,6 @@ const NodeToolbar: React.FC<NodeToolbarProps & InjectedNodeToolbarProps> = ({
             return;
         }
 
-        const nodeElement = findNodeInGuestFrame(contextPath, fusionPath);
-        if (!nodeElement) {
-            return;
-        }
-
         const newAnchorPosition = getAbsolutePositionOfElementInGuestFrame(nodeElement);
         setAnchorPosition(prevAnchorPosition => {
             if (prevAnchorPosition
@@ -112,18 +109,17 @@ const NodeToolbar: React.FC<NodeToolbarProps & InjectedNodeToolbarProps> = ({
             }
             return newAnchorPosition;
         });
-    }, [contextPath, fusionPath, visible]);
+    }, [nodeElement, visible]);
 
     const scrollIntoView = useCallback(() => {
         // Only scroll into view when triggered from content tree (on focus change)
         if (shouldScrollIntoView) {
-            const nodeElement = findNodeInGuestFrame(contextPath, fusionPath);
             if (nodeElement && !isElementVisibleInGuestFrame(nodeElement)) {
                 animateScrollToElementInGuestFrame(nodeElement, 100);
             }
             requestScrollIntoView(false);
         }
-    }, [shouldScrollIntoView, contextPath, fusionPath, requestScrollIntoView]);
+    }, [shouldScrollIntoView, nodeElement, requestScrollIntoView]);
 
     const toolbarButtonProps = useMemo(() => {
         return {
@@ -150,7 +146,6 @@ const NodeToolbar: React.FC<NodeToolbarProps & InjectedNodeToolbarProps> = ({
 
         // With the observer we can immediately react to size changes during inline editing
         const resizeObserver = new ResizeObserver(updateAnchorPosition);
-        const nodeElement = findNodeInGuestFrame(contextPath, fusionPath);
         if (nodeElement) {
             resizeObserver.observe(nodeElement);
         }
@@ -162,7 +157,7 @@ const NodeToolbar: React.FC<NodeToolbarProps & InjectedNodeToolbarProps> = ({
             resizeObserver.disconnect();
             iframeWindow.removeEventListener('mousemove', handleMouseMove);
         };
-    }, [contextPath, fusionPath, handleMouseMove, scrollIntoView, updateAnchorPosition]);
+    }, [nodeElement, handleMouseMove, scrollIntoView, updateAnchorPosition]);
 
     // Update effect - equivalent to componentDidUpdate
     useEffect(() => {
@@ -170,13 +165,7 @@ const NodeToolbar: React.FC<NodeToolbarProps & InjectedNodeToolbarProps> = ({
         updateAnchorPosition();
     }, [scrollIntoView, updateAnchorPosition]);
 
-    if (!contextPath || !visible || !anchorPosition) {
-        return null;
-    }
-
-    // TODO: Move check for node into events instead of doing it on every render
-    const nodeElement = findNodeInGuestFrame(contextPath, fusionPath);
-    if (!nodeElement) {
+    if (!nodeElement || !visible || !anchorPosition) {
         return null;
     }
 
