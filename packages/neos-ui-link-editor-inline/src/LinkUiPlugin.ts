@@ -237,13 +237,6 @@ export function createLinkUiPlugin(neosLinkEditor: IEditor, neosEditorOptions: N
                 cancel();
             });
 
-            // Open the form view on Ctrl+K when the **link toolbar have focus**..
-            toolbarView.keystrokes.set(LINK_KEYSTROKE, (_data, cancel) => {
-                this._handleLinkEditing();
-
-                cancel();
-            });
-
             // Register the toolbar, so it becomes available for Alt+F10 and Esc navigation.
             // This should be registered earlier to be able to open this toolbar without previously opening it by click or Ctrl+K
             editor.ui.addToolbar(toolbarView, {
@@ -333,7 +326,7 @@ export function createLinkUiPlugin(neosLinkEditor: IEditor, neosEditorOptions: N
 
                 if (editor.commands.get('link')!.isEnabled) {
                     editor.editing.view.scrollToTheSelection();
-                    this._showUI(true);
+                    this._handleLinkEditing();
                 }
             });
         }
@@ -396,34 +389,11 @@ export function createLinkUiPlugin(neosLinkEditor: IEditor, neosEditorOptions: N
                 this._createViews();
             }
 
-            // When there's no link under the selection, go straight to the editing UI.
-            if (!this._getSelectedLinkElement()) {
-                // Show visual selection on a text without a link when the contextual balloon is displayed.
-                // See https://github.com/ckeditor/ckeditor5/issues/4721.
-                this._showFakeVisualSelection();
+            this._addToolbarView();
 
-                this._addToolbarView();
-
-                // Be sure panel with link is visible.
-                if (forceVisible) {
-                    this._balloon.showStack('main');
-                }
-
-                this._handleLinkEditing();
-            } else {
-                // If there's a link under the selection...
-                // Go to the editing UI if toolbar is already visible.
-                if (this._isToolbarVisible) {
-                    this._handleLinkEditing();
-                } else {
-                    // Otherwise display just the toolbar.
-                    this._addToolbarView();
-                }
-
-                // Be sure panel with link is visible.
-                if (forceVisible) {
-                    this._balloon.showStack('main');
-                }
+            // Be sure panel with link is visible.
+            if (forceVisible) {
+                this._balloon.showStack('main');
             }
 
             // Begin responding to ui#update once the UI is added.
