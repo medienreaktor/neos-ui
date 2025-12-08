@@ -37,24 +37,24 @@ const CKEditorWrap: React.FC<CKEditorWrapProps> = ({
     const [formattingUnderCursor, setFormattingUnderCursor] = useState({});
     const [lastFormattingUnderCursorSerialized, setLastFormattingUnderCursorSerialized] = useState('');
     const editorRef = useRef<HTMLDivElement>(null);
-    const [currentEditor, setCurrentEditor] = useState<DecoupledEditor>();
+    const editorInstance = useRef<DecoupledEditor>();
 
     const executeCommand = useCallback((command, argument, reFocusEditor = true) => {
-        if (!currentEditor) {
+        if (!editorInstance.current) {
             return;
         }
-        currentEditor.execute(command, argument);
+        editorInstance.current.execute(command, argument);
         if (reFocusEditor) {
-            currentEditor.editing.view.focus();
+            editorInstance.current.editing.view.focus();
         }
-    }, [currentEditor]);
+    }, []);
 
     const handleUserInteractionCallback = useCallback(() => {
-        if (!currentEditor) {
+        if (!editorInstance.current) {
             return;
         }
         const newFormattingUnderCursor: Record<string, any> = {};
-        [...currentEditor.commands].forEach(commandTuple => {
+        [...editorInstance.current.commands].forEach(commandTuple => {
             const [commandName, command] = commandTuple;
             if (command.value !== undefined) {
                 newFormattingUnderCursor[commandName] = command.value;
@@ -69,7 +69,7 @@ const CKEditorWrap: React.FC<CKEditorWrapProps> = ({
     }, []);
 
     useEffect(() => {
-        if (!editorRef.current || currentEditor) {
+        if (!editorRef.current || editorInstance.current) {
             return;
         }
         const domNode = editorRef.current;
@@ -87,7 +87,7 @@ const CKEditorWrap: React.FC<CKEditorWrapProps> = ({
                 initialData: value
             })
             .then(editor => {
-                setCurrentEditor(editor);
+                editorInstance.current = editor;
 
                 // As we use the DecoupledEditor, we need to add the toolbar to the secondary editor
                 if (editorRef.current) {
