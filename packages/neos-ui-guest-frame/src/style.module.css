@@ -47,7 +47,7 @@
     align-items: center;
     justify-content: flex-start;
     transition: outline .2s ease-in-out, color .2s ease;
-    color: rgba(173, 173, 173, 0.5);
+    color: rgba(173, 173, 173, .5);
     line-height: 41px;
     user-select: none;
 }

@@ -10,7 +10,7 @@ import {neos} from '@neos-project/neos-ui-decorators';
 import {selectors, useSelector} from '@neos-project/neos-ui-redux-store';
 import {NodeTypesRegistry} from '@neos-project/neos-ui-contentrepository';
 import {SynchronousRegistry, GlobalRegistry} from '@neos-project/neos-ui-registry';
-import {decodeHtml} from "@neos-project/utils-helpers";
+import {decodeHtml} from '@neos-project/utils-helpers';
 
 import style from './style.module.css';
 

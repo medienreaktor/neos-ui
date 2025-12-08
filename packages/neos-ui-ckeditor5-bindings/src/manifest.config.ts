@@ -33,7 +33,7 @@ import {Style} from '@ckeditor/ckeditor5-style';
 import {Table, TableCaption, TableToolbar} from '@ckeditor/ckeditor5-table';
 import {Undo} from '@ckeditor/ckeditor5-undo';
 import {PluginConstructor} from '@ckeditor/ckeditor5-core';
-import {SynchronousMetaRegistry} from "@neos-project/neos-ui-registry";
+import {SynchronousMetaRegistry} from '@neos-project/neos-ui-registry';
 
 const addPlugin = (Plugin: PluginConstructor, isEnabled?: (editorOptions: any) => boolean): CKEditorConfigurationProcessor => (ckEditorConfiguration, options) => {
     if (!isEnabled || isEnabled(options.editorOptions)) {

@@ -5,7 +5,7 @@
 import animate from 'amator';
 
 import style from './style.module.css';
-import {translate} from "@neos-project/neos-ui-i18n";
+import {translate} from '@neos-project/neos-ui-i18n';
 
 //
 // Get the guest frame's document object
