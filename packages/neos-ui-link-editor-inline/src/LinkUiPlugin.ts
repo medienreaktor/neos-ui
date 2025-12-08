@@ -27,8 +27,6 @@ import {LinkDownloadPlugin} from './LinkDownloadPlugin';
 /** @ts-expect-error */
 import {LinkTitlePlugin} from './LinkTitlePlugin';
 
-const VISUAL_SELECTION_MARKER_NAME = 'neos-link-ui';
-
 interface NeosEditorOptions {
     linking?: {
         title?: boolean
@@ -74,33 +72,6 @@ export function createLinkUiPlugin(neosLinkEditor: IEditor, neosEditorOptions: N
 
             this._registerComponents();
             this._enableBalloonActivators();
-
-            // Renders a fake visual selection marker on an expanded selection.
-            editor.conversion.for('editingDowncast').markerToHighlight({
-                model: VISUAL_SELECTION_MARKER_NAME,
-                view: {
-                    classes: ['ck-fake-link-selection']
-                }
-            });
-
-            // Renders a fake visual selection marker on a collapsed selection.
-            editor.conversion.for('editingDowncast').markerToElement({
-                model: VISUAL_SELECTION_MARKER_NAME,
-                view: (data, {writer}) => {
-                    if (!data.markerRange.isCollapsed) {
-                        return null;
-                    }
-
-                    const markerElement = writer.createUIElement('span');
-
-                    writer.addClass(
-                        ['ck-fake-link-selection', 'ck-fake-link-selection_collapsed'],
-                        markerElement
-                    );
-
-                    return markerElement;
-                }
-            });
 
             this.listenTo(this.editor.ui.focusTracker, 'change:isFocused', (_evt, _name, isFocused) => {
                 const isToolbarVisible = this._balloon.visibleView === this.toolbarView;
@@ -425,8 +396,6 @@ export function createLinkUiPlugin(neosLinkEditor: IEditor, neosEditorOptions: N
             if (this._isToolbarInPanel) {
                 this._balloon.remove(this.toolbarView!);
             }
-
-            this._hideFakeVisualSelection();
         }
 
         /**
@@ -510,25 +479,6 @@ export function createLinkUiPlugin(neosLinkEditor: IEditor, neosEditorOptions: N
         private _getBalloonPositionData(): Partial<DomOptimalPositionOptions> {
             const {view} = this.editor.editing;
             const viewDocument = view.document;
-            const {model} = this.editor;
-
-            if (model.markers.has(VISUAL_SELECTION_MARKER_NAME)) {
-                // There are cases when we highlight selection using a marker (#7705, #4721).
-                const markerViewElements = this.editor.editing.mapper.markerNameToElements(VISUAL_SELECTION_MARKER_NAME);
-
-                // Marker could be removed by link text override and end up in the graveyard.
-                if (markerViewElements) {
-                    const markerViewElementsArray = Array.from(markerViewElements);
-                    const newRange = view.createRange(
-                        view.createPositionBefore(markerViewElementsArray[0]),
-                        view.createPositionAfter(markerViewElementsArray[markerViewElementsArray.length - 1])
-                    );
-
-                    return {
-                        target: view.domConverter.viewRangeToDom(newRange)
-                    };
-                }
-            }
 
             // Make sure the target is calculated on demand at the last moment because a cached DOM range
             // (which is very fragile) can desynchronize with the state of the editing view if there was
@@ -580,53 +530,6 @@ export function createLinkUiPlugin(neosLinkEditor: IEditor, neosEditorOptions: N
                 return startLink;
             }
             return null;
-        }
-
-        /**
-         * Displays a fake visual selection when the contextual balloon is displayed.
-         *
-         * This adds a 'link-ui' marker into the document that is rendered as a highlight on selected text fragment.
-         */
-        private _showFakeVisualSelection(): void {
-            const {model} = this.editor;
-
-            model.change(writer => {
-                const range = model.document.selection.getFirstRange()!;
-
-                if (model.markers.has(VISUAL_SELECTION_MARKER_NAME)) {
-                    writer.updateMarker(VISUAL_SELECTION_MARKER_NAME, {range});
-                } else if (range.start.isAtEnd) {
-                    const startPosition = range.start.getLastMatchingPosition(
-                            ({item}) => !model.schema.isContent(item),
-                            {boundaries: range}
-                        );
-
-                    writer.addMarker(VISUAL_SELECTION_MARKER_NAME, {
-                        usingOperation: false,
-                        affectsData: false,
-                        range: writer.createRange(startPosition, range.end)
-                    });
-                } else {
-                    writer.addMarker(VISUAL_SELECTION_MARKER_NAME, {
-                        usingOperation: false,
-                        affectsData: false,
-                        range
-                    });
-                }
-            });
-        }
-
-        /**
-         * Hides the fake visual selection created in {@link #_showFakeVisualSelection}.
-         */
-        private _hideFakeVisualSelection(): void {
-            const {model} = this.editor;
-
-            if (model.markers.has(VISUAL_SELECTION_MARKER_NAME)) {
-                model.change(writer => {
-                    writer.removeMarker(VISUAL_SELECTION_MARKER_NAME);
-                });
-            }
         }
     }
 }
