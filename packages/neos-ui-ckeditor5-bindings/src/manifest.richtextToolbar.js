@@ -32,6 +32,7 @@ export default ckEditorRegistry => {
 
     /**
      * Extensible style selector
+     * @deprecated remove with Neos 10, use CKEditor 5's built-in style dropdown instead
      */
     richtextToolbar.set('style', {
         component: StyleSelect,

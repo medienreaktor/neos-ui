@@ -12,6 +12,7 @@ const startsWith = prefix => element => element.id.startsWith(prefix);
 
 /**
  * The Actual StyleSelect component
+ * @deprecated remove with Neos 10, use CKEditor 5's built-in style dropdown instead
  */
 @neos(globalRegistry => ({
     i18nRegistry: globalRegistry.get('i18n'),
