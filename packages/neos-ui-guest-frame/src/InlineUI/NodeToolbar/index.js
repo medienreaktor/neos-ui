@@ -142,7 +142,7 @@ export default class NodeToolbar extends PureComponent {
         this.setupResizeObserver();
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         const {contextPath, fusionPath, visible} = this.props;
         this.scrollIntoView();
         this.updateStickyness();
