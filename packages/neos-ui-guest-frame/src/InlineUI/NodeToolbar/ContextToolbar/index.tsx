@@ -115,8 +115,6 @@ const ContextToolbar: React.FC<ContextToolbarProps & InjectedContextToolbarProps
         [style['contextToolBar--isSticky']]: isSticky
     });
 
-    // TODO: Try to solve the sticky toolbar with a second anchor instead of the scroll event
-
     // The data attribute data-ignore_click_outside is used to disable the enhanceWithClickOutside
     // handling. For the special case that the outOfBandRender returns an empty rendered content
     // we need to disable the enhanceWithClickOutside handling to prevent hick ups in the event

@@ -22,7 +22,6 @@
     }
 }
 
-/* FIXME: Install https://github.com/oddbird/css-anchor-positioning?tab=readme-ov-file anchor polyfill to support all browsers */
 .toolBar__anchor {
     position: absolute;
     anchor-name: --inline-ui-node-toolbar-anchor;
