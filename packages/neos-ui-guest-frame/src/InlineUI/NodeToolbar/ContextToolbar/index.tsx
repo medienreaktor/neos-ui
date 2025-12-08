@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import mergeClassNames from 'classnames';
 import debounce from 'lodash.debounce';
 
@@ -10,32 +10,9 @@ import {neos} from '@neos-project/neos-ui-decorators';
 import {selectors, useSelector} from '@neos-project/neos-ui-redux-store';
 import {NodeTypesRegistry} from '@neos-project/neos-ui-contentrepository';
 import {SynchronousRegistry, GlobalRegistry} from '@neos-project/neos-ui-registry';
+import {decodeHtml} from "@neos-project/utils-helpers";
 
 import style from './style.module.css';
-
-const HTML_ENTITIES: Record<string, string> = {
-    '&amp;': '&',
-    '&lt;': '<',
-    '&gt;': '>',
-    '&quot;': '"',
-    '&#039;': '\'',
-    '&ndash;': '-'
-};
-
-/**
- * Format node label by replacing html entities and trimming to max length
- */
-const formatNodeLabel = (label: string, maxLength = 0) => {
-    let nodeLabel = label;
-
-    // Replace html special characters, unmatched entities are replaced with a space
-    nodeLabel = nodeLabel.replace(/&[\w#]+;/g, (entity) => {
-        return HTML_ENTITIES[entity] || ' ';
-    });
-
-    // Trim to max length characters
-    return maxLength > 0 ? nodeLabel.substring(0, maxLength) + (nodeLabel.length > maxLength ? '…' : '') : nodeLabel;
-}
 
 type InjectedContextToolbarProps = {
     nodeTypesRegistry: NodeTypesRegistry;
@@ -67,6 +44,10 @@ const ContextToolbar: React.FC<ContextToolbarProps & InjectedContextToolbarProps
     const iframeWindow = useRef(getGuestFrameWindow()).current;
     const [isSticky, setIsSticky] = useState(false);
     const debouncedStickyRef = useRef<any>();
+
+    const focusedNodeLabel = useMemo(() => {
+        return focusedNode ? decodeHtml(focusedNode.label) : '';
+    }, [focusedNode])
 
     const updateStickiness = useCallback(() => {
         if (!focusedNode) {
@@ -104,7 +85,6 @@ const ContextToolbar: React.FC<ContextToolbarProps & InjectedContextToolbarProps
     }, [updateStickiness]);
 
     const focusedNodeType = focusedNode ? nodeTypesRegistry.get(focusedNode.nodeType) : null;
-    const focusedNodeLabel = focusedNode ? formatNodeLabel(focusedNode.label) : '';
     const focusedNodeTypeIcon = focusedNodeType?.ui?.icon || 'cube';
 
     const buttons = guestFrameRegistry.getChildren('NodeToolbar/SecondaryButtons');
