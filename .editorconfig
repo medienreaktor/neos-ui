@@ -18,3 +18,7 @@ indent_style = tab
 
 [*.css.d.ts]
 indent_size = 2
+
+[*.{ts,tsx,js,jsx}]
+ij_typescript_use_double_quotes = false
+ij_javascript_use_double_quotes = false
