@@ -9,7 +9,7 @@ import {neos} from '@neos-project/neos-ui-decorators';
 import {NodeTypeName} from '@neos-project/neos-ts-interfaces';
 import {NodeTypesRegistry} from '@neos-project/neos-ui-contentrepository';
 
-import {DRAG_APPLICATION_ID} from '../../../DragAndDropUi';
+import {startDraggingNode} from '../../../DragAndDropUi';
 
 type DragSelectedNodeProps = {
     className?: string;
@@ -57,12 +57,7 @@ const DragSelectedNode: React.FC<DragSelectedNodeProps> = ({
     }, []);
 
     const handleDragStart = useCallback((ev: React.DragEvent<HTMLDivElement>) => {
-        if (!ev.dataTransfer) {
-            return;
-        }
-        const nodeAddressInGuestFrame = {contextPath: node.contextPath, fusionPath: focusedFusionPath};
-        ev.dataTransfer.setData(DRAG_APPLICATION_ID, JSON.stringify(nodeAddressInGuestFrame));
-        ev.dataTransfer.effectAllowed = 'move';
+        startDraggingNode(ev, node.contextPath, focusedFusionPath);
     }, [node.contextPath, focusedFusionPath]);
 
     return (

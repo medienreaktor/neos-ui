@@ -5,7 +5,7 @@ import memoize from 'lodash.memoize';
 import {connect} from 'react-redux';
 
 import {translate} from '@neos-project/neos-ui-i18n';
-import {InsertPosition, Node, NodeContextPath} from '@neos-project/neos-ts-interfaces';
+import {FusionPath, InsertPosition, Node, NodeContextPath} from '@neos-project/neos-ts-interfaces';
 import {
     closestContextPathInGuestFrame,
     closestNodeInGuestFrame,
@@ -21,6 +21,24 @@ import style from './style.module.css';
 
 export const DRAG_APPLICATION_ID = 'application/neos-ui';
 const INDICATOR_OFFSET = 16; // Offset for the drop indicator element
+
+let isDragging = false;
+export function isDraggingNode(): boolean {
+    return isDragging;
+}
+
+export function startDraggingNode(event: React.DragEvent<HTMLElement>, contextPath: NodeContextPath, fusionPath: FusionPath) {
+    if (!event.dataTransfer) {
+        return;
+    }
+    event.dataTransfer.setData(DRAG_APPLICATION_ID, JSON.stringify({contextPath, fusionPath}));
+    event.dataTransfer.effectAllowed = 'move';
+    isDragging = true;
+}
+
+function stopDraggingNode() {
+    isDragging = false;
+}
 
 const withReduxState = connect((state: GlobalState) => ({
     getNodeByContextPath: selectors.CR.Nodes.nodeByContextPath(state)
@@ -221,6 +239,7 @@ const DragAndDropUi: React.FC<DragAndDropUiProps & InjectedDragAndDropUiProps> =
             // Hide the drop indicator when the drag ends
             dropIndicatorRef.current.style.display = 'none';
         }
+        stopDraggingNode();
     }, []);
 
     useEffect(() => {

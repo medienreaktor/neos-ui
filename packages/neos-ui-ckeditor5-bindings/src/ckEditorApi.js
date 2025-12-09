@@ -1,5 +1,6 @@
 import debounce from 'lodash.debounce';
 import {getGuestFrame, getGuestFrameDocument, getGuestFrameWindow} from '@neos-project/neos-ui-guest-frame/src/dom';
+import {isDraggingNode} from '@neos-project/neos-ui-guest-frame/src/InlineUI/DragAndDropUi';
 import {DecoupledEditor} from '@ckeditor/ckeditor5-editor-decoupled';
 import {Template, BodyCollection} from '@ckeditor/ckeditor5-ui';
 import {createElement} from '@ckeditor/ckeditor5-utils';
@@ -170,6 +171,12 @@ export const createEditor = () => async options => {
             const debouncedOnChange = debounce(() => onChange(cleanupContentBeforeCommit(editor.getData())), 1500, {maxWait: 5000});
             editor.model.document.on('change:data', debouncedOnChange);
             editor.ui.focusTracker.on('change:isFocused', (event, name, isFocused) => {
+                // Ignore event if we are currently dragging content
+                if (isDraggingNode()) {
+                    event.stop();
+                    return;
+                }
+
                 if (!isFocused) {
                     // Double-check that the editor is still not focused
                     if (editor.ui.focusTracker.isFocused) {
@@ -204,7 +211,7 @@ export const createEditor = () => async options => {
 
                 editorConfig.setCurrentlyEditedPropertyName(propertyName);
                 handleUserInteractionCallback();
-            });
+            }, {priority: 'highest'});
 
             editor.model.document.on('change', () => handleUserInteractionCallback());
 

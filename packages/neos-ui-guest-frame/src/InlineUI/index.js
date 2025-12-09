@@ -4,13 +4,13 @@ import {connect} from 'react-redux';
 
 import {actions, selectors} from '@neos-project/neos-ui-redux-store';
 import {neos} from '@neos-project/neos-ui-decorators';
+import {isEqualSet} from '@neos-project/utils-helpers';
 
 import NodeToolbar from './NodeToolbar/index';
 import DragAndDropUi from './DragAndDropUi';
+import InlineValidationErrors from './InlineValidationErrors/index';
 
 import style from './style.module.css';
-import InlineValidationErrors from './InlineValidationErrors/index';
-import {isEqualSet} from '@neos-project/utils-helpers';
 
 @neos(globalRegistry => ({
     nodeTypesRegistry: globalRegistry.get('@neos-project/neos-ui-contentrepository')
