@@ -24,7 +24,6 @@ import '@ckeditor/ckeditor5-watchdog/dist/index.css';
 import '@ckeditor/ckeditor5-widget/dist/index.css';
 
 import './cke-overwrites.vanilla-css';
-import './placeholder.vanilla-css';
 
 // We need to detect if the browser supports CSS anchor positioning.
 // If not, we need to manually position the toolbars on scroll/resize.

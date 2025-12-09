@@ -95,6 +95,8 @@
     --ck-color-text: var(--ck-color-base-text);
     --ck-color-text-focus: #fff; /* --colors-ContrastBrightest */
 
+    --ck-color-engine-placeholder-text: #999;
+
     --ck-color-shadow-drop: rgba(0, 0, 0, .15);
     --ck-color-shadow-inner: rgba(0, 0, 0, .1);
 
@@ -186,10 +188,28 @@ a.ck.ck-button:not(.ck-disabled):hover {
 
 .ck.ck-editor__editable_inline {
     border: 0;
+    padding: 0;
 }
 
 .ck.ck-editor__editable_inline.ck-focused {
     box-sizing: border-box;
+}
+
+.ck .ck-placeholder {
+    display: inline-flex;
+    margin: 0 !important;
+}
+
+.ck .ck-placeholder:before,
+.ck .ck-placeholder br[data-cke-filler="true"] {
+    display: none;
+}
+
+.ck .ck-placeholder:after {
+    display: inline-flex;
+    content: attr(data-placeholder);
+    pointer-events: none;
+    color: var(--ck-color-engine-placeholder-text);
 }
 
 .ck--dark .ck.ck-toolbar .ck.ck-toolbar__separator {
