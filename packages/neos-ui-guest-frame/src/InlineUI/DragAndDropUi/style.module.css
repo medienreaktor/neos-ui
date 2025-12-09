@@ -13,4 +13,5 @@
     background-color: var(--colors-PrimaryBlue);
     opacity: .8;
     transition: all .1s ease-in-out;
+    display: none;
 }
