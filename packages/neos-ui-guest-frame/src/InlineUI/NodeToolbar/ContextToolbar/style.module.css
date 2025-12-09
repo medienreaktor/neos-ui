@@ -63,6 +63,10 @@
     font-size: var(--fontSize-Small);
 }
 
+.contextToolbar__nodeLabel:hover {
+    background-color: var(--colors-PrimaryBlueHover);
+}
+
 .contextToolbar__nodeLabel span {
     max-width: 100px;
     white-space: nowrap;
