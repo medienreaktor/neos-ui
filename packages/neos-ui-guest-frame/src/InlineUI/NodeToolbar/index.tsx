@@ -148,6 +148,7 @@ const NodeToolbar: React.FC<NodeToolbarProps & InjectedNodeToolbarProps> = ({
         const resizeObserver = new ResizeObserver(updateAnchorPosition);
         if (nodeElement) {
             resizeObserver.observe(nodeElement);
+            resizeObserver.observe(getGuestFrameWindow().document.body);
         }
 
         scrollIntoView();
