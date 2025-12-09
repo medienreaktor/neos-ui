@@ -33,7 +33,8 @@
 }
 
 @position-try --structural-toolbar-align-bottom-fallback {
-    top: calc(-100% - 1px);
+    position-area: top center;
+    margin-bottom: -12px;
 }
 .structuralToolBar__popover.structuralToolBar__popover--isBelow {
     z-index: initial;
