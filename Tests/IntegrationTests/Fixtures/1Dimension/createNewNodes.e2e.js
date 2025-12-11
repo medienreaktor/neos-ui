@@ -200,7 +200,7 @@ test('Can duplicate content node from inside InlineUI', async t => {
     subSection('Duplicate the last headline node');
     await t
         .click(Selector('.test-headline'))
-        .click(Selector('#neos-InlineToolbar-ContextMenu-toggle'))
+        .click(Selector('#neos-ContextToolbar'))
         .click(Selector('#neos-InlineToolbar-DuplicateSelectedNode'));
     await Page.waitForIframeLoading(t);
 

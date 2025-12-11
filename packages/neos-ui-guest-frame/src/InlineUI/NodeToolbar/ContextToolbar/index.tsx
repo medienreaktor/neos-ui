@@ -100,13 +100,13 @@ const ContextToolbar: React.FC<ContextToolbarProps & InjectedContextToolbarProps
     // we need to disable the enhanceWithClickOutside handling to prevent hick ups in the event
     // registration after guest frame reload.
     return (
-        <div className={classNames} id="inline-ui-context-toolbar">
+        <div className={classNames} id="neos-ContextToolbar">
             <div className={style.toolBar} data-ignore_click_outside="true">
                 {contextButtons.map((Item, key) => <Item key={key} {...buttonProps} />)}
                 <div className={style.toolBar__contextMenuWrapper}>
                     <Button
                         className={style.contextToolbar__nodeLabel}
-                        popovertarget="neos-InlineToolbar-ContextMenu"
+                        popovertarget="neos-ContextToolbar-ContextMenu"
                         title={translate('Neos.Neos.Ui:Main:toggleContextMenu', 'Toggle context menu')}
                         hoverStyle="brand"
                         style="transparent"
@@ -117,7 +117,7 @@ const ContextToolbar: React.FC<ContextToolbarProps & InjectedContextToolbarProps
                         <Icon icon="ellipsis-vertical"/>
                     </Button>
                     <div
-                        id="neos-InlineToolbar-ContextMenu"
+                        id="neos-ContextToolbar-ContextMenu"
                         className={style.toolBar__contextMenu}
                         popover="auto"
                     >
