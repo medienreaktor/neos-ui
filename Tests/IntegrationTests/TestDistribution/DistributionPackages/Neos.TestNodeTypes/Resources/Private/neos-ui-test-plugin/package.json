@@ -5,8 +5,9 @@
   "private": true,
   "main": "./src/index.ts",
   "license": "GNU GPLv3",
+  "//": "NOTE: Before 'build-testing' is run the '@neos-project/neos-ui-extensibility' package must be build as this build will reference its dist for actual testing.",
   "scripts": {
-    "build": "node esbuild.js"
+    "build-testing": "node esbuild.js"
   },
   "dependencies": {
     "@neos-project/neos-ui-extensibility": "workspace:*",
