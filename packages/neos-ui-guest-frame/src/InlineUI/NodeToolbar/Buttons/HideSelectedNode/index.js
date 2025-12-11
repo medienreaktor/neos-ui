@@ -54,9 +54,9 @@ export default class HideSelectedNode extends PureComponent {
                 hoverStyle="brand"
                 style="transparent"
                 size="small"
-                title={i18nRegistry.translate('hideUnhide')}
+                title={i18nRegistry.translate(isHidden ? 'unhide' : 'hide')}
             >
-                {i18nRegistry.translate('hideUnhide')}
+                {i18nRegistry.translate(isHidden ? 'unhide' : 'hide')}
                 <Icon
                     icon={isHidden ? 'eye' : 'eye-slash'}
                 />
