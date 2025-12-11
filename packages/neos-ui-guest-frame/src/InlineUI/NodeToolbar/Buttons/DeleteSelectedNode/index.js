@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import IconButton from '@neos-project/react-ui-components/src/IconButton/';
+import {Icon, Button} from '@neos-project/react-ui-components';
 
 import {actions} from '@neos-project/neos-ui-redux-store';
 
@@ -32,15 +32,19 @@ export default class DeleteSelectedNode extends PureComponent {
         const {className, destructiveOperationsAreDisabled, canBeDeleted, canBeEdited, i18nRegistry} = this.props;
 
         return (
-            <IconButton
+            <Button
                 id="neos-InlineToolbar-DeleteSelectedNode"
                 className={className}
                 disabled={destructiveOperationsAreDisabled || !canBeDeleted || !canBeEdited}
                 onClick={this.handleDeleteSelectedNodeClick}
-                icon="trash-alt"
                 hoverStyle="brand"
+                style="transparent"
+                size="small"
                 title={i18nRegistry.translate('delete')}
-                />
+            >
+                {i18nRegistry.translate('delete')}
+                <Icon icon="trash-alt" />
+            </Button>
         );
     }
 }

@@ -41,6 +41,7 @@ manifest('main.sagas', {}, globalRegistry => {
 
     sagasRegistry.set('neos-ui/CR/NodeOperations/addNode', {saga: crNodeOperations.addNode});
     sagasRegistry.set('neos-ui/CR/NodeOperations/pasteNode', {saga: crNodeOperations.pasteNode});
+    sagasRegistry.set('neos-ui/CR/NodeOperations/duplicateNode', {saga: crNodeOperations.duplicateNode});
     sagasRegistry.set('neos-ui/CR/NodeOperations/moveDroppedNode', {saga: crNodeOperations.moveDroppedNode});
     sagasRegistry.set('neos-ui/CR/NodeOperations/moveDroppedNodes', {saga: crNodeOperations.moveDroppedNodes});
     sagasRegistry.set('neos-ui/CR/NodeOperations/hideNode', {saga: crNodeOperations.hideNode});

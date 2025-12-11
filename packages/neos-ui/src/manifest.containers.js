@@ -41,6 +41,8 @@ import ContentCanvas from './Containers/ContentCanvas/index';
 
 import RightSideBar from './Containers/RightSideBar/index';
 import Inspector from './Containers/RightSideBar/Inspector/index';
+import Breadcrumb from './Containers/Breadcrumb/index';
+import InlineEditorToolbar from '@neos-project/neos-ui-ckeditor5-bindings/src/EditorToolbar';
 
 manifest('main.containers', {}, globalRegistry => {
     const containerRegistry = globalRegistry.get('containers');
@@ -62,6 +64,7 @@ manifest('main.containers', {}, globalRegistry => {
     containerRegistry.set('PrimaryToolbar', PrimaryToolbar);
     containerRegistry.set('PrimaryToolbar/Left/MenuToggler', MenuToggler);
     containerRegistry.set('PrimaryToolbar/Left/Brand', Brand);
+    containerRegistry.set('PrimaryToolbar/Right/KeyboardShortcutButton', KeyboardShortcutButton);
     containerRegistry.set('PrimaryToolbar/Right/EditPreviewDropDown', EditPreviewDropDown);
     containerRegistry.set('PrimaryToolbar/Right/DimensionSwitcher', DimensionSwitcher);
     containerRegistry.set('PrimaryToolbar/Right/PublishDropDown', PublishDropDown);
@@ -69,7 +72,8 @@ manifest('main.containers', {}, globalRegistry => {
 
     containerRegistry.set('SecondaryToolbar', SecondaryToolbar);
     containerRegistry.set('SecondaryToolbar/LoadingIndicator', LoadingIndicator);
-    containerRegistry.set('SecondaryToolbar/Right/KeyboardShortcutButton', KeyboardShortcutButton);
+    containerRegistry.set('SecondaryToolbar/Left/Breadcrumb', Breadcrumb);
+    containerRegistry.set('SecondaryToolbar/Right/InlineEditorToolbar', InlineEditorToolbar);
     containerRegistry.set('SecondaryToolbar/Right/PreviewButton', PreviewButton);
     containerRegistry.set('SecondaryToolbar/Right/FullScreenButton', FullScreenButton);
 

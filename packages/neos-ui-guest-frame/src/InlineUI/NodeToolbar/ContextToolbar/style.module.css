@@ -1,0 +1,111 @@
+.toolBar {
+    display: flex;
+    background: var(--colors-PrimaryBlue);
+    position: relative;
+}
+
+.toolBar__btnGroup {
+    display: flex;
+    background: transparent;
+}
+
+.toolBar__btnGroupVertical {
+    display: flex;
+    flex-direction: column;
+}
+
+.contextToolBar {
+    z-index: var(--zIndex-NodeToolBar);
+    anchor-name: --inline-ui-context-toolbar-anchor;
+    position: absolute;
+    position-anchor: --inline-ui-node-toolbar-anchor;
+    right: calc(anchor(right) - 10px - 2px);
+    bottom: calc(anchor(top) + 10px);
+}
+
+/**
+ * Increase z-index when hovering over the context toolbar or any of its siblings,
+ * so it appears above the ckeditor toolbar when both are visible.
+ */
+.contextToolBar:has(~ :hover),
+.contextToolBar:hover,
+.contextToolBar:hover ~ * {
+    z-index: calc(infinity);
+}
+
+.contextToolBar.contextToolBar--isSticky {
+    position: fixed;
+    top: 0 !important;
+    bottom: auto;
+    margin-top: 5px;
+}
+
+@supports not (anchor-name: --inline-ui-node-toolbar-anchor) {
+    .contextToolBar {
+        z-index: var(--zIndex-NodeToolBar);
+        position: absolute;
+        right: calc(-10px - 2px);
+        top: -42px;
+        pointer-events: all;
+    }
+
+    .contextToolBar.contextToolBar--isSticky {
+        right: 4px;
+    }
+}
+
+.contextToolbar__nodeLabel {
+    display: flex;
+    align-items: center;
+    gap: 1ch;
+    font-size: var(--fontSize-Small);
+
+    &:has(~ :popover-open) {
+        background-color: var(--colors-PrimaryBlueHover);
+    }
+}
+
+.contextToolbar__nodeLabel span {
+    max-width: 100px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.toolBar__contextMenuWrapper {
+    position: relative;
+    anchor-name: --inline-ui-node-context-menu-anchor;
+}
+
+.toolBar__contextMenu {
+    width: max-content;
+    position-anchor: --inline-ui-node-context-menu-anchor;
+    right: anchor(right);
+    top: anchor(bottom);
+    left: auto;
+    margin: 0;
+    padding: 0;
+    background-color: var(--colors-ContrastBrightest);
+    border: 1px solid var(--colors-ContrastDark);
+}
+
+@supports not (anchor-name: --inline-ui-node-context-menu-anchor) {
+    .toolBar__contextMenu:popover-open {
+        all: initial;
+        position: absolute;
+        width: max-content;
+        background-color: var(--colors-ContrastBrightest);
+        border: 1px solid var(--colors-ContrastDark);
+    }
+}
+
+.toolBar__contextMenu button {
+    justify-content: space-between;
+    color: currentColor;
+}
+.toolBar__contextMenu button:hover {
+    color: var(--colors-ContrastBrightest);
+}
+.toolBar__contextMenu button svg {
+    color: currentColor;
+}

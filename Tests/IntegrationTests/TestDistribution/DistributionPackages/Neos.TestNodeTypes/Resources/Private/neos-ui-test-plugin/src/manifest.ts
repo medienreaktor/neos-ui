@@ -1,6 +1,7 @@
 import manifest, {SynchronousRegistry as LegacySynchronousRegistry} from '@neos-project/neos-ui-extensibility';
 import {getConfiguration, getFrontendConfigurationForPackage} from '@neos-project/neos-ui-configuration';
 import {getGlobalRegistry, getRegistryById, SynchronousRegistry} from "@neos-project/neos-ui-registry";
+import LegacyCKEditorExportsApi from 'ckeditor5-exports';
 
 export let manifestInvocations = 0;
 
@@ -23,6 +24,8 @@ export function getPluginRegistryValue() {
 export function getPluginLegacyRegistryValue() {
     return getRegistryById('@neos-project/neos-ui-test-plugin-legacy-registry').get('someKey');
 }
+
+export const ckeditorObjectsAndFunctionsViaLegacyExport = Object.entries(LegacyCKEditorExportsApi).filter(([key, value]) => value !== null && (typeof value === 'object' || typeof value === 'function')).map(([key, value]) => key);
 
 manifest('@neos-project/neos-ui-test-plugin', {}, (globalRegistry, {frontendConfiguration, configuration}) => {
     manifestInvocations++;

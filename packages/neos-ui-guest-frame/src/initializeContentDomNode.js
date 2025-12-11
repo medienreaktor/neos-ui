@@ -2,7 +2,8 @@ import {
     getGuestFrameDocument,
     createEmptyContentCollectionPlaceholderIfMissing,
     createNotInlineEditableOverlay,
-    findRelativePropertiesInGuestFrame
+    findRelativePropertiesInGuestFrame,
+    closestNodeInGuestFrame
 } from './dom';
 import initializePropertyDomNode from './initializePropertyDomNode';
 
@@ -52,6 +53,12 @@ export default ({store, globalRegistry, nodeTypesRegistry, inlineEditorRegistry}
 
     contentDomNode.addEventListener('mouseleave', e => {
         contentDomNode.classList.remove(style.markHoveredNodeAsHovered);
+
+        // Try to find the closest node that the mouse entered into
+        const closestNode = e.relatedTarget ? closestNodeInGuestFrame(e.relatedTarget) : null;
+        if (closestNode) {
+            closestNode.classList.add(style.markHoveredNodeAsHovered);
+        }
 
         e.stopPropagation();
     });

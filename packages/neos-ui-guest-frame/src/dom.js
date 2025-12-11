@@ -5,12 +5,13 @@
 import animate from 'amator';
 
 import style from './style.module.css';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 //
 // Get the guest frame's document object
 //
 export const getGuestFrameDocument = () => {
-    const guestFrame = document.getElementsByName('neos-content-main')[0];
+    const guestFrame = getGuestFrameElement();
     return guestFrame && guestFrame.contentDocument;
 };
 
@@ -18,8 +19,15 @@ export const getGuestFrameDocument = () => {
 // Get the guest frame's window object
 //
 export const getGuestFrameWindow = () => {
-    const guestFrame = document.getElementsByName('neos-content-main')[0];
+    const guestFrame = getGuestFrameElement();
     return guestFrame && guestFrame.contentWindow;
+};
+
+//
+// Get the guest frame
+//
+export const getGuestFrameElement = () => {
+    return document.getElementsByName('neos-content-main')[0];
 };
 
 //
@@ -143,22 +151,20 @@ export const markNodeAsVisible = contextPath => {
 //
 // Insert a placeholder element for content collections that don't have
 // any children yet and have a very small height (as they would not be clickable / selectable otherwise).
-// NOTE: If the element is "big enough" (i.e. more than 20 px), we do not render the placeholder either; as then
-// the user will very likely have created his own rendering.
 export const createEmptyContentCollectionPlaceholderIfMissing = collectionDomNode => {
     if (collectionDomNode) {
         const hasChildNodes = Boolean(
             collectionDomNode.querySelector('[data-__neos-node-contextpath]')
         );
-        const heightOfContentCollection = collectionDomNode.getBoundingClientRect().height;
 
         const hasEmptyContentCollectionOverlay = Boolean(
             collectionDomNode.querySelector(`.${style.addEmptyContentCollectionOverlay}`)
         );
 
-        if (!hasChildNodes && !hasEmptyContentCollectionOverlay && heightOfContentCollection < 20) {
+        if (!hasChildNodes && !hasEmptyContentCollectionOverlay) {
             const emptyContentCollectionOverlay = document.createElement('div');
             emptyContentCollectionOverlay.setAttribute('class', style.addEmptyContentCollectionOverlay);
+            emptyContentCollectionOverlay.innerText = translate('Neos.Neos.Ui:Main:emptyCollection', 'Add content');
             collectionDomNode.appendChild(emptyContentCollectionOverlay);
         }
     }

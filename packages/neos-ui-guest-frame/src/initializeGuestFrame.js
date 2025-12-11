@@ -50,7 +50,7 @@ export default ({globalRegistry, store}) => function * initializeGuestFrame() {
     // We need to set the src to the actual src of the iframe, and not retrive it from documentInformation, as it may differ, e.g. contain additional arguments.
     yield put(actions.UI.ContentCanvas.setSrc(guestFrameWindow.document.location.href));
 
-    // If we have no document information, guest frame intialziation ends here
+    // If we have no document information, guest frame initialization ends here
     if (Object.entries(documentInformation).length === 0) {
         return;
     }
@@ -120,6 +120,11 @@ export default ({globalRegistry, store}) => function * initializeGuestFrame() {
             domNode.getAttribute &&
             domNode.getAttribute('data-__neos__inline-ui')
         );
+        const isInsideCKToolbar = clickPath.some(domNode =>
+            domNode &&
+            domNode.classList &&
+            domNode.classList.contains('ck-toolbar')
+        );
         const isInsideEditableProperty = clickPath.some(domNode =>
             domNode &&
             domNode.getAttribute &&
@@ -131,7 +136,7 @@ export default ({globalRegistry, store}) => function * initializeGuestFrame() {
             domNode.getAttribute('data-__neos-node-contextpath')
         );
 
-        if (isInsideInlineUi) {
+        if (isInsideInlineUi || isInsideCKToolbar) {
             // Do nothing, everything OK!
         } else if (selectedDomNode) {
             const contextPath = selectedDomNode.getAttribute('data-__neos-node-contextpath');
@@ -191,7 +196,7 @@ export default ({globalRegistry, store}) => function * initializeGuestFrame() {
     const focusedNode = yield select(selectors.CR.Nodes.focusedNodePathSelector);
     const focusedNodeElement = findNodeInGuestFrame(focusedNode);
     if (focusedNodeElement) {
-        focusedNodeElement.classList.add(style['markActiveNodeAsFocused--focusedNode']);
+        markElementAsFocused(focusedNodeElement);
         // Request to scroll focused node into view
         yield put(actions.UI.ContentCanvas.requestScrollIntoView(true));
     }
@@ -204,7 +209,7 @@ export default ({globalRegistry, store}) => function * initializeGuestFrame() {
         const oldNode = findInGuestFrame(`.${style['markActiveNodeAsFocused--focusedNode']}`);
 
         if (oldNode) {
-            oldNode.classList.remove(style['markActiveNodeAsFocused--focusedNode']);
+            unmarkElementAsFocused(oldNode);
         }
 
         const {contextPath, fusionPath} = action.payload;
@@ -213,7 +218,7 @@ export default ({globalRegistry, store}) => function * initializeGuestFrame() {
             const nodeElement = findNodeInGuestFrame(contextPath, fusionPath);
 
             if (nodeElement) {
-                nodeElement.classList.add(style['markActiveNodeAsFocused--focusedNode']);
+                markElementAsFocused(nodeElement);
 
                 const getNodeByContextPathSelector = selectors.CR.Nodes.makeGetNodeByContextPathSelector(contextPath);
                 const node = yield select(getNodeByContextPathSelector);
@@ -229,7 +234,35 @@ export default ({globalRegistry, store}) => function * initializeGuestFrame() {
         const node = findInGuestFrame(`.${style['markActiveNodeAsFocused--focusedNode']}`);
 
         if (node) {
-            node.classList.remove(style['markActiveNodeAsFocused--focusedNode']);
+            unmarkElementAsFocused(node);
         }
     });
 };
+
+function markElementAsFocused(nodeElement) {
+    if (nodeElement.ckeditorInstance) {
+        // Special case: Neos shares a dom element with a ck-editor root (the propertyDomNode).
+        // Direct dom manipulations are lost and reset by ckeditor on de-focussing (clicking into the host)
+        /** @type {import('@ckeditor/ckeditor5-core').Editor} */
+        const editor = nodeElement.ckeditorInstance;
+        editor.editing.view.change(writer => {
+            writer.addClass(style['markActiveNodeAsFocused--focusedNode'], editor.editing.view.document.getRoot());
+        });
+    } else {
+        nodeElement.classList.add(style['markActiveNodeAsFocused--focusedNode']);
+    }
+}
+
+function unmarkElementAsFocused(nodeElement) {
+    if (nodeElement.ckeditorInstance) {
+        // Special case: Neos shares a dom element with a ck-editor root (the propertyDomNode).
+        // Direct dom manipulations are lost and reset by ckeditor on de-focussing (clicking into the host)
+        /** @type {import('@ckeditor/ckeditor5-core').Editor} */
+        const editor = nodeElement.ckeditorInstance;
+        editor.editing.view.change(writer => {
+            writer.removeClass(style['markActiveNodeAsFocused--focusedNode'], editor.editing.view.document.getRoot());
+        });
+    } else {
+        nodeElement.classList.remove(style['markActiveNodeAsFocused--focusedNode']);
+    }
+}

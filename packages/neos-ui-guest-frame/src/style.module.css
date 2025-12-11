@@ -1,3 +1,31 @@
+@font-face {
+    font-family: 'Noto Sans';
+    src: local('Noto Sans Regular'), local('NotoSans-Regular'), url('notosans-fontface/fonts/NotoSans-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Noto Sans';
+    src: local('Noto Sans Italic'), local('NotoSans-Italic'), url('notosans-fontface/fonts/NotoSans-Italic.woff2') format('woff2');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Noto Sans';
+    src: local('Noto Sans Bold'), local('NotoSans-Bold'), url('notosans-fontface/fonts/NotoSans-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Noto Sans';
+    src: local('Noto Sans BoldItalic'), local('NotoSans-BoldItalic'), url('notosans-fontface/fonts/NotoSans-BoldItalic.woff2') format('woff2');
+    font-weight: 700;
+    font-style: italic;
+}
+
 .markHoveredNodeAsHovered {
     outline-offset: 10px;
     outline: 2px solid rgba(0, 0, 0, .2);
@@ -7,28 +35,51 @@
 }
 
 .addEmptyContentCollectionOverlay {
-    height: 20px;
+    min-height: 60px;
+    height: 100%;
     width: 100%;
-    outline: 2px solid var(--colors-ContrastBrighter);
+    outline: 1px solid rgba(200, 200, 200, .3);
+    cursor: pointer;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    transition: outline .2s ease-in-out, color .2s ease;
+    color: rgba(173, 173, 173, .5);
+    line-height: 41px;
+    user-select: none;
+}
+.addEmptyContentCollectionOverlay:hover {
+    outline: 1px solid var(--colors-ContrastBrighter);
+    color: var(--colors-ContrastBrighter);
 }
 
-.markActiveNodeAsFocused--focusedNode {
-    outline-offset: 10px;
-    outline: 2px solid var(--colors-PrimaryBlue);
-}
-
-:global(.neos-contentelement-shine-through:hover).markHoveredNodeAsHovered,
-:global(.neos-contentelement-shine-through).markActiveNodeAsFocused--focusedNode {
-    outline-color: var(--colors-Warn);
-}
-
-:global([data-__neos-property][contenteditable]) {
+:global([data-__neos-property][contenteditable]):focus-visible {
+    /* prevent native outline being shown during drag and drop of content elements _over_ editable */
     outline: none;
 }
 
 :global([data-__neos-property][contenteditable]:hover) {
     outline-offset: 5px;
     outline: 2px dashed var(--colors-PrimaryBlue);
+}
+
+:global([data-__neos-property][contenteditable].ck-focused) {
+    outline-offset: 5px!important;
+    outline: 2px dashed var(--colors-PrimaryBlue)!important;
+}
+
+.markActiveNodeAsFocused--focusedNode,
+.markActiveNodeAsFocused--focusedNode[data-__neos-property][contenteditable] {
+    outline-offset: 10px!important;
+    outline: 2px solid var(--colors-PrimaryBlue)!important;
+}
+
+:global(.neos-contentelement-shine-through:hover).markHoveredNodeAsHovered,
+:global(.neos-contentelement-shine-through).markActiveNodeAsFocused--focusedNode {
+    outline-color: var(--colors-Warn);
 }
 
 .notInlineEditableOverlay {

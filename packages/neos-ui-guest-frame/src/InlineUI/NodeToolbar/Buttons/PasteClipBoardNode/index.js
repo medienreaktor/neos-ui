@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {neos} from '@neos-project/neos-ui-decorators';
 
-import IconButton from '@neos-project/react-ui-components/src/IconButton/';
-
 import {selectors, actions} from '@neos-project/neos-ui-redux-store';
+import {InsertPosition} from '@neos-project/neos-ts-interfaces';
+import {Button, Icon} from '@neos-project/react-ui-components';
 
 @neos(globalRegistry => ({
     nodeTypesRegistry: globalRegistry.get('@neos-project/neos-ui-contentrepository')
@@ -34,33 +34,43 @@ export default class PasteClipBoardNode extends PureComponent {
 
         contextPath: PropTypes.string,
         fusionPath: PropTypes.string,
+        insertPosition: PropTypes.string,
 
         pasteNode: PropTypes.func.isRequired,
         i18nRegistry: PropTypes.object.isRequired
     };
 
     handlePasteButtonClick = () => {
-        const {pasteNode, contextPath, fusionPath} = this.props;
-
-        pasteNode(contextPath, fusionPath);
+        const {pasteNode, contextPath, fusionPath, insertPosition} = this.props;
+        pasteNode(contextPath, fusionPath, insertPosition);
     }
 
     render() {
-        const {className, canBePasted, i18nRegistry} = this.props;
+        const {className, canBePasted, i18nRegistry, insertPosition} = this.props;
 
+        // FIXME: Also hide/disable button if insertPosition is invalid for the current node
         if (!canBePasted) {
             return null;
         }
 
+        const insertPositionIcon = insertPosition === InsertPosition.BEFORE
+            ? 'arrow-up' : (insertPosition === InsertPosition.AFTER ? 'arrow-down' : 'arrow-right');
+
         return (
-            <IconButton
+            <Button
                 id="neos-InlineToolbar-PaseClipBoardNode"
                 className={className}
-                icon="paste"
                 onClick={this.handlePasteButtonClick}
-                hoverStyle="brand"
                 title={i18nRegistry.translate('paste')}
-                />
+                size="small"
+                style="brand"
+            >
+                <span className="fa-layers fa-fw">
+                    <Icon icon="paste" size="sm"/>
+                    <Icon icon="circle" color="primaryBlue" transform="shrink-3 down-10 right-10"/>
+                    <Icon icon={insertPositionIcon} transform="shrink-7 down-10 right-10"/>
+                </span>
+            </Button>
         );
     }
 }

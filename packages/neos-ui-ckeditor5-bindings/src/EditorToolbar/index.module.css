@@ -1,26 +1,13 @@
 .toolbar {
-    flex: 0 1 auto;
+    z-index: var(--zIndex-EditorToolbar);
+    position: relative;
 }
 
 .toolBar__btnGroup {
     display: flex;
     flex-wrap: wrap;
-    background: var(--colors-ContrastDarkest);
-
-    &:before,
-    &:after {
-        content: '';
-        display: table;
-    }
-    &:after {
-        clear: both;
-    }
 
      > * {
          width: auto;
      }
-}
-
-.toolBar__btnGroup__btn {
-    float: left;
 }

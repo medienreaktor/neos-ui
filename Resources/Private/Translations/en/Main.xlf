@@ -14,6 +14,18 @@
             <trans-unit id="add" xml:space="preserve">
                 <source>Add</source>
             </trans-unit>
+            <trans-unit id="duplicate" xml:space="preserve">
+                <source>Duplicate</source>
+            </trans-unit>
+            <trans-unit id="duplicate--title" xml:space="preserve">
+                <source>Creates a copy of this content next to it</source>
+            </trans-unit>
+            <trans-unit id="toggleContextMenu" xml:space="preserve">
+                <source>Toggle context menu</source>
+            </trans-unit>
+            <trans-unit id="dragSelectedNode" xml:space="preserve">
+                <source>Drag selected node</source>
+            </trans-unit>
             <trans-unit id="insert" xml:space="preserve">
                 <source>Insert</source>
             </trans-unit>
@@ -124,6 +136,21 @@
             </trans-unit>
             <trans-unit id="ckeditor__toolbar__indent" xml:space="preserve">
                 <source>Indent</source>
+            </trans-unit>
+            <trans-unit id="ckeditor__toolbar__lists" xml:space="preserve">
+                <source>Lists</source>
+            </trans-unit>
+            <trans-unit id="ckeditor__toolbar__formatting" xml:space="preserve">
+                <source>Formatting options</source>
+            </trans-unit>
+            <trans-unit id="ckeditor__toolbar__formatting.tooltip" xml:space="preserve">
+                <source>Additional formatting options</source>
+            </trans-unit>
+            <trans-unit id="Neos.Neos.Ui:Main:ckeditor__toolbar__more" xml:space="preserve">
+                <source>More</source>
+            </trans-unit>
+            <trans-unit id="Neos.Neos.Ui:Main:ckeditor__toolbar__more.tooltip" xml:space="preserve">
+                <source>Additional elements</source>
             </trans-unit>
             <trans-unit id="ckeditor__toolbar__setTableColumnHeader" xml:space="preserve">
                 <source>Header column</source>
@@ -354,6 +381,9 @@
             </trans-unit>
             <trans-unit id="invalidValue" xml:space="preserve">
                 <source>Invalid value</source>
+            </trans-unit>
+            <trans-unit id="emptyCollection" xml:space="preserve">
+                <source>Add content</source>
             </trans-unit>
         </body>
     </file>

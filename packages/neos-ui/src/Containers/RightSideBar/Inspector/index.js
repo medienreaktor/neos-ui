@@ -4,17 +4,16 @@ import PropTypes from 'prop-types';
 import {produce} from 'immer';
 import mapValues from 'lodash.mapvalues';
 import {connect} from 'react-redux';
+import debounce from 'lodash.debounce';
 
 import I18n from '@neos-project/neos-ui-i18n';
 import {Bar, Button, Tabs, Icon, Badge} from '@neos-project/react-ui-components';
-import debounce from 'lodash.debounce';
 
 import {SecondaryInspector} from '@neos-project/neos-ui-inspector';
 import {actions, selectors} from '@neos-project/neos-ui-redux-store';
 import {neos} from '@neos-project/neos-ui-decorators';
 import preprocessNodeConfiguration from '../../../preprocessNodeConfiguration';
 
-import SelectedElement from './SelectedElement/index';
 import TabPanel from './TabPanel/index';
 import style from './style.module.css';
 
@@ -377,7 +376,6 @@ export default class Inspector extends PureComponent {
                         />,
                     document.body
                 )}
-                <SelectedElement/>
                 <Tabs
                     className={style.tabs}
                     theme={{

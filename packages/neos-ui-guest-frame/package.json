@@ -17,6 +17,7 @@
   "dependencies": {
     "@neos-project/neos-ui-extensibility": "workspace:*",
     "@neos-project/utils-helpers": "workspace:*",
+    "@types/lodash.debounce": "^4.0.9",
     "amator": "^1.0.1",
     "classnames": "^2.2.3",
     "lodash.debounce": "^4.0.8",

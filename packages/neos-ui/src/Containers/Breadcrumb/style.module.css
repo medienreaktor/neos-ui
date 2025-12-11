@@ -1,0 +1,35 @@
+.breadcrumb {
+    height: 100%;
+}
+
+.breadcrumb ol {
+    height: inherit;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    gap: 1px;
+    align-items: center;
+    list-style: none;
+    padding: 0 1px;
+    margin: 0;
+}
+
+.breadcrumb li {
+     display: flex;
+     align-items: center;
+    justify-content: space-between;
+ }
+
+.breadcrumb li + li::before {
+    content: '›';
+    margin: 0 1ch;
+}
+
+.breadcrumb button {
+    display: flex;
+    gap: 1ch;
+    align-items: center;
+}

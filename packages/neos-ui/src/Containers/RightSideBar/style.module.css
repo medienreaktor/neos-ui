@@ -13,6 +13,7 @@
 }
 .rightSideBar--isHidden {
     width: 0;
+    min-width: 0;
     overflow: initial;
 }
 .rightSideBar--isHidden > div {
@@ -20,7 +21,6 @@
 }
 
 .rightSideBar__toggleBtn {
-    width: 46px;
     position: absolute!important;
     right: 0;
     top: 0;

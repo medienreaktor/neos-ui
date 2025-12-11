@@ -1,6 +1,6 @@
 export {registerLinkTypes, registerDialog} from './application';
 
-export type {IEditor, ILinkType} from './domain';
+export type {IEditor, ILinkType, ILinkOptions} from './domain';
 export {
     useLinkTypeForHref,
     createEditor

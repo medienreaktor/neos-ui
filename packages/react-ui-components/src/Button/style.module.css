@@ -32,6 +32,7 @@
 }
 .btn--size-small {
     height: 32px;
+    min-width: 32px;
     font-size: 13px;
     padding: 0 8px;
 }
@@ -71,7 +72,7 @@
 }
 
 .btn--brandActive {
-    background-color: var(--colors-PrimaryBlue);
+    background-color: var(--colors-PrimaryBlueHover);
 
     & svg {
         color: var(--colors-ContrastBrightest);
@@ -82,16 +83,16 @@
 .btn--brandHover:hover:enabled i,
 .btn--brandHover.btn--isPressed,
 .btn--brandHover.btn--isPressed i {
-    background-color: var(--colors-PrimaryBlue);
+    background-color: var(--colors-PrimaryBlueHover);
 }
 .btn--cleanHover.btn--isPressed,
 .btn--cleanHover.btn--isPressed i,
 .btn--cleanHover:hover:enabled,
 .btn--cleanHover:hover:enabled i {
-    color: var(--colors-PrimaryBlue);
+    color: var(--colors-PrimaryBlueHover);
 
     & svg {
-        color: var(--colors-PrimaryBlue);
+        color: var(--colors-PrimaryBlueHover);
     }
 }
 .btn--darkenHover.btn--isPressed,

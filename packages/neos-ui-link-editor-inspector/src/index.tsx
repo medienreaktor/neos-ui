@@ -4,7 +4,7 @@ import {createInspectorEditor} from './InspectorEditor';
 import {LinkDataType} from './serialisation';
 import {GlobalRegistry} from '@neos-project/neos-ui-registry';
 
-export function registerInspectorEditors(
+export function registerInspectorEditor(
     globalRegistry: GlobalRegistry,
     editor: IEditor
 ): void {

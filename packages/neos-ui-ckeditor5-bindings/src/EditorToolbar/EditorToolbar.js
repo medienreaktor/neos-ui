@@ -16,7 +16,8 @@ export default class EditorToolbar extends PureComponent {
             PropTypes.number,
             PropTypes.bool,
             PropTypes.object,
-            PropTypes.string
+            PropTypes.string,
+            PropTypes.array
         ])),
         toolbarRegistry: PropTypes.object.isRequired,
         editorOptions: PropTypes.object.isRequired,
@@ -36,7 +37,7 @@ export default class EditorToolbar extends PureComponent {
         } = this.props;
 
         const classNames = mergeClassNames({
-            [style.toolBar]: true
+            [style.toolbar]: true
         });
         const renderedToolbarComponents = this.renderToolbarComponents(
             executeCommand,
