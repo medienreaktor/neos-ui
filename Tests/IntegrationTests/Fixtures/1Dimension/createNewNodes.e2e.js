@@ -199,12 +199,16 @@ test('Can create content node from inside InlineUI', async t => {
 test('Can duplicate content node from inside InlineUI', async t => {
     subSection('Duplicate the last headline node');
     await t
+        .switchToIframe(contentIframeSelector)
         .click(Selector('.test-headline'))
         .click(Selector('#neos-ContextToolbar'))
-        .click(Selector('#neos-InlineToolbar-DuplicateSelectedNode'));
+        .click(Selector('#neos-InlineToolbar-DuplicateSelectedNode'))
+        .switchToMainWindow();
+
     await Page.waitForIframeLoading(t);
 
     subSection('Check that the duplicated node exists');
+    await t.switchToIframe(contentIframeSelector);
     const headlineCount = await Selector('.test-headline').count;
     await t.expect(headlineCount).gte(2, 'There are at least two headline nodes');
 
