@@ -18,6 +18,22 @@
         <source>Insert</source>
         <target xml:lang="de" state="translated">Einfügen</target>
       </trans-unit>
+      <trans-unit id="duplicate" xml:space="preserve">
+        <source>Duplicate</source>
+        <target xml:lang="de" state="translated">Duplizieren</target>
+      </trans-unit>
+      <trans-unit id="duplicate--title" xml:space="preserve">
+        <source>Creates a copy of this content next to it</source>
+        <target xml:lang="de" state="translated">Erzeugt eine Kopie dieses Inhalts neben dem Inhalt</target>
+      </trans-unit>
+      <trans-unit id="toggleContextMenu" xml:space="preserve">
+        <source>Toggle context menu</source>
+        <target xml:lang="de" state="translated">Kontextmenü umschalten</target>
+      </trans-unit>
+      <trans-unit id="dragSelectedNode" xml:space="preserve">
+        <source>Drag selected node</source>
+        <target xml:lang="de" state="translated">Ausgewählten Inhalt verschieben</target>
+      </trans-unit>
       <trans-unit id="insertMode" xml:space="preserve">
         <source>Insert mode</source>
         <target xml:lang="de" state="translated">Einfügemodus</target>

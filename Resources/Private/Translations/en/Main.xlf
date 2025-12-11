@@ -20,6 +20,12 @@
             <trans-unit id="duplicate--title" xml:space="preserve">
                 <source>Creates a copy of this content next to it</source>
             </trans-unit>
+            <trans-unit id="toggleContextMenu" xml:space="preserve">
+                <source>Toggle context menu</source>
+            </trans-unit>
+            <trans-unit id="dragSelectedNode" xml:space="preserve">
+                <source>Drag selected node</source>
+            </trans-unit>
             <trans-unit id="insert" xml:space="preserve">
                 <source>Insert</source>
             </trans-unit>
