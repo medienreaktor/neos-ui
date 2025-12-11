@@ -48,7 +48,7 @@ export default class CutSelectedNode extends PureComponent {
                 title={i18nRegistry.translate('cut')}
             >
                 {i18nRegistry.translate('cut')}
-                <Icon name="cut" />
+                <Icon icon="cut" />
             </Button>
         );
     }
