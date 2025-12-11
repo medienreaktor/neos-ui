@@ -27,6 +27,7 @@
     bottom: anchor(bottom);
     position-try-fallbacks: --structural-toolbar-align-right;
     height: max-content;
+    width: min-content;
 }
 .structuralToolBar__popover:hover {
     z-index: calc(infinity);
@@ -43,6 +44,7 @@
     position-try-fallbacks: --structural-toolbar-align-bottom-fallback;
     right: auto;
     top: 12px;
+    bottom: auto;
     border: 1px solid #35c3f8;
     border-top-width: 0;
 }
@@ -52,7 +54,8 @@
     position-area: center center;
     position-try-fallbacks: none;
     right: auto;
-    top: 0;
+    bottom: auto;
+    top: auto;
     border: 1px solid #35c3f8;
 }
 
