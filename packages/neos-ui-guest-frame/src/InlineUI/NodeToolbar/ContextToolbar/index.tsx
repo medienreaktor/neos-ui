@@ -4,7 +4,7 @@ import debounce from 'lodash.debounce';
 
 // @ts-ignore
 import {findNodeInGuestFrame, getGuestFrameWindow} from '@neos-project/neos-ui-guest-frame/src/dom';
-import {Icon, IconButton, Label} from '@neos-project/react-ui-components';
+import {Icon, Button} from '@neos-project/react-ui-components';
 import {translate} from '@neos-project/neos-ui-i18n';
 import {neos} from '@neos-project/neos-ui-decorators';
 import {selectors, useSelector} from '@neos-project/neos-ui-redux-store';
@@ -103,25 +103,19 @@ const ContextToolbar: React.FC<ContextToolbarProps & InjectedContextToolbarProps
         <div className={classNames} id="inline-ui-context-toolbar">
             <div className={style.toolBar} data-ignore_click_outside="true">
                 {contextButtons.map((Item, key) => <Item key={key} {...buttonProps} />)}
-                <Label
-                    htmlFor="neos-InlineToolbar-ContextMenu-toggle"
-                    className={style.contextToolbar__nodeLabel}
-                    popovertarget="neos-InlineToolbar-ContextMenu"
-                    title={focusedNodeLabel}
-                >
-                    <Icon icon={focusedNodeTypeIcon}/>
-                    <span>{focusedNodeLabel}</span>
-                </Label>
                 <div className={style.toolBar__contextMenuWrapper}>
-                    <IconButton
-                        id="neos-InlineToolbar-ContextMenu-toggle"
-                        className={style.toolBar__contextMenuToggle}
+                    <Button
+                        className={style.contextToolbar__nodeLabel}
                         popovertarget="neos-InlineToolbar-ContextMenu"
-                        icon="ellipsis-vertical"
-                        hoverStyle="brand"
-                        size="small"
                         title={translate('Neos.Neos.Ui:Main:toggleContextMenu', 'Toggle context menu')}
-                    />
+                        hoverStyle="brand"
+                        style="transparent"
+                        size="small"
+                    >
+                        <Icon icon={focusedNodeTypeIcon}/>
+                        <span>{focusedNodeLabel}</span>
+                        <Icon icon="ellipsis-vertical"/>
+                    </Button>
                     <div
                         id="neos-InlineToolbar-ContextMenu"
                         className={style.toolBar__contextMenu}

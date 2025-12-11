@@ -58,13 +58,11 @@
     display: flex;
     align-items: center;
     gap: 1ch;
-    padding: 0 1ch;
-    margin: 0;
     font-size: var(--fontSize-Small);
-}
 
-.contextToolbar__nodeLabel:hover {
-    background-color: var(--colors-PrimaryBlueHover);
+    &:has(~ :popover-open) {
+        background-color: var(--colors-PrimaryBlueHover);
+    }
 }
 
 .contextToolbar__nodeLabel span {
@@ -76,19 +74,7 @@
 
 .toolBar__contextMenuWrapper {
     position: relative;
-}
-
-.toolBar__contextMenuToggle {
     anchor-name: --inline-ui-node-context-menu-anchor;
-    background-color: var(--colors-PrimaryBlue);
-
-    &:has(~ :popover-open) {
-        background-color: var(--colors-PrimaryBlueHover);
-    }
-}
-
-.toolBar__contextMenuToggle:focus {
-    outline: 0;
 }
 
 .toolBar__contextMenu {
