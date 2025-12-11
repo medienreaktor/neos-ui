@@ -57,7 +57,9 @@ const DragSelectedNode: React.FC<DragSelectedNodeProps> = ({
     }, []);
 
     const handleDragStart = useCallback((ev: React.DragEvent<HTMLDivElement>) => {
-        startDraggingNode(ev, node.contextPath, focusedFusionPath);
+        if (node.contextPath && focusedFusionPath) {
+            startDraggingNode(ev, node.contextPath, focusedFusionPath);
+        }
     }, [node.contextPath, focusedFusionPath]);
 
     return (
