@@ -29,7 +29,7 @@
     height: max-content;
 }
 .structuralToolBar__popover:hover {
-    z-index: calc(var(--zIndex-NodeToolBar) + 2);
+    z-index: calc(infinity);
 }
 
 @position-try --structural-toolbar-align-bottom-fallback {
@@ -59,17 +59,19 @@
 @supports not (anchor-name: --inline-ui-node-toolbar-anchor) {
     .structuralToolBar__popover {
         pointer-events: all;
-        bottom: calc(100% + 12px);
-        left: 50%;
-        transform: translateX(-50%);
+        bottom: calc(100% + 10px);
+        left: 0;
     }
 
     .structuralToolBar__popover.structuralToolBar__popover--isBelow {
         top: calc(100% + 12px);
+        left: 50%;
+        transform: translateX(-50%);
     }
 
     .structuralToolBar__popover.structuralToolBar__popover--isInside {
         top: 50%;
+        left: 50%;
         transform: translateY(-50%);
     }
 }

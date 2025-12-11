@@ -30,7 +30,7 @@
 .contextToolBar:has(~ :hover),
 .contextToolBar:hover,
 .contextToolBar:hover ~ * {
-    z-index: calc(var(--zIndex-NodeToolBar) + 2);
+    z-index: calc(infinity);
 }
 
 .contextToolBar.contextToolBar--isSticky {
@@ -107,8 +107,6 @@
     .toolBar__contextMenu:popover-open {
         all: initial;
         position: absolute;
-        transform: translateX(-100%);
-        margin-top: 32px;
         width: max-content;
         background-color: var(--colors-ContrastBrightest);
         border: 1px solid var(--colors-ContrastDark);
