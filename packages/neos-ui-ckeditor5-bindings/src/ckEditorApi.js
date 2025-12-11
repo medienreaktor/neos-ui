@@ -1,5 +1,5 @@
 import debounce from 'lodash.debounce';
-import {getGuestFrame, getGuestFrameDocument, getGuestFrameWindow} from '@neos-project/neos-ui-guest-frame/src/dom';
+import {getGuestFrameElement, getGuestFrameDocument, getGuestFrameWindow} from '@neos-project/neos-ui-guest-frame/src/dom';
 import {isDraggingNode} from '@neos-project/neos-ui-guest-frame/src/InlineUI/DragAndDropUi';
 import {DecoupledEditor} from '@ckeditor/ckeditor5-editor-decoupled';
 import {Template, BodyCollection} from '@ckeditor/ckeditor5-ui';
@@ -104,7 +104,7 @@ class GuestFrameBodyCollection extends BodyCollection {
             children: this
         }).render();
 
-        const guestFrame = getGuestFrame();
+        const guestFrame = getGuestFrameElement();
         if (!guestFrame) {
             return;
         }

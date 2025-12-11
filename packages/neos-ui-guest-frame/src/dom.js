@@ -11,7 +11,7 @@ import {translate} from '@neos-project/neos-ui-i18n';
 // Get the guest frame's document object
 //
 export const getGuestFrameDocument = () => {
-    const guestFrame = getGuestFrame();
+    const guestFrame = getGuestFrameElement();
     return guestFrame && guestFrame.contentDocument;
 };
 
@@ -19,14 +19,14 @@ export const getGuestFrameDocument = () => {
 // Get the guest frame's window object
 //
 export const getGuestFrameWindow = () => {
-    const guestFrame = getGuestFrame();
+    const guestFrame = getGuestFrameElement();
     return guestFrame && guestFrame.contentWindow;
 };
 
 //
 // Get the guest frame
 //
-export const getGuestFrame = () => {
+export const getGuestFrameElement = () => {
     return document.getElementsByName('neos-content-main')[0];
 };
 
