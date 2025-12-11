@@ -8,6 +8,7 @@ import LinkTargetBlank from './plugins/linkTargetBlank';
 import LinkRelNofollow from './plugins/linkRelNofollow';
 import LinkDownload from './plugins/linkDownload';
 import LinkTitle from './plugins/linkTitle';
+import Autoformat from '@ckeditor/ckeditor5-autoformat/src/autoformat';
 import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
 import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
 import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
@@ -105,6 +106,7 @@ export default ckEditorRegistry => {
     //
     // Add plugins
     //
+    config.set('autoformat', addPlugin(Autoformat));
     config.set('essentials', addPlugin(Essentials));
     config.set('paragraph', addPlugin(Paragraph));
     config.set('disabledAutoparagraphMode', addPlugin(DisabledAutoparagraphMode, disableAutoparagraph));
