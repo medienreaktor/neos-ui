@@ -56,23 +56,29 @@
     color: var(--colors-ContrastBrighter);
 }
 
-.markActiveNodeAsFocused--focusedNode {
-    outline-offset: 10px !important;
-    outline: 2px solid var(--colors-PrimaryBlue) !important;
-}
-
-:global(.neos-contentelement-shine-through:hover).markHoveredNodeAsHovered,
-:global(.neos-contentelement-shine-through).markActiveNodeAsFocused--focusedNode {
-    outline-color: var(--colors-Warn);
-}
-
-:global([data-__neos-property][contenteditable]) {
+:global([data-__neos-property][contenteditable]):focus-visible {
+    /* prevent native outline being shown during drag and drop of content elements _over_ editable */
     outline: none;
 }
 
 :global([data-__neos-property][contenteditable]:hover) {
     outline-offset: 5px;
     outline: 2px dashed var(--colors-PrimaryBlue);
+}
+
+:global([data-__neos-property][contenteditable].ck-focused) {
+    outline-offset: 5px!important;
+    outline: 2px dashed var(--colors-PrimaryBlue)!important;
+}
+
+.markActiveNodeAsFocused--focusedNode, .markActiveNodeAsFocused--focusedNode[data-__neos-property][contenteditable] {
+    outline-offset: 10px!important;
+    outline: 2px solid var(--colors-PrimaryBlue)!important;
+}
+
+:global(.neos-contentelement-shine-through:hover).markHoveredNodeAsHovered,
+:global(.neos-contentelement-shine-through).markActiveNodeAsFocused--focusedNode {
+    outline-color: var(--colors-Warn);
 }
 
 .notInlineEditableOverlay {

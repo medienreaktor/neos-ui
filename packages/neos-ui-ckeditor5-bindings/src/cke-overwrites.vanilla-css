@@ -12,6 +12,12 @@
     display: none !important;
 }
 
+/* hides ck-default grey border for active editable */
+.ck-focused {
+    border: none!important;
+    box-shadow: none!important;
+}
+
 /* anchors the CK toolbars at the top of the edited text property */
 @position-try --neos-ck-toolbar-align-right {
     left: auto;
