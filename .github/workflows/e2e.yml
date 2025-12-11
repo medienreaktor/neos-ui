@@ -82,7 +82,6 @@ jobs:
       - name: Build for js for e2e
         run: |
           cd "../${{ env.PACKAGE_FOLDER }}"
-          make build-subpackages
           make build-e2e-testing
 
       - name: Cache Composer packages

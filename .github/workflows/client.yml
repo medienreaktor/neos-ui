@@ -21,6 +21,10 @@ jobs:
         run: make install-and-verify
       - name: Lint
         run: make lint
+      - name: Run production build
+        run: make build-production
+      - name: Run NPM build of sub-packages
+        run: make build-subpackages
 
   unittests:
     runs-on: ubuntu-latest
@@ -33,7 +37,5 @@ jobs:
           cache: 'yarn'
       - name: Install
         run: make install-and-verify
-      - name: Build
-        run: make build-production
       - name: Test
         run: make test
