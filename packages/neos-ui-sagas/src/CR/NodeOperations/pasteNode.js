@@ -29,6 +29,7 @@ export default function * pasteNode({globalRegistry}) {
         let mode = insertMode;
         if (!mode || (mode === InsertPosition.INTO && !canBeInsertedInto)
             || ((mode === InsertPosition.BEFORE || mode === InsertPosition.AFTER)) && !canBeInsertedAlongside) {
+            // eslint-disable-next-line require-atomic-updates
             mode = yield call(
                 determineInsertMode,
                 subject,
