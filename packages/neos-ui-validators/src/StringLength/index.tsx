@@ -1,5 +1,5 @@
 import React from 'react';
-import I18n from '@neos-project/neos-ui-i18n';
+import I18n, {translate} from '@neos-project/neos-ui-i18n';
 import logger from '@neos-project/utils-logger';
 
 /**
@@ -43,9 +43,9 @@ const StringLength = (value: any, validatorOptions: StringLengthOptions) => {
             return <I18n id={label} params={{minimum, maximum}}/>;
         }
         if (minimum > 0) {
-            return <I18n id="content.inspector.validators.stringLength.smallerThanMinimum" params={{minimum}}/>;
+            return translate('Neos.Neos:Main:content.inspector.validators.stringLength.smallerThanMinimum', '', {minimum});
         }
-        return <I18n id="content.inspector.validators.stringLength.greaterThanMaximum" params={{maximum}}/>;
+        return translate('Neos.Neos:Main:content.inspector.validators.stringLength.greaterThanMaximum', '', {maximum});
     }
     return null;
 };
