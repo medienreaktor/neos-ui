@@ -278,6 +278,9 @@ export default (ckEditorRegistry: SynchronousMetaRegistry<unknown>) => {
             icon: IconFontColor,
             items: blockFormattingToolbarItems
         })
+        if (formatting.a) {
+            toolbarItems.push('link');
+        }
 
         // Items in the "More" dropdown of the main toolbar
         const moreToolbarItems = [];
@@ -316,9 +319,6 @@ export default (ckEditorRegistry: SynchronousMetaRegistry<unknown>) => {
         }
         if (formatting.code) {
             balloonToolbarItems.push('code');
-        }
-        if (formatting.a) {
-            toolbarItems.push('link');
         }
         const tableItems = formatting.table ? [
             'tableColumn',
