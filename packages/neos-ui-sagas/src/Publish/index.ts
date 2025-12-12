@@ -52,8 +52,7 @@ const PUBLISH_SUCCESS_TRANSLATIONS = {
         id: 'Neos.Neos.Ui:PublishingDialog:publish.document.success.message',
         fallback: '{numberOfChanges} change(s) in document "{scopeTitle}" were sucessfully published to workspace "{targetWorkspaceName}".'
     }
-
-}
+} as const;
 
 export function * watchPublishing({routes}: {routes: Routes}) {
     const {endpoints} = backend.get();

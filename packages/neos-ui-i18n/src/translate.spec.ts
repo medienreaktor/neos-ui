@@ -21,8 +21,10 @@ describe('translate', () => {
         });
 
         it('returns given fallback', () => {
+            // @ts-expect-error for Neos Ui development we only allow translations from Neos or the Ui as package and lint via typescript
             expect(translate('Unknown.Package:UnknownSource:unknown.trans-unit.id', 'This is the fallback'))
                 .toBe('This is the fallback');
+            // @ts-expect-error for Neos Ui development we only allow translations from Neos or the Ui as package and lint via typescript
             expect(translate('Unknown.Package:UnknownSource:unknown.trans-unit.id', 'This is another fallback'))
                 .toBe('This is another fallback');
         });
@@ -33,38 +35,49 @@ describe('translate', () => {
         });
 
         it('returns given "other" form of fallback when quantity = 0', () => {
+            // @ts-expect-error for Neos Ui development we only allow translations from Neos or the Ui as package and lint via typescript
             expect(translate('Unknown.Package:UnknownSource:unknown.trans-unit.id', ['Singular Fallback', 'Plural Fallback'], [], 0))
                 .toBe('Plural Fallback');
         });
 
         it('returns given "one" form of fallback when quantity = 1', () => {
+            // @ts-expect-error for Neos Ui development we only allow translations from Neos or the Ui as package and lint via typescript
             expect(translate('Unknown.Package:UnknownSource:unknown.trans-unit.id', ['Singular Fallback', 'Plural Fallback'], [], 1))
                 .toBe('Singular Fallback');
         });
 
         it('returns given "other" form of fallback when quantity > 1', () => {
+            // @ts-expect-error for Neos Ui development we only allow translations from Neos or the Ui as package and lint via typescript
             expect(translate('Unknown.Package:UnknownSource:unknown.trans-unit.id', ['Singular Fallback', 'Plural Fallback'], [], 2))
                 .toBe('Plural Fallback');
+            // @ts-expect-error for Neos Ui development we only allow translations from Neos or the Ui as package and lint via typescript
             expect(translate('Unknown.Package:UnknownSource:unknown.trans-unit.id', ['Singular Fallback', 'Plural Fallback'], [], 42))
                 .toBe('Plural Fallback');
+            // @ts-expect-error for Neos Ui development we only allow translations from Neos or the Ui as package and lint via typescript
             expect(translate('Unknown.Package:UnknownSource:unknown.trans-unit.id', ['Singular Fallback', 'Plural Fallback'], [], 24227))
                 .toBe('Plural Fallback');
         });
 
         it('substitutes numerical parameters in fallback string', () => {
+            // @ts-expect-error for Neos Ui development we only allow translations from Neos or the Ui as package and lint via typescript
             expect(translate('Unknown.Package:UnknownSource:unknown.trans-unit.id', 'This is {0} fallback with {1} parameters.', ['a', 'a few']))
                 .toBe('This is a fallback with a few parameters.');
+            // @ts-expect-error for Neos Ui development we only allow translations from Neos or the Ui as package and lint via typescript
             expect(translate('Unknown.Package:UnknownSource:unknown.trans-unit.id', ['This is a fallback with {0} parameter.', 'This is a fallback with {0} parameters.'], ['just one'], 1))
                 .toBe('This is a fallback with just one parameter.');
+            // @ts-expect-error for Neos Ui development we only allow translations from Neos or the Ui as package and lint via typescript
             expect(translate('Unknown.Package:UnknownSource:unknown.trans-unit.id', ['This is a fallback with {0} parameter.', 'This is a fallback with {0} parameters.'], ['one or more'], 2))
                 .toBe('This is a fallback with one or more parameters.');
         });
 
         it('substitutes named parameters in fallback string', () => {
+            // @ts-expect-error for Neos Ui development we only allow translations from Neos or the Ui as package and lint via typescript
             expect(translate('Unknown.Package:UnknownSource:unknown.trans-unit.id', 'This is {foo} fallback with {bar} parameters.', {foo: 'one', bar: 'a couple of'}))
                 .toBe('This is one fallback with a couple of parameters.');
+            // @ts-expect-error for Neos Ui development we only allow translations from Neos or the Ui as package and lint via typescript
             expect(translate('Unknown.Package:UnknownSource:unknown.trans-unit.id', ['This is a fallback with {foo} parameter.', 'This is a fallback with {foo} parameters.'], {foo: 'just one'}, 1))
                 .toBe('This is a fallback with just one parameter.');
+            // @ts-expect-error for Neos Ui development we only allow translations from Neos or the Ui as package and lint via typescript
             expect(translate('Unknown.Package:UnknownSource:unknown.trans-unit.id', ['This is a fallback with {foo} parameter.', 'This is a fallback with {foo} parameters.'], {foo: 'one or more'}, 2))
                 .toBe('This is a fallback with one or more parameters.');
         });
