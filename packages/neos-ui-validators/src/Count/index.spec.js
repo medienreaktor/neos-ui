@@ -1,5 +1,5 @@
 import countValidator from './index';
-import {setupI18n} from "@neos-project/neos-ui-i18n";
+import {setupI18n} from '@neos-project/neos-ui-i18n';
 
 beforeAll(() => {
     setupI18n('en-US', 'one,other', {});

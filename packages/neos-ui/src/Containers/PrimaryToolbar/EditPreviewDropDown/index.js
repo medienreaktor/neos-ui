@@ -2,7 +2,6 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {neos} from '@neos-project/neos-ui-decorators';
 import I18n, {translate} from '@neos-project/neos-ui-i18n';
 
 import style from './style.module.css';
@@ -19,7 +18,7 @@ import {getConfiguration} from '@neos-project/neos-ui-configuration';
 export default class EditPreviewModeDropDown extends PureComponent {
     static propTypes = {
         editPreviewMode: PropTypes.string.isRequired,
-        setEditPreviewMode: PropTypes.func.isRequired,
+        setEditPreviewMode: PropTypes.func.isRequired
     };
 
     handleEditPreviewModeClick = memoize(mode => () => {
