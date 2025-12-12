@@ -75,8 +75,8 @@
                 <target>Nicht folgen (SEO)</target>
             </trans-unit>
             <trans-unit id="options.label.download" xml:space="preserve" approved="yes">
-                <source>Download target</source>
-                <target>Ziel herunterladen</target>
+                <source>Force download</source>
+                <target>Herunterladen erzwingen</target>
             </trans-unit>
         </body>
     </file>

@@ -58,7 +58,7 @@
                 <source>No follow (SEO)</source>
             </trans-unit>
             <trans-unit id="options.label.download" xml:space="preserve" approved="yes">
-                <source>Download target</source>
+                <source>Force download</source>
             </trans-unit>
         </body>
     </file>
