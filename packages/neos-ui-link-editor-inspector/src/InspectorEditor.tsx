@@ -16,7 +16,7 @@ import {
     serializedLinkToILink
 } from './serialisation';
 import {translate} from '@neos-project/neos-ui-i18n';
-import {SeamlessButton} from './presentation';
+import {DisabledWrap, SeamlessButton} from './presentation';
 
 export type EditorProps = {
     id?: string
@@ -145,14 +145,15 @@ const InspectorEditorWithLinkType: React.FC<{
     const {Preview} = props.linkType;
 
     if (props.disabled) {
-        // todo add grey overlay like with disabled button and invalid mouse cursor effect
         return error ? (
             <ErrorView error={error} />
         ) : (
-            <Preview
-                model={model}
-                options={props.options}
-            />
+            <DisabledWrap>
+                <Preview
+                    model={model}
+                    options={props.options}
+                />
+            </DisabledWrap>
         )
     }
 
