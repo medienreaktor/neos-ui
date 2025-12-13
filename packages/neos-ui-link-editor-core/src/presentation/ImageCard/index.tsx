@@ -4,7 +4,7 @@ import style from './style.module.css';
 import {CardTitle} from '../CardTitle';
 
 interface Props {
-    label: string
+    label: string | React.ReactNode
     src: string
 }
 

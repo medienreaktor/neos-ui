@@ -7,7 +7,7 @@ import {CardSubTitle} from '../CardSubTitle';
 
 interface Props {
     icon: string;
-    title: string;
+    title: string | React.ReactNode;
     subTitle?: string;
 }
 

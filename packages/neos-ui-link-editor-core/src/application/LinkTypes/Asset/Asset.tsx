@@ -95,7 +95,10 @@ export const Asset: ILinkType<AssetLinkModel> = {
 
         return (
             <ImageCard
-                label={asset.value.label}
+                label={<>
+                    {asset.value.label}
+                    {model.anchor?.value ? <i> #{model.anchor.value}</i> : ''}
+                </>}
                 src={asset.value.preview}
             />
         );
