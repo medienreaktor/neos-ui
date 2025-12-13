@@ -7,19 +7,21 @@
 
 .dialog {
     composes: reset from '../reset.module.css';
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     z-index: var(--zIndex-Dialog);
     width: 100vw;
     height: 100vh;
     background: rgba(0, 0, 0, .8);
-    display: grid;
-    align-items: center;
-    justify-content: center;
 }
 .dialog__contentsPosition {
     composes: reset from '../reset.module.css';
+    margin: auto;
+    position: fixed;
+    inset: 0;
+    width: fit-content;
+    height: fit-content;
     background: var(--colors-ContrastDarker);
     box-shadow: 0 20px 40px rgba(0, 0, 0, .4);
     border-radius: 0;
