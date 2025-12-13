@@ -47,7 +47,6 @@ export const AdvancedOptions: React.FC<{
 
         <div
             id="neos-LinkEditor-Advanced-popover"
-            // @ts-expect-error FIXME we need to update typescript
             popover="auto"
             className={style.advancedContents}
         >
@@ -62,7 +61,6 @@ export const AdvancedOptions: React.FC<{
             </Layout.Stack>
         </div>
         <Button
-            // @ts-expect-error FIXME we need to update typescript
             popovertarget="neos-LinkEditor-Advanced-popover"
             disabled={!enabled}
             style="lighter"
@@ -71,7 +69,7 @@ export const AdvancedOptions: React.FC<{
         >
             <Icon icon="cogs" color={isUsed ? 'primaryBlue' : undefined} padded="right"/>
             {translate('Neos.Neos.Ui:LinkEditor.Main:options.title', 'Advanced')}
-            <Icon className={style.advancedOpenerIcon} icon="chevron-left" padded="left"/>
+            <Icon className={style.advancedOpenerIcon} icon="chevron-right" padded="left"/>
         </Button>
     </div>;
 };
