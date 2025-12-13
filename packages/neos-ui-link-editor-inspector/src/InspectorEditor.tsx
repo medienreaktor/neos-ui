@@ -7,7 +7,7 @@ import {
     IEditor
 } from '@neos-project/neos-ui-link-editor-core';
 import {AnyError, ErrorBoundary, ErrorView} from '@neos-project/neos-ui-error';
-import {ILink} from '@neos-project/neos-ui-link-editor-core/src/domain';
+import {ILink, useSortedAndFilteredLinkTypes} from '@neos-project/neos-ui-link-editor-core/src/domain';
 import {ILinkOptions} from '@neos-project/neos-ui-link-editor-core/src/domain';
 import {
     convertILinkToSerializedLinkValue,
@@ -39,8 +39,11 @@ export const createInspectorEditor = (dataType: LinkDataType, editor: IEditor) =
 
     const serializedLink = resolveSerializedLinkFromValue(props.value, dataType);
 
+    const availableLinkTypes = useSortedAndFilteredLinkTypes(editor);
+
     const linkType = useLinkTypeForHref(
-        serializedLinkToILink(serializedLink)?.href ?? null
+        serializedLinkToILink(serializedLink)?.href ?? null,
+        availableLinkTypes
     );
 
     const enabledLinkOptions = React.useMemo(() => {

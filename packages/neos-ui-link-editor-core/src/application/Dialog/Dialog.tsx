@@ -44,10 +44,9 @@ const LinkEditorDialog: React.FC<{
 
     const {editorOptions} = useLatestState(editor.state$);
 
-    // todo link type might not be available if disabled but returned here...
-    const initialLinkType = useLinkTypeForHref(initialValue?.href ?? null);
-
     const availableLinkTypes = useSortedAndFilteredLinkTypes(editor);
+
+    const initialLinkType = useLinkTypeForHref(initialValue?.href ?? null, availableLinkTypes);
 
     const {error: initialError, model: initialModel} = React.useMemo(() => {
         if (!initialLinkType || !initialValue) {
