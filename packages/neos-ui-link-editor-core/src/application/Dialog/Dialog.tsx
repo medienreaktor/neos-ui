@@ -144,7 +144,7 @@ const LinkEditorDialog: React.FC<{
                 ? translate('Neos.Neos.Ui:LinkEditor.Main:dialog.title.create', 'Create Link')
                 : translate('Neos.Neos.Ui:LinkEditor.Main:dialog.title.edit', 'Edit Link')
             }</div>}
-            style="wide"
+            style="auto"
             autoFocus={true}
             actions={[
                 <Button onClick={dismiss}>
