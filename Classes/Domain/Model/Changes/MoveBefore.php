@@ -63,6 +63,10 @@ class MoveBefore extends AbstractStructuralChange
             } catch (\InvalidArgumentException $e) {
                 // do nothing; $precedingSibling is null.
             }
+            if ($precedingSibling?->aggregateId->equals($subject->aggregateId)) {
+                // we move the node to its current position. This is a noop for the zero dimensional case but with dimensions we might still want to execute the command to possibly adjust other variants
+                $precedingSibling = null;
+            }
 
             $hasEqualParentNode = $parentNode->aggregateId
                 ->equals($succeedingSiblingParent->aggregateId);
