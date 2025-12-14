@@ -3,7 +3,7 @@ import {upcastLegacyLinkEditorOptions} from './upcastLegacyLinkEditorOptions';
 describe('upcastLegacyLinkEditorOptions', () => {
     it('leaves empty case alone', () => {
         expect(
-            upcastLegacyLinkEditorOptions(undefined, {linkTypes: {}})
+            upcastLegacyLinkEditorOptions(undefined)
         ).toStrictEqual(
             {
                 linkTypes: {}
@@ -11,7 +11,7 @@ describe('upcastLegacyLinkEditorOptions', () => {
         );
 
         expect(
-            upcastLegacyLinkEditorOptions({}, {linkTypes: {}})
+            upcastLegacyLinkEditorOptions({})
         ).toStrictEqual(
             {
                 linkTypes: {Node: {}, Asset: {}}
@@ -20,24 +20,10 @@ describe('upcastLegacyLinkEditorOptions', () => {
 
         expect(
             // @ts-ignore
-            upcastLegacyLinkEditorOptions({placeholder: 'unused'}, {linkTypes: {}})
+            upcastLegacyLinkEditorOptions({placeholder: 'unused'})
         ).toStrictEqual(
             {
                 linkTypes: {Node: {}, Asset: {}}
-            }
-        );
-
-        expect(
-            // @ts-ignore
-            upcastLegacyLinkEditorOptions({}, {linkTypes: {Node: {startingPoint: '/<Foo>'}}})
-        ).toStrictEqual(
-            {
-                linkTypes: {
-                    Node: {
-                        startingPoint: '/<Foo>'
-                    },
-                    Asset: {}
-                }
             }
         );
     });
@@ -50,8 +36,7 @@ describe('upcastLegacyLinkEditorOptions', () => {
                     nodeTypes: 'Neos.Neos:Document',
                     assets: false,
                     nodes: true
-                },
-                {linkTypes: {}}
+                }
             )
         ).toStrictEqual(
             {
@@ -69,53 +54,12 @@ describe('upcastLegacyLinkEditorOptions', () => {
         );
     });
 
-    it('ignores legacy things when new syntax overrules', () => {
-        expect(
-            upcastLegacyLinkEditorOptions(
-                {
-                    startingPoint: '/<Foo>',
-                    nodeTypes: 'Neos.Neos:Document',
-                    assets: false,
-                    nodes: true
-                },
-                {linkTypes: {
-                    Node: {
-                        startingPoint: '/<Overruled>',
-                        baseNodeType: 'Neos.Neos:Overruled',
-                        enabled: false,
-                        loadingDepth: 8
-                    },
-                    Asset: {
-                        enabled: true,
-                        position: 'end'
-                    }
-                }}
-            )
-        ).toStrictEqual(
-            {
-                linkTypes: {
-                    Node: {
-                        startingPoint: '/<Overruled>',
-                        baseNodeType: 'Neos.Neos:Overruled',
-                        enabled: false,
-                        loadingDepth: 8
-                    },
-                    Asset: {
-                        enabled: true,
-                        position: 'end'
-                    }
-                }
-            }
-        );
-    });
-
     it('nodeTypes as array', () => {
         expect(
             upcastLegacyLinkEditorOptions(
                 {
                     nodeTypes: ['Neos.Neos:Foo', 'Neos.Neos:Bar']
-                },
-                {linkTypes: {}}
+                }
             )
         ).toStrictEqual(
             {

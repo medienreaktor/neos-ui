@@ -11,24 +11,22 @@ type LegacyLinkEditorOptions = {
 /**
  * @deprecated with Neos 9.1 handle legacy root level option
  */
-export const upcastLegacyLinkEditorOptions = (legacyLinkEditorOptions: LegacyLinkEditorOptions|null|undefined, linkEditorOptions: IEditorState['editorOptions']): IEditorState['editorOptions'] => {
+export const upcastLegacyLinkEditorOptions = (legacyLinkEditorOptions: LegacyLinkEditorOptions|null|undefined): IEditorState['editorOptions'] => {
     if (!legacyLinkEditorOptions) {
-        return linkEditorOptions;
+        return {
+            linkTypes: {}
+        }
     }
     return {
-        ...linkEditorOptions,
         linkTypes: {
-            ...linkEditorOptions.linkTypes,
             Node: {
                 ...('nodes' in legacyLinkEditorOptions ? {enabled: Boolean(legacyLinkEditorOptions.nodes)} : {}),
                 ...(typeof legacyLinkEditorOptions.startingPoint === 'string' ? {startingPoint: legacyLinkEditorOptions.startingPoint} : {}),
                 ...(typeof legacyLinkEditorOptions.nodeTypes === 'string' && legacyLinkEditorOptions.nodeTypes ? {baseNodeType: legacyLinkEditorOptions.nodeTypes} : {}),
-                ...(Array.isArray(legacyLinkEditorOptions.nodeTypes) && legacyLinkEditorOptions.nodeTypes.join(',') ? {baseNodeType: legacyLinkEditorOptions.nodeTypes.join(',')} : {}),
-                ...linkEditorOptions.linkTypes?.Node
+                ...(Array.isArray(legacyLinkEditorOptions.nodeTypes) && legacyLinkEditorOptions.nodeTypes.join(',') ? {baseNodeType: legacyLinkEditorOptions.nodeTypes.join(',')} : {})
             },
             Asset: {
-                ...('assets' in legacyLinkEditorOptions ? {enabled: Boolean(legacyLinkEditorOptions.assets)} : {}),
-                ...linkEditorOptions.linkTypes?.Asset
+                ...('assets' in legacyLinkEditorOptions ? {enabled: Boolean(legacyLinkEditorOptions.assets)} : {})
             }
         }
     }

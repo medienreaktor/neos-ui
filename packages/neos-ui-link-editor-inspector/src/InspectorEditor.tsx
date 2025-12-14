@@ -85,14 +85,11 @@ export const createInspectorEditor = (dataType: LinkDataType, editor: IEditor) =
         const result = await transactions.editLink(
             serializedLinkToILink(serializedLink),
             enabledLinkOptions,
-            upcastLegacyLinkEditorOptions(
-                props.options?.linkTypes,
-                {
-                    linkTypes: {
-                        ...props.options?.linkTypes
-                    }
+            props.options?.linkTypes ? ({
+                linkTypes: {
+                    ...props.options?.linkTypes
                 }
-            )
+            }) : upcastLegacyLinkEditorOptions(props.options?.linkTypes)
         );
 
         if (result.change) {

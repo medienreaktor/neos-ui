@@ -128,14 +128,11 @@ export function createLinkUiPlugin(neosLinkEditor: IEditor, neosEditorOptions: N
             const result = await neosLinkEditor.transactions.editLink(
                 link,
                 enabledLinkOptions,
-                upcastLegacyLinkEditorOptions(
-                    neosEditorOptions?.linking?.linkTypes,
-                    {
-                        linkTypes: {
-                            ...neosEditorOptions?.linking?.linkTypes
-                        }
+                neosEditorOptions?.linking?.linkTypes ? ({
+                    linkTypes: {
+                        ...neosEditorOptions.linking.linkTypes
                     }
-                )
+                }) : upcastLegacyLinkEditorOptions(neosEditorOptions?.linking?.linkTypes)
             );
 
             if (result.change) {
