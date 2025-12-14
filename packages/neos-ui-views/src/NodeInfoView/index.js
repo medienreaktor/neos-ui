@@ -45,7 +45,7 @@ export default class NodeInfoView extends PureComponent {
             lastModification: node?.lastModificationDateTime,
             lastPublication: node?.lastPublicationDateTime,
             nodeAddress: node?.contextPath,
-            name: node?.name ?? '/'
+            name: node?.name
         };
 
         const nodeType = node?.nodeType;
@@ -70,14 +70,16 @@ export default class NodeInfoView extends PureComponent {
                     <div className={style.nodeInfoView__title}>{i18nRegistry.translate('identifier', 'Identifier', {}, 'Neos.Neos')}</div>
                     <NodeInfoViewContent>{properties.identifier}</NodeInfoViewContent>
                 </li>
-                <li className={style.nodeInfoView__item} title={properties.contextPath}>
+                <li className={style.nodeInfoView__item} title={properties.nodeAddress}>
                     <div className={style.nodeInfoView__title}>{i18nRegistry.translate('nodeAddress', 'Node Address', {}, 'Neos.Neos')}</div>
-                    <NodeInfoViewContent>{properties.contextPath}</NodeInfoViewContent>
+                    <NodeInfoViewContent>{properties.nodeAddress}</NodeInfoViewContent>
                 </li>
-                <li className={style.nodeInfoView__item} title={properties.name}>
-                    <div className={style.nodeInfoView__title}>{i18nRegistry.translate('name', 'Name', {}, 'Neos.Neos')}</div>
-                    <NodeInfoViewContent>{properties.name ?? i18nRegistry.translate('unavailable', 'unavailable', {}, 'Neos.Neos')}</NodeInfoViewContent>
-                </li>
+                {properties.name ? (
+                    <li className={style.nodeInfoView__item} title={properties.name}>
+                        <div className={style.nodeInfoView__title}>{i18nRegistry.translate('name', 'Name', {}, 'Neos.Neos')}</div>
+                        <NodeInfoViewContent>{properties.name ?? i18nRegistry.translate('unavailable', 'unavailable', {}, 'Neos.Neos')}</NodeInfoViewContent>
+                    </li>
+                ) : ''}
                 <li className={style.nodeInfoView__item} title={nodeType}>
                     <div
                         className={style.nodeInfoView__title}>{i18nRegistry.translate('type', 'Type', {}, 'Neos.Neos')}</div>
