@@ -17,7 +17,7 @@ import {
     ViewPosition
 } from '@ckeditor/ckeditor5-engine';
 import {DomOptimalPositionOptions} from '@ckeditor/ckeditor5-utils';
-import {IEditor, ILinkOptions} from '@neos-project/neos-ui-link-editor-core';
+import {IEditor, ILinkOptions, upcastLegacyLinkEditorOptions} from '@neos-project/neos-ui-link-editor-core';
 /** @ts-expect-error */
 import {LinkTargetBlankPlugin} from './LinkTargetBlankPlugin';
 /** @ts-expect-error */
@@ -33,11 +33,16 @@ interface NeosEditorOptions {
         relNofollow?: boolean
         targetBlank?: boolean
         download?: boolean
-        // legacy root level option, linkTypes.Node.startingPoint should be used instead
-        startingPoint?: string
+
         linkTypes?: {
             [key: string]: object
         }
+
+        // @deprecated legacy root level options from the old LinkEditor, will be upcast to new `linkTypes` format
+        startingPoint?: string
+        nodeTypes?: string | string[]
+        assets?: boolean
+        nodes?: boolean
     }
 }
 
@@ -90,22 +95,6 @@ export function createLinkUiPlugin(neosLinkEditor: IEditor, neosEditorOptions: N
         }
 
         private async _handleLinkEditing() {
-            const editorOptions = {
-                linkTypes: {
-                    ...neosEditorOptions?.linking?.linkTypes
-                }
-            };
-
-            if (neosEditorOptions?.linking?.startingPoint) {
-                // handle legacy root level option
-                editorOptions.linkTypes.Node = {
-                    ...editorOptions.linkTypes.Node,
-                    startingPoint:
-                        (editorOptions.linkTypes.Node as any).startingPoint
-                        ?? neosEditorOptions.linking.startingPoint
-                };
-            }
-
             const linkCommand: LinkCommand = this.editor.commands.get('link')!;
 
             const link = linkCommand.value ? {
@@ -136,7 +125,18 @@ export function createLinkUiPlugin(neosLinkEditor: IEditor, neosEditorOptions: N
                 enabledLinkOptions.push('download');
             }
 
-            const result = await neosLinkEditor.transactions.editLink(link, enabledLinkOptions, editorOptions);
+            const result = await neosLinkEditor.transactions.editLink(
+                link,
+                enabledLinkOptions,
+                upcastLegacyLinkEditorOptions(
+                    neosEditorOptions?.linking?.linkTypes,
+                    {
+                        linkTypes: {
+                            ...neosEditorOptions?.linking?.linkTypes
+                        }
+                    }
+                )
+            );
 
             if (result.change) {
                 if (result.value === null) {

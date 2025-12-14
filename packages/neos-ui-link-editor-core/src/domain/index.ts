@@ -6,5 +6,6 @@ export {
 
 export type {IEditor} from './Editor';
 export {
-    createEditor
+    createEditor,
+    upcastLegacyLinkEditorOptions
 } from './Editor';

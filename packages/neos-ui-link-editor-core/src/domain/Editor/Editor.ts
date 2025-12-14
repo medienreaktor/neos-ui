@@ -12,6 +12,7 @@ export interface IEditorState {
             [identifier: string]: {
                 enabled?: boolean;
                 position?: string;
+                [optionKey: string]: any
             }
         }
     }

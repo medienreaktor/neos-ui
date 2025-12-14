@@ -4,7 +4,7 @@ import {
     ILinkType,
     useLinkTypeForHref,
     Deletable,
-    IEditor
+    IEditor, upcastLegacyLinkEditorOptions
 } from '@neos-project/neos-ui-link-editor-core';
 import {AnyError, ErrorBoundary, ErrorView} from '@neos-project/neos-ui-error';
 import {ILink, useSortedAndFilteredLinkTypes} from '@neos-project/neos-ui-link-editor-core/src/domain';
@@ -21,12 +21,20 @@ import {DisabledWrap, SeamlessButton} from './presentation';
 export type EditorProps = {
     id?: string
     options?: {
-        linkTypes?: Record<string, unknown>,
+        linkTypes?: {
+            [key: string]: object
+        }
         title?: boolean
         relNofollow?: boolean
         targetBlank?: boolean
         download?: boolean
         disabled?: boolean
+
+        // @deprecated legacy root level options from the old LinkEditor, will be upcast to new `linkTypes` format
+        startingPoint?: string
+        nodeTypes?: string | string[]
+        assets?: boolean
+        nodes?: boolean
     };
     value: any;
     commit(value: any): void;
@@ -77,11 +85,14 @@ export const createInspectorEditor = (dataType: LinkDataType, editor: IEditor) =
         const result = await transactions.editLink(
             serializedLinkToILink(serializedLink),
             enabledLinkOptions,
-            {
-                linkTypes: {
-                    ...props.options?.linkTypes
+            upcastLegacyLinkEditorOptions(
+                props.options?.linkTypes,
+                {
+                    linkTypes: {
+                        ...props.options?.linkTypes
+                    }
                 }
-            }
+            )
         );
 
         if (result.change) {
