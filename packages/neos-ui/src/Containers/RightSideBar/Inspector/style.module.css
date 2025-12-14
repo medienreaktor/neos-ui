@@ -29,7 +29,7 @@
 .tabs {
     display: flex;
     flex-direction: column;
-    height: calc(100% - 101px); /* Accounting for <SelectedElement/> */
+    height: 100%;
     margin-left: var(--spacing-Quarter);
     border-left: 1px solid var(--colors-ContrastDark);
     background: var(--colors-ContrastDarker);
