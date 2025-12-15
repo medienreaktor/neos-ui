@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {neos} from '@neos-project/neos-ui-decorators';
 import {selectors} from '@neos-project/neos-ui-redux-store';
 import {IconButton} from '@neos-project/react-ui-components';
+import {showFlashMessage} from '@neos-project/neos-ui-error';
 import style from './style.module.css';
 
 @connect(state => ({
@@ -29,9 +30,17 @@ export default class NodeInfoView extends PureComponent {
         const result = document.execCommand('copy');
 
         if (result) {
-            this.props.addFlashMessage('copiedToClipboard', 'Copied nodetype to clipboard', 'success');
+            showFlashMessage({
+                id: 'copiedToClipboard',
+                message: 'Copied nodetype to clipboard',
+                severity: 'success'
+            });
         } else {
-            this.props.addFlashMessage('copiedToClipboardFailed', 'Could not copy to clipboard', 'error');
+            showFlashMessage({
+                id: 'copiedToClipboardFailed',
+                message: 'Could not copy to clipboard',
+                severity: 'error'
+            });
         }
     }
 
@@ -83,7 +92,7 @@ export default class NodeInfoView extends PureComponent {
                 <li className={style.nodeInfoView__item} title={nodeType}>
                     <div
                         className={style.nodeInfoView__title}>{i18nRegistry.translate('type', 'Type', {}, 'Neos.Neos')}</div>
-                    <textarea ref={this.nodeTypeNameRef} className={style.nodeInfoView__nodeTypeTextarea}>{nodeType}</textarea>
+                    <textarea ref={this.nodeTypeNameRef} className={style.nodeInfoView__nodeTypeTextarea} value={nodeType} readOnly></textarea>
                     <NodeInfoViewContent>
                         <span dangerouslySetInnerHTML={{__html: wrappingNodeTypeName}}></span>
                     </NodeInfoViewContent>
