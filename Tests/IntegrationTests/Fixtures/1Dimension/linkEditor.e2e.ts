@@ -31,7 +31,6 @@ test('Open and close link editor dialog without saving the change', async t => {
     const LinkStringValue = ReactSelector('EditorEnvelope').withProps({ identifier: 'linkString' }).getReact(({props}) => props.value);
 
     await Page.goToPage('Link editor')
-    await t.click(Selector('#neos-ContentTree-ToggleContentTree'));
     await t.click(Page.treeNode.withText('LinkEditor_Test'));
 
     // after each subSection the state must be reset -> order of these subsections does not matter
@@ -436,7 +435,6 @@ test('Open and close link editor dialog without saving the change', async t => {
 
 test('Can edit property links via inspector and save the change', async t => {
     await Page.goToPage('Link editor')
-    await t.click(Selector('#neos-ContentTree-ToggleContentTree'));
     await t.click(Page.treeNode.withText('LinkEditor_Test'));
 
     await t.switchToIframe('[name="neos-content-main"]');
@@ -654,7 +652,6 @@ test('Can edit property links via inspector and save the change', async t => {
 
 test('PageTree search and filter in link editor document selection', async t => {
     await Page.goToPage('Link editor')
-    await t.click(Selector('#neos-ContentTree-ToggleContentTree'));
     await t.click(Page.treeNode.withText('LinkEditor_Test'));
 
     await t.click(LinkStringProperty.withExactText('Create Link'));
