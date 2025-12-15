@@ -45,51 +45,51 @@ export interface ILinkTypeFactoryApi {
     createError: (message: string) => Error
 }
 
-export function useLinkTypes(): ILinkType[] {
-    return getRegistryById('@neos-project/neos-ui-link-editor/link-types')?.getAllAsList() ?? [];
-}
-
-export function useLinkTypeForHref(href: null | string): null | ILinkType {
-    const linkTypes = useLinkTypes();
+export function useLinkTypeForHref(href: null | string, availableLinkTypes: ILinkType[]): null | ILinkType {
     const result = React.useMemo(() => {
         if (href === null) {
             return null;
         }
 
-        for (const linkType of [...linkTypes].reverse()) {
+        for (const linkType of availableLinkTypes) {
             if (linkType.isSuitableFor({href})) {
                 return linkType;
             }
         }
 
         return null;
-    }, [linkTypes, href]);
+    }, [availableLinkTypes, href]);
 
     return result;
 }
 
 export function useSortedAndFilteredLinkTypes(editor: IEditor): ILinkType[] {
-    const linkTypes = useLinkTypes();
+    const linkTypes = getRegistryById('@neos-project/neos-ui-link-editor/link-types')?.getAllAsList() ?? [];
+
     const {editorOptions} = useLatestState(editor.state$);
 
-    const linkTypesAndEditorOptions = linkTypes.map(
-        (linkType) => ({
-            linkType,
-            options: editorOptions.linkTypes?.[linkType.id]
-        })
-    )
+    const result = React.useMemo(() => {
+        const linkTypesAndEditorOptions = linkTypes.map(
+            (linkType) => ({
+                linkType,
+                options: editorOptions.linkTypes?.[linkType.id]
+            })
+        )
 
-    const sortedLinkTypesViaEditorOptionsPosition = positionalArraySorter(
-        linkTypesAndEditorOptions,
-        // badly typed
-        ({options}) => options?.position
-    )
+        const sortedLinkTypesViaEditorOptionsPosition = positionalArraySorter(
+            linkTypesAndEditorOptions,
+            // badly typed
+            ({options}) => options?.position
+        )
 
-    const filteredLinkTypes = sortedLinkTypesViaEditorOptionsPosition.filter(
-        ({options}) => (options && 'enabled' in options) ? options.enabled : true
-    )
+        const filteredLinkTypes = sortedLinkTypesViaEditorOptionsPosition.filter(
+            ({options}) => (options && 'enabled' in options) ? options.enabled : true
+        )
 
-    return filteredLinkTypes.map(
-        ({linkType}) => linkType
-    );
+        return filteredLinkTypes.map(
+            ({linkType}) => linkType
+        );
+    }, [editorOptions]);
+
+    return result;
 }

@@ -17,6 +17,7 @@ describe('<Dialog/>', () => {
             'dialog': 'dialogClassName',
             'dialog--narrow': 'narrowClassName',
             'dialog--wide': 'wideClassName',
+            'dialog--auto': 'autoClassName',
             'dialog--jumbo': 'jumboClassName',
             'dialog--success': 'successClassName',
             'dialog--warn': 'warnClassName',

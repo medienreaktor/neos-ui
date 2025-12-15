@@ -42,10 +42,11 @@ const LinkEditorDialog: React.FC<{
 }> = ({editor, initialValue}) => {
     const {dismiss, apply, unset} = editor.transactions;
 
-    // todo link type might not be available if disabled but returned here...
-    const initialLinkType = useLinkTypeForHref(initialValue?.href ?? null);
+    const {editorOptions} = useLatestState(editor.state$);
 
     const availableLinkTypes = useSortedAndFilteredLinkTypes(editor);
+
+    const initialLinkType = useLinkTypeForHref(initialValue?.href ?? null, availableLinkTypes);
 
     const {error: initialError, model: initialModel} = React.useMemo(() => {
         if (!initialLinkType || !initialValue) {
@@ -72,7 +73,7 @@ const LinkEditorDialog: React.FC<{
     } as FormValues), []);
 
     const formStatus$ = React.useMemo(() => mapState(form$, (form) => {
-        const linkType = availableLinkTypes.find(l => l.id === form.activeLinkTypeId);
+        const linkType = availableLinkTypes.find(linkType => linkType.id === form.activeLinkTypeId);
         if (!linkType) {
             throw Error(`Fatal: Link type ${form.activeLinkTypeId} does no longer exist.`)
         }
@@ -82,7 +83,10 @@ const LinkEditorDialog: React.FC<{
         return {
             isDirty: form.isOptionsDirty || (model ? linkType.isDirty(model) : false),
             isValid: model ? linkType.isValid(model) : false,
-            initialLinkWasDeleted: form.initialLinkWasDeleted
+            initialLinkWasDeleted: form.initialLinkWasDeleted,
+            activeLinkTypeId: form.activeLinkTypeId,
+            activeModel: model,
+            activeLinkType: linkType
         };
     }), []);
 
@@ -115,6 +119,15 @@ const LinkEditorDialog: React.FC<{
         }
     }, []);
 
+    const unsetLinkModels = React.useCallback(() => {
+        form$.update((values) => ({
+            ...values,
+            options: {},
+            initialLinkWasDeleted: values.initialLinkWasDeleted || Boolean(initialLinkType),
+            linkModels: {}
+        }));
+    }, []);
+
     const isAuthenticated = useSelector(state => !state.system?.authenticationTimeout);
 
     if (!isAuthenticated) {
@@ -131,7 +144,7 @@ const LinkEditorDialog: React.FC<{
                 ? translate('Neos.Neos.Ui:LinkEditor.Main:dialog.title.create', 'Create Link')
                 : translate('Neos.Neos.Ui:LinkEditor.Main:dialog.title.edit', 'Edit Link')
             }</div>}
-            style="wide"
+            style="auto"
             autoFocus={true}
             actions={[
                 <Button onClick={dismiss}>
@@ -152,47 +165,64 @@ const LinkEditorDialog: React.FC<{
         >
             <ErrorBoundary errorFallback={ErrorView}>
                 <Form>
-                    {(initialValue === null || initialLinkType === null) || formStatus.initialLinkWasDeleted ? (
-                        <DialogWithEmptyValue
-                            form$={form$}
-                            editor={editor}
-                            availableLinkTypes={availableLinkTypes}
-                        />
+                    {formStatus.isDirty && formStatus.isValid ? (
+                        <Deletable id="neos-LinkEditor-Preview" onDelete={unsetLinkModels} label={translate('Neos.Neos.Ui:LinkEditor.Main:dialog.action.delete', '')}>
+                            <ErrorBoundary errorFallback={ErrorView}>
+                                {
+                                    React.createElement(formStatus.activeLinkType.Preview, {
+                                        model: formStatus.activeModel,
+                                        options: editorOptions.linkTypes?.[formStatus.activeLinkTypeId] as any ?? {}
+                                    })
+                                }
+                            </ErrorBoundary>
+                        </Deletable>
                     ) : (
-                        <DialogWithValue
-                            form$={form$}
-                            editor={editor}
-                            initialModel={initialModel}
-                            initialError={initialError}
-                            initialLinkType={initialLinkType}
-                            availableLinkTypes={availableLinkTypes}
-                        />
+                        !formStatus.initialLinkWasDeleted && initialLinkType ? (
+                            <Deletable id="neos-LinkEditor-Preview" onDelete={unsetLinkModels} label={translate('Neos.Neos.Ui:LinkEditor.Main:dialog.action.delete', '')}>
+                                <ErrorBoundary errorFallback={ErrorView}>
+                                    {
+                                        initialError ? (
+                                            <ErrorView error={initialError} />
+                                        ) : (
+                                            React.createElement(initialLinkType.Preview, {
+                                                model: initialModel,
+                                                options: editorOptions.linkTypes?.[initialLinkType.id] as any ?? {}
+                                            })
+                                        )
+                                    }
+                                </ErrorBoundary>
+                            </Deletable>
+                        ) : null
                     )}
+                    <DialogContents
+                        form$={form$}
+                        editor={editor}
+                        initialModel={formStatus.initialLinkWasDeleted ? null : initialModel}
+                        initialLinkType={formStatus.initialLinkWasDeleted ? null : initialLinkType}
+                        availableLinkTypes={availableLinkTypes}
+                    />
                 </Form>
             </ErrorBoundary>
         </Dialog>
     )
 }
 
-const DialogWithEmptyValue: React.FC<{
+const DialogContents: React.FC<{
     form$: State<FormValues>
     editor: IEditor,
+    initialModel: any | null,
+    initialLinkType: ILinkType | null,
     availableLinkTypes: ReadonlyArray<ILinkType>
 }> = props => {
+    const {editorOptions} = useLatestState(props.editor.state$);
+
     const setActiveTab = React.useCallback((linkId) => props.form$.update((values) => ({...values, activeLinkTypeId: linkId})), []);
     const activeTab$ = React.useMemo(() => mapState(props.form$, (form) => form.activeLinkTypeId), []);
     const activeTab = useLatestState(activeTab$);
 
-    const {editorOptions} = useLatestState(props.editor.state$);
-
     const linkModels$ = React.useMemo(() => pickState(props.form$, 'linkModels'), []);
 
-    return (<>
-        <PreviewForLinkType
-            availableLinkTypes={props.availableLinkTypes}
-            editor={props.editor}
-            form$={props.form$}
-        />
+    return (
         <Tabs
             activeTab={activeTab}
             onActiveTabChange={setActiveTab}
@@ -212,156 +242,22 @@ const DialogWithEmptyValue: React.FC<{
                         icon={linkType.icon}
                     >
                         <ErrorBoundary errorFallback={ErrorView}>
-                            <Editor model$={model$} options={options}/>
+                            <Editor
+                                model$={model$}
+                                options={options}
+                            />
+                            <AdvancedOptions
+                                editor={props.editor}
+                                form$={props.form$}
+                                initialLinkType={props.initialLinkType}
+                                linkType={linkType}
+                                model$={model$}
+                                options={options}
+                            />
                         </ErrorBoundary>
-                        <AdvancedOptions
-                            editor={props.editor}
-                            form$={props.form$}
-                            linkType={linkType}
-                            model$={model$}
-                            options={editorOptions.linkTypes?.[linkType.id] as any ?? {}}
-                        />
                     </TabsPanel>
                 )
             })}
         </Tabs>
-    </>);
-}
-
-const DialogWithValue: React.FC<{
-    form$: State<FormValues>
-    editor: IEditor,
-    initialModel: any,
-    initialError: AnyError | null
-    initialLinkType: ILinkType,
-    availableLinkTypes: ReadonlyArray<ILinkType>
-}> = props => {
-    const {editorOptions} = useLatestState(props.editor.state$);
-
-    const setActiveTab = React.useCallback((linkId) => props.form$.update((values) => ({...values, activeLinkTypeId: linkId})), []);
-    const activeTab$ = React.useMemo(() => mapState(props.form$, (form) => form.activeLinkTypeId), []);
-    const activeTab = useLatestState(activeTab$);
-
-    const linkModels$ = React.useMemo(() => pickState(props.form$, 'linkModels'), []);
-
-    const InitialPreview = props.initialLinkType.Preview;
-
-    return (
-        <>
-            <PreviewForLinkType
-                editor={props.editor}
-                initialLinkType={props.initialLinkType}
-                availableLinkTypes={props.availableLinkTypes}
-                form$={props.form$}
-                initialLinkTypePreview={() => (
-                    props.initialError ? (
-                        <ErrorView error={props.initialError}/>
-                    ) : (
-                        <InitialPreview
-                            model={props.initialModel}
-                            options={editorOptions.linkTypes?.[props.initialLinkType.id] as any ?? {}}
-                        />
-                    )
-                )}
-            />
-            <Tabs
-                activeTab={activeTab}
-                onActiveTabChange={setActiveTab}
-                vertical
-            >
-                {props.availableLinkTypes.map((linkType) => {
-                    const {Editor} = linkType;
-                    const model$ = React.useMemo(() => pickState(linkModels$, linkType.id), [linkModels$])
-
-                    return (
-                        <TabsPanel
-                            key={linkType.id}
-                            id={linkType.id}
-                            // menu item props
-                            title={linkType.getTitle()}
-                            icon={linkType.icon}
-                        >
-                            <ErrorBoundary errorFallback={ErrorView}>
-                                <Editor
-                                    model$={model$}
-                                    options={editorOptions.linkTypes?.[linkType.id] as any ?? {}}
-                                />
-                                <AdvancedOptions
-                                    editor={props.editor}
-                                    form$={props.form$}
-                                    initialLinkType={props.initialLinkType}
-                                    linkType={linkType}
-                                    model$={model$}
-                                    options={editorOptions.linkTypes?.[linkType.id] as any ?? {}}
-                                />
-                            </ErrorBoundary>
-                        </TabsPanel>
-                    )
-                })}
-            </Tabs>
-        </>
     );
 }
-
-const PreviewForLinkType: React.FC<{
-    editor: IEditor,
-    availableLinkTypes: ReadonlyArray<ILinkType>
-    initialLinkType?: ILinkType,
-    form$: State<FormValues>
-    initialLinkTypePreview?: () => React.ReactNode
-}> = props => {
-    const {editorOptions} = useLatestState(props.editor.state$);
-
-    const formHeader$ = React.useMemo(() => mapState(props.form$, (form) => {
-        const linkType = props.availableLinkTypes.find(l => l.id === form.activeLinkTypeId);
-        if (!linkType) {
-            throw Error(`Fatal: Link type ${form.activeLinkTypeId} does no longer exist.`)
-        }
-
-        const activeModel = form.linkModels[form.activeLinkTypeId];
-
-        const showPreviewForEditedActiveLink = activeModel && linkType.isDirty(activeModel) && linkType.isValid(activeModel);
-
-        return {
-            activeModel,
-            activeLinkType: linkType, // todo is this a good idea to put this into an observable?
-            showPreviewForEditedActiveLink
-        }
-    }), []);
-
-    const unsetLinkModels = React.useCallback(() => {
-        props.form$.update((values) => ({
-            ...values,
-            options: {},
-            initialLinkWasDeleted: values.initialLinkWasDeleted || Boolean(props.initialLinkType),
-            linkModels: {}
-        }));
-    }, []);
-
-    const formHeader = useLatestState(formHeader$);
-
-    const {Preview} = formHeader.activeLinkType;
-
-    return formHeader.showPreviewForEditedActiveLink ? (
-        <Deletable
-            id={'neos-LinkEditor-Preview'}
-            onDelete={unsetLinkModels}
-        >
-            <ErrorBoundary errorFallback={ErrorView}>
-                <Preview
-                    model={formHeader.activeModel}
-                    options={editorOptions.linkTypes?.[formHeader.activeLinkType.id] as any ?? {}}
-                />
-            </ErrorBoundary>
-        </Deletable>
-    ) : (props.initialLinkTypePreview ? (
-        <Deletable
-            id={'neos-LinkEditor-Preview'}
-            onDelete={unsetLinkModels}
-        >
-            <ErrorBoundary errorFallback={ErrorView}>
-                {props.initialLinkTypePreview()}
-            </ErrorBoundary>
-        </Deletable>
-    ) : null)
-};

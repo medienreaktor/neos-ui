@@ -17,6 +17,10 @@
                 <source>Edit Link</source>
                 <target>Link editieren</target>
             </trans-unit>
+            <trans-unit id="inspector.delete" xml:space="preserve" approved="yes">
+                <source>Delete Link</source>
+                <target>Link löschen</target>
+            </trans-unit>
             <trans-unit id="inspector.notfound" xml:space="preserve" approved="yes">
                 <source>Could not find an editor suitable for {href}</source>
                 <target>Konnte keinen geeigneten Editor für {href} finden</target>
@@ -32,6 +36,10 @@
                 <target>Link bearbeiten</target>
             </trans-unit>
 
+            <trans-unit id="dialog.action.delete" xml:space="preserve" approved="yes">
+                <source>Delete Link</source>
+                <target>Link löschen</target>
+            </trans-unit>
             <trans-unit id="dialog.action.cancel" xml:space="preserve" approved="yes">
                 <source>Cancel</source>
                 <target>Abbrechen</target>
@@ -67,8 +75,8 @@
                 <target>Nicht folgen (SEO)</target>
             </trans-unit>
             <trans-unit id="options.label.download" xml:space="preserve" approved="yes">
-                <source>Download target</source>
-                <target>Ziel herunterladen</target>
+                <source>Force download</source>
+                <target>Herunterladen erzwingen</target>
             </trans-unit>
         </body>
     </file>

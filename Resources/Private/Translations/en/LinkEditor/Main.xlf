@@ -14,6 +14,9 @@
             <trans-unit id="inspector.edit" xml:space="preserve" approved="yes">
                 <source>Edit Link</source>
             </trans-unit>
+            <trans-unit id="inspector.delete" xml:space="preserve" approved="yes">
+                <source>Delete Link</source>
+            </trans-unit>
             <trans-unit id="inspector.notfound" xml:space="preserve" approved="yes">
                 <source>Could not determine link editor for value {href}</source>
             </trans-unit>
@@ -24,6 +27,9 @@
             </trans-unit>
             <trans-unit id="dialog.title.edit" xml:space="preserve" approved="yes">
                 <source>Edit Link</source>
+            </trans-unit>
+            <trans-unit id="dialog.action.delete" xml:space="preserve" approved="yes">
+                <source>Delete Link</source>
             </trans-unit>
             <trans-unit id="dialog.action.cancel" xml:space="preserve" approved="yes">
                 <source>Cancel</source>
@@ -52,7 +58,7 @@
                 <source>No follow (SEO)</source>
             </trans-unit>
             <trans-unit id="options.label.download" xml:space="preserve" approved="yes">
-                <source>Download target</source>
+                <source>Force download</source>
             </trans-unit>
         </body>
     </file>

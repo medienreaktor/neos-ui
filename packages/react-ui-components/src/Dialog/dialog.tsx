@@ -4,7 +4,7 @@ import {createPortal} from 'react-dom';
 import {Dialog, DialogManager} from './DialogManager';
 
 type DialogType = 'success' | 'warn' | 'error';
-type DialogStyle = 'wide' | 'jumbo' | 'narrow';
+type DialogStyle = 'wide' | 'auto' | 'jumbo' | 'narrow';
 
 interface DialogTheme {
     readonly 'dialog': string;
@@ -15,6 +15,7 @@ interface DialogTheme {
     readonly 'dialog__closeBtn': string;
     readonly 'dialog__actions': string;
     readonly 'dialog--wide': string;
+    readonly 'dialog--auto': string;
     readonly 'dialog--jumbo': string;
     readonly 'dialog--narrow': string;
     readonly 'dialog--success': string;
@@ -56,8 +57,9 @@ export interface DialogProps {
 
     /**
      * The `style` prop defines the visual style of the `Dialog`.
+     * Set to "wide" by default.
      */
-    readonly style: DialogStyle;
+    readonly style?: DialogStyle;
 
     /**
      * The contents to be rendered within the Dialog.
@@ -208,7 +210,8 @@ class DialogWithOverlay extends PureComponent<DialogProps> {
         const sectionClassName = mergeClassNames(
             theme!.dialog,
             {
-                [theme!['dialog--wide']]: style === 'wide',
+                [theme!['dialog--wide']]: !style || style === 'wide',
+                [theme!['dialog--auto']]: style === 'auto',
                 [theme!['dialog--jumbo']]: style === 'jumbo',
                 [theme!['dialog--narrow']]: style === 'narrow'
             },

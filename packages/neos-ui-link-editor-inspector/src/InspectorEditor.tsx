@@ -4,10 +4,10 @@ import {
     ILinkType,
     useLinkTypeForHref,
     Deletable,
-    IEditor
+    IEditor, upcastLegacyLinkEditorOptions
 } from '@neos-project/neos-ui-link-editor-core';
 import {AnyError, ErrorBoundary, ErrorView} from '@neos-project/neos-ui-error';
-import {ILink} from '@neos-project/neos-ui-link-editor-core/src/domain';
+import {ILink, useSortedAndFilteredLinkTypes} from '@neos-project/neos-ui-link-editor-core/src/domain';
 import {ILinkOptions} from '@neos-project/neos-ui-link-editor-core/src/domain';
 import {
     convertILinkToSerializedLinkValue,
@@ -16,17 +16,25 @@ import {
     serializedLinkToILink
 } from './serialisation';
 import {translate} from '@neos-project/neos-ui-i18n';
-import {SeamlessButton} from './presentation';
+import {DisabledWrap, SeamlessButton} from './presentation';
 
 export type EditorProps = {
     id?: string
     options?: {
-        linkTypes?: Record<string, unknown>,
+        linkTypes?: {
+            [key: string]: object
+        }
         title?: boolean
         relNofollow?: boolean
         targetBlank?: boolean
         download?: boolean
         disabled?: boolean
+
+        // @deprecated legacy root level options from the old LinkEditor, will be upcast to new `linkTypes` format
+        startingPoint?: string
+        nodeTypes?: string | string[]
+        assets?: boolean
+        nodes?: boolean
     };
     value: any;
     commit(value: any): void;
@@ -39,8 +47,11 @@ export const createInspectorEditor = (dataType: LinkDataType, editor: IEditor) =
 
     const serializedLink = resolveSerializedLinkFromValue(props.value, dataType);
 
+    const availableLinkTypes = useSortedAndFilteredLinkTypes(editor);
+
     const linkType = useLinkTypeForHref(
-        serializedLinkToILink(serializedLink)?.href ?? null
+        serializedLinkToILink(serializedLink)?.href ?? null,
+        availableLinkTypes
     );
 
     const enabledLinkOptions = React.useMemo(() => {
@@ -74,11 +85,11 @@ export const createInspectorEditor = (dataType: LinkDataType, editor: IEditor) =
         const result = await transactions.editLink(
             serializedLinkToILink(serializedLink),
             enabledLinkOptions,
-            {
+            props.options?.linkTypes ? ({
                 linkTypes: {
                     ...props.options?.linkTypes
                 }
-            }
+            }) : upcastLegacyLinkEditorOptions(props.options?.linkTypes)
         );
 
         if (result.change) {
@@ -118,7 +129,7 @@ export const createInspectorEditor = (dataType: LinkDataType, editor: IEditor) =
         );
     }
     return (
-        <Deletable id={props.id} onDelete={reset} hoverStyle="brand">
+        <Deletable id={props.id} onDelete={reset} hoverStyle="brand" label={translate('Neos.Neos.Ui:LinkEditor.Main:inspector.delete', '')}>
             <ErrorView error={translate('Neos.Neos.Ui:LinkEditor.Main:inspector.notfound', 'Could not determine link editor for value {href}', {href: JSON.stringify(serializedLink.value)})} />
         </Deletable>
     );
@@ -145,19 +156,20 @@ const InspectorEditorWithLinkType: React.FC<{
     const {Preview} = props.linkType;
 
     if (props.disabled) {
-        // todo add grey overlay like with disabled button and invalid mouse cursor effect
         return error ? (
             <ErrorView error={error} />
         ) : (
-            <Preview
-                model={model}
-                options={props.options}
-            />
+            <DisabledWrap>
+                <Preview
+                    model={model}
+                    options={props.options}
+                />
+            </DisabledWrap>
         )
     }
 
     return (
-        <Deletable id={props.htmlId} onDelete={props.reset} hoverStyle="brand">
+        <Deletable id={props.htmlId} onDelete={props.reset} hoverStyle="brand" label={translate('Neos.Neos.Ui:LinkEditor.Main:inspector.delete', '')}>
             {error ? (
                 <ErrorView error={error} />
             ) : (

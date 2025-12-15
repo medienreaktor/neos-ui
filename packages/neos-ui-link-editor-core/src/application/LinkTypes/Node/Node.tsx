@@ -54,7 +54,7 @@ type NodeLinkOptions = {
     allowedNodeTypes?: string[];
 };
 
-const NodePreview: React.FC<{ nodeId: string }> = (props) => {
+const NodePreview: React.FC<{ nodeId: string, anchor?: string }> = (props) => {
     const workspaceName = useSelector(selectors.CR.Workspaces.personalWorkspaceNameSelector);
     const dimensionValues = useSelector(selectors.CR.ContentDimensions.active);
     const fetch__nodeSummary = usePromise(async () => {
@@ -93,9 +93,10 @@ const NodePreview: React.FC<{ nodeId: string }> = (props) => {
     return (
         <IconCard
             icon={fetch__nodeSummary.value?.icon ?? 'ban'}
-            title={
-                fetch__nodeSummary.value?.label ?? translate('Neos.Neos.Ui:LinkEditor.Node:labelOfNonExistingNode', '')
-            }
+            title={<>
+                {fetch__nodeSummary.value?.label ?? translate('Neos.Neos.Ui:LinkEditor.Node:labelOfNonExistingNode', '')}
+                {props.anchor ? <i> #{props.anchor}</i> : ''}
+            </>}
             subTitle={breadcrumbs ?? `node://${props.nodeId}`}
         />
     );
@@ -142,7 +143,7 @@ export const Node: ILinkType<NodeLinkModel, NodeLinkOptions> = {
     }),
 
     Preview: (props: { model: NodeLinkModel }) => {
-        return <NodePreview nodeId={props.model.nodeId!} />;
+        return <NodePreview nodeId={props.model.nodeId!} anchor={props.model.anchor?.value} />;
     },
 
     Editor: ({

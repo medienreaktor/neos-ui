@@ -498,7 +498,7 @@ test('Can edit property links via inspector and save the change', async t => {
     await t.click(LinkStringProperty.find('[title="Edit Link"]'));
     await t.expect(OpenLinkEditor.withText('Edit Link').exists).ok();
     await t.expect(Selector('#neos-LinkEditor [role="tab"]').withExactText('Asset').getAttribute('aria-selected')).eql('true');
-    await t.expect(Selector('#neos-LinkEditor-Preview span').withExactText('neos_primary.png').exists).ok();
+    await t.expect(Selector('#neos-LinkEditor-Preview span').withExactText('neos_primary.png #my-anchor').exists).ok();
     await t.expect(Selector('#neos-LinkEditor-Preview img').getAttribute('src')).contains('neos_primary-');
 
     subSection('Select web target with anchor and save change');
@@ -640,7 +640,7 @@ test('Can edit property links via inspector and save the change', async t => {
     await t.click(Selector('#neos-LinkEditor button').withExactText('Advanced'));
     await t.click(Selector('#neos-LinkEditor label').withExactText('No follow (SEO)').find('input'))
 
-    await t.click(Selector('#neos-LinkEditor label').withExactText('Download target').find('input'))
+    await t.click(Selector('#neos-LinkEditor label').withExactText('Force download').find('input'))
 
     await t.expect(WarningOrErrorTooltips.exists).notOk();
     await t.click(Selector('#neos-LinkEditor-submit'));
