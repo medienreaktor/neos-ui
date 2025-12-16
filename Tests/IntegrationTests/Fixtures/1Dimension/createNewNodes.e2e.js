@@ -16,7 +16,6 @@ fixture`Create new nodes`
 test('Check ClientEval for dependencies between properties of NodeTypes in Creation Dialog', async t => {
     // create node with NodeType labeled: NodeWithDependingProperties_Test
     await t
-        .click(Selector('#neos-ContentTree-ToggleContentTree'))
         .click(Page.treeNode.withText('Content Collection (main)'))
         .click(Selector('#neos-ContentTree-AddNode'))
         .click(ReactSelector('NodeTypeItem').find('button>span>span').withText('NodeWithDependingProperties_Test'))
@@ -115,7 +114,6 @@ test('Create an Image node from ContentTree', async t => {
 
     subSection('Create Image node');
     await t
-        .click(Selector('#neos-ContentTree-ToggleContentTree'))
         .click(Page.treeNode.withText('Content Collection (main)'))
         .click(Selector('#neos-ContentTree-AddNode'))
         .click(ReactSelector('NodeTypeItem').find('button>span>span').withText('Image_Test'));
@@ -221,7 +219,6 @@ test('Can duplicate content node from inside InlineUI', async t => {
 test('Inline CKEditor mode `paragraph: false` works as expected', async t => {
     subSection('Create an inline headline node');
     await t
-        .click(Selector('#neos-ContentTree-ToggleContentTree'))
         .click(Page.treeNode.withText('Content Collection (main)'))
         .click(Selector('#neos-ContentTree-AddNode'))
         .click(ReactSelector('NodeTypeItem').withProps({nodeType: {label: 'Inline_Headline_Test'}}));

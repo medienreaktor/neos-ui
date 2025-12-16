@@ -175,7 +175,7 @@ Neos:
           leftSideBar:
             isHidden: false
             contentTree:
-              isHidden: true
+              isHidden: false
             searchBar:
               isVisible: false
           rightSideBar:

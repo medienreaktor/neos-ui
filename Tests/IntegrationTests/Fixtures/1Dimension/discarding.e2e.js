@@ -99,7 +99,6 @@ test('Discarding: create a content node and then discard it', async t => {
 
     subSection('Create a content node');
     await t
-        .click(Selector('#neos-ContentTree-ToggleContentTree'))
         .click(Page.treeNode.withText('Content Collection (main)'))
         .click(Selector('#neos-ContentTree-AddNode'))
         .click(ReactSelector('NodeTypeItem').find('button>span>span').withText('Headline_Test'));
@@ -134,7 +133,6 @@ test('Discarding: delete a content node and then discard deletion', async t => {
 
     subSection('Delete this headline');
     await t
-        .click(Selector('#neos-ContentTree-ToggleContentTree'))
         .click(Page.treeNode.withText(headlineToDelete))
         .click(Selector('#neos-ContentTree-DeleteSelectedNode'))
         .click(Selector('#neos-DeleteNodeModal-Confirm'));

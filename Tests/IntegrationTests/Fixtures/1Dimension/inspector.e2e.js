@@ -75,7 +75,6 @@ test('Can edit the page title via inspector', async t => {
 
 test('Check ClientEval for dependencies between properties of NodeTypes in Inspector', async t => {
     await t
-        .click(Selector('#neos-ContentTree-ToggleContentTree'))
         .click(Page.treeNode.withText('Content Collection (main)'))
         .click(Selector('#neos-ContentTree-AddNode'))
         .click(ReactSelector('NodeTypeItem').find('button>span>span').withText('NodeWithDependingProperties_Test'))
