@@ -311,7 +311,12 @@ class Property extends AbstractChange
             $subgraph = $this->contentRepositoryRegistry->subgraphForNode($subject);
             // if the node to vary is tethered, traverse to the closest non-tethered ancestor and vary that one instead
             while ($nodeToVary?->classification->isTethered()) {
-                $nodeToVary = $subgraph->findParentNode($nodeToVary->aggregateId);
+                $parentNode = $subgraph->findParentNode($nodeToVary->aggregateId);
+                if ($parentNode?->classification->isRoot()) {
+                    // varying tethered children of root nodes is allowed (as opposed to varying root nodes)
+                    break;
+                }
+                $nodeToVary = $parentNode;
             }
             if ($nodeToVary === null) {
                 throw new \RuntimeException('Could not find a non-tethered ancestor for node ' . $subject->aggregateId->value, 1761246525);
