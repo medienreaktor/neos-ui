@@ -243,7 +243,8 @@ class NodeInfoHelper implements ProtectedContextAwareInterface
         foreach ($childNodes as $childNode) {
             $infos[] = [
                 'contextPath' => NodeAddress::fromNode($childNode)->toJson(),
-                'nodeType' => $childNode->nodeTypeName->value
+                'nodeType' => $childNode->nodeTypeName->value,
+                'role' => $this->getNodeType($childNode)->isOfType($this->documentNodeTypeRole) ? 'document' : 'content',
             ];
         };
         return $infos;

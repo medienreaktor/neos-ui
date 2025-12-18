@@ -488,11 +488,19 @@ export const reducer = (state: State = defaultState, action: InitAction | EditPr
                 if (!newNode) {
                     throw new Error('This error should never be thrown, it\'s a way to fool TypeScript');
                 }
+                const existingNode = draft.byContextPath[contextPath] || {} as Node;
                 const oldNode = state.byContextPath[contextPath];
-                const mergedNode: Node = defaultsDeep({}, newNode, draft.byContextPath[contextPath]);
-                // Force overwrite of children
-                if (newNode.isFullyLoaded && newNode.children !== undefined) {
-                    mergedNode.children = newNode.children;
+                const mergedNode: Node = defaultsDeep({}, newNode, existingNode);
+                if (newNode.children !== undefined) {
+                    if (newNode.isFullyLoaded || !existingNode.children) {
+                        mergedNode.children = newNode.children;
+                    } else {
+                        // A non fully loaded node only contains document children, so we need to preserve existing non-document children
+                        mergedNode.children = [
+                            ...existingNode.children.filter(({role}) => role !== 'document'),
+                            ...newNode.children
+                        ];
+                    }
                 } else if (!oldNode) {
                     // newNode only adds meta info, but oldNode is gone from the store.
                     // In order to avoid zombie nodes occupying the store, we'll leave
