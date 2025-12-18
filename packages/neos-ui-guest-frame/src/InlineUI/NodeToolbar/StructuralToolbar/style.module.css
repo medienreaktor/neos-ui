@@ -38,7 +38,6 @@
     margin-bottom: -12px;
 }
 .structuralToolBar__popover.structuralToolBar__popover--isBelow {
-    z-index: initial;
     position-anchor: --inline-ui-node-toolbar-anchor;
     position-area: bottom center;
     position-try-fallbacks: --structural-toolbar-align-bottom-fallback;
