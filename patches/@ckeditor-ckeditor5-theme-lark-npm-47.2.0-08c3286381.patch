@@ -1,0 +1,32 @@
+diff --git a/dist/index.css b/dist/index.css
+index 2aaf4ebb34115cfe78d7c622bf0dd94713cefe2a..5308a65eb88a877385febb4095561b937582ae9a 100644
+--- a/dist/index.css
++++ b/dist/index.css
+@@ -1661,27 +1661,7 @@ of the component, floating–point numbers have been used which, for the default
+ 	}
+ .ck.ck-editor__editable_inline {
+ 	overflow: auto;
+-	padding: 0 var(--ck-spacing-standard);
+-	border: 1px solid transparent;
+ }
+-.ck.ck-editor__editable_inline[dir="ltr"] {
+-		text-align: left;
+-	}
+-.ck.ck-editor__editable_inline[dir="rtl"] {
+-		text-align: right;
+-	}
+-/* https://github.com/ckeditor/ckeditor5-theme-lark/issues/116 */
+-.ck.ck-editor__editable_inline > *:first-child {
+-		margin-top: var(--ck-spacing-large);
+-	}
+-/* https://github.com/ckeditor/ckeditor5/issues/847 */
+-.ck.ck-editor__editable_inline > *:last-child {
+-		/*
+-		 * This value should match with the default margins of the block elements (like .media or .image)
+-		 * to avoid a content jumping when the fake selection container shows up (See https://github.com/ckeditor/ckeditor5/issues/9825).
+-		 */
+-		margin-bottom: var(--ck-spacing-large);
+-	}
+ /* https://github.com/ckeditor/ckeditor5/issues/6517 */
+ .ck.ck-editor__editable_inline.ck-blurred ::selection {
+ 		background: var(--ck-color-editable-blur-selection);
