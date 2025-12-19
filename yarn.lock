@@ -2707,6 +2707,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ckeditor/ckeditor5-theme-lark@patch:@ckeditor/ckeditor5-theme-lark@npm:47.2.0#patches/@ckeditor-ckeditor5-theme-lark-npm-47.2.0-08c3286381.patch::locator=root-workspace-0b6124%40workspace%3A.":
+  version: 47.2.0
+  resolution: "@ckeditor/ckeditor5-theme-lark@patch:@ckeditor/ckeditor5-theme-lark@npm%3A47.2.0#patches/@ckeditor-ckeditor5-theme-lark-npm-47.2.0-08c3286381.patch::version=47.2.0&hash=b87bee&locator=root-workspace-0b6124%40workspace%3A."
+  dependencies:
+    "@ckeditor/ckeditor5-ui": 47.2.0
+  checksum: df559e9aa663aacc6b4161aa04dd557e3e4aaf6804ea2ad0e16a95633da2350784ebe91eb1b1cd9d643cf1855fb69228dcac17df8ff045aa708ded1cbc5b38f7
+  languageName: node
+  linkType: hard
+
 "@ckeditor/ckeditor5-typing@npm:47.2.0":
   version: 47.2.0
   resolution: "@ckeditor/ckeditor5-typing@npm:47.2.0"
