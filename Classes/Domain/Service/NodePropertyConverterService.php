@@ -197,6 +197,9 @@ class NodePropertyConverterService
      */
     protected function convertValue($propertyValue, $dataType)
     {
+        if ($propertyValue instanceof \BackedEnum) {
+            return $propertyValue->value;
+        }
         if ($propertyValue instanceof \JsonSerializable && DenormalizingObjectConverter::isDenormalizable($propertyValue::class)) {
             /**
              * Value object support, as they can be stored directly the node properties
