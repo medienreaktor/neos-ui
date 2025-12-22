@@ -97,6 +97,7 @@ Feature: GetTreeQuery
       | features             | homepage              | Vendor.Site:Document                 | {"title": "features"}        | {"language": "en"}        | features |
       | features-content     | features              | Vendor.Site:Content                  | {}                           | {"language": "en"}        |          |
       | feature-a-default    | features              | Vendor.Site:Document                 | {"title": "a"}               | {"language": "en"}        | a        |
+      | feature-a-content    | feature-a-default     | Vendor.Site:Content                  | {}                           | {"language": "en"}        |          |
       | feature-a1-default   | feature-a-default     | Vendor.Site:Document                 | {"title": "a1"}              | {"language": "en"}        | leaf     |
       | feature-a2-default   | feature-a-default     | Vendor.Site:Document                 | {"title": "a2"}              | {"language": "en"}        |          |
       | feature-b-disabled   | features              | Vendor.Site:Document                 | {"title": "b"}               | {"language": "en"}        |          |

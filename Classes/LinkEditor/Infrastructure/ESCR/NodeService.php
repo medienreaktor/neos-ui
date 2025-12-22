@@ -90,16 +90,20 @@ final class NodeService
         return $this->subgraph->findParentNode($node->aggregateId);
     }
 
-    public function findPrecedingSiblingNodes(Node $node): Nodes
+    public function findPrecedingSiblingNodes(Node $node, NodeTypeFilter $nodeTypeFilter): Nodes
     {
-        $filter = FindPrecedingSiblingNodesFilter::create();
+        $filter = FindPrecedingSiblingNodesFilter::create(
+            nodeTypes: $nodeTypeFilter->nodeTypeCriteria,
+        );
 
         return $this->subgraph->findPrecedingSiblingNodes($node->aggregateId, $filter);
     }
 
-    public function findSucceedingSiblingNodes(Node $node): Nodes
+    public function findSucceedingSiblingNodes(Node $node, NodeTypeFilter $nodeTypeFilter): Nodes
     {
-        $filter = FindSucceedingSiblingNodesFilter::create();
+        $filter = FindSucceedingSiblingNodesFilter::create(
+            nodeTypes: $nodeTypeFilter->nodeTypeCriteria,
+        );
 
         return $this->subgraph->findSucceedingSiblingNodes($node->aggregateId, $filter);
     }
