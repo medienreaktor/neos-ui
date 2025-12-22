@@ -83,7 +83,7 @@ final class GetTreeQueryHandler
         $matchingNodes = $nodeService->search(
             rootNode: $rootNode,
             searchTerm: $query->searchTerm,
-            nodeTypeFilter: $narrowNodeTypeFilter,
+            nodeTypeFilter: $narrowNodeTypeFilter->isEmpty() ? $baseNodeTypeFilter : $narrowNodeTypeFilter,
         );
 
         $treeBuilder = $nodeService->createTreeBuilderForRootNode(

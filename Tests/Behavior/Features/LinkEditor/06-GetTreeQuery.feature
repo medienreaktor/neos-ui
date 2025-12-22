@@ -13,6 +13,9 @@ Feature: GetTreeQuery
     'Neos.Neos:Content':
       abstract: true
 
+    'Neos.Neos:ContentCollection':
+      abstract: true
+
     'Neos.Neos:Document':
       abstract: true
       properties:
@@ -34,6 +37,9 @@ Feature: GetTreeQuery
       ui:
         icon: "my-icon"
         label: "My Document Type"
+      childNodes:
+        main:
+          type: "Neos.Neos:ContentCollection"
 
     'Vendor.Site:OtherDocument':
       label: "My Other Node"
@@ -42,6 +48,9 @@ Feature: GetTreeQuery
       ui:
         icon: "my-other-icon"
         label: "My Other Document Type"
+      childNodes:
+        main:
+          type: "Neos.Neos:ContentCollection"
 
     'Vendor.Site:Content':
       superTypes:
@@ -49,6 +58,9 @@ Feature: GetTreeQuery
       ui:
         icon: "my-content"
         label: "My Content"
+      properties:
+        text:
+          type: string
 
     'Vendor.Site:SpecialLinkable':
       abstract: true
@@ -102,6 +114,7 @@ Feature: GetTreeQuery
       | search-a2-other-type | search-a-default      | Vendor.Site:OtherDocument            | {"title": "a2"}              | {"language": "en"}        |          |
       | search-a3-other-text | search-a-default      | Vendor.Site:OtherDocument            | {"title": "a3 special text"} | {"language": "en"}        |          |
       | search-b-with-text   | search                | Vendor.Site:Document                 | {"title": "b special text"}  | {"language": "en"}        |          |
+      | search-b-content     | search-b-with-text    | Vendor.Site:Content                  | {"text": "b' special text"}  | {"language": "en"}        |          |
       | search-c-other-type  | search                | Vendor.Site:OtherDocument            | {"title": "c"}               | {"language": "en"}        |          |
 
     And the command CreateNodeVariant is executed with payload:
@@ -309,7 +322,7 @@ Feature: GetTreeQuery
       | dimensionValues      | {"language": ["en"]}                        |
       | startingPoint        | "/<Neos.Neos:Sites>/site-a/features/a/leaf" |
       | loadingDepth         | 8                                           |
-      | baseNodeTypeFilter   | ""                                          |
+      | baseNodeTypeFilter   | "Neos.Neos:Document"                        |
       | linkableNodeTypes    | []                                          |
       | narrowNodeTypeFilter | ""                                          |
       | searchTerm           | ""                                          |
@@ -884,7 +897,7 @@ Feature: GetTreeQuery
       | dimensionValues      | {"language": ["en"]}                        |
       | startingPoint        | "/<Neos.Neos:Sites>/site-a/features/a/leaf" |
       | loadingDepth         | 8                                           |
-      | baseNodeTypeFilter   | ""                                          |
+      | baseNodeTypeFilter   | "Neos.Neos:Document"                        |
       | linkableNodeTypes    | []                                          |
       | narrowNodeTypeFilter | ""                                          |
       | searchTerm           | ""                                          |
@@ -1034,7 +1047,7 @@ Feature: GetTreeQuery
       }
       """
 
-      Examples:
-          | selectedNodeId       |
-          | "feature-a1-default" |
-          | "feature-a2-default" |
+    Examples:
+      | selectedNodeId       |
+      | "feature-a1-default" |
+      | "feature-a2-default" |

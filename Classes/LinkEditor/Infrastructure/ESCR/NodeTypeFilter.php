@@ -38,9 +38,9 @@ final class NodeTypeFilter
         return $this->allowedNodeTypeNames;
     }
 
-    public function toFilterString(): string
+    public function isEmpty(): bool
     {
-        throw new \Exception(__METHOD__ . ' is not implemented yet!');
+        return $this->nodeTypeCriteria->explicitlyAllowedNodeTypeNames->isEmpty() && $this->nodeTypeCriteria->explicitlyDisallowedNodeTypeNames->isEmpty();
     }
 
     public function isSatisfiedByNode(Node $node): bool
