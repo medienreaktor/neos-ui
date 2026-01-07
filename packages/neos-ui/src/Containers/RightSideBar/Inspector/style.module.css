@@ -61,8 +61,7 @@
         content: '';
         top: 0;
         right: 0;
-        /* 101px accounts for the "Selected element" drop down */
-        height: calc(var(--spacing-GoldenUnit) + 101px);
+        height: calc(var(--spacing-GoldenUnit));
         width: var(--size-SidebarWidth);
     }
 }
