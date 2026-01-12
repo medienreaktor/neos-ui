@@ -9,8 +9,7 @@ import {
 // @ts-ignore
 } from '@neos-project/neos-ui-guest-frame/src/dom';
 import {neos} from '@neos-project/neos-ui-decorators';
-import {selectors, useSelector} from '@neos-project/neos-ui-redux-store';
-import {InsertPosition} from '@neos-project/neos-ts-interfaces';
+import {InsertPosition, Node} from '@neos-project/neos-ts-interfaces';
 import {NodeTypesRegistry} from '@neos-project/neos-ui-contentrepository';
 import {I18nRegistry} from '@neos-project/neos-ui-i18n';
 
@@ -36,6 +35,7 @@ type NodeToolbarProps = {
     canBeDeleted: boolean;
     canBeEdited: boolean;
     destructiveOperationsAreDisabled: boolean;
+    focusedNode?: Node;
     fusionPath?: string;
     isCopied: boolean;
     isCut: boolean;
@@ -49,6 +49,7 @@ const NodeToolbar: React.FC<NodeToolbarProps & InjectedNodeToolbarProps> = ({
     canBeDeleted,
     canBeEdited,
     destructiveOperationsAreDisabled,
+    focusedNode,
     fusionPath,
     i18nRegistry,
     isCopied,
@@ -59,7 +60,6 @@ const NodeToolbar: React.FC<NodeToolbarProps & InjectedNodeToolbarProps> = ({
     visibilityCanBeToggled,
     visible
 }) => {
-    const focusedNode = useSelector(selectors.CR.Nodes.focusedSelector);
     const [insertPosition, setInsertPosition] = useState<InsertPosition>(InsertPosition.AFTER);
     const [anchorPosition, setAnchorPosition] = useState<{top: number, left: number, height: number, right: number, width: number}|null>(null);
 
