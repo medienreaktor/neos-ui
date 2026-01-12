@@ -41,7 +41,7 @@ export function * inspectorSaga({globalRegistry}) {
                 yield put(actions.UI.Inspector.closeSecondaryInspector());
 
                 const focusedNode = yield select(getFocusedNode);
-                if (focusedNode?.isFullyLoaded) {
+                if (focusedNode && !focusedNode.isFullyLoaded) {
                     const {q} = backend.get();
                     const [fullyLoadedFocusedNode] = yield q(focusedNode).get();
 
