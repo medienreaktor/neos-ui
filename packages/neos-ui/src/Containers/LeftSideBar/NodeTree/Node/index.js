@@ -290,7 +290,7 @@ export default class Node extends PureComponent {
 
         const directLink = (isContentTreeNode ? undefined : this.createDirectNodeLink());
 
-        const labelTitle = decodeLabel(node?.label) + ' (' + this.getNodeTypeLabel() + ')';
+        const labelTitle = decodeLabel(node?.label).trim() + ' (' + this.getNodeTypeLabel() + ')';
 
         // Autocreated or we have nested nodes and the node that we are dragging belongs to the selection
         // For read only workspaces we also forbid drag and drop
@@ -314,7 +314,7 @@ export default class Node extends PureComponent {
                     isHiddenInIndex={node?.properties?.hiddenInMenu || this.isIntermediate()}
                     isDragging={currentlyDraggedNodes.includes(node.contextPath)}
                     hasError={this.hasError()}
-                    label={decodeLabel(node?.label)}
+                    label={decodeLabel(node?.label).trim()}
                     icon={this.getIcon()}
                     customIconComponent={this.getCustomIconComponent()}
                     iconLabel={this.getNodeTypeLabel()}
