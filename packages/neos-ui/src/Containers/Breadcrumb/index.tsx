@@ -6,8 +6,11 @@ import {neos} from '@neos-project/neos-ui-decorators';
 import {Node} from '@neos-project/neos-ts-interfaces';
 import {NodeTypesRegistry} from '@neos-project/neos-ui-contentrepository';
 import {Button, Icon} from '@neos-project/react-ui-components';
+import {stripTags, decodeHtml} from '@neos-project/utils-helpers';
 
 import style from './style.module.css';
+
+const decodeLabel = (label: string) => decodeHtml(stripTags(label || ''));
 
 const withReduxState = connect((state: GlobalState) => ({
     focusedNodeParentLine: selectors.CR.Nodes.focusedNodeParentLineSelector(state),
@@ -57,6 +60,7 @@ const Breadcrumb: React.FC<{
                         const nodeType = nodeTypesRegistry.get(node.nodeType);
                         const isActive = node.contextPath === focusedNode?.contextPath;
                         const labelMaxLength = isActive ? 30 : 15;
+                        const label = decodeLabel(node.label).trim();
                         return (
                             <li key={node.contextPath}>
                                 <Button
@@ -64,10 +68,10 @@ const Breadcrumb: React.FC<{
                                     style="transparent"
                                     hoverStyle="clean"
                                     size="small"
-                                    title={node.label}
+                                    title={label}
                                 >
                                     <Icon icon={nodeType?.ui?.icon || 'file'} />
-                                    {node.label.slice(0, labelMaxLength) + (node.label.length > labelMaxLength ? '…' : '')}
+                                    {label.slice(0, labelMaxLength) + (label.length > labelMaxLength ? '…' : '')}
                                 </Button>
                             </li>
                         )
