@@ -13,6 +13,9 @@ Feature: GetChildrenForTreeNode
     'Neos.Neos:Content':
       abstract: true
 
+    'Neos.Neos:ContentCollection':
+      abstract: true
+
     'Neos.Neos:Document':
       abstract: true
       properties:
@@ -30,6 +33,9 @@ Feature: GetChildrenForTreeNode
       ui:
         icon: "my-icon"
         label: "My Document Type"
+      childNodes:
+        main:
+          type: "Neos.Neos:ContentCollection"
 
     'Vendor.Site:OtherDocument':
       label: "My Other Node"
@@ -38,6 +44,9 @@ Feature: GetChildrenForTreeNode
       ui:
         icon: "my-other-icon"
         label: "My Other Document Type"
+      childNodes:
+        main:
+          type: "Neos.Neos:ContentCollection"
 
     'Vendor.Site:Content':
       superTypes:
@@ -176,7 +185,7 @@ Feature: GetChildrenForTreeNode
       | workspaceName       | "live"                |
       | dimensionValues     | {"language": ["en"]}  |
       | treeNodeId          | "feature-a-multi-dsp" |
-      | nodeTypeFilter      | ""                    |
+      | nodeTypeFilter      | "Neos.Neos:Document"  |
       | linkableNodeTypes   | []                    |
     Then I expect the following query response:
       """json
@@ -284,7 +293,7 @@ Feature: GetChildrenForTreeNode
       | workspaceName       | "live"               |
       | dimensionValues     | {"language": ["de"]} |
       | treeNodeId          | "features"           |
-      | nodeTypeFilter      | ""                   |
+      | nodeTypeFilter      | "Neos.Neos:Document" |
       | linkableNodeTypes   | []                   |
     Then I expect the following query response:
       """json

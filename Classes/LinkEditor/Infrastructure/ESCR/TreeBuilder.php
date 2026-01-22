@@ -95,30 +95,24 @@ final class TreeBuilder
                 /** @var Node $parentNode */
                 $parentTreeNodeBuilder = $addNodeWithSiblingsAndParentRecursively($parentNode);
 
-                foreach ($this->nodeService->findPrecedingSiblingNodes($node) as $siblingNode) {
-                    /** @var Node $siblingNode */
-                    if ($this->nodeSearchSpecification->baseNodeTypeFilter->isSatisfiedByNode($siblingNode)) {
-                        $siblingTreeNodeBuilder = $this->addNode($siblingNode);
-                        $siblingTreeNodeBuilder->setHasUnloadedChildren(
-                            $this->nodeService->getNumberOfChildNodes($siblingNode, $this->nodeSearchSpecification->baseNodeTypeFilter->nodeTypeCriteria) > 0,
-                        );
+                foreach ($this->nodeService->findPrecedingSiblingNodes($node, $this->nodeSearchSpecification->baseNodeTypeFilter) as $siblingNode) {
+                    $siblingTreeNodeBuilder = $this->addNode($siblingNode);
+                    $siblingTreeNodeBuilder->setHasUnloadedChildren(
+                        $this->nodeService->getNumberOfChildNodes($siblingNode, $this->nodeSearchSpecification->baseNodeTypeFilter->nodeTypeCriteria) > 0,
+                    );
 
-                        $parentTreeNodeBuilder->addChild($siblingTreeNodeBuilder);
-                    }
+                    $parentTreeNodeBuilder->addChild($siblingTreeNodeBuilder);
                 }
 
                 $parentTreeNodeBuilder->addChild($treeNodeBuilder);
 
-                foreach ($this->nodeService->findSucceedingSiblingNodes($node) as $siblingNode) {
-                    /** @var Node $siblingNode */
-                    if ($this->nodeSearchSpecification->baseNodeTypeFilter->isSatisfiedByNode($siblingNode)) {
-                        $siblingTreeNodeBuilder = $this->addNode($siblingNode);
-                        $siblingTreeNodeBuilder->setHasUnloadedChildren(
-                            $this->nodeService->getNumberOfChildNodes($siblingNode, $this->nodeSearchSpecification->baseNodeTypeFilter->nodeTypeCriteria) > 0,
-                        );
+                foreach ($this->nodeService->findSucceedingSiblingNodes($node, $this->nodeSearchSpecification->baseNodeTypeFilter) as $siblingNode) {
+                    $siblingTreeNodeBuilder = $this->addNode($siblingNode);
+                    $siblingTreeNodeBuilder->setHasUnloadedChildren(
+                        $this->nodeService->getNumberOfChildNodes($siblingNode, $this->nodeSearchSpecification->baseNodeTypeFilter->nodeTypeCriteria) > 0,
+                    );
 
-                        $parentTreeNodeBuilder->addChild($siblingTreeNodeBuilder);
-                    }
+                    $parentTreeNodeBuilder->addChild($siblingTreeNodeBuilder);
                 }
 
                 $parentTreeNodeBuilder->setHasUnloadedChildren(false);
