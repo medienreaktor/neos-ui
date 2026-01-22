@@ -47,6 +47,11 @@ import * as CkEditor5Engine from '@ckeditor/ckeditor5-engine';
 import * as CkEditor5Widget from '@ckeditor/ckeditor5-widget';
 import * as CkEditor5Highlight from '@ckeditor/ckeditor5-highlight';
 import * as CkEditor5Ui from '@ckeditor/ckeditor5-ui';
+import * as CkEditor5Clipboard from '@ckeditor/ckeditor5-clipboard';
+import * as CkEditor5Typing from '@ckeditor/ckeditor5-typing';
+import * as CkEditor5Undo from '@ckeditor/ckeditor5-undo';
+import * as CkEditor5Upload from '@ckeditor/ckeditor5-upload';
+import * as CkEditor5Utils from '@ckeditor/ckeditor5-utils';
 
 // Compatibility export for CkEditor5 for plugins using older CKE5 versions (<46)
 const CkEditor5 = {
@@ -88,6 +93,11 @@ export default {
         CkEditor5Widget,
         CkEditor5Highlight,
         CkEditor5Ui,
+        CkEditor5Clipboard,
+        CkEditor5Typing,
+        CkEditor5Undo,
+        CkEditor5Upload,
+        CkEditor5Utils,
         HTML5Backend,
         ReactDND
     }),
