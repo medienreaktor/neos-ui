@@ -79,6 +79,7 @@ export default class InlineUI extends PureComponent {
                     canBeEdited={canBeEdited}
                     visibilityCanBeToggled={visibilityCanBeToggled}
                     visible={!isWorkspaceReadOnly}
+                    focusedNode={focusedNode}
                     {...focused}
                     />}
                 <InlineValidationErrors />
