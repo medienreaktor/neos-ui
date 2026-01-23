@@ -62,66 +62,6 @@
         <source>Strikethrough</source>
         <target xml:lang="es-ES" state="translated">Tachado</target>
       </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link" xml:space="preserve">
-        <source>Link</source>
-        <target xml:lang="es-ES" state="translated">Enlace</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__unlink" xml:space="preserve">
-        <source>Unlink</source>
-        <target xml:lang="es-ES" state="translated">Desconectar</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__hideOptions" xml:space="preserve">
-        <source>Hide link options</source>
-        <target xml:lang="es-ES" state="translated">Ocultar las opciones del enlace</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__showOptions" xml:space="preserve">
-        <source>Link options</source>
-        <target xml:lang="es-ES" state="translated">Opciones del enlace</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__noFollow" xml:space="preserve">
-        <source>No follow</source>
-        <target xml:lang="es-ES" state="translated">No seguir</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__targetBlank" xml:space="preserve">
-        <source>Open in new window</source>
-        <target xml:lang="es-ES" state="translated">Abrir en una ventana nueva</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__titlePlaceholder" xml:space="preserve">
-        <source>Enter link title</source>
-        <target xml:lang="es-ES" state="translated">Escribir el título del enlace</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__title" xml:space="preserve" approved="no">
-        <source>Title</source>
-        <target xml:lang="es-ES" state="translated">Título</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__anchorPlaceholder" xml:space="preserve">
-        <source>Enter anchor name</source>
-        <target xml:lang="es-ES" state="translated">Introduce el nombre del ancla</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__anchor" xml:space="preserve">
-        <source>Link to anchor</source>
-        <target xml:lang="es-ES" state="translated">Enlace al ancla</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__edit" xml:space="preserve">
-        <source>Edit link</source>
-        <target xml:lang="es-ES" state="translated">Editar el enlace</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__apply" xml:space="preserve">
-        <source>Apply link</source>
-        <target xml:lang="es-ES" state="translated">Aplicar enlace</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__placeholder" xml:space="preserve">
-        <source>Paste a link, or search</source>
-        <target xml:lang="es-ES" state="translated">Pega un enlace o busca</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__formatAsHttp" xml:space="preserve">
-        <source>Format as http link?</source>
-        <target xml:lang="es-ES" state="translated">¿Formato como enlace http?</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__formatAsEmail" xml:space="preserve">
-        <source>Format as email?</source>
-        <target xml:lang="es-ES" state="translated">¿Formatear como correo electrónico?</target>
-      </trans-unit>
       <trans-unit id="ckeditor__toolbar__ordered-list" xml:space="preserve" approved="no">
         <source>Ordered list</source>
         <target xml:lang="es-ES" state="translated">Lista ordenada</target>
@@ -502,10 +442,6 @@
         <source>Blockquote</source>
         <target state="translated">cita en bloque</target>
       </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__download" xml:space="preserve">
-        <source>Downloadable</source>
-        <target state="translated">Puede descargarse</target>
-      </trans-unit>
       <trans-unit id="errorBoundary.copyTechnicalDetails" xml:space="preserve">
         <source>Copy technical details</source>
         <target state="translated">Copiar la información técnica</target>
@@ -529,10 +465,6 @@
       <trans-unit id="errorBoundary.footer" xml:space="preserve">
         <source>For more information about the error please refer to the JavaScript console.</source>
         <target state="translated">Para obtener más información sobre el error, consulta la consola JavaScript.</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__formatOptions" xml:space="preserve">
-        <source>Format options</source>
-        <target state="translated">Opciones del formato</target>
       </trans-unit>
       <trans-unit id="add" xml:space="preserve">
         <source>Add</source>

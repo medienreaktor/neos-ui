@@ -50,66 +50,6 @@
         <source>Strikethrough</source>
         <target xml:lang="fr" state="translated">Barré</target>
       </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link" xml:space="preserve" approved="no">
-        <source>Link</source>
-        <target xml:lang="fr" state="translated">Lien</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__unlink" xml:space="preserve">
-        <source>Unlink</source>
-        <target xml:lang="fr" state="translated">Supprimer le lien</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__hideOptions" xml:space="preserve">
-        <source>Hide link options</source>
-        <target xml:lang="fr" state="translated">Masquer les options de lien</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__showOptions" xml:space="preserve">
-        <source>Link options</source>
-        <target xml:lang="fr" state="translated">Options de lien</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__noFollow" xml:space="preserve">
-        <source>No follow</source>
-        <target xml:lang="fr" state="translated">No follow</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__targetBlank" xml:space="preserve">
-        <source>Open in new window</source>
-        <target xml:lang="fr" state="translated">Ouvrir dans une nouvelle fenêtre</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__titlePlaceholder" xml:space="preserve">
-        <source>Enter link title</source>
-        <target xml:lang="fr" state="translated">Entrer le titre du lien</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__title" xml:space="preserve" approved="no">
-        <source>Title</source>
-        <target xml:lang="fr" state="translated">Titre</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__anchorPlaceholder" xml:space="preserve">
-        <source>Enter anchor name</source>
-        <target xml:lang="fr" state="translated">Entrer le nom de l'ancre</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__anchor" xml:space="preserve">
-        <source>Link to anchor</source>
-        <target xml:lang="fr" state="translated">Lien vers une ancre</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__edit" xml:space="preserve">
-        <source>Edit link</source>
-        <target xml:lang="fr" state="translated">Modifier le lien</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__apply" xml:space="preserve">
-        <source>Apply link</source>
-        <target xml:lang="fr" state="translated">Appliquer le lien</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__placeholder" xml:space="preserve">
-        <source>Paste a link, or search</source>
-        <target xml:lang="fr" state="translated">Coller un lien, ou rechercher</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__formatAsHttp" xml:space="preserve">
-        <source>Format as http link?</source>
-        <target xml:lang="fr" state="translated">Formater en tant que lien http ?</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__formatAsEmail" xml:space="preserve">
-        <source>Format as email?</source>
-        <target xml:lang="fr" state="translated">Formater en tant qu'email ?</target>
-      </trans-unit>
       <trans-unit id="ckeditor__toolbar__ordered-list" xml:space="preserve">
         <source>Ordered list</source>
         <target xml:lang="fr" state="translated">Liste ordonnée</target>

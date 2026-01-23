@@ -50,66 +50,6 @@
         <source>Strikethrough</source>
         <target xml:lang="nl" state="translated">Doorhalen</target>
       </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link" xml:space="preserve" approved="no">
-        <source>Link</source>
-        <target xml:lang="nl" state="translated">Link</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__unlink" xml:space="preserve">
-        <source>Unlink</source>
-        <target xml:lang="nl" state="translated">Link verwijderen</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__hideOptions" xml:space="preserve">
-        <source>Hide link options</source>
-        <target xml:lang="nl" state="translated">Verberg linkopties</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__showOptions" xml:space="preserve">
-        <source>Link options</source>
-        <target xml:lang="nl" state="translated">Linkopties</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__noFollow" xml:space="preserve">
-        <source>No follow</source>
-        <target xml:lang="nl" state="translated">Niet volgen</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__targetBlank" xml:space="preserve">
-        <source>Open in new window</source>
-        <target xml:lang="nl" state="translated">Openen in nieuw venster</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__titlePlaceholder" xml:space="preserve">
-        <source>Enter link title</source>
-        <target xml:lang="nl" state="translated">Voer linktitel in</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__title" xml:space="preserve" approved="no">
-        <source>Title</source>
-        <target xml:lang="nl" state="translated">Titel</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__anchorPlaceholder" xml:space="preserve">
-        <source>Enter anchor name</source>
-        <target xml:lang="nl" state="translated">Voer naam van anker in</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__anchor" xml:space="preserve">
-        <source>Link to anchor</source>
-        <target xml:lang="nl" state="translated">Link naar anker</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__edit" xml:space="preserve">
-        <source>Edit link</source>
-        <target xml:lang="nl" state="translated">Wijzig link</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__apply" xml:space="preserve">
-        <source>Apply link</source>
-        <target xml:lang="nl" state="translated">Maak link aan</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__placeholder" xml:space="preserve">
-        <source>Paste a link, or search</source>
-        <target xml:lang="nl" state="translated">Plak een link of type om te zoeken</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__formatAsHttp" xml:space="preserve">
-        <source>Format as http link?</source>
-        <target xml:lang="nl" state="translated">Opmaken als http link?</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__formatAsEmail" xml:space="preserve">
-        <source>Format as email?</source>
-        <target xml:lang="nl" state="translated">Opmaken als email?</target>
-      </trans-unit>
       <trans-unit id="ckeditor__toolbar__ordered-list" xml:space="preserve">
         <source>Ordered list</source>
         <target xml:lang="nl" state="translated">Geordende lijst</target>
@@ -435,10 +375,6 @@
         <source>Preformatted</source>
         <target state="translated">Voorgeformateerd</target>
       </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__download" xml:space="preserve">
-        <source>Downloadable</source>
-        <target state="translated">Downloadbaar</target>
-      </trans-unit>
       <trans-unit id="ckeditor__toolbar__style__blockquote" xml:space="preserve">
         <source>Blockquote</source>
         <target state="translated">Blokcitaat</target>
@@ -514,10 +450,6 @@
       <trans-unit id="errorBoundary.title" xml:space="preserve">
         <source>Sorry, but the Neos UI could not recover from this error.</source>
         <target state="translated">Sorry, maar de Neos UI kon niet hersteld worden van deze fout.</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__formatOptions" xml:space="preserve">
-        <source>Format options</source>
-        <target state="translated">Opmaakopties</target>
       </trans-unit>
       <trans-unit id="add" xml:space="preserve">
         <source>Add</source>

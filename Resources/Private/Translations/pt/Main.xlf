@@ -50,66 +50,6 @@
         <source>Strikethrough</source>
         <target xml:lang="pt-BR" state="translated">Rasurado</target>
       </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link" xml:space="preserve">
-        <source>Link</source>
-        <target xml:lang="pt-BR" state="translated">Criar Hiperligação</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__unlink" xml:space="preserve">
-        <source>Unlink</source>
-        <target xml:lang="pt-BR" state="translated">Remover Hiperligação</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__hideOptions" xml:space="preserve">
-        <source>Hide link options</source>
-        <target xml:lang="pt-BR" state="translated">Esconder opções da hiperligação</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__showOptions" xml:space="preserve">
-        <source>Link options</source>
-        <target xml:lang="pt-BR" state="translated">Opções da hiperligação</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__noFollow" xml:space="preserve">
-        <source>No follow</source>
-        <target xml:lang="pt-BR" state="translated">Não seguir (no follow)</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__targetBlank" xml:space="preserve">
-        <source>Open in new window</source>
-        <target xml:lang="pt-BR" state="translated">Abrir em nova janela</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__titlePlaceholder" xml:space="preserve">
-        <source>Enter link title</source>
-        <target xml:lang="pt-BR" state="translated">Defina o título da hiperligação</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__title" xml:space="preserve">
-        <source>Title</source>
-        <target xml:lang="pt-BR" state="translated">Título</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__anchorPlaceholder" xml:space="preserve">
-        <source>Enter anchor name</source>
-        <target xml:lang="pt-BR" state="translated">Insira o nome do identificador</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__anchor" xml:space="preserve">
-        <source>Link to anchor</source>
-        <target xml:lang="pt-BR" state="translated">Hiperligar a um identificador</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__edit" xml:space="preserve">
-        <source>Edit link</source>
-        <target xml:lang="pt-BR" state="translated">Editar hiperligação</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__apply" xml:space="preserve">
-        <source>Apply link</source>
-        <target xml:lang="pt-BR" state="translated">Aplicar hiperligação</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__placeholder" xml:space="preserve">
-        <source>Paste a link, or search</source>
-        <target xml:lang="pt-BR" state="translated">Colar uma hiperligação, ou pesquisar</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__formatAsHttp" xml:space="preserve">
-        <source>Format as http link?</source>
-        <target xml:lang="pt-BR" state="translated">Formatar como hiperligação http?</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__formatAsEmail" xml:space="preserve">
-        <source>Format as email?</source>
-        <target xml:lang="pt-BR" state="translated">Formatar como correio eletrónico?</target>
-      </trans-unit>
       <trans-unit id="ckeditor__toolbar__ordered-list" xml:space="preserve">
         <source>Ordered list</source>
         <target xml:lang="pt-BR" state="translated">Lista ordenada</target>
@@ -411,10 +351,6 @@
         <source>Headline 2</source>
         <target state="translated">Título 2</target>
       </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__formatOptions" xml:space="preserve">
-        <source>Format options</source>
-        <target state="translated">Opções de formatação</target>
-      </trans-unit>
       <trans-unit id="syncPersonalWorkSpace" xml:space="preserve">
         <source>Synchronize personal workspace</source>
         <target state="translated">Sincronizar espaço de trabalho pessoal</target>
@@ -450,10 +386,6 @@
       <trans-unit id="ckeditor__toolbar__style__pre" xml:space="preserve">
         <source>Preformatted</source>
         <target state="translated">Pré-formatado</target>
-      </trans-unit>
-      <trans-unit id="ckeditor__toolbar__link__download" xml:space="preserve">
-        <source>Downloadable</source>
-        <target state="translated">Descarregável</target>
       </trans-unit>
       <trans-unit id="ckeditor__toolbar__style__h3" xml:space="preserve">
         <source>Headline 3</source>
