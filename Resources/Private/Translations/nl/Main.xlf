@@ -499,6 +499,10 @@ Om te wisselen naar een andere worksapce , zul je eerst je wijzingen moeten publ
         <source>This combination of dimensions is not allowed</source>
         <target state="translated">Deze combinatie van dimensies is niet toegestaan</target>
       </trans-unit>
+      <trans-unit id="Neos.Neos.Ui:Main:ckeditor__toolbar__more" xml:space="preserve">
+        <source>More</source>
+        <target state="needs-translation" state-qualifier="leveraged-mt">Meer</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

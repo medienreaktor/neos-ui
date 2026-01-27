@@ -582,11 +582,15 @@
       </trans-unit>
       <trans-unit id="invalidValue" xml:space="preserve">
         <source>Invalid value</source>
-        <target state="needs-translation">Ungültiger Wert</target>
+        <target state="needs-translation" state-qualifier="leveraged-mt">Ungültiger Wert</target>
       </trans-unit>
       <trans-unit id="emptyCollection" xml:space="preserve">
         <source>Add content</source>
         <target state="translated">Inhalt hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="Neos.Neos.Ui:Main:ckeditor__toolbar__more" xml:space="preserve">
+        <source>More</source>
+        <target state="needs-translation" state-qualifier="leveraged-mt">Mehr</target>
       </trans-unit>
     </body>
   </file>

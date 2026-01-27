@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-    <file original="" product-name="Neos.Neos.Ui" source-language="en" datatype="plaintext" target-language="de">
-        <body>
-            <!-- Common -->
+  <file original="" product-name="Neos.Neos.Ui" source-language="en" datatype="plaintext" target-language="de">
+    <body>
+      <!-- Common -->
             <trans-unit id="title" xml:space="preserve" approved="yes">
-                <source>Asset</source>
-                <target>Medien</target>
-            </trans-unit>
-
-            <trans-unit id="anchor.label" xml:space="preserve" approved="yes">
-                  <source>Anchor</source>
-              <target>Anker</target>
-              </trans-unit>
-              <trans-unit id="anchor.placeholder" xml:space="preserve" approved="no">
-                <source>Enter anchor name</source>
-              <target>Anker Name eingeben</target>
-            </trans-unit>
-        </body>
-    </file>
+        <source>Asset</source>
+        <target>Medien</target>
+      </trans-unit>
+      <trans-unit id="anchor.label" xml:space="preserve" approved="yes">
+        <source>Anchor</source>
+        <target>Anker</target>
+      </trans-unit>
+      <trans-unit id="anchor.placeholder" xml:space="preserve" approved="no">
+        <source>Enter anchor name</source>
+        <target>Anker Name eingeben</target>
+      </trans-unit>
+      <trans-unit id="loadingPreview" xml:space="preserve" approved="no">
+        <source>Loading ...</source>
+        <target state="needs-translation" state-qualifier="leveraged-mt">Laden ...</target>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>

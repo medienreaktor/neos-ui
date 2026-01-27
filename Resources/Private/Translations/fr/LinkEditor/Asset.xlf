@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-    <file original="" product-name="Neos.Neos.Ui" source-language="en" datatype="plaintext" target-language="fr">
-        <body>
-            <!-- Common -->
+  <file original="" product-name="Neos.Neos.Ui" source-language="en" datatype="plaintext" target-language="fr">
+    <body>
+      <!-- Common -->
             <trans-unit id="title" xml:space="preserve" approved="yes">
-                <source>Asset</source>
-                <target>date des médias</target>
-
-            </trans-unit>
-
-            <!-- Identifier -->
-            <trans-unit id="identifier.validation.required" xml:space="preserve" approved="yes">
-                <source>Asset is required</source>
-                <target>fichier média est nécessaire</target>
-            </trans-unit>
-        </body>
-    </file>
+        <source>Asset</source>
+        <target>date des médias</target>
+      </trans-unit>
+      <!-- Identifier -->
+            <trans-unit id="anchor.placeholder" xml:space="preserve" approved="no">
+        <source>Enter anchor name</source>
+        <target state="needs-translation" state-qualifier="leveraged-mt">Entrer le nom de l'ancre</target>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>
