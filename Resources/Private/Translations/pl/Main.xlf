@@ -72,7 +72,7 @@
       </trans-unit>
       <trans-unit id="ckeditor__toolbar__link__targetBlank" xml:space="preserve">
         <source>Open in new window</source>
-        <target xml:lang="pl" state="needs-translation">Open in new window</target>
+        <target xml:lang="pl" state="needs-translation" state-qualifier="leveraged-mt">Otwórz w nowym oknie</target>
       </trans-unit>
       <trans-unit id="ckeditor__toolbar__link__titlePlaceholder" xml:space="preserve">
         <source>Enter link title</source>
