@@ -16,7 +16,7 @@ import * as NeosUiReduxStore from '@neos-project/neos-ui-redux-store';
 import * as NeosUiDecorators from '@neos-project/neos-ui-decorators';
 import * as NeosUiEditors from '@neos-project/neos-ui-editors/src/index';
 import * as UtilsRedux from '@neos-project/utils-redux';
-import NeosUiI18n from '@neos-project/neos-ui-i18n';
+import * as NeosUiI18n from '@neos-project/neos-ui-i18n';
 import * as CkEditorApi from '@neos-project/neos-ui-ckeditor5-bindings/src/ckEditorApi';
 import NeosUiBackendConnectorDefault, * as NeosUiBackendConnector from '@neos-project/neos-ui-backend-connector';
 import * as NeosUiViews from '@neos-project/neos-ui-views';
@@ -108,7 +108,13 @@ export default {
         CkEditorApi,
         NeosUiDecorators,
         NeosUiEditors,
-        NeosUiI18n,
+        NeosUiI18n: {
+            ...NeosUiI18n,
+            // declare export to be an ESM, otherwise the default legacy export `<I18n>` will not be resolved in a plugin.
+            // Usually done via see `Object.defineProperty(exports, "__esModule", { value: true });`.
+            // As this object will later be assigned to module.exports we configure it here already.
+            __esModule: true
+        },
         NeosUiReduxStore,
         NeosUiViews,
         NeosUiGuestFrameDom,
