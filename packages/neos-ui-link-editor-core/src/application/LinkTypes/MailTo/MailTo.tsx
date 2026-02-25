@@ -18,11 +18,11 @@ type FormValue<T> = {
 
 const validateRecipient = (recipient: string) => {
     if (!recipient) {
-        return translate('Neos.Neos.Ui:LinkEditor.MailTo:recipient.validation.required', '');
+        return translate('Neos.Neos.Ui:LinkEditor.MailTo:recipient.validation.required');
     }
     if (!isEmail.validate(recipient)) {
         // we use the library isemail here, but we only require some kind of soft email validation - anything can be an email if it wants to be :) Thus we only emit warnings. Could be a simple regex too.
-        return translate('Neos.Neos.Ui:LinkEditor.MailTo:recipient.validation.email', '');
+        return translate('Neos.Neos.Ui:LinkEditor.MailTo:recipient.validation.email');
     }
     return undefined;
 }
@@ -30,7 +30,7 @@ const validateRecipient = (recipient: string) => {
 const validateCc = (cc: string) => {
     if (cc) {
         if (!cc.split(',').every(value => isEmail.validate(value.trim()))) {
-            return translate('Neos.Neos.Ui:LinkEditor.MailTo:cc.validation.emaillist', '');
+            return translate('Neos.Neos.Ui:LinkEditor.MailTo:cc.validation.emaillist');
         }
     }
     return undefined;
@@ -39,7 +39,7 @@ const validateCc = (cc: string) => {
 const validateBcc = (cc: string) => {
     if (cc) {
         if (!cc.split(',').every(value => isEmail.validate(value.trim()))) {
-            return translate('Neos.Neos.Ui:LinkEditor.MailTo:bcc.validation.emaillist', '');
+            return translate('Neos.Neos.Ui:LinkEditor.MailTo:bcc.validation.emaillist');
         }
     }
     return undefined;
@@ -83,7 +83,7 @@ export const MailTo: ILinkType<MailToLinkModel, MailToOptions> = {
 
     icon: 'envelope',
 
-    getTitle: () => translate('Neos.Neos.Ui:LinkEditor.MailTo:title', ''),
+    getTitle: () => translate('Neos.Neos.Ui:LinkEditor.MailTo:title'),
 
     isSuitableFor,
 
@@ -205,7 +205,7 @@ export const MailTo: ILinkType<MailToLinkModel, MailToOptions> = {
         return (
             <Layout.Stack>
                 <div>
-                    <Label htmlFor="neos-LinkEditor-MailTo-recipient">{translate('Neos.Neos.Ui:LinkEditor.MailTo:recipient.label', '')}</Label>
+                    <Label htmlFor="neos-LinkEditor-MailTo-recipient">{translate('Neos.Neos.Ui:LinkEditor.MailTo:recipient.label')}</Label>
                     <TextInput
                         id="neos-LinkEditor-MailTo-recipient"
                         value={email?.recipient?.value ?? ''}
@@ -218,7 +218,7 @@ export const MailTo: ILinkType<MailToLinkModel, MailToOptions> = {
 
                 {options.enabledFields?.subject !== false ? (
                     <div>
-                        <Label htmlFor="neos-LinkEditor-MailTo-subject">{translate('Neos.Neos.Ui:LinkEditor.MailTo:subject.label', '')}</Label>
+                        <Label htmlFor="neos-LinkEditor-MailTo-subject">{translate('Neos.Neos.Ui:LinkEditor.MailTo:subject.label')}</Label>
                         <TextInput
                             id="neos-LinkEditor-MailTo-subject"
                             value={email?.subject?.value ?? ''}
@@ -231,12 +231,12 @@ export const MailTo: ILinkType<MailToLinkModel, MailToOptions> = {
                 ) : null}
                 {options.enabledFields?.cc !== false ? (
                     <div>
-                        <Label htmlFor="neos-LinkEditor-MailTo-cc">{translate('Neos.Neos.Ui:LinkEditor.MailTo:cc.label', '')}</Label>
+                        <Label htmlFor="neos-LinkEditor-MailTo-cc">{translate('Neos.Neos.Ui:LinkEditor.MailTo:cc.label')}</Label>
                         <TextInput
                             id="neos-LinkEditor-MailTo-cc"
                             value={email?.cc?.value ?? ''}
                             onChange={setCc}
-                            placeholder={translate('Neos.Neos.Ui:LinkEditor.MailTo:cc.placeholder', '')}
+                            placeholder={translate('Neos.Neos.Ui:LinkEditor.MailTo:cc.placeholder')}
                         />
                         {email?.cc?.warning ? (
                             <Tooltip renderInline asWarning>{email?.cc.warning}</Tooltip>
@@ -245,12 +245,12 @@ export const MailTo: ILinkType<MailToLinkModel, MailToOptions> = {
                 ) : null}
                 {options.enabledFields?.bcc !== false ? (
                     <div>
-                        <Label htmlFor="neos-LinkEditor-MailTo-bcc">{translate('Neos.Neos.Ui:LinkEditor.MailTo:bcc.label', '')}</Label>
+                        <Label htmlFor="neos-LinkEditor-MailTo-bcc">{translate('Neos.Neos.Ui:LinkEditor.MailTo:bcc.label')}</Label>
                         <TextInput
                             id="neos-LinkEditor-MailTo-bcc"
                             value={email?.bcc?.value ?? ''}
                             onChange={setBcc}
-                            placeholder={translate('Neos.Neos.Ui:LinkEditor.MailTo:bcc.placeholder', '')}
+                            placeholder={translate('Neos.Neos.Ui:LinkEditor.MailTo:bcc.placeholder')}
                         />
                         {email?.bcc?.warning ? (
                             <Tooltip renderInline asWarning>{email?.bcc.warning}</Tooltip>
@@ -259,7 +259,7 @@ export const MailTo: ILinkType<MailToLinkModel, MailToOptions> = {
                 ) : null}
                 {options.enabledFields?.body !== false ? (
                     <div>
-                        <Label htmlFor="neos-LinkEditor-MailTo-body">{translate('Neos.Neos.Ui:LinkEditor.MailTo:body.label', '')}</Label>
+                        <Label htmlFor="neos-LinkEditor-MailTo-body">{translate('Neos.Neos.Ui:LinkEditor.MailTo:body.label')}</Label>
                         <TextArea
                             id="neos-LinkEditor-MailTo-body"
                             value={email?.body?.value ?? ''}

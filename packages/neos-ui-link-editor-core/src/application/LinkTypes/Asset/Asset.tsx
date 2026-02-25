@@ -28,7 +28,7 @@ const validateModel = (values: AssetLinkModel): AssetLinkModel => ({
         warning: (
             !values.anchor?.value ? undefined : (
                 (values.anchor.value.startsWith(' ') || values.anchor.value.endsWith(' ')) ? (
-                    translate('Neos.Neos.Ui:LinkEditor.Asset:anchor.validation.leadingOrTrailingSpace', '')
+                    translate('Neos.Neos.Ui:LinkEditor.Asset:anchor.validation.leadingOrTrailingSpace')
                 ) : undefined
             )
         )
@@ -40,7 +40,7 @@ export const Asset: ILinkType<AssetLinkModel> = {
 
     icon: 'camera',
 
-    getTitle: () => translate('Neos.Neos.Ui:LinkEditor.Asset:title', ''),
+    getTitle: () => translate('Neos.Neos.Ui:LinkEditor.Asset:title'),
 
     isSuitableFor,
 
@@ -83,7 +83,7 @@ export const Asset: ILinkType<AssetLinkModel> = {
             return (
                 <IconCard
                     icon="spinner"
-                    title={translate('Neos.Neos.Ui:LinkEditor.Asset:loadingPreview', '')}
+                    title={translate('Neos.Neos.Ui:LinkEditor.Asset:loadingPreview')}
                     subTitle={`asset://${model.identifier}`}
                 />
             );
@@ -121,13 +121,13 @@ export const Asset: ILinkType<AssetLinkModel> = {
         return (
             <div>
                 <Label htmlFor="neos-LinkEditor-Asset-anchor">
-                    {translate('Neos.Neos.Ui:LinkEditor.Asset:anchor.label', '')}
+                    {translate('Neos.Neos.Ui:LinkEditor.Asset:anchor.label')}
                 </Label>
                 <TextInput
                     id="neos-LinkEditor-Asset-anchor"
                     type="text"
                     value={model?.anchor?.value ?? ''}
-                    placeholder={translate('Neos.Neos.Ui:LinkEditor.Asset:anchor.placeholder', '')}
+                    placeholder={translate('Neos.Neos.Ui:LinkEditor.Asset:anchor.placeholder')}
                     onChange={setAnchor}
                 />
                 {model?.anchor?.warning ? (

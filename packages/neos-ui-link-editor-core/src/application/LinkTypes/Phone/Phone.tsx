@@ -23,7 +23,7 @@ const validateModel = (model: PhoneLinkModel): PhoneLinkModel => ({
     ...model,
     phoneNumber: {
         ...model.phoneNumber,
-        warning: !model.phoneNumber.value ? translate('Neos.Neos.Ui:LinkEditor.Phone:phoneNumber.validation.required', '') : (!VALID_PHONE_NUMBER.test(model.phoneNumber.value) ? translate('Neos.Neos.Ui:LinkEditor.Phone:phoneNumber.validation.numbersOnly', '') : undefined)
+        warning: !model.phoneNumber.value ? translate('Neos.Neos.Ui:LinkEditor.Phone:phoneNumber.validation.required') : (!VALID_PHONE_NUMBER.test(model.phoneNumber.value) ? translate('Neos.Neos.Ui:LinkEditor.Phone:phoneNumber.validation.numbersOnly') : undefined)
     }
 });
 
@@ -32,7 +32,7 @@ export const Phone: ILinkType<PhoneLinkModel> = {
 
     icon: 'phone-alt',
 
-    getTitle: () => translate('Neos.Neos.Ui:LinkEditor.Phone:title', ''),
+    getTitle: () => translate('Neos.Neos.Ui:LinkEditor.Phone:title'),
 
     isSuitableFor,
 
@@ -87,13 +87,13 @@ export const Phone: ILinkType<PhoneLinkModel> = {
         return (
             <div>
                 <Label htmlFor="neos-LinkEditor-Phone-number">
-                    {translate('Neos.Neos.Ui:LinkEditor.Phone:phoneNumber.label', '')}
+                    {translate('Neos.Neos.Ui:LinkEditor.Phone:phoneNumber.label')}
                 </Label>
                 <TextInput
                     id="neos-LinkEditor-Phone-number"
                     value={model?.phoneNumber?.value ?? ''}
                     onChange={setPhoneNumber}
-                    placeholder={translate('Neos.Neos.Ui:LinkEditor.Phone:phoneNumber.placeholder', '')}
+                    placeholder={translate('Neos.Neos.Ui:LinkEditor.Phone:phoneNumber.placeholder')}
                 />
                 {model?.phoneNumber?.warning ? (
                     <Tooltip renderInline asWarning>{model.phoneNumber.warning}</Tooltip>

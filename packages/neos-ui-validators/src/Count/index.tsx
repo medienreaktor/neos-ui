@@ -28,7 +28,7 @@ const Count = (value: any, validatorOptions: CountOptions) => {
     }
 
     if (typeof value !== 'object' || value === null) {
-        return translate('Neos.Neos:Main:content.inspector.validators.countValidator.notCountable', '');
+        return translate('Neos.Neos:Main:content.inspector.validators.countValidator.notCountable');
     }
 
     const {length} = Object.keys(value);

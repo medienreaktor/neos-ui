@@ -148,7 +148,7 @@ const LinkEditorDialog: React.FC<{
             autoFocus={true}
             actions={[
                 <Button onClick={dismiss}>
-                    {translate('Neos.Neos.Ui:LinkEditor.Main:dialog.action.cancel', '')}
+                    {translate('Neos.Neos.Ui:LinkEditor.Main:dialog.action.cancel')}
                 </Button>,
                 <Button
                     id="neos-LinkEditor-submit"
@@ -158,8 +158,8 @@ const LinkEditorDialog: React.FC<{
                     onClick={handleSubmit}
                 >
                     {initialValue === null
-                        ? translate('Neos.Neos.Ui:LinkEditor.Main:dialog.action.create', '')
-                        : translate('Neos.Neos.Ui:LinkEditor.Main:dialog.action.update', '')}
+                        ? translate('Neos.Neos.Ui:LinkEditor.Main:dialog.action.create')
+                        : translate('Neos.Neos.Ui:LinkEditor.Main:dialog.action.update')}
                 </Button>
             ]}
         >

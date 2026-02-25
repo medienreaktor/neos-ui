@@ -23,8 +23,8 @@ const formattingOptionForLinkWithoutHttpsProtocol = (href: string) => {
     }
     // looks like domain
     return {
-        group: translate('Neos.Neos.Ui:LinkEditor.Web:href.formatOptions', ''),
-        label: translate('Neos.Neos.Ui:LinkEditor.Web:href.formatAsHttp', ''),
+        group: translate('Neos.Neos.Ui:LinkEditor.Web:href.formatOptions'),
+        label: translate('Neos.Neos.Ui:LinkEditor.Web:href.formatAsHttp'),
         value: `https://${href}`
     };
 };
@@ -37,17 +37,17 @@ const validateModel = (values: WebLinkModel): WebLinkModel => ({
             !values.href?.value ? undefined : (
                 // eslint-disable-next-line no-script-url
                 values.href.value.includes('javascript:') ? (
-                    translate('Neos.Neos.Ui:LinkEditor.Web:href.validation.javascriptSchema', '')
+                    translate('Neos.Neos.Ui:LinkEditor.Web:href.validation.javascriptSchema')
                 ) : values.href.value.startsWith('node://') ? (
-                    translate('Neos.Neos.Ui:LinkEditor.Web:href.validation.nodeSchema', '')
+                    translate('Neos.Neos.Ui:LinkEditor.Web:href.validation.nodeSchema')
                 ) : values.href.value.startsWith('asset://') ? (
-                    translate('Neos.Neos.Ui:LinkEditor.Web:href.validation.assetSchema', '')
+                    translate('Neos.Neos.Ui:LinkEditor.Web:href.validation.assetSchema')
                 ) : values.href.value.startsWith('tel:') ? (
-                    translate('Neos.Neos.Ui:LinkEditor.Web:href.validation.telSchema', '')
+                    translate('Neos.Neos.Ui:LinkEditor.Web:href.validation.telSchema')
                 ) : values.href.value.startsWith('mailto:') ? (
-                    translate('Neos.Neos.Ui:LinkEditor.Web:href.validation.telSchema', '')
+                    translate('Neos.Neos.Ui:LinkEditor.Web:href.validation.telSchema')
                 ) : (values.href.value.startsWith(' ') || values.href.value.endsWith(' ')) ? (
-                    translate('Neos.Neos.Ui:LinkEditor.Web:href.validation.leadingOrTrailingSpace', '')
+                    translate('Neos.Neos.Ui:LinkEditor.Web:href.validation.leadingOrTrailingSpace')
                 ) : undefined
             )
         )
@@ -59,7 +59,7 @@ export const Web: ILinkType<WebLinkModel> = {
 
     icon: 'globe',
 
-    getTitle: () => translate('Neos.Neos.Ui:LinkEditor.Web:title', ''),
+    getTitle: () => translate('Neos.Neos.Ui:LinkEditor.Web:title'),
 
     isSuitableFor,
 
@@ -110,7 +110,7 @@ export const Web: ILinkType<WebLinkModel> = {
         return (
             <div>
                 <Label htmlFor="neos-LinkEditor-Web-href">
-                    {translate('Neos.Neos.Ui:LinkEditor.Web:label.link', '')}
+                    {translate('Neos.Neos.Ui:LinkEditor.Web:label.link')}
                 </Label>
                 <div>
                     <SelectBox
@@ -122,7 +122,7 @@ export const Web: ILinkType<WebLinkModel> = {
                         placeholderIcon={'link'}
                         onValueChange={setHref}
                         threshold={0}
-                        placeholder={translate('Neos.Neos.Ui:LinkEditor.Web:href.placeholder', '')}
+                        placeholder={translate('Neos.Neos.Ui:LinkEditor.Web:href.placeholder')}
                         displaySearchBox={true}
                         showDropDownToggle={false}
                         allowEmpty={false}

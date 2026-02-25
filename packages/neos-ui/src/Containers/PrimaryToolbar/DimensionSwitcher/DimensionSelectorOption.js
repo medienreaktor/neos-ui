@@ -41,8 +41,8 @@ export default class DimensionSelectorOption extends PureComponent {
             );
         }
         option.title = option.disallowed
-            ? translate('Neos.Neos.Ui:Main:dimensions.combinationNotAllowed', '')
-            : translate('Neos.Neos.Ui:Main:dimensions.doesNotExistsInDimension', '')
+            ? translate('Neos.Neos.Ui:Main:dimensions.combinationNotAllowed')
+            : translate('Neos.Neos.Ui:Main:dimensions.doesNotExistsInDimension')
 
         return (
             // eslint-disable-next-line camelcase
