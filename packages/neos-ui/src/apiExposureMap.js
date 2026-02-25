@@ -23,6 +23,9 @@ import * as NeosUiViews from '@neos-project/neos-ui-views';
 import * as NeosUiGuestFrameDom from '@neos-project/neos-ui-guest-frame/src/dom';
 import * as NeosUiRegistry from '@neos-project/neos-ui-registry';
 import * as NeosUiConfiguration from '@neos-project/neos-ui-configuration';
+import * as NeosUiObservable from '@neos-project/framework-observable';
+import * as NeosUiObservableReact from '@neos-project/framework-observable-react';
+import * as NeosUiPromiseReact from '@neos-project/framework-promise-react';
 
 // We export most needed components from CKE5 to be used when making custom plugins.
 // It's not safe to just install CKE5 packages from the extension because then "instanceof" checks will no longer work,
@@ -122,6 +125,9 @@ export default {
         ReactUiComponents,
         NeosUiRegistry,
         NeosUiConfiguration,
+        NeosUiObservable,
+        NeosUiObservableReact,
+        NeosUiPromiseReact,
         UtilsRedux
 
         // TODO: how to write new reducers?
