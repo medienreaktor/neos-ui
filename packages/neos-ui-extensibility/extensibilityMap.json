@@ -17,6 +17,11 @@
     "@ckeditor/ckeditor5-widget": "@neos-project/neos-ui-extensibility/dist/shims/vendor/ckeditor5-widget",
     "@ckeditor/ckeditor5-highlight": "@neos-project/neos-ui-extensibility/dist/shims/vendor/ckeditor5-highlight",
     "@ckeditor/ckeditor5-ui": "@neos-project/neos-ui-extensibility/dist/shims/vendor/ckeditor5-ui",
+    "@ckeditor/ckeditor5-clipboard": "@neos-project/neos-ui-extensibility/dist/shims/vendor/ckeditor5-clipboard",
+    "@ckeditor/ckeditor5-typing": "@neos-project/neos-ui-extensibility/dist/shims/vendor/ckeditor5-typing",
+    "@ckeditor/ckeditor5-undo": "@neos-project/neos-ui-extensibility/dist/shims/vendor/ckeditor5-undo",
+    "@ckeditor/ckeditor5-upload": "@neos-project/neos-ui-extensibility/dist/shims/vendor/ckeditor5-upload",
+    "@ckeditor/ckeditor5-utils": "@neos-project/neos-ui-extensibility/dist/shims/vendor/ckeditor5-utils",
 
     "@neos-project/react-ui-components": "@neos-project/neos-ui-extensibility/dist/shims/neosProjectPackages/react-ui-components",
     "@neos-project/neos-ui-backend-connector": "@neos-project/neos-ui-extensibility/dist/shims/neosProjectPackages/neos-ui-backend-connector",
