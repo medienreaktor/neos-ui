@@ -126,6 +126,9 @@ manifest('main.dataloaders', {}, globalRegistry => {
 
             const cacheKey = makeCacheKey('search', {options, searchTerm});
             if (this._lru().has(cacheKey)) {
+                if (this._debounceTimer) {
+                    window.clearTimeout(this._debounceTimer);
+                }
                 return this._lru().get(cacheKey);
             }
 
@@ -215,6 +218,9 @@ manifest('main.dataloaders', {}, globalRegistry => {
             const cacheKey = makeCacheKey('search', {options, searchTerm});
 
             if (this._lru().has(cacheKey)) {
+                if (this._debounceTimer) {
+                    window.clearTimeout(this._debounceTimer);
+                }
                 return this._lru().get(cacheKey);
             }
 
@@ -292,6 +298,9 @@ manifest('main.dataloaders', {}, globalRegistry => {
             const cacheKey = makeCacheKey('search', {options, searchTerm});
 
             if (this._lru().has(cacheKey)) {
+                if (this._debounceTimer) {
+                    window.clearTimeout(this._debounceTimer);
+                }
                 return this._lru().get(cacheKey);
             }
 
