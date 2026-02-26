@@ -27,6 +27,11 @@ describe('translate', () => {
                 .toBe('This is another fallback');
         });
 
+        it('returns the address if no fallback is specified', () => {
+            expect(translate('Unknown.Package:UnknownSource:unknown.trans-unit.id'))
+                .toBe('Unknown.Package:UnknownSource:unknown.trans-unit.id');
+        });
+
         it('returns given "other" form of fallback when quantity = 0', () => {
             expect(translate('Unknown.Package:UnknownSource:unknown.trans-unit.id', ['Singular Fallback', 'Plural Fallback'], [], 0))
                 .toBe('Plural Fallback');
