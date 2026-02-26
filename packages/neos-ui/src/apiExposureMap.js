@@ -16,13 +16,16 @@ import * as NeosUiReduxStore from '@neos-project/neos-ui-redux-store';
 import * as NeosUiDecorators from '@neos-project/neos-ui-decorators';
 import * as NeosUiEditors from '@neos-project/neos-ui-editors/src/index';
 import * as UtilsRedux from '@neos-project/utils-redux';
-import NeosUiI18n from '@neos-project/neos-ui-i18n';
+import * as NeosUiI18n from '@neos-project/neos-ui-i18n';
 import * as CkEditorApi from '@neos-project/neos-ui-ckeditor5-bindings/src/ckEditorApi';
 import NeosUiBackendConnectorDefault, * as NeosUiBackendConnector from '@neos-project/neos-ui-backend-connector';
 import * as NeosUiViews from '@neos-project/neos-ui-views';
 import * as NeosUiGuestFrameDom from '@neos-project/neos-ui-guest-frame/src/dom';
 import * as NeosUiRegistry from '@neos-project/neos-ui-registry';
 import * as NeosUiConfiguration from '@neos-project/neos-ui-configuration';
+import * as NeosUiObservable from '@neos-project/framework-observable';
+import * as NeosUiObservableReact from '@neos-project/framework-observable-react';
+import * as NeosUiPromiseReact from '@neos-project/framework-promise-react';
 
 // We export most needed components from CKE5 to be used when making custom plugins.
 // It's not safe to just install CKE5 packages from the extension because then "instanceof" checks will no longer work,
@@ -108,7 +111,13 @@ export default {
         CkEditorApi,
         NeosUiDecorators,
         NeosUiEditors,
-        NeosUiI18n,
+        NeosUiI18n: {
+            ...NeosUiI18n,
+            // declare export to be an ESM, otherwise the default legacy export `<I18n>` will not be resolved in a plugin.
+            // Usually done via see `Object.defineProperty(exports, "__esModule", { value: true });`.
+            // As this object will later be assigned to module.exports we configure it here already.
+            __esModule: true
+        },
         NeosUiReduxStore,
         NeosUiViews,
         NeosUiGuestFrameDom,
@@ -116,6 +125,9 @@ export default {
         ReactUiComponents,
         NeosUiRegistry,
         NeosUiConfiguration,
+        NeosUiObservable,
+        NeosUiObservableReact,
+        NeosUiPromiseReact,
         UtilsRedux
 
         // TODO: how to write new reducers?

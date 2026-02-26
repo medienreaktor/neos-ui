@@ -34,5 +34,8 @@
     "@neos-project/neos-ui-guest-frame": "@neos-project/neos-ui-extensibility/dist/shims/neosProjectPackages/neos-ui-guest-frame",
     "@neos-project/neos-ui-registry": "@neos-project/neos-ui-extensibility/dist/shims/neosProjectPackages/neos-ui-registry",
     "@neos-project/neos-ui-configuration": "@neos-project/neos-ui-extensibility/dist/shims/neosProjectPackages/neos-ui-configuration",
+    "@neos-project/framework-observable": "@neos-project/neos-ui-extensibility/dist/shims/neosProjectPackages/framework-observable",
+    "@neos-project/framework-observable-react": "@neos-project/neos-ui-extensibility/dist/shims/neosProjectPackages/framework-observable-react",
+    "@neos-project/framework-promise-react": "@neos-project/neos-ui-extensibility/dist/shims/neosProjectPackages/framework-promise-react",
     "@neos-project/utils-redux": "@neos-project/neos-ui-extensibility/dist/shims/neosProjectPackages/utils-redux"
 }
