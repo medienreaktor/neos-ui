@@ -36,7 +36,7 @@ import {substitutePlaceholders} from './registry';
  */
 export function translate(
     fullyQualifiedTranslationAddressAsString: string,
-    fallback: string | [string, string],
+    fallback: string | [string, string] = '',
     parameters: Parameters = [],
     quantity: number = 0
 ): string {
@@ -45,6 +45,10 @@ export function translate(
     const translation = translationRepository.findOneByAddress(translationAddress);
 
     if (translation === null) {
+        if (!fallback) {
+            console.warn(`The translation "${translationAddress.fullyQualified}" cannot be found and no fallback was specified.`)
+            return fullyQualifiedTranslationAddressAsString;
+        }
         return renderFallback(fallback, quantity, parameters);
     }
 
