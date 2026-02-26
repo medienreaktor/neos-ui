@@ -30,6 +30,7 @@ describe('translate', () => {
         });
 
         it('returns the address if no fallback is specified', () => {
+            // @ts-expect-error for Neos Ui development we only allow translations from Neos or the Ui as package and lint via typescript
             expect(translate('Unknown.Package:UnknownSource:unknown.trans-unit.id'))
                 .toBe('Unknown.Package:UnknownSource:unknown.trans-unit.id');
         });

@@ -42,7 +42,7 @@ export default class PublishDropDown extends PureComponent {
         baseWorkspace: PropTypes.string.isRequired,
         neos: PropTypes.object.isRequired,
         start: PropTypes.func.isRequired,
-        changeBaseWorkspaceAction: PropTypes.func.isRequired,
+        changeBaseWorkspaceAction: PropTypes.func.isRequired
     };
 
     handlePublishClick = () => {
