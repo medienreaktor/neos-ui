@@ -10,7 +10,7 @@
 import React from 'react';
 
 import {WorkspaceName} from '@neos-project/neos-ts-interfaces';
-import I18n, {I18nRegistry} from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 import {Button, Dialog, Icon} from '@neos-project/react-ui-components';
 import {PublishingPhase} from '@neos-project/neos-ui-redux-store/src/CR/Publishing';
 import {Conflict, ResolutionStrategy} from '@neos-project/neos-ui-redux-store/src/CR/Syncing';
@@ -27,7 +27,6 @@ export const ResolutionStrategyConfirmationDialog: React.FC<{
     baseWorkspaceName: WorkspaceName;
     strategy: ResolutionStrategy;
     conflicts: Conflict[];
-    i18n: I18nRegistry;
     onCancelConflictResolution: () => void;
     onConfirmResolutionStrategy: () => void;
 }> = (props) => {
@@ -44,7 +43,6 @@ const ForceConfirmationDialog: React.FC<{
     workspaceName: WorkspaceName;
     baseWorkspaceName: WorkspaceName;
     conflicts: Conflict[];
-    i18n: I18nRegistry;
     onCancelConflictResolution: () => void;
     onConfirmResolutionStrategy: () => void;
 }> = (props) => {
@@ -58,10 +56,7 @@ const ForceConfirmationDialog: React.FC<{
                     hoverStyle="brand"
                     onClick={props.onCancelConflictResolution}
                     >
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.FORCE.confirmation.cancel"
-                        fallback="No, cancel"
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.FORCE.confirmation.cancel', 'No, cancel')}
                 </Button>,
                 <Button
                     id="neos-ResolutionStrategyConfirmation-Confirm"
@@ -72,20 +67,13 @@ const ForceConfirmationDialog: React.FC<{
                     className={style.button}
                     >
                     <Icon icon="chevron-right" className={style.icon} />
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.FORCE.confirmation.confirm"
-                        fallback="Yes, drop those changes"
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.FORCE.confirmation.confirm', 'Yes, drop those changes')}
                 </Button>
             ]}
             title={
                 <div className={style.modalTitle}>
                     <WorkspaceSyncIcon hasProblem onDarkBackground />
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.FORCE.confirmation.title"
-                        fallback={`Drop conflicting changes in workspace "${props.workspaceName}"`}
-                        params={props}
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.FORCE.confirmation.title', 'Drop conflicting changes in workspace "{workspaceName}"', props as any)}
                 </div>
             }
             onRequestClose={props.onCancelConflictResolution}
@@ -96,18 +84,11 @@ const ForceConfirmationDialog: React.FC<{
             style={undefined as any}
         >
             <div className={style.modalContents}>
-                <I18n
-                    id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.FORCE.confirmation.conflicts.label"
-                    fallback="You are about to drop the following changes:"
-                    />
+                {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.FORCE.confirmation.conflicts.label', 'You are about to drop the following changes:')}
                 <ConflictList
                     conflicts={props.conflicts}
-                    i18n={props.i18n}
                     />
-                <I18n
-                    id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.FORCE.confirmation.message"
-                    fallback="Do you wish to proceed? Be careful: This cannot be undone!"
-                    />
+                {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.FORCE.confirmation.message', 'Do you wish to proceed? Be careful: This cannot be undone!')}
             </div>
         </Dialog>
     );
@@ -129,10 +110,7 @@ const DiscardAllConfirmationDialog: React.FC<{
                     hoverStyle="brand"
                     onClick={props.onCancelConflictResolution}
                     >
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.DISCARD_ALL.confirmation.cancel"
-                        fallback="No, cancel"
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.DISCARD_ALL.confirmation.cancel', 'No, cancel')}
                 </Button>,
                 <Button
                     id="neos-ResolutionStrategyConfirmation-Confirm"
@@ -143,20 +121,13 @@ const DiscardAllConfirmationDialog: React.FC<{
                     className={style.button}
                     >
                     <Icon icon="trash" className={style.icon} />
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.DISCARD_ALL.confirmation.confirm"
-                        fallback="Yes, discard everything"
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.DISCARD_ALL.confirmation.confirm', 'Yes, discard everything')}
                 </Button>
             ]}
             title={
                 <div className={style.modalTitle}>
                     <WorkspaceSyncIcon hasProblem onDarkBackground />
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.DISCARD_ALL.confirmation.title"
-                        fallback={`Discard all changes in workspace "${props.workspaceName}"`}
-                        params={props}
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.DISCARD_ALL.confirmation.title', 'Discard all changes in workspace "{workspaceName}"', props as any)}
                 </div>
             }
             onRequestClose={props.onCancelConflictResolution}
@@ -173,11 +144,7 @@ const DiscardAllConfirmationDialog: React.FC<{
                     targetWorkspaceName={null}
                     phase={PublishingPhase.START}
                     />
-                <I18n
-                    id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.DISCARD_ALL.confirmation.message"
-                    fallback={`You are about to discard all ${props.totalNumberOfChangesInWorkspace} change(s) in workspace "${props.workspaceName}". This includes all changes on other sites. Do you wish to proceed? Be careful: This cannot be undone!`}
-                    params={{numberOfChanges: props.totalNumberOfChangesInWorkspace, workspaceName: props.workspaceName}}
-                    />
+                {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.DISCARD_ALL.confirmation.message', 'You are about to discard all {numberOfChanges} change(s) in workspace "{workspaceName}". This includes all changes on other sites. Do you wish to proceed? Be careful: This cannot be undone!', {numberOfChanges: props.totalNumberOfChangesInWorkspace, workspaceName: props.workspaceName})}
             </div>
         </Dialog>
     );

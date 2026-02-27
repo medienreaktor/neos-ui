@@ -11,11 +11,9 @@ import React from 'react';
 // @ts-ignore
 import {connect} from 'react-redux';
 
-import {neos} from '@neos-project/neos-ui-decorators';
 import {selectors, actions} from '@neos-project/neos-ui-redux-store';
 import {GlobalState} from '@neos-project/neos-ui-redux-store';
 import type {WorkspaceName} from '@neos-project/neos-ts-interfaces';
-import type {I18nRegistry} from '@neos-project/neos-ui-i18n';
 import {ResolutionStrategy, SyncingPhase, State as SyncingState} from '@neos-project/neos-ui-redux-store/src/CR/Syncing';
 
 import {ConfirmationDialog} from './ConfirmationDialog';
@@ -49,14 +47,6 @@ const withReduxState = connect((state: GlobalState): SyncWorkspaceDialogPropsFro
     acknowledge: actions.CR.Syncing.acknowledge
 });
 
-type SyncWorkspaceDialogPropsFromNeosGlobals = {
-    i18nRegistry: I18nRegistry;
-};
-
-const withNeosGlobals = neos((globalRegistry): SyncWorkspaceDialogPropsFromNeosGlobals => ({
-    i18nRegistry: globalRegistry.get('i18n')
-}));
-
 type SyncWorkspaceDialogHandlers = {
     confirm: () => void;
     cancel: () => void;
@@ -69,7 +59,6 @@ type SyncWorkspaceDialogHandlers = {
 
 type SyncWorkspaceDialogProps =
     & SyncWorkspaceDialogPropsFromReduxState
-    & SyncWorkspaceDialogPropsFromNeosGlobals
     & SyncWorkspaceDialogHandlers;
 
 const SyncWorkspaceDialog: React.FC<SyncWorkspaceDialogProps> = (props) => {
@@ -119,7 +108,6 @@ const SyncWorkspaceDialog: React.FC<SyncWorkspaceDialogProps> = (props) => {
                     baseWorkspaceName={props.baseWorkspaceName}
                     conflicts={props.syncingState.process.conflicts}
                     defaultStrategy={props.syncingState.process.strategy}
-                    i18n={props.i18nRegistry}
                     onCancel={handleCancel}
                     onSelectResolutionStrategy={handleSelectResolutionStrategy}
                     />
@@ -132,7 +120,6 @@ const SyncWorkspaceDialog: React.FC<SyncWorkspaceDialogProps> = (props) => {
                     totalNumberOfChangesInWorkspace={props.totalNumberOfChangesInWorkspace}
                     strategy={props.syncingState.process.strategy}
                     conflicts={props.syncingState.process.conflicts}
-                    i18n={props.i18nRegistry}
                     onCancelConflictResolution={handleCancelConflictResolution}
                     onConfirmResolutionStrategy={handleConfirmResolutionStrategy}
                     />
@@ -153,4 +140,4 @@ const SyncWorkspaceDialog: React.FC<SyncWorkspaceDialogProps> = (props) => {
     }
 };
 
-export default withReduxState(withNeosGlobals(SyncWorkspaceDialog as any));
+export default withReduxState(SyncWorkspaceDialog as any);

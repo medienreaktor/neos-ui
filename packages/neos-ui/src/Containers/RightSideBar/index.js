@@ -5,12 +5,12 @@ import {connect} from 'react-redux';
 import {IconButton, SideBar} from '@neos-project/react-ui-components';
 import {actions, selectors} from '@neos-project/neos-ui-redux-store';
 import {neos} from '@neos-project/neos-ui-decorators';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 import style from './style.module.css';
 
 @neos(globalRegistry => ({
-    containerRegistry: globalRegistry.get('containers'),
-    i18nRegistry: globalRegistry.get('i18n')
+    containerRegistry: globalRegistry.get('containers')
 }))
 @connect(state => ({
     isHidden: selectors.UI.RightSideBar.isHidden(state),
@@ -21,7 +21,6 @@ import style from './style.module.css';
 export default class RightSideBar extends PureComponent {
     static propTypes = {
         containerRegistry: PropTypes.object.isRequired,
-        i18nRegistry: PropTypes.object.isRequired,
 
         isHidden: PropTypes.bool.isRequired,
         isFullScreen: PropTypes.bool.isRequired,
@@ -35,7 +34,7 @@ export default class RightSideBar extends PureComponent {
     }
 
     render() {
-        const {isHidden, isFullScreen, containerRegistry, i18nRegistry} = this.props;
+        const {isHidden, isFullScreen, containerRegistry} = this.props;
         const isSideBarHidden = isHidden;
         const classNames = mergeClassNames({
             [style.rightSideBar]: true,
@@ -50,7 +49,7 @@ export default class RightSideBar extends PureComponent {
                 className={style.rightSideBar__toggleBtn}
                 hoverStyle="clean"
                 onClick={this.handleToggle}
-                title={i18nRegistry.translate('Neos.Neos:Main:toggleInspector')}
+                title={translate('Neos.Neos:Main:toggleInspector')}
                 />
         );
 

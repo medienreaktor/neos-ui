@@ -1,5 +1,5 @@
 import React from 'react';
-import I18n from '@neos-project/neos-ui-i18n';
+import I18n, {translate} from '@neos-project/neos-ui-i18n';
 import logger from '@neos-project/utils-logger';
 
 /**
@@ -28,7 +28,7 @@ const Count = (value: any, validatorOptions: CountOptions) => {
     }
 
     if (typeof value !== 'object' || value === null) {
-        return <I18n id="content.inspector.validators.countValidator.notCountable"/>;
+        return translate('Neos.Neos:Main:content.inspector.validators.countValidator.notCountable');
     }
 
     const {length} = Object.keys(value);

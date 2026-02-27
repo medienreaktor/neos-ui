@@ -10,7 +10,7 @@ import validate from '@neos-project/neos-ui-validators';
 import preprocessNodeConfiguration from '../../../preprocessNodeConfiguration';
 
 import {Icon, Button, Dialog} from '@neos-project/react-ui-components';
-import I18n from '@neos-project/neos-ui-i18n';
+import I18n, {translate} from '@neos-project/neos-ui-i18n';
 import EditorEnvelope from '@neos-project/neos-ui-editors/src/EditorEnvelope/index';
 
 import style from './style.module.css';
@@ -210,7 +210,7 @@ export default class NodeCreationDialog extends PureComponent {
                 hoverStyle="brand"
                 onClick={this.handleBack}
             >
-                <I18n id="Neos.Neos:Main:back" fallback="Back"/>
+                {translate('Neos.Neos:Main:back', 'Back')}
             </Button>
         );
     }
@@ -220,7 +220,7 @@ export default class NodeCreationDialog extends PureComponent {
 
         return (
             <span>
-                <I18n fallback="Create new" id="createNew"/>&nbsp;
+                {translate('Neos.Neos:Main:createNew', 'Create new')}&nbsp;
                 <I18n id={label} fallback={label}/>
             </span>
         );
@@ -238,7 +238,7 @@ export default class NodeCreationDialog extends PureComponent {
                 disabled={validationErrors && isDirty}
             >
                 <Icon icon="plus-square" className={style.buttonIcon}/>
-                <I18n id="Neos.Neos:Main:createNew" fallback="Create"/>
+                {translate('Neos.Neos:Main:createNew', 'Create')}
             </Button>
         );
     }

@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import mergeClassNames from 'classnames';
 import {connect} from 'react-redux';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 import {actions, selectors} from '@neos-project/neos-ui-redux-store';
 
@@ -11,8 +12,7 @@ import {neos} from '@neos-project/neos-ui-decorators';
 import style from './style.module.css';
 
 @neos(globalRegistry => ({
-    containerRegistry: globalRegistry.get('containers'),
-    i18nRegistry: globalRegistry.get('i18n')
+    containerRegistry: globalRegistry.get('containers')
 }))
 @connect(state => ({
     isHidden: state?.ui?.leftSideBar?.isHidden,
@@ -26,7 +26,6 @@ import style from './style.module.css';
 export default class LeftSideBar extends PureComponent {
     static propTypes = {
         containerRegistry: PropTypes.object.isRequired,
-        i18nRegistry: PropTypes.object.isRequired,
 
         isHidden: PropTypes.bool.isRequired,
         isHiddenContentTree: PropTypes.bool.isRequired,
@@ -40,7 +39,7 @@ export default class LeftSideBar extends PureComponent {
     }
 
     render() {
-        const {isHidden, isFullScreen, isHiddenContentTree, containerRegistry, i18nRegistry} = this.props;
+        const {isHidden, isFullScreen, isHiddenContentTree, containerRegistry} = this.props;
 
         const classNames = mergeClassNames({
             [style.leftSideBar]: true,
@@ -69,7 +68,7 @@ export default class LeftSideBar extends PureComponent {
                 icon={toggleIcon}
                 className={style.leftSideBar__toggleBtn}
                 hoverStyle="clean"
-                title={i18nRegistry.translate('Neos.Neos:Main:navigate')}
+                title={translate('Neos.Neos:Main:navigate')}
                 />
         );
 
@@ -77,7 +76,7 @@ export default class LeftSideBar extends PureComponent {
             <React.Fragment>
                 <div role="button" className={style.leftSideBar__header} onClick={this.handleToggle}>
                     {toggle}
-                    {!isHidden && !isFullScreen && i18nRegistry.translate('Neos.Neos:Main:documentTree', 'Document Tree')}
+                    {!isHidden && !isFullScreen && translate('Neos.Neos:Main:documentTree', 'Document Tree')}
                 </div>
                 <SideBar
                     position="left"

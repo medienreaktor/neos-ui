@@ -10,7 +10,7 @@
 import React from 'react';
 
 import {Button, Dialog, Icon} from '@neos-project/react-ui-components';
-import I18n from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 import {PublishingMode, PublishingPhase, PublishingScope} from '@neos-project/neos-ui-redux-store/src/CR/Publishing';
 import {AnyError, ErrorView} from '@neos-project/neos-ui-error';
 
@@ -28,13 +28,11 @@ const ResultDialogVariants = {
                 label: {
                     title: {
                         id: 'Neos.Neos.Ui:PublishingDialog:publish.all.success.title',
-                        fallback: (props: { scopeTitle: string; }) =>
-                            `All changes in workspace "${props.scopeTitle}" were published`
+                        fallback: 'All changes in workspace "{scopeTitle}" were published'
                     },
                     message: {
                         id: 'Neos.Neos.Ui:PublishingDialog:publish.all.success.message',
-                        fallback: (props: { numberOfChanges: number; scopeTitle: string; targetWorkspaceName: null | string; }) =>
-                            `All ${props.numberOfChanges} change(s) in workspace "${props.scopeTitle}" were sucessfully published to workspace "${props.targetWorkspaceName}".`
+                        fallback: 'All {numberOfChanges} change(s) in workspace "{scopeTitle}" were sucessfully published to workspace "{targetWorkspaceName}".'
                     },
                     acknowledge: {
                         id: 'Neos.Neos.Ui:PublishingDialog:publish.all.success.acknowledge',
@@ -46,13 +44,11 @@ const ResultDialogVariants = {
                 label: {
                     title: {
                         id: 'Neos.Neos.Ui:PublishingDialog:publish.site.success.title',
-                        fallback: (props: { scopeTitle: string; }) =>
-                            `Changes in site "${props.scopeTitle}" were published`
+                        fallback: 'Changes in site "{scopeTitle}" were published'
                     },
                     message: {
                         id: 'Neos.Neos.Ui:PublishingDialog:publish.site.success.message',
-                        fallback: (props: { numberOfChanges: number; scopeTitle: string; targetWorkspaceName: null | string; }) =>
-                            `${props.numberOfChanges} change(s) in site "${props.scopeTitle}" were sucessfully published to workspace "${props.targetWorkspaceName}".`
+                        fallback: '{numberOfChanges} change(s) in site "{scopeTitle}" were sucessfully published to workspace "{targetWorkspaceName}".'
                     },
                     acknowledge: {
                         id: 'Neos.Neos.Ui:PublishingDialog:publish.site.success.acknowledge',
@@ -65,13 +61,11 @@ const ResultDialogVariants = {
                 label: {
                     title: {
                         id: 'Neos.Neos.Ui:PublishingDialog:publish.document.success.title',
-                        fallback: (props: { scopeTitle: string; }) =>
-                            `Changes in document "${props.scopeTitle}" were published`
+                        fallback: 'Changes in document "{scopeTitle}" were published'
                     },
                     message: {
                         id: 'Neos.Neos.Ui:PublishingDialog:publish.document.success.message',
-                        fallback: (props: { numberOfChanges: number; scopeTitle: string; targetWorkspaceName: null | string; }) =>
-                            `${props.numberOfChanges} change(s) in document "${props.scopeTitle}" were sucessfully published to workspace "${props.targetWorkspaceName}".`
+                        fallback: '{numberOfChanges} change(s) in document "{scopeTitle}" were sucessfully published to workspace "{targetWorkspaceName}".'
                     },
                     acknowledge: {
                         id: 'Neos.Neos.Ui:PublishingDialog:publish.document.success.acknowledge',
@@ -87,8 +81,7 @@ const ResultDialogVariants = {
                 label: {
                     title: {
                         id: 'Neos.Neos.Ui:PublishingDialog:publish.all.error.title',
-                        fallback: (props: { scopeTitle: string; }) =>
-                            `Changes in workspace "${props.scopeTitle}" could not be published`
+                        fallback: 'Changes in workspace "{scopeTitle}" could not be published'
                     },
                     retry: {
                         id: 'Neos.Neos.Ui:PublishingDialog:publish.all.error.retry',
@@ -104,8 +97,7 @@ const ResultDialogVariants = {
                 label: {
                     title: {
                         id: 'Neos.Neos.Ui:PublishingDialog:publish.site.error.title',
-                        fallback: (props: { scopeTitle: string; }) =>
-                            `Changes in site "${props.scopeTitle}" could not be published`
+                        fallback: 'Changes in site "{scopeTitle}" could not be published'
                     },
                     retry: {
                         id: 'Neos.Neos.Ui:PublishingDialog:publish.site.error.retry',
@@ -121,8 +113,7 @@ const ResultDialogVariants = {
                 label: {
                     title: {
                         id: 'Neos.Neos.Ui:PublishingDialog:publish.document.error.title',
-                        fallback: (props: { scopeTitle: string; }) =>
-                            `Changes in document "${props.scopeTitle}" could not be published`
+                        fallback: 'Changes in document "{scopeTitle}" could not be published'
                     },
                     retry: {
                         id: 'Neos.Neos.Ui:PublishingDialog:publish.document.error.retry',
@@ -145,13 +136,11 @@ const ResultDialogVariants = {
                 label: {
                     title: {
                         id: 'Neos.Neos.Ui:PublishingDialog:discard.all.success.title',
-                        fallback: (props: { scopeTitle: string; }) =>
-                            `All changes in workspace "${props.scopeTitle}" were discarded`
+                        fallback: 'All changes in workspace "{scopeTitle}" were discarded'
                     },
                     message: {
                         id: 'Neos.Neos.Ui:PublishingDialog:discard.all.success.message',
-                        fallback: (props: { numberOfChanges: number; scopeTitle: string; }) =>
-                            `All ${props.numberOfChanges} change(s) in workspace "${props.scopeTitle}" were sucessfully discarded.`
+                        fallback: 'All {numberOfChanges} change(s) in workspace "{scopeTitle}" were sucessfully discarded.'
                     },
                     acknowledge: {
                         id: 'Neos.Neos.Ui:PublishingDialog:discard.all.success.acknowledge',
@@ -163,13 +152,11 @@ const ResultDialogVariants = {
                 label: {
                     title: {
                         id: 'Neos.Neos.Ui:PublishingDialog:discard.site.success.title',
-                        fallback: (props: { scopeTitle: string; }) =>
-                            `Changes in site "${props.scopeTitle}" were discarded`
+                        fallback: 'Changes in site "{scopeTitle}" were discarded'
                     },
                     message: {
                         id: 'Neos.Neos.Ui:PublishingDialog:discard.site.success.message',
-                        fallback: (props: { numberOfChanges: number; scopeTitle: string; }) =>
-                            `${props.numberOfChanges} change(s) in site "${props.scopeTitle}" were sucessfully discarded.`
+                        fallback: '{numberOfChanges} change(s) in site "{scopeTitle}" were sucessfully discarded.'
                     },
                     acknowledge: {
                         id: 'Neos.Neos.Ui:PublishingDialog:discard.site.success.acknowledge',
@@ -181,13 +168,11 @@ const ResultDialogVariants = {
                 label: {
                     title: {
                         id: 'Neos.Neos.Ui:PublishingDialog:discard.document.success.title',
-                        fallback: (props: { scopeTitle: string; }) =>
-                            `Changes in document "${props.scopeTitle}" were discarded`
+                        fallback: 'Changes in document "{scopeTitle}" were discarded'
                     },
                     message: {
                         id: 'Neos.Neos.Ui:PublishingDialog:discard.document.success.message',
-                        fallback: (props: { numberOfChanges: number; scopeTitle: string; }) =>
-                            `${props.numberOfChanges} change(s) in document "${props.scopeTitle}" were sucessfully discarded.`
+                        fallback: '{numberOfChanges} change(s) in document "{scopeTitle}" were sucessfully discarded.'
                     },
                     acknowledge: {
                         id: 'Neos.Neos.Ui:PublishingDialog:discard.document.success.acknowledge',
@@ -203,8 +188,7 @@ const ResultDialogVariants = {
                 label: {
                     title: {
                         id: 'Neos.Neos.Ui:PublishingDialog:discard.all.error.title',
-                        fallback: (props: { scopeTitle: string; }) =>
-                            `Changes in workspace "${props.scopeTitle}" could not be discarded`
+                        fallback: 'Changes in workspace "{scopeTitle}" could not be discarded'
                     },
                     acknowledge: {
                         id: 'Neos.Neos.Ui:PublishingDialog:discard.all.error.acknowledge',
@@ -220,8 +204,7 @@ const ResultDialogVariants = {
                 label: {
                     title: {
                         id: 'Neos.Neos.Ui:PublishingDialog:discard.site.error.title',
-                        fallback: (props: { scopeTitle: string; }) =>
-                            `Changes in site "${props.scopeTitle}" could not be discarded`
+                        fallback: 'Changes in site "{scopeTitle}" could not be discarded'
                     },
                     acknowledge: {
                         id: 'Neos.Neos.Ui:PublishingDialog:discard.site.error.acknowledge',
@@ -237,8 +220,7 @@ const ResultDialogVariants = {
                 label: {
                     title: {
                         id: 'Neos.Neos.Ui:PublishingDialog:discard.document.error.title',
-                        fallback: (props: { scopeTitle: string; }) =>
-                            `Changes in document "${props.scopeTitle}" could not be discarded`
+                        fallback: 'Changes in document "{scopeTitle}" could not be discarded'
                     },
                     acknowledge: {
                         id: 'Neos.Neos.Ui:PublishingDialog:discard.document.error.acknowledge',
@@ -284,7 +266,7 @@ export const ResultDialog: React.FC<{
                     hoverStyle="brand"
                     onClick={props.onAcknowledge}
                 >
-                    <I18n {...variant[props.result.phase][props.scope].label.acknowledge} />
+                    {translate(variant[props.result.phase][props.scope].label.acknowledge.id, variant[props.result.phase][props.scope].label.acknowledge.fallback)}
                 </Button>,
                 <Button
                     id={`${variant.id}-Retry`}
@@ -294,7 +276,7 @@ export const ResultDialog: React.FC<{
                     onClick={props.onRetry}
                 >
                     <Icon icon="refresh" className={style.buttonIcon} />
-                    <I18n {...variant[props.result.phase][props.scope].label.retry} />
+                    {translate(variant[props.result.phase][props.scope].label.retry.id, variant[props.result.phase][props.scope].label.retry.fallback)}
                 </Button>
             ] : [
                 <Button
@@ -305,18 +287,14 @@ export const ResultDialog: React.FC<{
                     onClick={props.onAcknowledge}
                 >
                     <Icon icon="check" className={style.buttonIcon} />
-                    <I18n {...variant[props.result.phase][props.scope].label.acknowledge} />
+                    {translate(variant[props.result.phase][props.scope].label.acknowledge.id, variant[props.result.phase][props.scope].label.acknowledge.fallback)}
                 </Button>
             ]}
             title={
                 <div>
                     <Icon icon={variant[props.result.phase].icon} />
                     <span className={style.modalTitle}>
-                        <I18n
-                            id={variant[props.result.phase][props.scope].label.title.id}
-                            params={props}
-                            fallback={variant[props.result.phase][props.scope].label.title.fallback(props)}
-                            />
+                        {translate(variant[props.result.phase][props.scope].label.title.id, variant[props.result.phase][props.scope].label.title.fallback, props as any)}
                     </span>
                 </div>
             }
@@ -337,13 +315,7 @@ export const ResultDialog: React.FC<{
                     />
                 {props.result.phase === PublishingPhase.ERROR
                     ? (<ErrorView error={props.result.error} />)
-                    : (
-                        <I18n
-                            id={variant[props.result.phase][props.scope].label.message.id}
-                            params={props}
-                            fallback={variant[props.result.phase][props.scope].label.message.fallback(props)}
-                            />
-                    )
+                    : translate(variant[props.result.phase][props.scope].label.message.id, variant[props.result.phase][props.scope].label.message.fallback, props as any)
                 }
             </div>
         </Dialog>

@@ -124,7 +124,7 @@ export const createInspectorEditor = (dataType: LinkDataType, editor: IEditor) =
         return (
             <Button id={props.id} disabled={props.options?.disabled} onClick={editLink}>
                 <Icon icon="link" padded="right"/>
-                {translate('Neos.Neos.Ui:LinkEditor.Main:inspector.create', '')}
+                {translate('Neos.Neos.Ui:LinkEditor.Main:inspector.create')}
             </Button>
         );
     }
@@ -174,7 +174,7 @@ const InspectorEditorWithLinkType: React.FC<{
                 <ErrorView error={error} />
             ) : (
                 <SeamlessButton
-                    title={translate('Neos.Neos.Ui:LinkEditor.Main:inspector.edit', '')}
+                    title={translate('Neos.Neos.Ui:LinkEditor.Main:inspector.edit')}
                     onClick={props.editLink}
                 >
                     <Preview

@@ -10,7 +10,7 @@
 import React from 'react';
 
 import {Dialog, Icon} from '@neos-project/react-ui-components';
-import I18n from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 import {SyncingPhase} from '@neos-project/neos-ui-redux-store/src/CR/Syncing';
 
 import {Diagram} from './Diagram';
@@ -26,11 +26,7 @@ export const ProcessIndicator: React.FC<{
             title={
                 <div className={style.modalTitle}>
                     <Icon icon="refresh" spin />
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:process.title"
-                        params={props}
-                        fallback={`Synchronizing workspace "${props.workspaceName}"...`}
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:process.title', 'Synchronizing workspace "{workspaceName}"...', props as any)}
                 </div>
             }
             type={undefined as any}
@@ -46,11 +42,7 @@ export const ProcessIndicator: React.FC<{
                     workspaceName={props.workspaceName}
                     baseWorkspaceName={props.baseWorkspaceName}
                     />
-                <I18n
-                    id="Neos.Neos.Ui:SyncWorkspaceDialog:process.message"
-                    params={props}
-                    fallback={`Please wait, while workspace "${props.workspaceName}" is being synchronized with recent changes in workspace "${props.baseWorkspaceName}". This may take a while.`}
-                    />
+                {translate('Neos.Neos.Ui:SyncWorkspaceDialog:process.message', 'Please wait, while workspace "{workspaceName}" is being synchronized with recent changes in workspace "{baseWorkspaceName}". This may take a while.', props as any)}
             </div>
         </Dialog>
     );

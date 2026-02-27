@@ -13,9 +13,8 @@ import {connect} from 'react-redux';
 
 import {actions, selectors} from '@neos-project/neos-ui-redux-store';
 import {GlobalState} from '@neos-project/neos-ui-redux-store';
-import {neos} from '@neos-project/neos-ui-decorators';
 import {WorkspaceStatus} from '@neos-project/neos-ts-interfaces';
-import type {I18nRegistry} from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 import {Button} from '@neos-project/react-ui-components';
 
 import {WorkspaceSyncIcon} from './WorkspaceSyncIcon';
@@ -36,17 +35,8 @@ const withReduxState = connect((state: GlobalState): WorkspaceSyncPropsFromRedux
     startSyncing: actions.CR.Syncing.start
 });
 
-type WorkspaceSyncPropsFromNeosGlobals = {
-    i18nRegistry: I18nRegistry;
-};
-
-const withNeosGlobals = neos((globalRegistry): WorkspaceSyncPropsFromNeosGlobals => ({
-    i18nRegistry: globalRegistry.get('i18n')
-}));
-
 type WorkspaceSyncProps =
     & WorkspaceSyncPropsFromReduxState
-    & WorkspaceSyncPropsFromNeosGlobals
     & WorkspaceSyncHandlers;
 
 const WorkspaceSync: React.FC<WorkspaceSyncProps> = (props) => {
@@ -58,9 +48,7 @@ const WorkspaceSync: React.FC<WorkspaceSyncProps> = (props) => {
         return null;
     }
 
-    const buttonTitle = props.i18nRegistry.translate(
-        'syncPersonalWorkSpace',
-        'Synchronize personal workspace', {}, 'Neos.Neos.Ui', 'Main');
+    const buttonTitle = translate('Neos.Neos.Ui:Main:syncPersonalWorkSpace', 'Synchronize personal workspace');
     return (
         <div id="neos-WorkspaceSync" className={style.wrapper}>
             <Button
@@ -77,4 +65,4 @@ const WorkspaceSync: React.FC<WorkspaceSyncProps> = (props) => {
     );
 };
 
-export default withReduxState(withNeosGlobals(WorkspaceSync as any));
+export default withReduxState(WorkspaceSync as any);

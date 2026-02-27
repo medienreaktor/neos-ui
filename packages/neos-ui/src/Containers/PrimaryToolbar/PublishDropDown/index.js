@@ -6,7 +6,7 @@ import mergeClassNames from 'classnames';
 
 import {Badge, Icon, DropDown} from '@neos-project/react-ui-components';
 
-import I18n, {translate} from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 import {actions, selectors} from '@neos-project/neos-ui-redux-store';
 import {PublishingMode, PublishingScope} from '@neos-project/neos-ui-redux-store/src/CR/Publishing';
 import {neos} from '@neos-project/neos-ui-decorators';
@@ -30,10 +30,7 @@ import style from './style.module.css';
     changeBaseWorkspaceAction: actions.CR.Workspaces.changeBaseWorkspace,
     start: actions.CR.Publishing.start
 })
-@neos(globalRegistry => ({
-    i18nRegistry: globalRegistry.get('i18n')
-}))
-
+@neos()
 export default class PublishDropDown extends PureComponent {
     static propTypes = {
         isSaving: PropTypes.bool,
@@ -45,9 +42,7 @@ export default class PublishDropDown extends PureComponent {
         baseWorkspace: PropTypes.string.isRequired,
         neos: PropTypes.object.isRequired,
         start: PropTypes.func.isRequired,
-        changeBaseWorkspaceAction: PropTypes.func.isRequired,
-        routes: PropTypes.object,
-        i18nRegistry: PropTypes.object.isRequired
+        changeBaseWorkspaceAction: PropTypes.func.isRequired
     };
 
     handlePublishClick = () => {
@@ -79,7 +74,6 @@ export default class PublishDropDown extends PureComponent {
             isWorkspaceReadOnly,
             baseWorkspace,
             changeBaseWorkspaceAction,
-            i18nRegistry,
             neos,
             allowedWorkspaces
         } = this.props;
@@ -119,12 +113,12 @@ export default class PublishDropDown extends PureComponent {
                             iconRest={{spin: true, transform: 'up-8'}}
                             className={dropDownBtnClassName}
                             disabled
-                            aria-label={i18nRegistry.translate('Neos.Neos:Main:showPublishOptions', 'Show publishing options')}
+                            aria-label={translate('Neos.Neos:Main:showPublishOptions', 'Show publishing options')}
                         />
                     ) : (
                         <DropDown.Header
                             className={dropDownBtnClassName}
-                            aria-label={i18nRegistry.translate('Neos.Neos:Main:showPublishOptions', 'Show publishing options')}
+                            aria-label={translate('Neos.Neos:Main:showPublishOptions', 'Show publishing options')}
                         />
                     )}
                     <DropDown.Contents
@@ -148,7 +142,7 @@ export default class PublishDropDown extends PureComponent {
                                 <div className={style.dropDown__iconWrapper}>
                                     <Icon icon="check-double"/>
                                 </div>
-                                <I18n id="Neos.Neos:Main:publishAll" fallback="Publish All"/>
+                                {translate('Neos.Neos:Main:publishAll', 'Publish All')}
                                 {publishableNodesCount > 0 && <Badge className={style.badge} label={String(publishableNodesCount)}/>}
                             </AbstractButton>
                         </li>
@@ -164,7 +158,7 @@ export default class PublishDropDown extends PureComponent {
                                 <div className={style.dropDown__iconWrapper}>
                                     <Icon icon="ban"/>
                                 </div>
-                                <I18n id="Neos.Neos:Main:discard" fallback="Discard"/>
+                                {translate('Neos.Neos:Main:discard', 'Discard')}
                                 {publishableNodesInDocumentCount > 0 && <Badge className={style.badge} label={String(publishableNodesInDocumentCount)}/>}
                             </AbstractButton>
                         </li>
@@ -178,7 +172,7 @@ export default class PublishDropDown extends PureComponent {
                                 <div className={style.dropDown__iconWrapper}>
                                     <Icon icon="ban"/>
                                 </div>
-                                <I18n id="Neos.Neos:Main:discardAll" fallback="Discard All"/>
+                                {translate('Neos.Neos:Main:discardAll', 'Discard All')}
                                 {publishableNodesCount > 0 && <Badge className={style.badge} label={String(publishableNodesCount)}/>}
                             </AbstractButton>
                         </li>
@@ -187,7 +181,7 @@ export default class PublishDropDown extends PureComponent {
                                 <div className={style.dropDown__iconWrapper}>
                                     <Icon icon="check-circle"/>
                                 </div>
-                                <I18n id="Neos.Neos:Main:reviewChanges" fallback="Review changes"/>
+                                {translate('Neos.Neos:Main:reviewChanges', 'Review changes')}
                             </a>
                         </li>)}
                         <li className={style.dropDown__item}>
@@ -195,7 +189,7 @@ export default class PublishDropDown extends PureComponent {
                                 <div className={style.dropDown__iconWrapper}>
                                     <Icon icon="th-large"/>
                                 </div>
-                                <I18n id="Neos.Neos:Main:workspaces" fallback="Workspaces"/>
+                                {translate('Neos.Neos:Main:workspaces', 'Workspaces')}
                             </a>
                         </li>
                     </DropDown.Contents>

@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-
+import {translate} from '@neos-project/neos-ui-i18n';
 import {selectors, actions} from '@neos-project/neos-ui-redux-store';
 import {Button, Icon} from '@neos-project/react-ui-components';
 import {InsertPosition} from '@neos-project/neos-ts-interfaces';
@@ -38,8 +38,7 @@ export default class AddNode extends PureComponent {
         className: PropTypes.string,
         insertPosition: PropTypes.string,
         commenceNodeCreation: PropTypes.func.isRequired,
-        isAllowedToAddChildOrSiblingNodes: PropTypes.bool,
-        i18nRegistry: PropTypes.object.isRequired
+        isAllowedToAddChildOrSiblingNodes: PropTypes.bool
     };
 
     handleCommenceNodeCreation = () => {
@@ -54,7 +53,7 @@ export default class AddNode extends PureComponent {
     }
 
     render() {
-        const {isAllowedToAddChildOrSiblingNodes, i18nRegistry, className, insertPosition} = this.props;
+        const {isAllowedToAddChildOrSiblingNodes, className, insertPosition} = this.props;
         const insertPositionIcon = insertPosition === InsertPosition.BEFORE
             ? 'arrow-up' : (insertPosition === InsertPosition.AFTER ? 'arrow-down' : 'arrow-right');
 
@@ -64,7 +63,7 @@ export default class AddNode extends PureComponent {
                 className={className}
                 disabled={!isAllowedToAddChildOrSiblingNodes}
                 onClick={this.handleCommenceNodeCreation}
-                title={i18nRegistry.translate('createNew')}
+                title={translate('Neos.Neos:Main:createNew')}
                 size="small"
                 style="brand"
             >

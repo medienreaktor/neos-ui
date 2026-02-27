@@ -5,15 +5,12 @@ import style from './style.module.css';
 
 import mapValues from 'lodash.mapvalues';
 import sortBy from 'lodash.sortby';
-import {neos} from '@neos-project/neos-ui-decorators';
+import {translate} from '@neos-project/neos-ui-i18n';
 import DimensionSelectorOption from './DimensionSelectorOption';
 
 const searchOptions = (searchTerm, processedSelectBoxOptions) =>
     processedSelectBoxOptions.filter(option => option.label && option.label.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1);
 
-@neos(globalRegistry => ({
-    i18nRegistry: globalRegistry.get('i18n')
-}))
 export default class DimensionSelector extends PureComponent {
     static propTypes = {
         icon: PropTypes.string,
@@ -23,9 +20,7 @@ export default class DimensionSelector extends PureComponent {
         dimensionName: PropTypes.string.isRequired,
         isLoading: PropTypes.bool,
         onSelect: PropTypes.func.isRequired,
-        showDropDownHeaderIcon: PropTypes.bool,
-
-        i18nRegistry: PropTypes.object.isRequired
+        showDropDownHeaderIcon: PropTypes.bool
     };
 
     state = {
@@ -36,7 +31,6 @@ export default class DimensionSelector extends PureComponent {
         const {
             activePreset,
             isLoading,
-            i18nRegistry,
             dimensionName,
             onSelect,
             presets,
@@ -74,8 +68,8 @@ export default class DimensionSelector extends PureComponent {
                 displaySearchBox={false} // TODO reenable `sortedPresetOptions.length >= 10` but see https://github.com/neos/neos-ui/issues/3495
                 searchOptions={searchOptions(this.state.searchTerm, sortedPresetOptions)}
                 onSearchTermChange={this.handleSearchTermChange}
-                noMatchesFoundLabel={i18nRegistry.translate('Neos.Neos:Main:noMatchesFound')}
-                searchBoxLeftToTypeLabel={i18nRegistry.translate('Neos.Neos:Main:searchBoxLeftToType')}
+                noMatchesFoundLabel={translate('Neos.Neos:Main:noMatchesFound')}
+                searchBoxLeftToTypeLabel={translate('Neos.Neos:Main:searchBoxLeftToType')}
                 threshold={0}
                 ListPreviewElement={DimensionSelectorOption}
                 className={style.dimensionSwitcherDropDown}

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {TextInput, IconButton, Icon} from '@neos-project/react-ui-components';
-import {neos} from '@neos-project/neos-ui-decorators';
+import {translate} from '@neos-project/neos-ui-i18n';
 import style from './style.module.css';
 
-const NodeTypeFilter = ({onChange, onEnterKey, filterSearchTerm, i18nRegistry}) => {
+const NodeTypeFilter = ({onChange, onEnterKey, filterSearchTerm}) => {
     const handleResetFilter = () => {
         onChange('');
     };
@@ -17,7 +17,7 @@ const NodeTypeFilter = ({onChange, onEnterKey, filterSearchTerm, i18nRegistry}) 
         onEnterKey();
     };
 
-    const label = i18nRegistry.translate('filter', 'Filter', {}, 'Neos.Neos', 'Main');
+    const label = translate('Neos.Neos:Main:filter', 'Filter');
 
     return (
         <div className={style.nodeTypeDialogHeader__filter}>
@@ -47,10 +47,7 @@ const NodeTypeFilter = ({onChange, onEnterKey, filterSearchTerm, i18nRegistry}) 
 NodeTypeFilter.propTypes = {
     onChange: PropTypes.func.isRequired,
     onEnterKey: PropTypes.func.isRequired,
-    filterSearchTerm: PropTypes.string,
-    i18nRegistry: PropTypes.object.isRequired
+    filterSearchTerm: PropTypes.string
 };
 
-export default neos(globalRegistry => ({
-    i18nRegistry: globalRegistry.get('i18n')
-}))(NodeTypeFilter);
+export default NodeTypeFilter;

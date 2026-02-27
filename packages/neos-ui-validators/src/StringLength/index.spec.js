@@ -1,4 +1,16 @@
 import stringLengthValidator from './index';
+import {setupI18n} from '@neos-project/neos-ui-i18n';
+
+beforeAll(() => {
+    setupI18n('en-US', 'one,other', {
+        'Neos_Neos': {
+            'Main': {
+                'content.inspector.validators.stringLength.smallerThanMinimum': 'This field must contain at least {minimum} characters.',
+                'content.inspector.validators.stringLength.greaterThanMaximum': 'This text may not exceed {maximum} characters.'
+            }
+        }
+    });
+});
 
 test('"123" should be valid for min: 0 max: 10', () => {
     const validatorOptions = {

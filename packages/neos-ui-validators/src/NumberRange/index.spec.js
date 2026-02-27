@@ -1,4 +1,9 @@
 import numberRangeValidator from './index';
+import {setupI18n} from '@neos-project/neos-ui-i18n';
+
+beforeAll(() => {
+    setupI18n('en-US', 'one,other', {});
+});
 
 test('0 for min: 0 max: 10 should be valid', () => {
     const validatorOptions = {

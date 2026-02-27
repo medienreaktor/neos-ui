@@ -35,7 +35,7 @@ import {substitutePlaceholders} from './registry';
  * @param {quantity} [quantity] The key of the package in which to look for the translation file
  */
 export function translate(
-    fullyQualifiedTranslationAddressAsString: string,
+    fullyQualifiedTranslationAddressAsString: `${('Neos.Neos.Ui'|'Neos.Neos')}:${string}:${string}`,
     fallback: string | [string, string] = '',
     parameters: Parameters = [],
     quantity: number = 0

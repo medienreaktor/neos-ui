@@ -7,6 +7,7 @@ import {neos} from '@neos-project/neos-ui-decorators';
 import {shouldDisplaySearchBox, searchOptions, processSelectBoxOptions} from './selectBoxHelpers';
 import {createSelectBoxValueStringFromPossiblyStrangeNodePropertyValue} from './createSelectBoxValueStringFromPossiblyStrangeNodePropertyValue';
 import PreviewOption from '../../Library/PreviewOption';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 const getDataLoaderOptionsForProps = props => ({
     contextNodePath: props.focusedNodePath,
@@ -136,7 +137,7 @@ export default class DataSourceBasedSelectBoxEditor extends PureComponent {
 
         // Placeholder text must be unescaped in case html entities were used
         const placeholder = options && options.placeholder && i18nRegistry.translate(unescape(options.placeholder));
-        const loadingLabel = i18nRegistry.translate('loading', 'Loading', [], 'Neos.Neos', 'Main');
+        const loadingLabel = translate('Neos.Neos:Main:loading', 'Loading');
 
         if (options.multiple) {
             return (<MultiSelectBox
@@ -152,8 +153,8 @@ export default class DataSourceBasedSelectBoxEditor extends PureComponent {
                 displaySearchBox={shouldDisplaySearchBox(options, processedSelectBoxOptions)}
                 searchOptions={searchOptions(this.state.searchTerm, processedSelectBoxOptions)}
                 onSearchTermChange={this.handleSearchTermChange}
-                noMatchesFoundLabel={this.props.i18nRegistry.translate('Neos.Neos:Main:noMatchesFound')}
-                searchBoxLeftToTypeLabel={this.props.i18nRegistry.translate('Neos.Neos:Main:searchBoxLeftToType')}
+                noMatchesFoundLabel={translate('Neos.Neos:Main:noMatchesFound')}
+                searchBoxLeftToTypeLabel={translate('Neos.Neos:Main:searchBoxLeftToType')}
                 threshold={options.threshold}
                 disabled={options.disabled}
             />);
@@ -172,8 +173,8 @@ export default class DataSourceBasedSelectBoxEditor extends PureComponent {
             allowEmpty={options.allowEmpty}
             displaySearchBox={shouldDisplaySearchBox(options, processedSelectBoxOptions)}
             onSearchTermChange={this.handleSearchTermChange}
-            noMatchesFoundLabel={this.props.i18nRegistry.translate('Neos.Neos:Main:noMatchesFound')}
-            searchBoxLeftToTypeLabel={this.props.i18nRegistry.translate('Neos.Neos:Main:searchBoxLeftToType')}
+            noMatchesFoundLabel={translate('Neos.Neos:Main:noMatchesFound')}
+            searchBoxLeftToTypeLabel={translate('Neos.Neos:Main:searchBoxLeftToType')}
             threshold={options.threshold}
             disabled={options.disabled}
         />);

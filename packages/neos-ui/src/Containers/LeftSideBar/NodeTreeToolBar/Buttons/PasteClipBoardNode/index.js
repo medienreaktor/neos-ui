@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-
+import {translate} from '@neos-project/neos-ui-i18n';
 import IconButton from '@neos-project/react-ui-components/src/IconButton/';
 
 export default class PasteClipBoardNode extends PureComponent {
@@ -11,8 +11,7 @@ export default class PasteClipBoardNode extends PureComponent {
         focusedNodeContextPath: PropTypes.string,
         disabled: PropTypes.bool.isRequired,
 
-        onClick: PropTypes.func.isRequired,
-        i18nRegistry: PropTypes.object.isRequired
+        onClick: PropTypes.func.isRequired
     };
 
     handleClick = () => {
@@ -25,8 +24,7 @@ export default class PasteClipBoardNode extends PureComponent {
         const {
             className,
             id,
-            disabled,
-            i18nRegistry
+            disabled
         } = this.props;
 
         return (
@@ -37,7 +35,7 @@ export default class PasteClipBoardNode extends PureComponent {
                 icon="paste"
                 onClick={this.handleClick}
                 hoverStyle="brand"
-                title={i18nRegistry.translate('paste')}
+                title={translate('Neos.Neos:Main:paste')}
                 />
         );
     }

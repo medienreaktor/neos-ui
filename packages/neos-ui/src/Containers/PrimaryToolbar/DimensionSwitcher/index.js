@@ -6,7 +6,7 @@ import style from './style.module.css';
 import backend from '@neos-project/neos-ui-backend-connector';
 import mapValues from 'lodash.mapvalues';
 import {selectors, actions} from '@neos-project/neos-ui-redux-store';
-import I18n from '@neos-project/neos-ui-i18n';
+import I18n, {translate} from '@neos-project/neos-ui-i18n';
 import {neos} from '@neos-project/neos-ui-decorators';
 import DimensionSelector from './DimensionSelector';
 
@@ -238,14 +238,14 @@ export default class DimensionSwitcher extends PureComponent {
                                 style="lighter"
                                 className={style.cancelButton}
                             >
-                                <I18n id="Neos.Neos:Main:cancel" fallback="Cancel"/>
+                                {translate('Neos.Neos:Main:cancel', 'Cancel')}
                             </Button>
                             <Button
                                 id="neos-DimensionSwitcher-Apply"
                                 onClick={this.handleApplyPresets}
                                 style="brand"
                             >
-                                <I18n id="Neos.Neos:Main:apply" fallback="Apply"/>
+                                {translate('Neos.Neos:Main:apply', 'Apply')}
                             </Button>
                         </div>}
                     </DropDown.Contents>

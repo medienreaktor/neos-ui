@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-
+import {translate} from '@neos-project/neos-ui-i18n';
 import IconButton from '@neos-project/react-ui-components/src/IconButton/';
 
 export default class CopySelectedNode extends PureComponent {
@@ -15,9 +15,7 @@ export default class CopySelectedNode extends PureComponent {
 
         disabled: PropTypes.bool,
 
-        isActive: PropTypes.bool,
-
-        i18nRegistry: PropTypes.object.isRequired
+        isActive: PropTypes.bool
     };
 
     handleClick = () => {
@@ -31,8 +29,7 @@ export default class CopySelectedNode extends PureComponent {
             className,
             id,
             disabled,
-            isActive,
-            i18nRegistry
+            isActive
         } = this.props;
 
         return (
@@ -44,7 +41,7 @@ export default class CopySelectedNode extends PureComponent {
                 onClick={this.handleClick}
                 icon="far copy"
                 hoverStyle="brand"
-                title={i18nRegistry.translate('copy')}
+                title={translate('Neos.Neos:Main:copy')}
                 />
         );
     }

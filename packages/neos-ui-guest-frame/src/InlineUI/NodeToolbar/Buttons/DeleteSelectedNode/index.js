@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-
+import {translate} from '@neos-project/neos-ui-i18n';
 import {Icon, Button} from '@neos-project/react-ui-components';
 
 import {actions} from '@neos-project/neos-ui-redux-store';
@@ -16,8 +16,7 @@ export default class DeleteSelectedNode extends PureComponent {
         destructiveOperationsAreDisabled: PropTypes.bool.isRequired,
         canBeDeleted: PropTypes.bool.isRequired,
         canBeEdited: PropTypes.bool.isRequired,
-        commenceNodeRemoval: PropTypes.func.isRequired,
-        i18nRegistry: PropTypes.object.isRequired
+        commenceNodeRemoval: PropTypes.func.isRequired
     };
 
     handleDeleteSelectedNodeClick = () => {
@@ -29,7 +28,7 @@ export default class DeleteSelectedNode extends PureComponent {
     }
 
     render() {
-        const {className, destructiveOperationsAreDisabled, canBeDeleted, canBeEdited, i18nRegistry} = this.props;
+        const {className, destructiveOperationsAreDisabled, canBeDeleted, canBeEdited} = this.props;
 
         return (
             <Button
@@ -40,9 +39,9 @@ export default class DeleteSelectedNode extends PureComponent {
                 hoverStyle="brand"
                 style="transparent"
                 size="small"
-                title={i18nRegistry.translate('delete')}
+                title={translate('Neos.Neos:Main:delete')}
             >
-                {i18nRegistry.translate('delete')}
+                {translate('Neos.Neos:Main:delete')}
                 <Icon icon="trash-alt" />
             </Button>
         );

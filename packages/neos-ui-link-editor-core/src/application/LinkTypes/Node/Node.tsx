@@ -40,7 +40,7 @@ const validateModel = (values: NodeLinkModel): NodeLinkModel => ({
         warning: (
             !values.anchor?.value ? undefined : (
                 (values.anchor.value.startsWith(' ') || values.anchor.value.endsWith(' ')) ? (
-                    translate('Neos.Neos.Ui:LinkEditor.Node:anchor.validation.leadingOrTrailingSpace', '')
+                    translate('Neos.Neos.Ui:LinkEditor.Node:anchor.validation.leadingOrTrailingSpace')
                 ) : undefined
             )
         )
@@ -84,7 +84,7 @@ const NodePreview: React.FC<{ nodeId: string, anchor?: string }> = (props) => {
         return (
             <IconCard
                 icon="spinner"
-                title={translate('Neos.Neos.Ui:LinkEditor.Node:loadingPreview', '')}
+                title={translate('Neos.Neos.Ui:LinkEditor.Node:loadingPreview')}
                 subTitle={`node://${props.nodeId}`}
             />
         );
@@ -94,7 +94,7 @@ const NodePreview: React.FC<{ nodeId: string, anchor?: string }> = (props) => {
         <IconCard
             icon={fetch__nodeSummary.value?.icon ?? 'ban'}
             title={<>
-                {fetch__nodeSummary.value?.label ?? translate('Neos.Neos.Ui:LinkEditor.Node:labelOfNonExistingNode', '')}
+                {fetch__nodeSummary.value?.label ?? translate('Neos.Neos.Ui:LinkEditor.Node:labelOfNonExistingNode')}
                 {props.anchor ? <i> #{props.anchor}</i> : ''}
             </>}
             subTitle={breadcrumbs ?? `node://${props.nodeId}`}
@@ -109,7 +109,7 @@ export const Node: ILinkType<NodeLinkModel, NodeLinkOptions> = {
 
     icon: 'file',
 
-    getTitle: () => translate('Neos.Neos.Ui:LinkEditor.Node:title', ''),
+    getTitle: () => translate('Neos.Neos.Ui:LinkEditor.Node:title'),
 
     isSuitableFor,
 
@@ -209,13 +209,13 @@ export const Node: ILinkType<NodeLinkModel, NodeLinkOptions> = {
         return (
             <div>
                 <Label htmlFor="neos-LinkEditor-Node-anchor">
-                    {translate('Neos.Neos.Ui:LinkEditor.Node:anchor.label', '')}
+                    {translate('Neos.Neos.Ui:LinkEditor.Node:anchor.label')}
                 </Label>
                 <TextInput
                     id="neos-LinkEditor-Node-anchor"
                     type="text"
                     value={model?.anchor?.value ?? ''}
-                    placeholder={translate('Neos.Neos.Ui:LinkEditor.Node:anchor.placeholder', '')}
+                    placeholder={translate('Neos.Neos.Ui:LinkEditor.Node:anchor.placeholder')}
                     onChange={setAnchor}
                 />
                 {model?.anchor?.warning ? (

@@ -5,6 +5,7 @@ import {neos} from '@neos-project/neos-ui-decorators';
 import {SelectBox} from '@neos-project/react-ui-components';
 
 import {searchOptions} from '@neos-project/neos-ui-editors/src/Editors/SelectBox/selectBoxHelpers.js';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 import style from './style.module.css';
 import {getConfiguration} from '@neos-project/neos-ui-configuration';
@@ -32,7 +33,7 @@ export default class NodeTreeFilter extends PureComponent {
 
     render() {
         const {i18nRegistry, nodeTypesRegistry, onChange, value} = this.props;
-        const label = i18nRegistry.translate('filter', 'Filter', {}, 'Neos.Neos', 'Main');
+        const label = translate('Neos.Neos:Main:filter', 'Filter');
 
         const presets = getConfiguration(configuration => configuration?.nodeTree?.presets);
         let options = Object.keys(presets)
@@ -70,8 +71,8 @@ export default class NodeTreeFilter extends PureComponent {
                     searchTerm={this.state.filterTerm}
                     onSearchTermChange={this.handleFilterTermChange}
                     threshold={0}
-                    noMatchesFoundLabel={this.props.i18nRegistry.translate('Neos.Neos:Main:noMatchesFound')}
-                    searchBoxLeftToTypeLabel={this.props.i18nRegistry.translate('Neos.Neos:Main:searchBoxLeftToType')}
+                    noMatchesFoundLabel={translate('Neos.Neos:Main:noMatchesFound')}
+                    searchBoxLeftToTypeLabel={translate('Neos.Neos:Main:searchBoxLeftToType')}
                     />
             </div>
         );

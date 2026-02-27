@@ -9,6 +9,7 @@ import {connect} from 'react-redux';
 import {actions} from '@neos-project/neos-ui-redux-store';
 
 import {sanitizeOptions} from '../../Library';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 @connect((state) => ({
     creationDialogIsOpen: state?.ui?.nodeCreationDialog?.isOpen,
@@ -60,16 +61,16 @@ export default class ReferenceEditor extends PureComponent {
             optionValueField="identifier"
             displaySearchBox={true}
             ListPreviewElement={NodeOption}
-            createNewLabel={i18nRegistry.translate('Neos.Neos:Main:createNew')}
-            noMatchesFoundLabel={i18nRegistry.translate('Neos.Neos:Main:noMatchesFound')}
-            searchBoxLeftToTypeLabel={i18nRegistry.translate('Neos.Neos:Main:searchBoxLeftToType')}
+            createNewLabel={translate('Neos.Neos:Main:createNew')}
+            noMatchesFoundLabel={translate('Neos.Neos:Main:noMatchesFound')}
+            searchBoxLeftToTypeLabel={translate('Neos.Neos:Main:searchBoxLeftToType')}
             placeholder={i18nRegistry.translate(this.props.placeholder)}
             threshold={threshold}
             options={sanitizeOptions(options)}
             value={value}
             onValueChange={this.handleValueChange}
             onHeaderClick={() => this.handleClick(options[0].uri)}
-            loadingLabel={i18nRegistry.translate('Neos.Neos:Main:loading')}
+            loadingLabel={translate('Neos.Neos:Main:loading')}
             displayLoadingIndicator={displayLoadingIndicator}
             showDropDownToggle={false}
             allowEmpty={true}

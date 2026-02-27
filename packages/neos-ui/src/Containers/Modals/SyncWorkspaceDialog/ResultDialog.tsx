@@ -9,7 +9,7 @@
  */
 import React from 'react';
 
-import I18n from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 import {Button, Dialog, Icon} from '@neos-project/react-ui-components';
 import {AnyError, ErrorView} from '@neos-project/neos-ui-error';
 
@@ -17,7 +17,6 @@ import {Diagram} from './Diagram';
 
 import style from './style.module.css';
 import {SyncingPhase} from '@neos-project/neos-ui-redux-store/src/CR/Syncing';
-import {WorkspaceName} from '@neos-project/neos-ts-interfaces';
 
 const VARIANTS_BY_SYNCING_PHASE = {
     [SyncingPhase.SUCCESS]: {
@@ -26,13 +25,11 @@ const VARIANTS_BY_SYNCING_PHASE = {
         label: {
             title: {
                 id: 'Neos.Neos.Ui:SyncWorkspaceDialog:success.title',
-                fallback: (props: { workspaceName: WorkspaceName; }) =>
-                    `Workspace "${props.workspaceName}" is up-to-date`
+                fallback: 'Workspace "{workspaceName}" is up-to-date'
             },
             message: {
                 id: 'Neos.Neos.Ui:SyncWorkspaceDialog:success.message',
-                fallback: (props: { workspaceName: WorkspaceName; baseWorkspaceName: WorkspaceName; }) =>
-                    `Workspace "${props.workspaceName}" has been successfully synchronized with all recent changes in workspace "${props.baseWorkspaceName}".`
+                fallback: 'Workspace "{workspaceName}" has been successfully synchronized with all recent changes in workspace "{baseWorkspaceName}".'
             }
         }
     },
@@ -42,13 +39,11 @@ const VARIANTS_BY_SYNCING_PHASE = {
         label: {
             title: {
                 id: 'Neos.Neos.Ui:SyncWorkspaceDialog:error.title',
-                fallback: (props: { workspaceName: WorkspaceName; }) =>
-                    `Workspace "${props.workspaceName}" could not be synchronized`
+                fallback: 'Workspace "{workspaceName}" could not be synchronized'
             },
             message: {
                 id: 'Neos.Neos.Ui:SyncWorkspaceDialog:error.message',
-                fallback: (props: { workspaceName: WorkspaceName; baseWorkspaceName: WorkspaceName; }) =>
-                    `Workspace "${props.workspaceName}" could not be synchronized with the recent changes in workspace "${props.baseWorkspaceName}".`
+                fallback: 'Workspace "{workspaceName}" could not be synchronized with the recent changes in workspace "{baseWorkspaceName}".'
             }
         }
     }
@@ -81,10 +76,7 @@ export const ResultDialog: React.FC<{
                     onClick={props.onAcknowledge}
                     className={style.button}
                 >
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:error.acknowledge"
-                        fallback="Cancel"
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:error.acknowledge', 'Cancel')}
                 </Button>,
                 <Button
                     id="neos-SyncWorkspace-Retry"
@@ -95,10 +87,7 @@ export const ResultDialog: React.FC<{
                     className={style.button}
                 >
                     <Icon icon="refresh" className={style.icon} />
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:error.retry"
-                        fallback="Try again"
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:error.retry', 'Try again')}
                 </Button>
             ] : [
                 <Button
@@ -110,20 +99,13 @@ export const ResultDialog: React.FC<{
                     className={style.button}
                 >
                     <Icon icon="check" className={style.icon} />
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:success.acknowledge"
-                        fallback="OK"
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:success.acknowledge', 'OK')}
                 </Button>
             ]}
             title={
                 <div className={style.modalTitle}>
                     <Icon icon={variant.icon} />
-                    <I18n
-                        id={variant.label.title.id}
-                        fallback={variant.label.title.fallback(props)}
-                        params={props}
-                        />
+                    {translate(variant.label.title.id, variant.label.title.fallback, props as any)}
                 </div>
             }
             onRequestClose={props.onAcknowledge}
@@ -142,13 +124,7 @@ export const ResultDialog: React.FC<{
                     />
                 {props.result.phase === SyncingPhase.ERROR
                     ? (<ErrorView error={props.result.error} />)
-                    : (
-                        <I18n
-                            id={variant.label.message.id}
-                            params={props}
-                            fallback={variant.label.message.fallback(props)}
-                            />
-                    )
+                    : translate(variant.label.message.id, variant.label.message.fallback, props as any)
                 }
             </div>
         </Dialog>

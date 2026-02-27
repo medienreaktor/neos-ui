@@ -8,7 +8,7 @@ import UserImage from './UserImage';
 import RestoreButtonItem from './RestoreButtonItem';
 import {fetchWithErrorHandling} from '@neos-project/neos-ui-backend-connector';
 
-import I18n from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 import style from './style.module.css';
 @connect(state => ({
@@ -37,7 +37,7 @@ export default class UserDropDown extends PureComponent {
                         <li className={style.dropDown__item}>
                             <a title="User Settings" href={userSettingsUri}>
                                 <Icon icon="wrench" aria-hidden="true" className={style.dropDown__itemIcon}/>
-                                <I18n id="userSettings.label" sourceName="Modules" packageKey="Neos.Neos" fallback="User Settings"/>
+                                {translate('Neos.Neos:Modules:userSettings.label', 'User Settings')}
                             </a>
                         </li>
                         <li className={style.dropDown__item}>
@@ -45,7 +45,7 @@ export default class UserDropDown extends PureComponent {
                                 <input type="hidden" name="__csrfToken" value={csrfToken}/>
                                 <button onClick={e => e.stopPropagation()} type="submit" name="" value="logout">
                                     <Icon icon="sign-out-alt" aria-hidden="true" className={style.dropDown__itemIcon}/>
-                                    <I18n id="logout" sourceName="Main" packageKey="Neos.Neos" fallback="Logout"/>
+                                    {translate('Neos.Neos:Main:logout', 'Logout')}
                                 </button>
                             </form>
                         </li>

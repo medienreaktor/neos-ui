@@ -1,9 +1,14 @@
 import {processSelectBoxOptions} from './selectBoxHelpers';
 import type {I18nRegistry} from '@neos-project/neos-ui-i18n';
+import {setupI18n} from '@neos-project/neos-ui-i18n';
 
 const fakeI18NRegistry = {
     translate: (id) => id ?? ''
 } as I18nRegistry;
+
+beforeAll(() => {
+    setupI18n('en-US', 'one,other', {});
+});
 
 describe('processSelectBoxOptions', () => {
     it('transforms an associative array with labels to list of objects', () => {
@@ -75,7 +80,7 @@ describe('processSelectBoxOptions', () => {
             'key1': {label: 'Key 1'}
         }, 'oldValue');
 
-        expect(processOptions).toEqual([{value: 'key1', label: 'Key 1'}, {value: 'oldValue', label: 'Neos.Neos.Ui:Main:invalidValue: "oldValue"', icon: 'exclamation-triangle'}]);
+        expect(processOptions).toEqual([{value: 'key1', label: 'Key 1'}, {value: 'oldValue', label: 'Invalid value: "oldValue"', icon: 'exclamation-triangle'}]);
     });
 
     it('creates missing options for unmatched additional array value', () => {
@@ -83,7 +88,7 @@ describe('processSelectBoxOptions', () => {
             'key1': {label: 'Key 1'}
         }, ['oldValue', 'key1']);
 
-        expect(processOptions).toEqual([{value: 'key1', label: 'Key 1'}, {value: 'oldValue', label: 'Neos.Neos.Ui:Main:invalidValue: "oldValue"', icon: 'exclamation-triangle'}]);
+        expect(processOptions).toEqual([{value: 'key1', label: 'Key 1'}, {value: 'oldValue', label: 'Invalid value: "oldValue"', icon: 'exclamation-triangle'}]);
     });
 
     it('creates missing options for unmatched additional multiple array values', () => {
@@ -97,8 +102,8 @@ describe('processSelectBoxOptions', () => {
             {value: 'key1', label: 'Key 1'},
             {value: 'key2', label: 'Key 2'},
             {value: 'key3', label: 'Key 3'},
-            {value: 'oldValue', label: 'Neos.Neos.Ui:Main:invalidValue: "oldValue"', icon: 'exclamation-triangle'},
-            {value: 'oldValue2', label: 'Neos.Neos.Ui:Main:invalidValue: "oldValue2"', icon: 'exclamation-triangle'}
+            {value: 'oldValue', label: 'Invalid value: "oldValue"', icon: 'exclamation-triangle'},
+            {value: 'oldValue2', label: 'Invalid value: "oldValue2"', icon: 'exclamation-triangle'}
         ]);
     });
 

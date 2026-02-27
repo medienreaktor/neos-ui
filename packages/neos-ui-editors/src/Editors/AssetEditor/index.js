@@ -11,6 +11,7 @@ import {selectors} from '@neos-project/neos-ui-redux-store';
 import AssetOption from '../../Library/AssetOption';
 import {AssetUpload} from '../../Library/index';
 import backend from '@neos-project/neos-ui-backend-connector';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 const DEFAULT_FEATURES = {
     mediaBrowser: true,
@@ -267,7 +268,7 @@ export default class AssetEditor extends PureComponent {
         return (
             <SelectBox
                 optionValueField="identifier"
-                loadingLabel={this.props.i18nRegistry.translate('Neos.Neos:Main:loading')}
+                loadingLabel={translate('Neos.Neos:Main:loading')}
                 displaySearchBox={this.isFeatureEnabled('mediaBrowser')}
                 ListPreviewElement={AssetOption}
                 placeholder={this.props.i18nRegistry.translate(this.props.placeholder)}
@@ -279,8 +280,8 @@ export default class AssetEditor extends PureComponent {
                 showDropDownToggle={false}
                 allowEmpty={true}
                 onSearchTermChange={this.handleSearchTermChange}
-                noMatchesFoundLabel={this.props.i18nRegistry.translate('Neos.Neos:Main:noMatchesFound')}
-                searchBoxLeftToTypeLabel={this.props.i18nRegistry.translate('Neos.Neos:Main:searchBoxLeftToType')}
+                noMatchesFoundLabel={translate('Neos.Neos:Main:noMatchesFound')}
+                searchBoxLeftToTypeLabel={translate('Neos.Neos:Main:searchBoxLeftToType')}
                 threshold={this.props?.options?.threshold}
                 disabled={disabled}
             />
@@ -294,7 +295,7 @@ export default class AssetEditor extends PureComponent {
             <MultiSelectBox
                 dndType={dndTypes.MULTISELECT}
                 optionValueField="identifier"
-                loadingLabel={this.props.i18nRegistry.translate('Neos.Neos:Main:loading')}
+                loadingLabel={translate('Neos.Neos:Main:loading')}
                 displaySearchBox={this.isFeatureEnabled('mediaBrowser')}
                 ListPreviewElement={AssetOption}
                 placeholder={this.props.i18nRegistry.translate(this.props.placeholder)}
@@ -305,8 +306,8 @@ export default class AssetEditor extends PureComponent {
                 searchOptions={this.state.searchOptions}
                 showDropDownToggle={false}
                 onSearchTermChange={this.handleSearchTermChange}
-                noMatchesFoundLabel={this.props.i18nRegistry.translate('Neos.Neos:Main:noMatchesFound')}
-                searchBoxLeftToTypeLabel={this.props.i18nRegistry.translate('Neos.Neos:Main:searchBoxLeftToType')}
+                noMatchesFoundLabel={translate('Neos.Neos:Main:noMatchesFound')}
+                searchBoxLeftToTypeLabel={translate('Neos.Neos:Main:searchBoxLeftToType')}
                 threshold={this.props?.options?.threshold}
                 disabled={disabled}
             />

@@ -10,7 +10,7 @@
 import React from 'react';
 
 import {Dialog, Icon} from '@neos-project/react-ui-components';
-import I18n from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 import {PublishingMode, PublishingPhase, PublishingScope} from '@neos-project/neos-ui-redux-store/src/CR/Publishing';
 
 import {Diagram} from './Diagram';
@@ -23,13 +23,11 @@ const ProcessIndicatorVariants = {
             label: {
                 title: {
                     id: 'Neos.Neos.Ui:PublishingDialog:publish.all.process.title',
-                    fallback: (props: { scopeTitle: string; }) =>
-                        `Publishing all changes in workspace "${props.scopeTitle}"...`
+                    fallback: 'Publishing all changes in workspace "{scopeTitle}"...'
                 },
                 message: {
                     id: 'Neos.Neos.Ui:PublishingDialog:publish.all.process.message',
-                    fallback: (props: { numberOfChanges: number; }) =>
-                        `Please wait while ${props.numberOfChanges} change(s) are being published. This may take a while.`
+                    fallback: 'Please wait while {numberOfChanges} change(s) are being published. This may take a while.'
                 }
             }
         },
@@ -37,13 +35,11 @@ const ProcessIndicatorVariants = {
             label: {
                 title: {
                     id: 'Neos.Neos.Ui:PublishingDialog:publish.site.process.title',
-                    fallback: (props: { scopeTitle: string; }) =>
-                        `Publishing all changes in site "${props.scopeTitle}"...`
+                    fallback: 'Publishing all changes in site "{scopeTitle}"...'
                 },
                 message: {
                     id: 'Neos.Neos.Ui:PublishingDialog:publish.site.process.message',
-                    fallback: (props: { numberOfChanges: number; }) =>
-                        `Please wait while ${props.numberOfChanges} change(s) are being published. This may take a while.`
+                    fallback: 'Please wait while {numberOfChanges} change(s) are being published. This may take a while.'
                 }
             }
         },
@@ -51,13 +47,11 @@ const ProcessIndicatorVariants = {
             label: {
                 title: {
                     id: 'Neos.Neos.Ui:PublishingDialog:publish.document.process.title',
-                    fallback: (props: { scopeTitle: string; }) =>
-                        `Publishing all changes in document "${props.scopeTitle}"...`
+                    fallback: 'Publishing all changes in document "{scopeTitle}"...'
                 },
                 message: {
                     id: 'Neos.Neos.Ui:PublishingDialog:publish.document.process.message',
-                    fallback: (props: { numberOfChanges: number; }) =>
-                        `Please wait while ${props.numberOfChanges} change(s) are being published. This may take a while.`
+                    fallback: 'Please wait while {numberOfChanges} change(s) are being published. This may take a while.'
                 }
             }
         }
@@ -68,13 +62,11 @@ const ProcessIndicatorVariants = {
             label: {
                 title: {
                     id: 'Neos.Neos.Ui:PublishingDialog:discard.all.process.title',
-                    fallback: (props: { scopeTitle: string; }) =>
-                        `Discarding all changes in workspace "${props.scopeTitle}"...`
+                    fallback: 'Discarding all changes in workspace "{scopeTitle}"...'
                 },
                 message: {
                     id: 'Neos.Neos.Ui:PublishingDialog:discard.all.process.message',
-                    fallback: (props: { numberOfChanges: number; }) =>
-                        `Please wait while ${props.numberOfChanges} change(s) are being discarded. This may take a while.`
+                    fallback: 'Please wait while {numberOfChanges} change(s) are being discarded. This may take a while.'
                 }
             }
         },
@@ -82,13 +74,11 @@ const ProcessIndicatorVariants = {
             label: {
                 title: {
                     id: 'Neos.Neos.Ui:PublishingDialog:discard.site.process.title',
-                    fallback: (props: { scopeTitle: string; }) =>
-                        `Discarding all changes in site "${props.scopeTitle}"...`
+                    fallback: 'Discarding all changes in site "{scopeTitle}"...'
                 },
                 message: {
                     id: 'Neos.Neos.Ui:PublishingDialog:discard.site.process.message',
-                    fallback: (props: { numberOfChanges: number; }) =>
-                        `Please wait while ${props.numberOfChanges} change(s) are being discarded. This may take a while.`
+                    fallback: 'Please wait while {numberOfChanges} change(s) are being discarded. This may take a while.'
                 }
             }
         },
@@ -96,13 +86,11 @@ const ProcessIndicatorVariants = {
             label: {
                 title: {
                     id: 'Neos.Neos.Ui:PublishingDialog:discard.document.process.title',
-                    fallback: (props: { scopeTitle: string; }) =>
-                        `Discarding all changes in document "${props.scopeTitle}"...`
+                    fallback: 'Discarding all changes in document "{scopeTitle}"...'
                 },
                 message: {
                     id: 'Neos.Neos.Ui:PublishingDialog:discard.document.process.message',
-                    fallback: (props: { numberOfChanges: number; }) =>
-                        `Please wait while ${props.numberOfChanges} change(s) are being discarded. This may take a while.`
+                    fallback: 'Please wait while {numberOfChanges} change(s) are being discarded. This may take a while.'
                 }
             }
         }
@@ -126,11 +114,7 @@ export const ProcessIndicator: React.FC<{
                 <div>
                     <Icon icon="refresh" spin />
                     <span className={style.modalTitle}>
-                        <I18n
-                            id={variant[props.scope].label.title.id}
-                            params={props}
-                            fallback={variant[props.scope].label.title.fallback(props)}
-                            />
+                        {translate(variant[props.scope].label.title.id, variant[props.scope].label.title.fallback, props as any)}
                     </span>
                 </div>
             }
@@ -148,11 +132,7 @@ export const ProcessIndicator: React.FC<{
                     targetWorkspaceName={props.targetWorkspaceName}
                     numberOfChanges={props.numberOfChanges}
                 />
-                <I18n
-                    id={variant[props.scope].label.message.id}
-                    params={props}
-                    fallback={variant[props.scope].label.message.fallback(props)}
-                    />
+                {translate(variant[props.scope].label.message.id, variant[props.scope].label.message.fallback, props as any)}
             </div>
         </Dialog>
     );

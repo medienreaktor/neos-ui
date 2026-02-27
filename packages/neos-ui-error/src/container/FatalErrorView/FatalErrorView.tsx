@@ -34,8 +34,8 @@ const CopyTechnicalDetailsButton = (props: { error: null | AnyError }) => {
 
     return <Button onClick={copyErrorDetails} isActive={hasCopied}>
         {!hasCopied
-            ? translate('Neos.Neos.Ui:Main:errorBoundary.copyTechnicalDetails', '')
-            : translate('Neos.Neos.Ui:Main:errorBoundary.technicalDetailsCopied', '')
+            ? translate('Neos.Neos.Ui:Main:errorBoundary.copyTechnicalDetails')
+            : translate('Neos.Neos.Ui:Main:errorBoundary.technicalDetailsCopied')
         }
         &nbsp; <Icon icon="copy" size="sm"/>
     </Button>;
@@ -54,7 +54,7 @@ const ReloadNeosUiButton = () => {
     };
 
     return <Button onClick={reload}>
-        {translate('Neos.Neos.Ui:Main:errorBoundary.reloadUi', '')}
+        {translate('Neos.Neos.Ui:Main:errorBoundary.reloadUi')}
         &nbsp; <Icon icon="redo" size="sm" spin={isReloading}/>
     </Button>;
 };
@@ -63,11 +63,11 @@ export const FatalErrorView = (props: { error: AnyError }) => {
     return <div className={styles.container}>
         <div>
             <Logo />
-            <h1 className={styles.title}>{translate('Neos.Neos.Ui:Main:errorBoundary.title', '')}</h1>
-            <p>{translate('Neos.Neos.Ui:Main:errorBoundary.description', '')}</p>
+            <h1 className={styles.title}>{translate('Neos.Neos.Ui:Main:errorBoundary.title')}</h1>
+            <p>{translate('Neos.Neos.Ui:Main:errorBoundary.description')}</p>
 
             <ErrorView error={props.error} />
-            <p>{translate('Neos.Neos.Ui:Main:errorBoundary.footer', '')}</p>
+            <p>{translate('Neos.Neos.Ui:Main:errorBoundary.footer')}</p>
 
             <div className={styles.buttonGroup}>
                 <ReloadNeosUiButton />

@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {neos} from '@neos-project/neos-ui-decorators';
 
 import {Button, Dialog, Icon} from '@neos-project/react-ui-components';
-import I18n from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 import {InsertModeSelector} from '@neos-project/neos-ui-containers';
 
@@ -68,7 +68,7 @@ export default class InsertModeModal extends PureComponent {
     renderNodeLabel(contextPaths) {
         const {getNodeByContextPath, nodeTypesRegistry, i18nRegistry} = this.props;
         if (contextPaths.length > 1) {
-            return `${contextPaths.length} ${i18nRegistry.translate('nodes', 'nodes', {}, 'Neos.Neos.Ui', 'Main')}`;
+            return `${contextPaths.length} ${translate('Neos.Neos.Ui:Main:nodes', 'nodes')}`;
         }
         const contextPath = contextPaths[0];
         const node = getNodeByContextPath(contextPath);
@@ -81,41 +81,22 @@ export default class InsertModeModal extends PureComponent {
 
     renderTitle() {
         const {subjectContextPaths, referenceContextPath, operationType} = this.props;
+        const parameters = {
+            source: this.renderNodeLabel(subjectContextPaths),
+            target: this.renderNodeLabel([referenceContextPath])
+        };
 
+        let label = '';
+        if (operationType === actionTypes.CR.Nodes.COPY) {
+            label = translate('Neos.Neos:Main:copy__from__to--title', '', parameters);
+        } else if (operationType === actionTypes.CR.Nodes.CUT || operationType === actionTypes.CR.Nodes.MOVE) {
+            label = translate('Neos.Neos:Main:move__from__to--title', '', parameters);
+        }
         return (
             <div>
                 <Icon icon="clipboard"/>
                 <span className={style.modalTitle}>
-                    {operationType === actionTypes.CR.Nodes.COPY &&
-                        <I18n
-                            key="copy"
-                            id="Neos.Neos:Main:copy__from__to--title"
-                            params={{
-                                source: this.renderNodeLabel(subjectContextPaths),
-                                target: this.renderNodeLabel([referenceContextPath])
-                            }}
-                            />
-                    }
-                    {operationType === actionTypes.CR.Nodes.CUT &&
-                        <I18n
-                            key="move"
-                            id="Neos.Neos:Main:move__from__to--title"
-                            params={{
-                                source: this.renderNodeLabel(subjectContextPaths),
-                                target: this.renderNodeLabel([referenceContextPath])
-                            }}
-                            />
-                    }
-                    {operationType === actionTypes.CR.Nodes.MOVE &&
-                        <I18n
-                            key="move"
-                            id="Neos.Neos:Main:move__from__to--title"
-                            params={{
-                                source: this.renderNodeLabel(subjectContextPaths),
-                                target: this.renderNodeLabel([referenceContextPath])
-                            }}
-                            />
-                    }
+                    {label}
                 </span>
             </div>
         );
@@ -130,7 +111,7 @@ export default class InsertModeModal extends PureComponent {
                 hoverStyle="brand"
                 onClick={this.handleCancel}
                 >
-                <I18n id="Neos.Neos:Main:cancel" fallback="Cancel"/>
+                {translate('Neos.Neos:Main:cancel', 'Cancel')}
             </Button>
         );
     }
@@ -145,7 +126,7 @@ export default class InsertModeModal extends PureComponent {
                 onClick={this.handleApply}
                 className={style.applyBtn}
                 >
-                <I18n id="Neos.Neos:Main:apply" fallback="Apply"/>
+                {translate('Neos.Neos:Main:apply', 'Apply')}
             </Button>
         );
     }
@@ -173,13 +154,7 @@ export default class InsertModeModal extends PureComponent {
                 >
                 <div className={style.modalContents}>
                     <p>
-                        <I18n
-                            id="Neos.Neos:Main:copy__from__to--description"
-                            params={{
-                                source: this.renderNodeLabel(subjectContextPaths),
-                                target: this.renderNodeLabel([referenceContextPath])
-                            }}
-                            />
+                        {translate('Neos.Neos:Main:copy__from__to--description', '', {source: this.renderNodeLabel(subjectContextPaths), target: this.renderNodeLabel([referenceContextPath])})}
                     </p>
                     <InsertModeSelector
                         mode={this.state.mode}

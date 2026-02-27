@@ -6,6 +6,7 @@ import TestBackend from 'react-dnd-test-backend';
 import {DndProvider as DragDropContextProvider} from 'react-dnd';
 import SelectBoxEditor from './index.js';
 import {WrapWithMockGlobalRegistry, MockDataSourceDataLoader} from '../../_lib/testUtils';
+import {setupI18n} from '@neos-project/neos-ui-i18n';
 
 const optionValues = {
     foo: {
@@ -40,6 +41,10 @@ const multiselectLabels = component =>
     component.find('MultiSelectBox_ListPreviewSortable').find('ListPreviewElement').map(node => node.text());
 
 const commit = () => {};
+
+beforeAll(() => {
+    setupI18n('en-US', 'one,other', {});
+});
 
 test(`SelectBox > single, no dataSource, no preselected value`, () => {
     const expectedDropdownElementLabels = ['fooLabel', 'barLabel'];

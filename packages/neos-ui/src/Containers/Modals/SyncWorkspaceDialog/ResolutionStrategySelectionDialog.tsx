@@ -9,7 +9,7 @@
  */
 import React from 'react';
 
-import I18n, {I18nRegistry} from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 import {WorkspaceName} from '@neos-project/neos-ts-interfaces';
 import {Button, Dialog, Icon, SelectBox, SelectBox_Option_MultiLineWithThumbnail} from '@neos-project/react-ui-components';
 import {Conflict, ResolutionStrategy, SyncingPhase} from '@neos-project/neos-ui-redux-store/src/CR/Syncing';
@@ -26,7 +26,7 @@ const VARIANTS_BY_RESOLUTION_STRATEGY = {
         labels: {
             label: {
                 id: 'Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.option.FORCE.label',
-                fallback: () => 'Drop conflicting changes'
+                fallback: 'Drop conflicting changes'
             },
             description: {
                 id: 'Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.option.FORCE.description',
@@ -39,8 +39,7 @@ const VARIANTS_BY_RESOLUTION_STRATEGY = {
         labels: {
             label: {
                 id: 'Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.option.DISCARD_ALL.label',
-                fallback: (props: {workspaceName: WorkspaceName}) =>
-                    `Discard workspace "${props.workspaceName}"`
+                fallback: 'Discard workspace "{workspaceName}"'
             },
             description: {
                 id: 'Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.option.DISCARD_ALL.description',
@@ -64,7 +63,6 @@ export const ResolutionStrategySelectionDialog: React.FC<{
     baseWorkspaceName: WorkspaceName;
     conflicts: Conflict[];
     defaultStrategy: null | ResolutionStrategy;
-    i18n: I18nRegistry;
     onCancel: () => void;
     onSelectResolutionStrategy: (strategy: ResolutionStrategy) => void;
 }> = (props) => {
@@ -83,18 +81,18 @@ export const ResolutionStrategySelectionDialog: React.FC<{
                 return {
                     value: String(value),
                     icon: variant.icon,
-                    label: props.i18n.translate(
+                    label: translate(
                         variant.labels.label.id,
-                        variant.labels.label.fallback(params),
+                        variant.labels.label.fallback,
                         params
                     ),
-                    description: props.i18n.translate(
+                    description: translate(
                         variant.labels.description.id,
                         variant.labels.description.fallback
                     )
                 };
             })
-    }, [props.i18n, props.workspaceName]);
+    }, [props.workspaceName]);
     const handleSelectResolutionStrategy = React.useCallback((value: string) => {
         setSelectedResolutionStrategy(parseInt(value, 10));
     }, []);
@@ -112,10 +110,7 @@ export const ResolutionStrategySelectionDialog: React.FC<{
                     hoverStyle="brand"
                     onClick={props.onCancel}
                     >
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.cancel"
-                        fallback="Cancel Synchronization"
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.cancel', 'Cancel Synchronization')}
                 </Button>,
                 <Button
                     id="neos-SelectResolutionStrategy-Accept"
@@ -125,21 +120,14 @@ export const ResolutionStrategySelectionDialog: React.FC<{
                     onClick={handleConfirm}
                     className={style.button}
                     >
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.accept"
-                        fallback="Accept choice and continue"
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.accept', 'Accept choice and continue')}
                     <Icon icon="chevron-right" className={style.icon} />
                 </Button>
             ]}
             title={
                 <div className={style.modalTitle}>
                     <WorkspaceSyncIcon hasProblem onDarkBackground />
-                    <I18n
-                        id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.title"
-                        fallback={`Conflicts between workspace "${props.workspaceName}" and "${props.baseWorkspaceName}"`}
-                        params={props}
-                        />
+                    {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.title', 'Conflicts between workspace "{workspaceName}" and "{baseWorkspaceName}"', props as any)}
                 </div>
             }
             onRequestClose={props.onCancel}
@@ -155,28 +143,16 @@ export const ResolutionStrategySelectionDialog: React.FC<{
                     baseWorkspaceName={props.baseWorkspaceName}
                     phase={SyncingPhase.CONFLICT}
                     />
-                <I18n
-                    id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.message"
-                    fallback={`Workspace "${props.baseWorkspaceName}" contains modifications that are in conflict with the changes in workspace "${props.workspaceName}".`}
-                    params={props}
-                    />
+                {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.message', 'Workspace "{baseWorkspaceName}" contains modifications that are in conflict with the changes in workspace "{workspaceName}".', props as any)}
                 <details className={style.details}>
                     <summary className={style.summary}>
-                        <I18n
-                            id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.summary"
-                            fallback={`Show information about ${props.conflicts.length} conflict(s)`}
-                            params={{numberOfConflicts: props.conflicts.length}}
-                            />
+                        {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.summary', 'Show information about {numberOfConflicts} conflict(s)', {numberOfConflicts: props.conflicts.length})}
                     </summary>
                     <ConflictList
                         conflicts={props.conflicts}
-                        i18n={props.i18n}
                         />
                 </details>
-                <I18n
-                    id="Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.prompt"
-                    fallback="In order to proceed, you need to decide what to do with the conflicting changes:"
-                    />
+                {translate('Neos.Neos.Ui:SyncWorkspaceDialog:resolutionStrategy.selection.prompt', 'In order to proceed, you need to decide what to do with the conflicting changes:')}
                 <SelectBox
                     id="neos-SelectResolutionStrategy-SelectBox"
                     options={options}

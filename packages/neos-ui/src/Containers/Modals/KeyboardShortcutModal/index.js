@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import {neos} from '@neos-project/neos-ui-decorators';
 import {actions} from '@neos-project/neos-ui-redux-store';
-import I18n from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 import {Dialog, Button} from '@neos-project/react-ui-components';
 import style from './style.module.css';
@@ -26,7 +26,7 @@ class KeyboardShortcutModal extends PureComponent {
     renderShortcut = ({id, description, keys}) => (
         <div key={id} className={style.keyboardShortcut}>
             <div className={style.keyboardShortcut__label}>
-                <I18n id={`Neos.Neos.Ui:Main:Shortcut__${id}`} fallback={description} />
+                {translate(`Neos.Neos.Ui:Main:Shortcut__${id}`, description)}
             </div>
             <div className={style.keyboardShortcut__keys}>{keys}</div>
         </div>
@@ -41,7 +41,7 @@ class KeyboardShortcutModal extends PureComponent {
                 hoverStyle="brand"
                 onClick={() => this.props.close()}
                 >
-                <I18n id="Neos.Neos:Main:close" fallback="Close"/>
+                {translate('Neos.Neos:Main:close', 'Close')}
             </Button>
         );
     }
@@ -52,12 +52,12 @@ class KeyboardShortcutModal extends PureComponent {
         return (
             <Dialog
                 actions={[this.renderCloseAction()]}
-                title={<I18n fallback="Keyboard Shortcuts" />}
+                title="Keyboard Shortcuts"
                 isOpen={isOpen}
                 onRequestClose={() => close()}
                 >
                 <div className={style.keyboardShortcutIntroText}>
-                    <I18n id={`Neos.Neos.Ui:Main:Shortcut__Introduction`} fallback={''} />
+                    {translate('Neos.Neos.Ui:Main:Shortcut__Introduction')}
                 </div>
                 <div className={style.keyboardShortcutList}>
                     {hotkeyRegistry.getAllAsList().map(key => this.renderShortcut(key))}

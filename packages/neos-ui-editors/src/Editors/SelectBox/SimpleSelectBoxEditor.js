@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {SelectBox, MultiSelectBox} from '@neos-project/react-ui-components';
 import {neos} from '@neos-project/neos-ui-decorators';
 import {shouldDisplaySearchBox, searchOptions, processSelectBoxOptions} from './selectBoxHelpers';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 @neos(globalRegistry => ({
     i18nRegistry: globalRegistry.get('i18n')
@@ -69,8 +70,8 @@ export default class SimpleSelectBoxEditor extends PureComponent {
                 displaySearchBox={shouldDisplaySearchBox(options, processedSelectBoxOptions)}
                 searchOptions={searchOptions(this.state.searchTerm, processedSelectBoxOptions)}
                 onSearchTermChange={this.handleSearchTermChange}
-                noMatchesFoundLabel={this.props.i18nRegistry.translate('Neos.Neos:Main:noMatchesFound')}
-                searchBoxLeftToTypeLabel={this.props.i18nRegistry.translate('Neos.Neos:Main:searchBoxLeftToType')}
+                noMatchesFoundLabel={translate('Neos.Neos:Main:noMatchesFound')}
+                searchBoxLeftToTypeLabel={translate('Neos.Neos:Main:searchBoxLeftToType')}
                 threshold={options.threshold}
                 disabled={options.disabled}
             />);
@@ -86,8 +87,8 @@ export default class SimpleSelectBoxEditor extends PureComponent {
             allowEmpty={allowEmpty}
             displaySearchBox={shouldDisplaySearchBox(options, processedSelectBoxOptions)}
             onSearchTermChange={this.handleSearchTermChange}
-            noMatchesFoundLabel={this.props.i18nRegistry.translate('Neos.Neos:Main:noMatchesFound')}
-            searchBoxLeftToTypeLabel={this.props.i18nRegistry.translate('Neos.Neos:Main:searchBoxLeftToType')}
+            noMatchesFoundLabel={translate('Neos.Neos:Main:noMatchesFound')}
+            searchBoxLeftToTypeLabel={translate('Neos.Neos:Main:searchBoxLeftToType')}
             threshold={options.threshold}
             disabled={options.disabled}
         />);

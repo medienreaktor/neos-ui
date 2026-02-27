@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-
+import {translate} from '@neos-project/neos-ui-i18n';
 import {Icon, Button} from '@neos-project/react-ui-components';
 
 import {actions} from '@neos-project/neos-ui-redux-store';
@@ -16,8 +16,7 @@ export default class CutSelectedNode extends PureComponent {
         destructiveOperationsAreDisabled: PropTypes.bool.isRequired,
         isCut: PropTypes.bool.isRequired,
         canBeEdited: PropTypes.bool.isRequired,
-        cutNode: PropTypes.func.isRequired,
-        i18nRegistry: PropTypes.object.isRequired
+        cutNode: PropTypes.func.isRequired
     };
 
     handleCutSelectedNodeClick = () => {
@@ -31,8 +30,7 @@ export default class CutSelectedNode extends PureComponent {
             destructiveOperationsAreDisabled,
             isCut,
             className,
-            canBeEdited,
-            i18nRegistry
+            canBeEdited
         } = this.props;
 
         return (
@@ -45,9 +43,9 @@ export default class CutSelectedNode extends PureComponent {
                 hoverStyle="brand"
                 style="transparent"
                 size="small"
-                title={i18nRegistry.translate('cut')}
+                title={translate('Neos.Neos:Main:cut')}
             >
-                {i18nRegistry.translate('cut')}
+                {translate('Neos.Neos:Main:cut')}
                 <Icon icon="cut" />
             </Button>
         );

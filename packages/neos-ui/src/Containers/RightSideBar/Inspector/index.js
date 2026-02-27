@@ -6,7 +6,7 @@ import mapValues from 'lodash.mapvalues';
 import {connect} from 'react-redux';
 import debounce from 'lodash.debounce';
 
-import I18n from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 import {Bar, Button, Tabs, Icon, Badge} from '@neos-project/react-ui-components';
 
 import {SecondaryInspector} from '@neos-project/neos-ui-inspector';
@@ -333,20 +333,20 @@ export default class Inspector extends PureComponent {
         if (focusedContentNodesContextPaths.length > 1) {
             return (
                 <div
-                    title={i18nRegistry.translate('inspectorMutlipleContentNodesSelectedTooltip', 'Select a single document in order to be able to edit its properties', {}, 'Neos.Neos.Ui', 'Main')}
+                    title={translate('Neos.Neos.Ui:Main:inspectorMutlipleContentNodesSelectedTooltip', 'Select a single document in order to be able to edit its properties')}
                     className={style.centeredInspector}
                     >
-                    <div>{focusedContentNodesContextPaths.length} {i18nRegistry.translate('contentElementsSelected', 'content elements selected', {}, 'Neos.Neos.Ui', 'Main')}</div>
+                    <div>{focusedContentNodesContextPaths.length} {translate('Neos.Neos.Ui:Main:contentElementsSelected', 'content elements selected')}</div>
                 </div>
             );
         }
         if (focusedDocumentNodesContextPaths.length > 1) {
             return (
                 <div
-                    title={i18nRegistry.translate('inspectorMutlipleDocumentNodesSelectedTooltip', 'Select a single content element in order to be able to edit its properties', {}, 'Neos.Neos.Ui', 'Main')}
+                    title={translate('Neos.Neos.Ui:Main:inspectorMutlipleDocumentNodesSelectedTooltip', 'Select a single content element in order to be able to edit its properties')}
                     className={style.centeredInspector}
                     >
-                    <div>{focusedDocumentNodesContextPaths.length} {i18nRegistry.translate('documentsSelected', 'documents selected', {}, 'Neos.Neos.Ui', 'Main')}</div>
+                    <div>{focusedDocumentNodesContextPaths.length} {translate('Neos.Neos.Ui:Main:documentsSelected', 'documents selected')}</div>
                 </div>
             );
         }
@@ -397,20 +397,7 @@ export default class Inspector extends PureComponent {
                             const notifications = validationErrors ?
                                 this.getAmountOfValidationErrors(tab, validationErrors) : 0;
                             const tabLabel = i18nRegistry.translate(tab?.label);
-                            const notificationTooltipLabelPieces = i18nRegistry.translate(
-                                'UI.RightSideBar.tabs.validationErrorTooltip',
-                                '',
-                                {
-                                    tabName: tabLabel,
-                                    amountOfErrors: notifications
-                                },
-                                'Neos.Neos.Ui',
-                                'Main',
-                                notifications
-                            );
-                            // @todo remove that when substitutePlaceholders of I18nRegistry returns strings
-                            const notificationTooltipLabel = Array.isArray(notificationTooltipLabelPieces) ?
-                                notificationTooltipLabelPieces.join('') : notificationTooltipLabelPieces;
+                            const notificationTooltipLabel = translate('Neos.Neos.Ui:Main:UI.RightSideBar.tabs.validationErrorTooltip', {tabName: tabLabel, amountOfErrors: notifications}, notifications);
 
                             return (
                                 <TabPanel
@@ -435,10 +422,10 @@ export default class Inspector extends PureComponent {
                 </Tabs>
                 <Bar position="bottom" className={style.actions}>
                     <Button id="neos-Inspector-Discard" style="lighter" disabled={isDiscardDisabled} onClick={this.handleDiscard} className={`${style.button} ${style.discardButton}`}>
-                        <I18n id="Neos.Neos:Main:discard" fallback="discard"/>
+                        {translate('Neos.Neos:Main:discard', 'discard')}
                     </Button>
                     <Button id="neos-Inspector-Apply" style="lighter" disabled={isApplyDisabled || isWorkspaceReadOnly} onClick={this.handleApply} className={`${style.button} ${style.publishButton}`}>
-                        <I18n id="Neos.Neos:Main:apply" fallback="apply"/>
+                        {translate('Neos.Neos:Main:apply', 'apply')}
                     </Button>
                 </Bar>
                 {

@@ -2,16 +2,12 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import style from './style.module.css';
 import IconButton from '@neos-project/react-ui-components/src/IconButton/';
-import {neos} from '@neos-project/neos-ui-decorators';
+import {translate} from '@neos-project/neos-ui-i18n';
 
-@neos(globalRegistry => ({
-    i18nRegistry: globalRegistry.get('i18n')
-}))
 export default class Controls extends PureComponent {
     static propTypes = {
         onChooseFromMedia: PropTypes.func.isRequired,
         onChooseFromLocalFileSystem: PropTypes.func.isRequired,
-        i18nRegistry: PropTypes.object.isRequired,
         isUploadEnabled: PropTypes.bool.isRequired,
         isMediaBrowserEnabled: PropTypes.bool.isRequired
     };
@@ -26,7 +22,7 @@ export default class Controls extends PureComponent {
                     style="lighter"
                     onClick={disabled ? null : this.props.onChooseFromMedia}
                     className={style.button}
-                    title={this.props.i18nRegistry.translate('Neos.Neos:Main:media')}
+                    title={translate('Neos.Neos:Main:media')}
                     disabled={disabled}
                     />}
                 {isUploadEnabled && <IconButton
@@ -35,7 +31,7 @@ export default class Controls extends PureComponent {
                     style="lighter"
                     onClick={disabled ? null : this.props.onChooseFromLocalFileSystem}
                     className={style.button}
-                    title={this.props.i18nRegistry.translate('Neos.Media.Browser:Main:chooseFile')}
+                    title={translate('Neos.Media.Browser:Main:chooseFile')}
                     disabled={disabled}
                     />}
             </div>

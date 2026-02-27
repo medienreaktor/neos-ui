@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 import IconButton from '@neos-project/react-ui-components/src/IconButton/';
 import style from './style.module.css';
@@ -12,9 +13,7 @@ export default class ToggleContentTree extends PureComponent {
 
         isPanelOpen: PropTypes.bool.isRequired,
 
-        onClick: PropTypes.func.isRequired,
-
-        i18nRegistry: PropTypes.object.isRequired
+        onClick: PropTypes.func.isRequired
     };
 
     handleClick = () => {
@@ -24,7 +23,7 @@ export default class ToggleContentTree extends PureComponent {
     }
 
     render() {
-        const {id, isPanelOpen, i18nRegistry} = this.props;
+        const {id, isPanelOpen} = this.props;
 
         return (
             <div role="button" className={style.toggle} onClick={this.handleClick}>
@@ -33,10 +32,10 @@ export default class ToggleContentTree extends PureComponent {
                     className={style.toggleBtn}
                     icon={isPanelOpen ? 'chevron-circle-down' : 'chevron-circle-up'}
                     hoverStyle="clean"
-                    aria-label={i18nRegistry.translate('Neos.Neos:Main:toggleContentTree', 'Toggle content tree')}
+                    aria-label={translate('Neos.Neos:Main:toggleContentTree', 'Toggle content tree')}
                     />
                 <span className={style.toggleLabel}>
-                    {i18nRegistry.translate('Neos.Neos:Main:contentTree', 'Content Tree')}
+                    {translate('Neos.Neos:Main:contentTree', 'Content Tree')}
                 </span>
             </div>
         );

@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {neos} from '@neos-project/neos-ui-decorators';
+import {translate} from '@neos-project/neos-ui-i18n';
 
 import {selectors, actions} from '@neos-project/neos-ui-redux-store';
 import {InsertPosition} from '@neos-project/neos-ts-interfaces';
@@ -36,8 +37,7 @@ export default class PasteClipBoardNode extends PureComponent {
         fusionPath: PropTypes.string,
         insertPosition: PropTypes.string,
 
-        pasteNode: PropTypes.func.isRequired,
-        i18nRegistry: PropTypes.object.isRequired
+        pasteNode: PropTypes.func.isRequired
     };
 
     handlePasteButtonClick = () => {
@@ -46,7 +46,7 @@ export default class PasteClipBoardNode extends PureComponent {
     }
 
     render() {
-        const {className, canBePasted, i18nRegistry, insertPosition} = this.props;
+        const {className, canBePasted, insertPosition} = this.props;
 
         // FIXME: Also hide/disable button if insertPosition is invalid for the current node
         if (!canBePasted) {
@@ -61,7 +61,7 @@ export default class PasteClipBoardNode extends PureComponent {
                 id="neos-InlineToolbar-PaseClipBoardNode"
                 className={className}
                 onClick={this.handlePasteButtonClick}
-                title={i18nRegistry.translate('paste')}
+                title={translate('Neos.Neos:Main:paste')}
                 size="small"
                 style="brand"
             >
