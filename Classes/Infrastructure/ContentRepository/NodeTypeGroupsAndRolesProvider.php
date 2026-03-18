@@ -16,6 +16,8 @@ namespace Neos\Neos\Ui\Infrastructure\ContentRepository;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Neos\Ui\Domain\InitialData\NodeTypeGroupsAndRolesProviderInterface;
+use Neos\Utility\Exception\InvalidPositionException;
+use Neos\Utility\PositionalArraySorter;
 
 /**
  * @internal
@@ -31,11 +33,15 @@ final class NodeTypeGroupsAndRolesProvider implements NodeTypeGroupsAndRolesProv
     #[Flow\InjectConfiguration(path: 'nodeTypes.groups', package: 'Neos.Neos')]
     protected array $groups;
 
+    /**
+     * @throws InvalidPositionException
+     */
     public function getNodeTypeGroupsAndRoles(): array
     {
+        $sortedGroups = new PositionalArraySorter($this->groups);
         return [
             'roles' => $this->roles,
-            'groups' => $this->groups,
+            'groups' => $sortedGroups->toArray(),
         ];
     }
 }

@@ -645,13 +645,14 @@ class BackendServiceController extends ActionController
 
         $nodeInfoHelper = new NodeInfoHelper();
         $type = $finisher['type'] ?? null;
+        $usage = $finisher['payload']['usage'] ?? 'ALL';
         $result = match ($type) {
             'get' => $nodeInfoHelper->renderNodes(array_filter($flowQuery->get()), $this->request),
             'getForTree' => $nodeInfoHelper->renderNodes(
                 array_filter($flowQuery->get()),
                 $this->request,
-                true,
-                includeContentChildNodes: ($finisher['payload']['usage'] ?? 'ALL') !== 'PAGE_TREE',
+                $usage === 'PAGE_TREE', // We only need minimal data for the document tree
+                $usage !== 'PAGE_TREE', // Child node are only required for the structure tree
             ),
             'getForTreeWithParents' => $nodeInfoHelper->renderNodesWithParents(
                 array_filter($flowQuery->get()),

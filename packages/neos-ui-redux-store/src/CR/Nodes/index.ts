@@ -495,11 +495,19 @@ export const reducer = (state: State = defaultState, action: InitAction | EditPr
                     if (newNode.isFullyLoaded || !existingNode.children) {
                         mergedNode.children = newNode.children;
                     } else {
-                        // A non fully loaded node only contains document children, so we need to preserve existing non-document children
+                        // A non fully loaded node is either a node that was loaded for the document tree, or
+                        // a content node that didn't have all its children loaded. This can happen either when the
+                        // initial loading depth doesn't include the nodes children, or if not all children have been
+                        // rendered in the guest frame with a content element wrapping.
                         mergedNode.children = [
                             ...existingNode.children.filter(({role}) => role !== 'document'),
                             ...newNode.children
                         ];
+                        // Remove duplicates after merging in case the node was not fully loaded but the list of
+                        // children has already partially been populated by content loaded in the guest frame.
+                        mergedNode.children = mergedNode.children.filter((child, index, self) =>
+                            index === self.findIndex(c => c.contextPath === child.contextPath)
+                        );
                     }
                 } else if (!oldNode) {
                     // newNode only adds meta info, but oldNode is gone from the store.

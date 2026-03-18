@@ -26,7 +26,6 @@
 
 .listPreviewElement__icon {
     composes: reset from '../reset.module.css';
-    margin-right: .5em;
 }
 
 .listPreviewElement__iconWrapper {
@@ -34,4 +33,5 @@
     width: 2em;
     display: inline-block;
     text-align: center;
+    margin-right: 14px;
 }
