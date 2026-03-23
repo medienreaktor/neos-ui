@@ -97,6 +97,10 @@ class MoveBefore extends AbstractStructuralChange
             if (!$hasEqualParentNode) {
                 // Remove the node at the old location of moving across nodes; so that we can insert it again at the new location
                 $this->feedbackCollection->add(new RemoveNode($subject, $parentNode));
+
+                $updatePreviousParentNodeInfo = new UpdateNodeInfo();
+                $updatePreviousParentNodeInfo->setNode($succeedingSiblingParent);
+                $this->feedbackCollection->add($updatePreviousParentNodeInfo);
             }
 
             $updateParentNodeInfo = new UpdateNodeInfo();

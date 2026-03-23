@@ -231,13 +231,6 @@ manifest('main', {}, (globalRegistry, {routes}) => {
         store.dispatch(actions.CR.Nodes.merge(feedbackPayload.byContextPath));
     });
 
-    // TODO
-    /*if (currentDocumentNodeMoved) {
-        const newState = store.getState();
-        store.dispatch(actions.UI.ContentCanvas.setSrc(newState?.cr?.nodes?.byContextPath?.[newContextPath]?.uri));
-        store.dispatch(actions.CR.Nodes.setDocumentNode(newContextPath));
-    }*/
-
     //
     // When the server has removed a node, remove it as well from the store amd the dom
     //
