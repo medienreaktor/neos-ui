@@ -2,9 +2,9 @@ name: E2E (Client, Server)
 on:
   workflow_dispatch:
   push:
-    branches: [ '9.[0-9]', '1[0-9].[0-9]' ]
-  pull_request_target:
-    branches: [ '9.[0-9]', '1[0-9].[0-9]' ]
+    branches: [ '[0-9]+.[0-9]' ]
+  pull_request:
+    branches: [ '[0-9]+.[0-9]' ]
 
 env:
   SAUCE_USERNAME: ${{secrets.SAUCE_USERNAME}}
@@ -46,12 +46,12 @@ jobs:
           - "3306:3306"
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
+    if: ${{ env.SAUCE_USERNAME && env.SAUCE_ACCESS_KEY }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        if: ${{ env.SAUCE_USERNAME && env.SAUCE_ACCESS_KEY }}
         with:
-          repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           path: ${{ env.PACKAGE_FOLDER }}
 
       - name: Setup PHP
