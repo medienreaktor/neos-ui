@@ -171,7 +171,15 @@ jobs:
 
       - name: Start e2e tunnel (in background)
         run: |
-          sc run --tunnel-name "neos-tunnel" --region "us-west-1" --proxy-localhost allow &
+          sc run --tunnel-name "neos-tunnel" --region "us-west-1" --proxy-localhost allow --api-address :8032 &
+
+      - name: Wait for e2e tunnel
+        timeout-minutes: 10
+        run: |
+          until [ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:8032/readyz)" == "200" ]
+          do
+            sleep 1
+          done
 
       - name: Run e2e tests
         run: |
