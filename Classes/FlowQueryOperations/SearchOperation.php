@@ -13,6 +13,7 @@ namespace Neos\Neos\Ui\FlowQueryOperations;
 
 use Neos\ContentRepository\Core\Projection\ContentGraph\Filter\FindDescendantNodesFilter;
 use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
+use Neos\ContentRepository\Core\SharedModel\Node\NodeAggregateId;
 use Neos\ContentRepositoryRegistry\ContentRepositoryRegistry;
 use Neos\Eel\FlowQuery\FlowQuery;
 use Neos\Eel\FlowQuery\Operations\AbstractOperation;
@@ -83,6 +84,13 @@ class SearchOperation extends AbstractOperation
             $contextNode->aggregateId,
             $filter
         );
+        $nodeAggregateIdOrNull = NodeAggregateId::tryFromString($arguments[0] ?? '');
+        if ($nodeAggregateIdOrNull !== null) {
+            $nodeByAggregateId = $subgraph->findNodeById($nodeAggregateIdOrNull);
+            if ($nodeByAggregateId !== null) {
+                $nodes = $nodes->prepend($nodeByAggregateId);
+            }
+        }
         $flowQuery->setContext(iterator_to_array($nodes));
     }
 }
