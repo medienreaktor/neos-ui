@@ -7,14 +7,21 @@ on:
     branches: [ '[0-9]+.[0-9]' ]
 
 env:
-  SAUCE_USERNAME: ${{secrets.SAUCE_USERNAME}}
-  SAUCE_ACCESS_KEY: ${{secrets.SAUCE_ACCESS_KEY}}
+  SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME || 'neoscms' }}
+  SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
   GITHUB_TOKEN: ${{ github.token }}
 
 jobs:
   build:
     name: "Browser Tests"
     runs-on: ubuntu-latest
+
+    # Workaround, only run on prs withing the repo and on branch pushes. Otherwise, the sauce secrets are not available. Not even when the secrets are defined in the fork.
+    if: |-
+      ${{ case(
+        github.event_name == 'pull_request', github.event.pull_request.head.repo.full_name == 'neos/neos-ui',
+        true
+      ) }}
 
     env:
       FLOW_CONTEXT: Production
@@ -46,11 +53,9 @@ jobs:
           - "3306:3306"
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
-    if: ${{ env.SAUCE_USERNAME && env.SAUCE_ACCESS_KEY }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        if: ${{ env.SAUCE_USERNAME && env.SAUCE_ACCESS_KEY }}
         with:
           path: ${{ env.PACKAGE_FOLDER }}
 
@@ -166,9 +171,18 @@ jobs:
 
       - name: Start e2e tunnel (in background)
         run: |
-          sc run --tunnel-name "neos-tunnel" --region "us-west-1" --proxy-localhost allow &
+          sc run --tunnel-name "neos-tunnel" --region "us-west-1" --proxy-localhost allow --api-address :8032 &
+
+      - name: Wait for e2e tunnel
+        timeout-minutes: 10 # dont wait longer
+        run: |
+          until [ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:8032/readyz)" == "200" ]
+          do
+            sleep 1
+          done
 
       - name: Run e2e tests
+        timeout-minutes: 60 # kill zombie
         run: |
           cd Packages/Application/Neos.Neos.Ui
           saucectl run --config .sauce/config.yml --tunnel-name "neos-tunnel" --region "us-west-1" --artifacts.download.directory ../../../Data/Logs/saucelabs-artifacts
