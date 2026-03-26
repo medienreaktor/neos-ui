@@ -21,6 +21,16 @@
 .dropDown__btnIcon {
     margin-right: .5em;
 }
+.dropDown__modeBadge {
+    display: inline;
+    border-radius: 4px;
+    margin-right: 4px;
+    padding-inline: 5px;
+}
+.dropDown__modeBadge--isPreviewMode {
+    background-color: var(--colors-PrimaryBlue);
+    color: white;
+}
 .dropDown__currentEditMode {
     @media(max-width: 1024px) {
         display: none;

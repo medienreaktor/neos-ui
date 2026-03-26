@@ -26,6 +26,23 @@
     display: flex;
 }
 
+.secondaryToolbar__previewBadge {
+    position: absolute;
+    left: 50%;
+    bottom: -1px;
+    display: flex;
+    align-items: center;
+    padding: 3px 5px;
+
+    background-color: #00adee;
+    transform: translateX(-50%);
+    border-radius: 4px 4px 0 0;
+
+    color: #fff;
+    font-size: var(--fontSize-Base);
+    white-space: nowrap;
+}
+
 .dimensionCategory__icon {
     margin-right: .5em;
 }

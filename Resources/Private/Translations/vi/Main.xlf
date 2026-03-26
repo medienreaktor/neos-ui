@@ -2,6 +2,26 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" product-name="Neos.Neos.Ui" source-language="en" datatype="plaintext" target-language="vi">
     <body>
+            <trans-unit id="editPreviewDropDown.editMode" xml:space="preserve">
+        <source>Edit Mode:</source>
+        <target xml:lang="vi" state="translated">Chế độ chỉnh sửa:</target>
+      </trans-unit>
+      <trans-unit id="editPreviewDropDown.previewMode" xml:space="preserve">
+        <source>Preview Mode:</source>
+        <target xml:lang="vi" state="translated">Chế độ xem trước:</target>
+      </trans-unit>
+      <trans-unit id="previewModeHint.title" xml:space="preserve">
+        <source>Preview Mode</source>
+        <target xml:lang="vi" state="translated">Chế độ xem trước</target>
+      </trans-unit>
+      <trans-unit id="previewModeHint.message" xml:space="preserve">
+        <source>You are currently in preview mode. In this mode, the page is displayed as it will appear to visitors. Editing of content is not available while preview mode is active. You can switch back to editing mode using the mode selector in the toolbar.</source>
+        <target xml:lang="vi" state="translated">Bạn đang ở chế độ xem trước. Trong chế độ này, trang được hiển thị như khi khách truy cập nhìn thấy. Không thể chỉnh sửa nội dung trong chế độ xem trước. Bạn có thể chuyển về chế độ chỉnh sửa bằng bộ chọn chế độ trên thanh công cụ.</target>
+      </trans-unit>
+      <trans-unit id="contentCanvas.previewModeBadge" xml:space="preserve">
+        <source>No editing in preview mode</source>
+        <target xml:lang="vi" state="translated">Không chỉnh sửa được trong chế độ xem trước</target>
+      </trans-unit>
       <trans-unit id="copy__from__to--title" xml:space="preserve">
         <source>Copy {source} to {target}</source>
         <target xml:lang="vi" state="needs-translation">Copy {source} to {target}</target>

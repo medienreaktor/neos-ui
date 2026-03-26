@@ -86,6 +86,7 @@ export default class ContentCanvas extends PureComponent {
         });
         const InlineUI = guestFrameRegistry.get('InlineUIComponent');
         const currentEditPreviewModeConfiguration = editPreviewModes[currentEditPreviewMode] || editPreviewModes[Object.keys(editPreviewModes)[0]];
+        const isPreviewMode = currentEditPreviewModeConfiguration?.isPreviewMode === true;
         const shouldShowInlineUi =
             typeof currentEditPreviewModeConfiguration === 'object' &&
             currentEditPreviewModeConfiguration.isEditingMode &&
@@ -119,10 +120,14 @@ export default class ContentCanvas extends PureComponent {
             <div className={classNames} style={{...canvasContentStyle, ...canvasContentOnlyStyle}}>
                 <div id="centerArea"/>
                 <div
-                    className={style.contentCanvas__itemWrapper}
+                    className={mergeClassNames({
+                        [style.contentCanvas__itemWrapper]: true,
+                        [style['contentCanvas__itemWrapper--isPreviewMode']]: isPreviewMode
+                    })}
                     style={inlineStyles}
                     data-__neos__hook="contentCanvas"
                     >
+
                     {src && (<Frame
                         src={src}
                         frameBorder="0"

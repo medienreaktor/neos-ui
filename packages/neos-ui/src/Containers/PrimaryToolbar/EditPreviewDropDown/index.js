@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import I18n, {translate} from '@neos-project/neos-ui-i18n';
+import mergeClassNames from 'classnames';
 
 import style from './style.module.css';
 import {actions, selectors} from '@neos-project/neos-ui-redux-store/src';
@@ -62,7 +63,15 @@ export default class EditPreviewModeDropDown extends PureComponent {
             <div className={style.wrapper}>
                 <DropDown className={style.dropDown}>
                     <DropDown.Header className={style.dropDown__btn}>
-                        <Icon className={style.dropDown__btnIcon} icon={currentEditMode.isEditingMode ? 'pencil' : 'eye'}/>
+                        <span className={mergeClassNames({
+                            [style.dropDown__modeBadge]: true,
+                            [style['dropDown__modeBadge--isPreviewMode']]: currentEditMode.isPreviewMode
+                        })}>
+                            <Icon className={style.dropDown__btnIcon} icon={currentEditMode.isEditingMode ? 'pencil' : 'eye'}/>
+                            {currentEditMode.isEditingMode
+                                ? translate('Neos.Neos.Ui:Main:editPreviewDropDown.editMode', 'Edit Mode:')
+                                : translate('Neos.Neos.Ui:Main:editPreviewDropDown.previewMode', 'Preview Mode:')}
+                        </span>
                         <span className={style.dropDown__currentEditMode}><I18n id={currentEditMode.title}/></span>
                     </DropDown.Header>
                     <DropDown.Contents className={style.dropDown__contents}>

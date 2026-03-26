@@ -1,0 +1,5 @@
+.previewModeHint__message {
+    padding: var(--spacing-Half) var(--spacing-Full);
+    font-size: var(--fontSize-Base);
+    line-height: 1.4;
+}

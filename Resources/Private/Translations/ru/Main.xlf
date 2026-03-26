@@ -2,6 +2,26 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" product-name="Neos.Neos.Ui" source-language="en" datatype="plaintext" target-language="ru">
     <body>
+            <trans-unit id="editPreviewDropDown.editMode" xml:space="preserve">
+        <source>Edit Mode:</source>
+        <target xml:lang="ru" state="translated">Режим редактирования:</target>
+      </trans-unit>
+      <trans-unit id="editPreviewDropDown.previewMode" xml:space="preserve">
+        <source>Preview Mode:</source>
+        <target xml:lang="ru" state="translated">Режим предпросмотра:</target>
+      </trans-unit>
+      <trans-unit id="previewModeHint.title" xml:space="preserve">
+        <source>Preview Mode</source>
+        <target xml:lang="ru" state="translated">Режим предпросмотра</target>
+      </trans-unit>
+      <trans-unit id="previewModeHint.message" xml:space="preserve">
+        <source>You are currently in preview mode. In this mode, the page is displayed as it will appear to visitors. Editing of content is not available while preview mode is active. You can switch back to editing mode using the mode selector in the toolbar.</source>
+        <target xml:lang="ru" state="translated">Вы находитесь в режиме предпросмотра. В этом режиме страница отображается так, как она будет выглядеть для посетителей. Редактирование контента недоступно в режиме предпросмотра. Вы можете вернуться в режим редактирования с помощью переключателя режимов на панели инструментов.</target>
+      </trans-unit>
+      <trans-unit id="contentCanvas.previewModeBadge" xml:space="preserve">
+        <source>No editing in preview mode</source>
+        <target xml:lang="ru" state="translated">Редактирование недоступно в режиме предпросмотра</target>
+      </trans-unit>
       <trans-unit id="copy__from__to--title" xml:space="preserve" approved="no">
         <source>Copy {source} to {target}</source>
         <target xml:lang="ru" state="translated">Скопировать {source} в {target}</target>

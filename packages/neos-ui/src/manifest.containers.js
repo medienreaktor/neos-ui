@@ -11,6 +11,7 @@ import NodeVariantCreationDialog from './Containers/Modals/NodeVariantCreationDi
 import {PublishingDialog} from './Containers/Modals/PublishingDialog/index';
 import ReloginDialog from './Containers/Modals/ReloginDialog/index';
 import KeyboardShortcutModal from './Containers/Modals/KeyboardShortcutModal/index';
+import PreviewModeHint from './Containers/Modals/PreviewModeHint/index';
 import UnappliedChangesDialog from './Containers/Modals/UnappliedChangesDialog/index';
 import {SyncWorkspaceDialog} from './Containers/Modals/SyncWorkspaceDialog/index';
 
@@ -27,6 +28,7 @@ import LoadingIndicator from './Containers/SecondaryToolbar/LoadingIndicator/ind
 import KeyboardShortcutButton from './Containers/SecondaryToolbar/KeyboardShortcutButton/index';
 import PreviewButton from './Containers/SecondaryToolbar/PreviewButton/index';
 import FullScreenButton from './Containers/SecondaryToolbar/FullScreenButton/index';
+import PreviewBadge from './Containers/SecondaryToolbar/PreviewBadge/index';
 
 import Drawer from './Containers/Drawer/index';
 import UserDropDown from './Containers/Drawer/UserDropDown/index';
@@ -58,6 +60,7 @@ manifest('main.containers', {}, globalRegistry => {
     containerRegistry.set('Modals/PublishingDialog', PublishingDialog);
     containerRegistry.set('Modals/ReloginDialog', ReloginDialog);
     containerRegistry.set('Modals/KeyboardShortcutModal', KeyboardShortcutModal);
+    containerRegistry.set('Modals/PreviewModeHint', PreviewModeHint);
     containerRegistry.set('Modals/UnappliedChangesDialog', UnappliedChangesDialog);
     containerRegistry.set('Modals/SyncWorkspaceDialog', SyncWorkspaceDialog);
 
@@ -73,6 +76,7 @@ manifest('main.containers', {}, globalRegistry => {
     containerRegistry.set('SecondaryToolbar', SecondaryToolbar);
     containerRegistry.set('SecondaryToolbar/LoadingIndicator', LoadingIndicator);
     containerRegistry.set('SecondaryToolbar/Left/Breadcrumb', Breadcrumb);
+    containerRegistry.set('SecondaryToolbar/Left/PreviewBadge', PreviewBadge);
     containerRegistry.set('SecondaryToolbar/Right/InlineEditorToolbar', InlineEditorToolbar);
     containerRegistry.set('SecondaryToolbar/Right/PreviewButton', PreviewButton);
     containerRegistry.set('SecondaryToolbar/Right/FullScreenButton', FullScreenButton);
