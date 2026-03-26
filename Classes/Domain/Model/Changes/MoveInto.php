@@ -15,6 +15,7 @@ namespace Neos\Neos\Ui\Domain\Model\Changes;
 use Neos\ContentRepository\Core\Feature\NodeMove\Command\MoveNodeAggregate;
 use Neos\ContentRepository\Core\Feature\NodeMove\Dto\RelationDistributionStrategy;
 use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
+use Neos\Neos\Ui\Domain\Model\Feedback\Operations\RemoveNode;
 use Neos\Neos\Ui\Domain\Model\Feedback\Operations\UpdateNodeInfo;
 
 /**
@@ -95,6 +96,17 @@ class MoveInto extends AbstractStructuralChange
                     $hasEqualParentNode ? null : $parentNode->aggregateId,
                 )
             );
+
+            if (!$hasEqualParentNode) {
+                // Remove the node at the old location of moving across nodes; so that we can insert it again at the new location
+                $this->feedbackCollection->add(new RemoveNode($subject, $parentNode));
+
+                if ($otherParent) {
+                    $updatePreviousParentNodeInfo = new UpdateNodeInfo();
+                    $updatePreviousParentNodeInfo->setNode($otherParent);
+                    $this->feedbackCollection->add($updatePreviousParentNodeInfo);
+                }
+            }
 
             $updateParentNodeInfo = new UpdateNodeInfo();
             $updateParentNodeInfo->setNode($parentNode);

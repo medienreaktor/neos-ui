@@ -95,6 +95,15 @@ class MoveAfter extends AbstractStructuralChange
             );
             $contentRepository->handle($command);
 
+            if (!$hasEqualParentNode) {
+                // Remove the node at the old location of moving across nodes; so that we can insert it again at the new location
+                $this->feedbackCollection->add(new RemoveNode($subject, $parentNode));
+
+                $updatePreviousParentNodeInfo = new UpdateNodeInfo();
+                $updatePreviousParentNodeInfo->setNode($parentNodeOfPreviousSibling);
+                $this->feedbackCollection->add($updatePreviousParentNodeInfo);
+            }
+
             $updateParentNodeInfo = new UpdateNodeInfo();
             $updateParentNodeInfo->setNode($parentNodeOfPreviousSibling);
             $this->feedbackCollection->add($updateParentNodeInfo);
