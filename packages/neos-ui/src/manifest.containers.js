@@ -76,10 +76,10 @@ manifest('main.containers', {}, globalRegistry => {
     containerRegistry.set('SecondaryToolbar', SecondaryToolbar);
     containerRegistry.set('SecondaryToolbar/LoadingIndicator', LoadingIndicator);
     containerRegistry.set('SecondaryToolbar/Left/Breadcrumb', Breadcrumb);
-    containerRegistry.set('SecondaryToolbar/Left/PreviewBadge', PreviewBadge);
     containerRegistry.set('SecondaryToolbar/Right/InlineEditorToolbar', InlineEditorToolbar);
     containerRegistry.set('SecondaryToolbar/Right/PreviewButton', PreviewButton);
     containerRegistry.set('SecondaryToolbar/Right/FullScreenButton', FullScreenButton);
+    containerRegistry.set('SecondaryToolbar/Right/PreviewBadge', PreviewBadge);
 
     containerRegistry.set('Drawer', Drawer);
     containerRegistry.set('Drawer/Bottom/VersionPanel', VersionPanel);

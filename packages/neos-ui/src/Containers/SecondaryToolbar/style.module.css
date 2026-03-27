@@ -27,15 +27,11 @@
 }
 
 .secondaryToolbar__previewBadge {
-    position: absolute;
-    left: 50%;
-    bottom: -1px;
     display: flex;
     align-items: center;
     padding: var(--spacing-Quarter) var(--spacing-Half);
+    margin-bottom: -1px;
 
-    transform: translateX(-50%);
-    border-radius: 4px 4px 0 0;
     background-color: var(--colors-PrimaryBlue);
 
     color: var(--colors-ContrastBrightest);
