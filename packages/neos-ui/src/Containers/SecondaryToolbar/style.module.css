@@ -32,13 +32,13 @@
     bottom: -1px;
     display: flex;
     align-items: center;
-    padding: 3px 5px;
+    padding: var(--spacing-Quarter) var(--spacing-Half);
 
-    background-color: #00adee;
     transform: translateX(-50%);
     border-radius: 4px 4px 0 0;
+    background-color: var(--colors-PrimaryBlue);
 
-    color: #fff;
+    color: var(--colors-ContrastBrightest);
     font-size: var(--fontSize-Base);
     white-space: nowrap;
 }

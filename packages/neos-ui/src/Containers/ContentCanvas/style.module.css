@@ -23,7 +23,7 @@
     transition: var(--transition-Default)  ease width, var(--transition-Default)  ease height;
 }
 .contentCanvas__itemWrapper--isPreviewMode {
-    border: 5px solid #00adee;
+    border: 5px solid var(--colors-PrimaryBlue);
 }
 
 .contentCanvas__contents {

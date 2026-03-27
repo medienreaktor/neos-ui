@@ -29,7 +29,7 @@
 }
 .dropDown__modeBadge--isPreviewMode {
     background-color: var(--colors-PrimaryBlue);
-    color: white;
+    color: var(--colors-ContrastBrightest);
 }
 .dropDown__currentEditMode {
     @media(max-width: 1024px) {
