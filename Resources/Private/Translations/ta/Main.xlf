@@ -2,26 +2,6 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="Weblate" source-language="en" datatype="plaintext">
     <body>
-      <trans-unit id="editPreviewDropDown.editMode" xml:space="preserve">
-        <source>Edit Mode:</source>
-        <target xml:lang="ta" state="translated">திருத்த முறை:</target>
-      </trans-unit>
-      <trans-unit id="editPreviewDropDown.previewMode" xml:space="preserve">
-        <source>Preview Mode:</source>
-        <target xml:lang="ta" state="translated">முன்னோட்ட முறை:</target>
-      </trans-unit>
-      <trans-unit id="previewModeHint.title" xml:space="preserve">
-        <source>Preview Mode</source>
-        <target xml:lang="ta" state="translated">முன்னோட்ட பயன்முறை</target>
-      </trans-unit>
-      <trans-unit id="previewModeHint.message" xml:space="preserve">
-        <source>You are currently in preview mode. In this mode, the page is displayed as it will appear to visitors. Editing of content is not available while preview mode is active. You can switch back to editing mode using the mode selector in the toolbar.</source>
-        <target xml:lang="ta" state="translated">நீங்கள் தற்போது முன்னோட்ட பயன்முறையில் உள்ளீர்கள். இந்த பயன்முறையில், பக்கம் பார்வையாளர்களுக்கு எவ்வாறு தோன்றும் என்பதைக் காட்டுகிறது. முன்னோட்ட பயன்முறையில் உள்ளடக்கத்தைத் திருத்த இயலாது. கருவிப்பட்டியில் உள்ள பயன்முறை தேர்வியைப் பயன்படுத்தி திருத்தும் பயன்முறைக்கு மாறலாம்.</target>
-      </trans-unit>
-      <trans-unit id="contentCanvas.previewModeBadge" xml:space="preserve">
-        <source>No editing in preview mode</source>
-        <target xml:lang="ta" state="translated">முன்னோட்ட பயன்முறையில் திருத்த இயலாது</target>
-      </trans-unit>
     </body>
   </file>
 </xliff>
