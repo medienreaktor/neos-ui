@@ -18,6 +18,7 @@ import * as NodeCreationDialog from './NodeCreationDialog';
 import * as NodeVariantCreationDialog from './NodeVariantCreationDialog';
 import * as SyncWorkspaceModal from './SyncWorkspaceModal';
 import * as ContentTree from './ContentTree';
+import * as PreviewModeHint from './PreviewModeHint';
 
 //
 // Export the reducer state shape interface
@@ -40,6 +41,7 @@ export interface State {
     nodeVariantCreationDialog: NodeVariantCreationDialog.State;
     SyncWorkspaceModal: SyncWorkspaceModal.State;
     contentTree: ContentTree.State;
+    previewModeHintDismissed: PreviewModeHint.State;
 }
 
 //
@@ -63,7 +65,8 @@ export const actionTypes = {
     NodeCreationDialog: NodeCreationDialog.actionTypes,
     NodeVariantCreationDialog: NodeVariantCreationDialog.actionTypes,
     SyncWorkspaceModal: SyncWorkspaceModal.actionTypes,
-    ContentTree: ContentTree.actionTypes
+    ContentTree: ContentTree.actionTypes,
+    PreviewModeHint: PreviewModeHint.actionTypes
 } as const;
 
 //
@@ -87,7 +90,8 @@ export const actions = {
     NodeCreationDialog: NodeCreationDialog.actions,
     NodeVariantCreationDialog: NodeVariantCreationDialog.actions,
     SyncWorkspaceModal: SyncWorkspaceModal.actions,
-    ContentTree: ContentTree.actions
+    ContentTree: ContentTree.actions,
+    PreviewModeHint: PreviewModeHint.actions
 } as const;
 
 //
@@ -110,7 +114,8 @@ export const reducer = combineReducers({
     nodeCreationDialog: NodeCreationDialog.reducer,
     nodeVariantCreationDialog: NodeVariantCreationDialog.reducer,
     SyncWorkspaceModal: SyncWorkspaceModal.reducer,
-    contentTree: ContentTree.reducer
+    contentTree: ContentTree.reducer,
+    previewModeHintDismissed: PreviewModeHint.reducer
 } as any); // TODO: when we update redux, this shouldn't be necessary https://github.com/reduxjs/redux/issues/2709#issuecomment-357328709
 
 //
@@ -133,5 +138,6 @@ export const selectors = {
     NodeCreationDialog: NodeCreationDialog.selectors,
     NodeVariantCreationDialog: NodeVariantCreationDialog.selectors,
     SyncWorkspaceModal: SyncWorkspaceModal.selectors,
-    ContentTree: ContentTree.selectors
+    ContentTree: ContentTree.selectors,
+    PreviewModeHint: PreviewModeHint.selectors
 } as const;

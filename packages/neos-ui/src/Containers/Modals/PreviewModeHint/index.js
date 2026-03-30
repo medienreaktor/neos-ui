@@ -2,21 +2,24 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {selectors} from '@neos-project/neos-ui-redux-store';
+import {selectors, actions} from '@neos-project/neos-ui-redux-store';
 import {translate} from '@neos-project/neos-ui-i18n';
 import {getConfiguration} from '@neos-project/neos-ui-configuration';
 
 import {Dialog, Button} from '@neos-project/react-ui-components';
 import style from './style.module.css';
 
-export const LOCAL_STORAGE_KEY = 'neos-previewModeHintDismissed';
-
 @connect(state => ({
-    editPreviewMode: selectors.UI.EditPreviewMode.currentEditPreviewMode(state)
+    editPreviewMode: selectors.UI.EditPreviewMode.currentEditPreviewMode(state),
+    previewModeHintDismissed: selectors.UI.PreviewModeHint.isDismissed(state)
+}), dispatch => ({
+    dismissPreviewModeHint: () => dispatch(actions.UI.PreviewModeHint.dismiss())
 }))
 class PreviewModeHint extends PureComponent {
     static propTypes = {
-        editPreviewMode: PropTypes.string.isRequired
+        editPreviewMode: PropTypes.string.isRequired,
+        previewModeHintDismissed: PropTypes.bool,
+        dismissPreviewModeHint: PropTypes.func.isRequired
     }
 
     state = {
@@ -34,17 +37,17 @@ class PreviewModeHint extends PureComponent {
     }
 
     checkPreviewMode() {
-        const {editPreviewMode} = this.props;
+        const {editPreviewMode, previewModeHintDismissed} = this.props;
         const editPreviewModes = getConfiguration(c => c.editPreviewModes);
         const currentMode = editPreviewModes[editPreviewMode];
 
-        if (currentMode?.isPreviewMode && !localStorage.getItem(LOCAL_STORAGE_KEY)) {
+        if (currentMode?.isPreviewMode && !previewModeHintDismissed) {
             this.setState({isOpen: true});
         }
     }
 
     handleClose = () => {
-        localStorage.setItem(LOCAL_STORAGE_KEY, 'true');
+        this.props.dismissPreviewModeHint();
         this.setState({isOpen: false});
     }
 

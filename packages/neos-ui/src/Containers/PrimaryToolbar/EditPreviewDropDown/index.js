@@ -59,18 +59,20 @@ export default class EditPreviewModeDropDown extends PureComponent {
         const editingModes = editPreviewModesList.filter(mode => mode !== null && mode.isEditingMode && mode.id !== mode);
         const previewModes = editPreviewModesList.filter(mode => mode !== null && mode.isPreviewMode && mode.id !== mode);
 
+        const currentEditModeIsPreviewMode = currentEditMode.isPreviewMode && !currentEditMode.isEditingMode;
+
         return (
             <div className={style.wrapper}>
                 <DropDown className={style.dropDown}>
                     <DropDown.Header className={style.dropDown__btn}>
                         <span className={mergeClassNames({
                             [style.dropDown__modeBadge]: true,
-                            [style['dropDown__modeBadge--isPreviewMode']]: currentEditMode.isPreviewMode
+                            [style['dropDown__modeBadge--isPreviewMode']]: currentEditModeIsPreviewMode
                         })}>
-                            <Icon className={style.dropDown__btnIcon} icon={currentEditMode.isEditingMode ? 'pencil' : 'eye'}/>
-                            {currentEditMode.isEditingMode
-                                ? translate('Neos.Neos.Ui:Main:editPreviewDropDown.editMode', 'Edit Mode:')
-                                : translate('Neos.Neos.Ui:Main:editPreviewDropDown.previewMode', 'Preview Mode:')}
+                            <Icon className={style.dropDown__btnIcon} icon={currentEditModeIsPreviewMode ? 'eye' : 'pencil'}/>
+                            {currentEditModeIsPreviewMode
+                                ? translate('Neos.Neos.Ui:Main:editPreviewDropDown.previewMode', 'Preview Mode:')
+                                : translate('Neos.Neos.Ui:Main:editPreviewDropDown.editMode', 'Edit Mode:')}
                         </span>
                         <span className={style.dropDown__currentEditMode}><I18n id={currentEditMode.title}/></span>
                     </DropDown.Header>
