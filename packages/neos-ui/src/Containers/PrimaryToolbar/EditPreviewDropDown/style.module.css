@@ -27,9 +27,8 @@
     margin-right: 4px;
     padding-inline: 5px;
 }
-.dropDown__modeBadge--isPreviewMode {
-    background-color: var(--colors-PrimaryBlue);
-    color: var(--colors-ContrastBrightest);
+.dropDown__modeBadge--isPreviewMode svg {
+    color: var(--colors-PrimaryBlue);
 }
 .dropDown__currentEditMode {
     @media(max-width: 1024px) {
