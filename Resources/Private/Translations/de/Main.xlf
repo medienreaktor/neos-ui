@@ -11,8 +11,8 @@
         <target xml:lang="de" state="translated">Vorschaumodus:</target>
       </trans-unit>
       <trans-unit id="contentCanvas.previewModeBadge" xml:space="preserve">
-        <source>No editing in preview mode</source>
-        <target xml:lang="de" state="translated">Keine Bearbeitung im Vorschaumodus</target>
+        <source>View-only Mode</source>
+        <target xml:lang="de" state="translated">Nur-Lese-Modus</target>
       </trans-unit>
       <trans-unit id="copy__from__to--title" xml:space="preserve" approved="no">
         <source>Copy {source} to {target}</source>
