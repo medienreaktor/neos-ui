@@ -7,8 +7,11 @@ type NodeConfiguration = Record<string, any>;
 export default function preprocessNodeConfiguration(
     // FIXME: Create better Node typings (Inspector has a real Node while CreationDialog has a transientNode)
     context: { node: NodeChild, parentNode: Node },
-    configuration: NodeConfiguration,
+    configuration?: NodeConfiguration,
 ): NodeConfiguration {
+    if (!configuration) {
+        return {}
+    }
     return Object.keys(configuration).reduce((config, propertyKey) => {
         const propertyValue = config[propertyKey];
 
