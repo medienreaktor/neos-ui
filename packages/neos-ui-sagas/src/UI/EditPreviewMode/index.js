@@ -19,12 +19,3 @@ export function * watchEditPreviewModesChanged() {
         getGuestFrameWindow().location.href = currentIframeUrl;
     });
 }
-
-/**
- * Persist preview mode hint dismissal to the server
- */
-export function * watchPreviewModeHintDismissed() {
-    yield takeLatest(actionTypes.UI.PreviewModeHint.DISMISS, function * () {
-        yield backend.get().endpoints.setUserPreferences('contentEditing.previewModeHintDismissed', true);
-    });
-}

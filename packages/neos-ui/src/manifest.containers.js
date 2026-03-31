@@ -11,7 +11,6 @@ import NodeVariantCreationDialog from './Containers/Modals/NodeVariantCreationDi
 import {PublishingDialog} from './Containers/Modals/PublishingDialog/index';
 import ReloginDialog from './Containers/Modals/ReloginDialog/index';
 import KeyboardShortcutModal from './Containers/Modals/KeyboardShortcutModal/index';
-import PreviewModeHint from './Containers/Modals/PreviewModeHint/index';
 import UnappliedChangesDialog from './Containers/Modals/UnappliedChangesDialog/index';
 import {SyncWorkspaceDialog} from './Containers/Modals/SyncWorkspaceDialog/index';
 
@@ -60,7 +59,6 @@ manifest('main.containers', {}, globalRegistry => {
     containerRegistry.set('Modals/PublishingDialog', PublishingDialog);
     containerRegistry.set('Modals/ReloginDialog', ReloginDialog);
     containerRegistry.set('Modals/KeyboardShortcutModal', KeyboardShortcutModal);
-    containerRegistry.set('Modals/PreviewModeHint', PreviewModeHint);
     containerRegistry.set('Modals/UnappliedChangesDialog', UnappliedChangesDialog);
     containerRegistry.set('Modals/SyncWorkspaceDialog', SyncWorkspaceDialog);
 

@@ -71,7 +71,6 @@ manifest('main.sagas', {}, globalRegistry => {
     sagasRegistry.set('neos-ui/UI/ContentTree/watchCurrentDocument', {saga: uiContentTree.watchCurrentDocument});
 
     sagasRegistry.set('neos-ui/UI/EditPreviewMode/watchEditPreviewModesChanged', {saga: uiEditPreviewMode.watchEditPreviewModesChanged});
-    sagasRegistry.set('neos-ui/UI/EditPreviewMode/watchPreviewModeHintDismissed', {saga: uiEditPreviewMode.watchPreviewModeHintDismissed});
 
     sagasRegistry.set('neos-ui/UI/Inspector/inspectorSaga', {saga: uiInspector.inspectorSaga});
 

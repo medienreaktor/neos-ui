@@ -8,12 +8,6 @@
             <trans-unit id="editPreviewDropDown.previewMode" xml:space="preserve">
                 <source>Preview Mode:</source>
             </trans-unit>
-            <trans-unit id="previewModeHint.title" xml:space="preserve">
-                <source>Preview Mode</source>
-            </trans-unit>
-            <trans-unit id="previewModeHint.message" xml:space="preserve">
-                <source>You are currently in preview mode. In this mode, the page is displayed as it will appear to visitors. Editing of content is not available while preview mode is active. You can switch back to editing mode using the mode selector in the toolbar.</source>
-            </trans-unit>
             <trans-unit id="contentCanvas.previewModeBadge" xml:space="preserve">
                 <source>No editing in preview mode</source>
             </trans-unit>

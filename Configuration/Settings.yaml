@@ -170,7 +170,6 @@ Neos:
             backgroundColor: '${Configuration.setting(''Neos.Neos.Ui.contentCanvas.backgroundColor'')}'
           debugMode: false
           editPreviewMode: '${q(user).property("preferences.preferences")["contentEditing.editPreviewMode"] || Configuration.setting(''Neos.Neos.userInterface.defaultEditPreviewMode'')}'
-          previewModeHintDismissed: '${q(user).property("preferences.preferences")["contentEditing.previewModeHintDismissed"] || thefalse}'
           fullScreen:
             isFullScreen: false
           leftSideBar:

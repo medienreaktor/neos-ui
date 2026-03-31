@@ -86,7 +86,7 @@ export default class ContentCanvas extends PureComponent {
         });
         const InlineUI = guestFrameRegistry.get('InlineUIComponent');
         const currentEditPreviewModeConfiguration = editPreviewModes[currentEditPreviewMode] || editPreviewModes[Object.keys(editPreviewModes)[0]];
-        const isPreviewMode = currentEditPreviewModeConfiguration?.isPreviewMode === true;
+        const isPreviewMode = currentEditPreviewModeConfiguration?.isPreviewMode && !currentEditPreviewModeConfiguration?.isEditingMode;
         const shouldShowInlineUi =
             typeof currentEditPreviewModeConfiguration === 'object' &&
             currentEditPreviewModeConfiguration.isEditingMode &&

@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -8,28 +8,26 @@ import {getConfiguration} from '@neos-project/neos-ui-configuration';
 
 import style from '../style.module.css';
 
-@connect(state => ({
-    currentEditPreviewMode: selectors.UI.EditPreviewMode.currentEditPreviewMode(state)
-}))
-export default class PreviewBadge extends PureComponent {
-    static propTypes = {
-        currentEditPreviewMode: PropTypes.string.isRequired
-    };
+const PreviewBadge = ({currentEditPreviewMode}) => {
+    const editPreviewModes = getConfiguration(c => c.editPreviewModes);
+    const currentMode = editPreviewModes[currentEditPreviewMode];
+    const isPreviewMode = currentMode?.isPreviewMode === true;
 
-    render() {
-        const {currentEditPreviewMode} = this.props;
-        const editPreviewModes = getConfiguration(c => c.editPreviewModes);
-        const currentMode = editPreviewModes[currentEditPreviewMode];
-        const isPreviewMode = currentMode?.isPreviewMode === true;
-
-        if (!isPreviewMode) {
-            return null;
-        }
-
-        return (
-            <div className={style.secondaryToolbar__previewBadge}>
-                {translate('Neos.Neos.Ui:Main:contentCanvas.previewModeBadge', 'No editing in preview mode')}
-            </div>
-        );
+    if (!isPreviewMode) {
+        return null;
     }
-}
+
+    return (
+        <div className={style.secondaryToolbar__previewBadge}>
+            {translate('Neos.Neos.Ui:Main:contentCanvas.previewModeBadge', 'No editing in preview mode')}
+        </div>
+    );
+};
+
+PreviewBadge.propTypes = {
+    currentEditPreviewMode: PropTypes.string.isRequired
+};
+
+export default connect(state => ({
+    currentEditPreviewMode: selectors.UI.EditPreviewMode.currentEditPreviewMode(state)
+}))(PreviewBadge);
