@@ -2,8 +2,6 @@ import uuid from 'uuid';
 
 import {actions, selectors} from '@neos-project/neos-ui-redux-store';
 
-import {parentNodeContextPath} from '@neos-project/neos-ui-redux-store/src/CR/Nodes/helpers';
-
 import manifest from '@neos-project/neos-ui-extensibility';
 import {SynchronousRegistry, SynchronousMetaRegistry} from '@neos-project/neos-ui-registry';
 
@@ -231,70 +229,6 @@ manifest('main', {}, (globalRegistry, {routes}) => {
     //
     serverFeedbackHandlers.set('Neos.Neos.Ui:UpdateNodeInfo/Main', (feedbackPayload, {store}) => {
         store.dispatch(actions.CR.Nodes.merge(feedbackPayload.byContextPath));
-    });
-
-    //
-    // When the server has updated node path, apply it to the store
-    //
-    serverFeedbackHandlers.set('Neos.Neos.Ui:UpdateNodePath/Main', ({oldContextPath, newContextPath}, {store}) => {
-        let currentDocumentNodeMoved = false;
-        const parentContextPath = parentNodeContextPath(oldContextPath);
-
-        const state = store.getState();
-        if (state?.cr?.nodes?.focused?.contextPath === oldContextPath) {
-            store.dispatch(actions.CR.Nodes.unFocus());
-        }
-
-        if (state?.ui?.pageTree?.isFocused === oldContextPath) {
-            store.dispatch(actions.UI.PageTree.focus(parentContextPath));
-        }
-
-        // If we are moving the current document node or one of its parents...
-        const [oldPath] = oldContextPath.split('@');
-        const currentDocumentNodePath = state?.cr?.nodes?.documentNode;
-        if (currentDocumentNodePath && (currentDocumentNodePath === oldContextPath || currentDocumentNodePath.split('@')[0].startsWith(oldPath + '/'))) {
-            currentDocumentNodeMoved = true;
-            let redirectContextPath = oldContextPath;
-            let redirectUri = null;
-            // Determine closest parent that is not being moved
-            while (!redirectUri) {
-                redirectContextPath = parentNodeContextPath(redirectContextPath);
-                // This is an extreme case when even the top node does not exist in the given dimension
-                // TODO: still find a nicer way to break out of this situation
-                if (redirectContextPath === false) {
-                    window.location.href = routes?.core?.modules?.defaultModule;
-                    break;
-                }
-                redirectUri = state?.cr?.nodes?.byContextPath?.[redirectContextPath]?.uri;
-            }
-
-            // Temporarily set the document node to the moved nodes parent before updating its path
-            store.dispatch(actions.CR.Nodes.setDocumentNode(redirectContextPath));
-        }
-
-        store.dispatch(actions.CR.Nodes.updatePath(oldContextPath, newContextPath));
-
-        // If we moved the current node we have to read the preview uri again and then redirect the content frame
-        // and also update the selected document node
-        if (currentDocumentNodeMoved) {
-            const newState = store.getState();
-            store.dispatch(actions.UI.ContentCanvas.setSrc(newState?.cr?.nodes?.byContextPath?.[newContextPath]?.uri));
-            store.dispatch(actions.CR.Nodes.setDocumentNode(newContextPath));
-        }
-
-        // Remove the node from the old position in the dom
-        if (state?.cr?.nodes?.documentNode !== oldContextPath) {
-            findAllOccurrencesOfNodeInGuestFrame(oldContextPath).forEach(el => {
-                const closestContentCollection = el.closest('.neos-contentcollection');
-                el.remove();
-
-                createEmptyContentCollectionPlaceholderIfMissing(closestContentCollection);
-
-                dispatchCustomEvent('Neos.NodeRemoved', 'Node was removed.', {
-                    element: el
-                });
-            });
-        }
     });
 
     //
