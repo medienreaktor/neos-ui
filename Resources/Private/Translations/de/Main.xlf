@@ -2,6 +2,18 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" product-name="Neos.Neos.Ui" source-language="en" datatype="plaintext" target-language="de">
     <body>
+      <trans-unit id="editPreviewDropDown.editMode" xml:space="preserve">
+        <source>Edit Mode:</source>
+        <target xml:lang="de" state="translated">Bearbeitungsmodus:</target>
+      </trans-unit>
+      <trans-unit id="editPreviewDropDown.previewMode" xml:space="preserve">
+        <source>Preview Mode:</source>
+        <target xml:lang="de" state="translated">Vorschaumodus:</target>
+      </trans-unit>
+      <trans-unit id="contentCanvas.previewModeBadge" xml:space="preserve">
+        <source>View-only Mode</source>
+        <target xml:lang="de" state="translated">Nur-Lese-Modus</target>
+      </trans-unit>
       <trans-unit id="copy__from__to--title" xml:space="preserve" approved="no">
         <source>Copy {source} to {target}</source>
         <target xml:lang="de" state="translated">{source} zu {target} kopieren</target>
@@ -406,7 +418,8 @@
       </trans-unit>
       <trans-unit id="inspectorMutlipleDocumentNodesSelectedTooltip" xml:space="preserve">
         <source>Select a single content element in order to be able to edit its properties</source>
-        <target state="translated">Wählen Sie ein einzelnes Inhaltselement aus, um dessen Eigenschaften zu bearbeiten</target>
+        <target
+          state="translated">Wählen Sie ein einzelnes Inhaltselement aus, um dessen Eigenschaften zu bearbeiten</target>
       </trans-unit>
       <trans-unit id="nodes" xml:space="preserve">
         <source>nodes</source>
