@@ -20,6 +20,7 @@ use Neos\ContentRepository\Core\Feature\NodeReferencing\Command\SetNodeReference
 use Neos\ContentRepository\Core\Feature\NodeReferencing\Dto\NodeReferencesForName;
 use Neos\ContentRepository\Core\Feature\NodeReferencing\Dto\NodeReferencesToWrite;
 use Neos\ContentRepository\Core\Feature\NodeTypeChange\Command\ChangeNodeAggregateType;
+use Neos\ContentRepository\Core\Feature\NodeTypeChange\Dto\NodeAggregateTypeChangeChildConstraintConflictResolutionMarkWithTagStrategy;
 use Neos\ContentRepository\Core\Feature\NodeTypeChange\Dto\NodeAggregateTypeChangeChildConstraintConflictResolutionStrategy;
 use Neos\ContentRepository\Core\Feature\NodeVariation\Command\CreateNodeVariant;
 use Neos\ContentRepository\Core\Feature\SubtreeTagging\Command\TagSubtree;
@@ -285,12 +286,18 @@ class Property extends AbstractChange
         /** @var string $value */
         $value = $this->nodePropertyConversionService->convert('string', $this->getValue());
 
+        $strategy = NodeAggregateTypeChangeChildConstraintConflictResolutionStrategy::STRATEGY_DELETE;
+        if (class_exists(NodeAggregateTypeChangeChildConstraintConflictResolutionMarkWithTagStrategy::class)) {
+            // starting with https://github.com/neos/neos-development-collection/pull/5767, this fixes a bug
+            // when publishing node type changes.
+            $strategy = new NodeAggregateTypeChangeChildConstraintConflictResolutionMarkWithTagStrategy(NeosSubtreeTag::removed());
+        }
         $contentRepository->handle(
             ChangeNodeAggregateType::create(
                 $subject->workspaceName,
                 $subject->aggregateId,
                 NodeTypeName::fromString($value),
-                NodeAggregateTypeChangeChildConstraintConflictResolutionStrategy::STRATEGY_DELETE
+                $strategy,
             )
         );
     }
