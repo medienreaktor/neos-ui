@@ -107,12 +107,19 @@ export enum WorkspaceStatus {
     OUTDATED = 'OUTDATED'
 }
 
+export enum PropertyScope {
+    NODE = 'node',
+    NODE_AGGREGATE = 'nodeAggregate',
+    SPECIALIZATIONS = 'specializations'
+}
+
 export interface ValidatorConfiguration {
     [propName: string]: any;
 }
 
 export interface PropertyConfiguration {
     type?: string;
+    scope?: PropertyScope;
     ui?: {
         label?: string;
         reloadIfChanged?: boolean;
@@ -145,6 +152,7 @@ export interface PropertyConfiguration {
 }
 export interface ReferencesConfiguration {
     type?: string;
+    scope?: PropertyScope;
     ui?: {
         label?: string;
         reloadIfChanged?: boolean;
