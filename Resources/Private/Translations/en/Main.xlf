@@ -395,13 +395,13 @@
                 <source>Add content</source>
             </trans-unit>
             <trans-unit id="propertyScope.node" xml:space="preserve">
-                <source>Changes to this property scope will affect only the current variant.</source>
+                <source>Changes to this property will affect only the current variant.</source>
             </trans-unit>
             <trans-unit id="propertyScope.nodeAggregate" xml:space="preserve">
-                <source>Changes to this property scope will affect all variants.</source>
+                <source>Changes to this property will affect all variants.</source>
             </trans-unit>
             <trans-unit id="propertyScope.specializations" xml:space="preserve">
-                <source>Changes to this property scope will affect all specialization variants.</source>
+                <source>Changes to this property will affect all specialization variants.</source>
             </trans-unit>
         </body>
     </file>

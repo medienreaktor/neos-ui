@@ -607,15 +607,15 @@
       </trans-unit>
       <trans-unit id="propertyScope.node" xml:space="preserve">
         <source>Changes to this property scope will affect only the current variant.</source>
-        <target state="translated">Änderungen an diesem Eigenschaftsbereich wirken sich nur auf die aktuelle Variante aus.</target>
+        <target state="translated">Änderungen an dieser Eigenschaft wirken sich nur auf die aktuelle Variante aus.</target>
       </trans-unit>
       <trans-unit id="propertyScope.nodeAggregate" xml:space="preserve">
         <source>Changes to this property scope will affect all variants.</source>
-        <target>Änderungen an diesem Eigenschaftsbereich wirken sich auf alle Varianten aus.</target>
+        <target state="translated">Änderungen an dieser Eigenschaft wirken sich auf alle Varianten aus.</target>
       </trans-unit>
       <trans-unit id="propertyScope.specializations" xml:space="preserve">
         <source>Changes to this property scope will affect all specialization variants.</source>
-        <target>Änderungen an diesem Eigenschaftsbereich wirken sich auf alle Spezialisierungsvarianten aus.</target>
+        <target state="translated">Änderungen an dieser Eigenschaft wirken sich auf alle Spezialisierungsvarianten aus.</target>
       </trans-unit>
     </body>
   </file>
