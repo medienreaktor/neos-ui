@@ -216,7 +216,7 @@ export default class NodeTypesRegistry extends SynchronousRegistry<NodeType> {
                                     hidden: property.ui?.inspector?.hidden,
                                     helpMessage: property.ui?.help?.message,
                                     helpThumbnail: property.ui?.help?.thumbnail,
-                                    scope: property.scope,
+                                    scope: property.scope
                                 })
                             ),
                         ...references.filter(p => p.ui?.inspector?.group === group.id)
@@ -230,7 +230,7 @@ export default class NodeTypesRegistry extends SynchronousRegistry<NodeType> {
                                     hidden: reference.ui?.inspector?.hidden,
                                     helpMessage: reference.ui?.help?.message,
                                     helpThumbnail: reference.ui?.help?.thumbnail,
-                                    scope: reference.scope,
+                                    scope: reference.scope
                                 })
                             ),
                         ...views.filter(v => v.group === group.id)
