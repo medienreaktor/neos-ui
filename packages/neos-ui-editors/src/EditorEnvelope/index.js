@@ -109,8 +109,8 @@ export default class EditorEnvelope extends PureComponent {
         return (
             <Label className={style.envelope__label} htmlFor={this.generateIdentifier()}>
                 <I18n id={label}/>
-                {this.renderHelpIcon()}
                 {this.renderScopeIcon()}
+                {this.renderHelpIcon()}
             </Label>
         );
     }
