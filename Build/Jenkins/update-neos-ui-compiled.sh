@@ -48,13 +48,23 @@ cd tmp_compiled_pkg
 git add Resources/Public/
 git commit -m "Compile Neos UI - $GIT_SHA1" || true
 
-if [[ "$GIT_BRANCH" == "origin/7.3" || "$GIT_BRANCH" == "origin/8.0" || "$GIT_BRANCH" == "origin/8.1" || "$GIT_BRANCH" == "origin/8.2" || "$GIT_BRANCH" == "origin/8.3" || "$GIT_BRANCH" == "origin/8.4" || "$GIT_BRANCH" == "origin/9.0" ]]; then
-    echo "Git branch $GIT_BRANCH found, pushing to this branch."
+BRANCH_OR_TAG_PUSHED=0
+
+BASE_BRANCH_PATTERN="^origin\/[0-9]+\.[0-9]$"
+if [[ "$GIT_BRANCH" =~ $BASE_BRANCH_PATTERN ]]; then
+    echo "Git branch '$GIT_BRANCH' matches pattern, pushing to this branch."
     git push origin HEAD:${GIT_BRANCH#*/}
+    BRANCH_OR_TAG_PUSHED=1
 fi
 
 if [ "$GIT_TAG" != "" ]; then
     echo "Git tag $GIT_TAG found; also tagging the UI-compiled package."
     git tag -a -m "$GIT_TAG" $GIT_TAG
     git push origin $GIT_TAG
+    BRANCH_OR_TAG_PUSHED=1
+fi
+
+if [[ BRANCH_OR_TAG_PUSHED -eq 0 ]]; then
+  echo "Git branch '$GIT_BRANCH' is not a valid development git branch like ('origin/X.X') and git tag is empty '$GIT_TAG'"
+  exit 1
 fi
