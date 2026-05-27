@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SelectBox_Option_MultiLineWithThumbnail/> should render correctly. 1`] = `
+<ThemedListPreviewElement
+  ListPreviewElement={[Function]}
+  className=""
+  icon="<i class=\\"fas fa-question\\"></i>"
+  onClick={[MockFunction]}
+  option={
+    Object {
+      "label": "Bar label",
+    }
+  }
+>
+  <img
+    alt="Foo label"
+    src="https://some.image.uri/foo.png"
+  />
+  <span
+    title="Foo title"
+  >
+    Foo label
+  </span>
+  <span
+    title="Foo secondary label"
+  >
+    Foo secondary label
+  </span>
+  <span
+    title="Foo tertiary label"
+  >
+    Foo tertiary label
+  </span>
+</ThemedListPreviewElement>
+`;
