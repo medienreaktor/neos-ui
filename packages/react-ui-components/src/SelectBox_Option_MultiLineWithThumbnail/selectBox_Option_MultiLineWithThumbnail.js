@@ -11,6 +11,7 @@ class SelectBox_Option_MultiLineWithThumbnail extends PureComponent {
         tertiaryLabel: PropTypes.string,
         imageUri: PropTypes.string,
         icon: PropTypes.string,
+        title: PropTypes.string,
 
         className: PropTypes.string,
 
@@ -29,6 +30,7 @@ class SelectBox_Option_MultiLineWithThumbnail extends PureComponent {
             secondaryLabel,
             tertiaryLabel,
             imageUri,
+            title,
             icon,
             className,
             theme,
@@ -44,7 +46,7 @@ class SelectBox_Option_MultiLineWithThumbnail extends PureComponent {
         return (
             <ListPreviewElement {...rest} icon={icon} className={finalClassNames}>
                 {Boolean(imageUri) && <img src={imageUri} alt={label} className={theme.multiLineWithThumbnail__image}/>}
-                <span title={label}>{label}</span>
+                <span title={title ? title : label}>{label}</span>
                 {Boolean(secondaryLabel) && <span className={theme.multiLineWithThumbnail__secondaryLabel} title={secondaryLabel}>{secondaryLabel}</span>}
                 {Boolean(tertiaryLabel) && <span className={theme.multiLineWithThumbnail__tertiaryLabel} title={tertiaryLabel}>{tertiaryLabel}</span>}
             </ListPreviewElement>
