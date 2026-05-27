@@ -17,6 +17,12 @@ describe(`preprocessing NodeConfiguration`, () => {
         expect(processedConfig).toEqual({});
     });
 
+    test(`empty configuration via null`, () => {
+        const processedConfig = preprocessNodeConfiguration(context, null);
+
+        expect(processedConfig).toEqual({});
+    });
+
     test(`creation dialog configuration without clientEval`, () => {
         const givenConfig = {
             elements: {
