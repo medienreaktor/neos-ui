@@ -49,7 +49,7 @@ function getLocaleFromLinkTag(link: HTMLLinkElement) {
         throw I18nCouldNotBeInitialized
             .becauseRouteLinkHasNoLocale();
     }
-    return locale;
+    return locale.replace('_', '-');
 }
 
 function getLinkTag() {
