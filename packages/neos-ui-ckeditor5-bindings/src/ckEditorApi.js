@@ -7,7 +7,7 @@ import {createElement} from '@ckeditor/ckeditor5-utils';
 
 import {cleanupContentBeforeCommit} from './cleanupContentBeforeCommit'
 
-import '@ckeditor/ckeditor5-theme-lark/dist/index.css';
+import '@ckeditor/ckeditor5-ui/dist/index.css';
 import '@ckeditor/ckeditor5-clipboard/dist/index.css';
 import '@ckeditor/ckeditor5-core/dist/index.css';
 import '@ckeditor/ckeditor5-engine/dist/index.css';
@@ -166,7 +166,12 @@ export const createEditor = () => async options => {
     }
 
     return NeosEditor
-        .create(propertyDomNode, ckEditorConfig)
+        .create({
+            root: {
+                element: propertyDomNode,
+            },
+            ...ckEditorConfig
+        })
         .then(editor => {
             const debouncedOnChange = debounce(() => onChange(cleanupContentBeforeCommit(editor.getData())), 1500, {maxWait: 5000});
             editor.model.document.on('change:data', debouncedOnChange);
