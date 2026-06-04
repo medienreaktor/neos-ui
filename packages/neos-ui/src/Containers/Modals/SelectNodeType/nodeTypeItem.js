@@ -78,7 +78,7 @@ class NodeTypeItem extends PureComponent {
                         <I18n id={label} fallback={label}/>
                     </span>
                 </Button>
-                {helpMessage ? <IconButton className={style.nodeType__helpIcon} onClick={() => onHelpMessage(name, groupName)} icon="question-circle" /> : null}
+                {helpMessage ? <IconButton data-testid={`help-button-for-${label}`} className={style.nodeType__helpIcon} onClick={() => onHelpMessage(name, groupName)} icon="question-circle" /> : null}
             </div>
         );
     }
