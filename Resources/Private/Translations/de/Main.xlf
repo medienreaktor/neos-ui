@@ -605,6 +605,10 @@
         <source>More</source>
         <target state="needs-translation" state-qualifier="leveraged-mt">Mehr</target>
       </trans-unit>
+      <trans-unit id="publishing" xml:space="preserve">
+        <source>Publishing…</source>
+        <target>Veröffentlichen…</target>
+      </trans-unit>
       <trans-unit id="propertyScope.node" xml:space="preserve">
         <source>Changes to this property scope will affect only the current variant.</source>
         <target state="translated">Änderungen an dieser Eigenschaft wirken sich nur auf die aktuelle Variante aus.</target>
