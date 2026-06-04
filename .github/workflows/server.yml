@@ -120,7 +120,7 @@ jobs:
         run: |
           FLOW_CONTEXT=Testing/Behat ./flow doctrine:migrate --quiet
           cd Packages/Application/Neos.Neos.Ui
-          composer run test:behavioral
+          FLOW_CONTEXT=Testing/Behat composer run test:behavioral
 
       - name: Show Flow logs and exceptions on failure
         if: ${{ failure()  }}

@@ -1,0 +1,96 @@
+name: E2E Tests
+on:
+  workflow_dispatch:
+  # Each E2E test run targets a specific Neos version.
+  # The SUT installs neos in the version tagged in the SUT's composer.json on that branch.
+  # This might get out of sync - e.g. if we forget to update the SUT's composer.json when we up-merge.
+  #
+  # For now, we keep it simple and do not derive the SUT's neos version from the target branch name.
+  # Also keep the current `branches` regex, though we could pin it to the exact branch.
+  # Let's see if we run into problems and react then.
+  push:
+    branches: [ '[0-9]+.[0-9]' ]
+  pull_request:
+    branches: [ '[0-9]+.[0-9]' ]
+
+jobs:
+  test:
+    name: "Browser Tests"
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Node for Neos UI
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache-dependency-path: 'yarn.lock'
+          cache: 'yarn'
+
+      - name: Install Neos UI dependencies
+        run: make install
+
+      - name: Build Neos UI
+        run: make build
+
+      - name: Setup Node for E2E tests
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: 'Tests/E2E/.nvmrc'
+          cache: 'npm'
+          cache-dependency-path: 'Tests/E2E/package-lock.json'
+
+      - name: Install E2E tests dependencies
+        working-directory: Tests/E2E
+        run: npm ci
+
+        # From official Playwright Docs:
+        #   Caching browser binaries is not recommended, since the amount of time it takes to restore the cache is
+        #   comparable to the time it takes to download the binaries.
+        # Should we enable sharding or matrix we could consider caching the browsers, but for now we keep it disabled.
+      - name: Install Playwright browsers
+        working-directory: Tests/E2E
+        run: npx playwright install --with-deps
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Pre-build SUT Docker image (with persistent layer cache)
+        # Builds the SUT image once and persists layers in GitHub's actions cache (`type=gha`).
+        # Subsequent runs restore layers from the cache, dropping the build from ~3 min to ~30-60s whenever the
+        # Dockerfile and overrides have not changed.
+        #   `load: true` exposes the tagged image to the local Docker daemon so `docker compose up` (in the Playwright
+        #   webServer) finds it without rebuilding.
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: Tests/E2E/system_under_test/Dockerfile
+          # SUT tag for 9.0 branch
+          tags: neos-ui-e2e-sut:9.0
+          load: true
+          cache-from: type=gha,scope=sut
+          cache-to: type=gha,mode=max,scope=sut
+
+      - name: Map test site hostnames to localhost
+        # Ubuntu's stub resolver does not handle *.localhost subdomains; the
+        # switching-sites scenarios need both hostnames to reach the SUT sites.
+        run: |
+          echo "127.0.0.1 onedimension.localhost" | sudo tee -a /etc/hosts
+          echo "127.0.0.1 twodimensions.localhost" | sudo tee -a /etc/hosts
+
+      - name: Run Playwright tests
+        working-directory: Tests/E2E
+        run: npm run test
+
+      # Upload the self-contained Playwright report (with screenshots and videos) for debugging.
+      # If we really, really need - we can also upload the raw test results, but for now we do not.
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v7
+        if: ${{ always() }}
+        with:
+          name: playwright-report
+          path: Tests/E2E/playwright-report/
+          retention-days: 10
