@@ -12,6 +12,7 @@ import {handleActions} from '@neos-project/utils-redux';
 import {initializeI18n} from '@neos-project/neos-ui-i18n';
 import {initializeNodeTypesRegistry} from '@neos-project/neos-ui-contentrepository';
 import {showFlashMessage} from '@neos-project/neos-ui-error';
+import {getVersion} from '@neos-project/utils-helpers';
 
 import {getInlinedDataFromBackend} from '@neos-project/neos-ui-configuration/src/bootstrap';
 import {
@@ -72,6 +73,8 @@ require('@neos-project/neos-ui-i18n/src/manifest');
 require('@neos-project/neos-ui-sagas/src/manifest');
 
 async function main() {
+    const uiVersion = getVersion();
+    console.info('%cNeos.Ui Version: ' + uiVersion, 'color: white; font-style: bold; background-color: #26224c; padding-inline: 10px; padding-block:5px');
     initializePlugins();
     initializeFrontendConfiguration(globalRegistry);
     initializeAdditionalReduxReducers();

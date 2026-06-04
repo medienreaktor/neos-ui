@@ -31,7 +31,6 @@ import PreviewBadge from './Containers/SecondaryToolbar/PreviewBadge/index';
 
 import Drawer from './Containers/Drawer/index';
 import UserDropDown from './Containers/Drawer/UserDropDown/index';
-import VersionPanel from './Containers/Drawer/VersionPanel/index';
 
 import LeftSideBar from './Containers/LeftSideBar/index';
 import {PageTreeToolbar, ContentTreeToolbar} from './Containers/LeftSideBar/NodeTreeToolBar/index';
@@ -80,7 +79,6 @@ manifest('main.containers', {}, globalRegistry => {
     containerRegistry.set('SecondaryToolbar/Right/PreviewBadge', PreviewBadge);
 
     containerRegistry.set('Drawer', Drawer);
-    containerRegistry.set('Drawer/Bottom/VersionPanel', VersionPanel);
     containerRegistry.set('Drawer/Bottom/UserDropDown', UserDropDown);
 
     containerRegistry.set('LeftSideBar', LeftSideBar);
