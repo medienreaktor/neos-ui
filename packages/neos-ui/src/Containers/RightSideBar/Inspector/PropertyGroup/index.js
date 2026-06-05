@@ -62,6 +62,7 @@ export default class PropertyGroup extends PureComponent {
                                     onEnterKey={handleInspectorApply}
                                     helpMessage={item?.helpMessage}
                                     helpThumbnail={item?.helpThumbnail}
+                                    scope={item?.scope}
                                 />);
                         }
                         if (itemType === 'view') {

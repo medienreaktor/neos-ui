@@ -16,12 +16,14 @@ import style from './style.module.css';
 }))
 export default class EditorEnvelope extends PureComponent {
     state = {
-        showHelpMessage: false
+        showHelpMessage: false,
+        showScopeHint: false
     };
 
     static defaultProps = {
         helpMessage: '',
         helpThumbnail: '',
+        scopeHint: '',
         highlight: false
     };
 
@@ -40,6 +42,7 @@ export default class EditorEnvelope extends PureComponent {
         helpMessage: PropTypes.string,
         helpThumbnail: PropTypes.string,
         highlight: PropTypes.bool,
+        scope: PropTypes.oneOf(['node', 'nodeAggregate', 'specializations']),
 
         commit: PropTypes.func.isRequired
     };
@@ -79,6 +82,7 @@ export default class EditorEnvelope extends PureComponent {
                 <EditorComponent className={classNames}
                     id={this.generateIdentifier()}
                     renderHelpIcon={this.renderHelpIcon}
+                    renderScopeHint={this.renderScopeHint}
                     {...restProps} />
             );
         }
@@ -105,6 +109,7 @@ export default class EditorEnvelope extends PureComponent {
         return (
             <Label className={style.envelope__label} htmlFor={this.generateIdentifier()}>
                 <I18n id={label}/>
+                {this.renderScopeIcon()}
                 {this.renderHelpIcon()}
             </Label>
         );
@@ -114,6 +119,13 @@ export default class EditorEnvelope extends PureComponent {
         event.preventDefault();
         this.setState({
             showHelpMessage: !this.state.showHelpMessage
+        });
+    };
+
+    toggleScopeHint = event => {
+        event.preventDefault();
+        this.setState({
+            showScopeHint: !this.state.showScopeHint
         });
     };
 
@@ -151,6 +163,40 @@ export default class EditorEnvelope extends PureComponent {
         return '';
     }
 
+    renderScopeIcon = () => {
+        const {i18nRegistry, scope} = this.props;
+
+        // TODO: Use enum value here when we refactor the file to typescript
+        if (scope && scope !== 'node') {
+            const translatedScopeHint = i18nRegistry.translate(`Neos.Neos.Ui:Main:propertyScope.${scope}`);
+
+            return (
+                <span
+                    role="button"
+                    onClick={this.toggleScopeHint}
+                    className={style.envelope__tooltipButton}
+                    title={translatedScopeHint}
+                >
+                    <Icon icon="arrow-right-arrow-left" />
+                </span>
+            );
+        }
+
+        return '';
+    }
+
+    renderScopeHint() {
+        const {i18nRegistry, scope} = this.props;
+
+        const translatedScopeHint = i18nRegistry.translate(`Neos.Neos.Ui:Main:propertyScope.${scope}`);
+
+        return (
+            <Tooltip renderInline className={style.envelope__helpmessage}>
+                {translatedScopeHint}
+            </Tooltip>
+        );
+    }
+
     render() {
         if (!this.props.editor) {
             return <div className={style.envelope__error}>Missing editor definition</div>;
@@ -168,6 +214,7 @@ export default class EditorEnvelope extends PureComponent {
                 </span>
                 {this.renderEditorComponent()}
                 {this.state.showHelpMessage ? this.renderHelpMessage() : ''}
+                {this.state.showScopeHint ? this.renderScopeHint() : ''}
                 {this.isInvalid() && <Tooltip renderInline asError><ul>{validationErrors.map((error, index) => <li key={index}>{error}</li>)}</ul></Tooltip>}
             </Fragment>
         );

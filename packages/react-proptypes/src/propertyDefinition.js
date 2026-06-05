@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 
 export default PropTypes.shape({
     type: PropTypes.string.isRequired,
+    scope: PropTypes.oneOf(['node', 'nodeAggregate', 'specializations']),
     ui: PropTypes.shape({
         label: PropTypes.string,
         help: PropTypes.shape({
