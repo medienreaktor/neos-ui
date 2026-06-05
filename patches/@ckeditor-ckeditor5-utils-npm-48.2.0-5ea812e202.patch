@@ -1,12 +1,12 @@
-diff --git a/src/focustracker.js b/src/focustracker.js
-index 9870efa8b2c2273a96ec4f57c22e5ac974aaffe4..c0f04eaed3fc39a4fce121c468dd3f414e0a7f2d 100644
---- a/src/focustracker.js
-+++ b/src/focustracker.js
-@@ -219,7 +219,16 @@ export class FocusTracker extends /* #__PURE__ */ DomEmitterMixin(/* #__PURE__ *
-      * a focus tracker state would experience UI flashes and glitches as the user focus travels across the UI.
-      */
-     _blur() {
--        const isAnyElementFocused = this.elements.find(element => element.contains(document.activeElement));
+diff --git a/dist/index.js b/dist/index.js
+index 82b5ef6bcc2f309bff05dd626f0f2aa652d7201f..64807261b7e7186d30a64be3797e4e49a2de62d3 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -5688,7 +5688,17 @@ function getNumberOfLanguages(translations) {
+ 	 * The former would cause a momentary change of `#isFocused` to `false` which is not desired because any logic listening to
+ 	 * a focus tracker state would experience UI flashes and glitches as the user focus travels across the UI.
+ 	 */ _blur() {
+-        const isAnyElementFocused = this.elements.find((element)=>element.contains(document.activeElement));
 +        /**
 +         * Neos patch, we cannot access "document" as this will always be the host frame.
 +         * If ckeditor is used in the guest iframe we need to use their document.
@@ -17,11 +17,12 @@ index 9870efa8b2c2273a96ec4f57c22e5ac974aaffe4..c0f04eaed3fc39a4fce121c468dd3f41
 +            return;
 +        }
 +        const isAnyElementFocused = this.elements.find(element => element.contains(currentDocument.activeElement));
++         
          // Avoid blurs originating from external FTs when the focus still remains in one of the #elements.
          if (isAnyElementFocused) {
              return;
-@@ -263,9 +272,15 @@ function isExternalViewSubtreeFocused(subTreeRoot, view) {
-     return !!view.focusTracker.externalViews.find(view => isFocusedView(subTreeRoot, view));
+@@ -5730,9 +5740,15 @@ function isExternalViewSubtreeFocused(subTreeRoot, view) {
+     return !!view.focusTracker.externalViews.find((view)=>isFocusedView(subTreeRoot, view));
  }
  function isFocusedView(subTreeRoot, view) {
 +    /**
@@ -34,6 +35,6 @@ index 9870efa8b2c2273a96ec4f57c22e5ac974aaffe4..c0f04eaed3fc39a4fce121c468dd3f41
      // be outdated when moving focus between two elements. Using document.activeElement instead.
 -    return !!view.element && view.element.contains(document.activeElement) && subTreeRoot.contains(view.element);
 +    return !!view.element && view.element.contains(currentDocument.activeElement) && subTreeRoot.contains(view.element);
- }
- // @if CK_DEBUG_FOCUSTRACKER // declare global {
- // @if CK_DEBUG_FOCUSTRACKER // 	interface Window {
+ } // @if CK_DEBUG_FOCUSTRACKER // declare global {
+  // @if CK_DEBUG_FOCUSTRACKER // 	interface Window {
+  // @if CK_DEBUG_FOCUSTRACKER // 		logFocusTrackers: Function;
