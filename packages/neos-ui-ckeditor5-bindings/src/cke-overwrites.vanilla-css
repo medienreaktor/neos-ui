@@ -88,9 +88,16 @@
     --ck-color-button-default-active-background: var(--ck-color-base-active);
     --ck-color-button-default-disabled-background: transparent;
     --ck-color-button-on-hover-background: var(--ck-color-base-active-focus);
+    --ck-color-button-action-background: var(--ck-color-base-active);
+    --ck-color-button-action-hover-background: var(--ck-color-base-active-focus);
+    --ck-color-button-action-active-background: var(--ck-color-base-active-focus);
+    --ck-color-button-action-disabled-background: var(--ck-color-base-active-focus);
 
     --ck-color-split-button-hover-background: var(--ck-color-base-active-focus);
     --ck-color-split-button-hover-border: var(--ck-color-base-active-focus);
+
+    --ck-color-switch-button-on-background: var(--ck-color-base-active);
+    --ck-color-switch-button-on-hover-background: var(--ck-color-base-active-focus);
 
     --ck-color-dropdown-panel-border: var(--ck-color-toolbar-border);
 
@@ -181,6 +188,27 @@ a.ck.ck-button {
 .ck-content .table > figcaption,
 .ck-content figure.table > table > caption {
     caption-side: bottom;
+}
+
+.ck.ck-table-form {
+    --ck-focus-ring: 1px solid var(--ck-color-focus-border);
+}
+/**
+ * Disable color selection for cell background and borders.
+ * This should be implemented in the future with a custom configurable plugin.
+ */
+.ck.ck-table-form .ck-form__row.ck-table-form__background-row,
+.ck.ck-table-form .ck-form__row.ck-table-form__border-row {
+    display: none;
+}
+.ck.ck-labeled-field-view > .ck.ck-labeled-field-view__input-wrapper > .ck-dropdown > .ck.ck-button {
+    color: var(--ck-color-base-text);
+}
+.ck.ck-list__item > .ck-button.ck-switchbutton.ck-on:hover:not(.ck-disabled) {
+    color: var(--ck-color-base-text-focus);
+}
+.ck.ck-button.ck-list-item-button:hover:not(.ck-disabled) {
+    --ck-color-text: var(--ck-color-base-text-focus);
 }
 
 .ck.ck-splitbutton.ck-splitbutton_open > .ck-button:not(.ck-on):not(.ck-disabled):not(:hover),
