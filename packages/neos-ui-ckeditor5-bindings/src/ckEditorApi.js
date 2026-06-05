@@ -168,7 +168,7 @@ export const createEditor = () => async options => {
     return NeosEditor
         .create({
             root: {
-                element: propertyDomNode,
+                element: propertyDomNode
             },
             ...ckEditorConfig
         })
