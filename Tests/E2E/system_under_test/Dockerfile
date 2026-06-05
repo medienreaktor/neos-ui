@@ -1,6 +1,6 @@
-# minimum PHP version is '8.3' because that's the lowest version frankenPHP provides an image for.
-# Reasoning: If it runs with PHP 8.3, it will also run with higher versions.
-FROM dunglas/frankenphp:1-php8.3-trixie
+# minimum PHP version is '8.4' because that's the lowest version frankenPHP provides an image for.
+# Reasoning: If it runs with PHP 8.4, it will also run with higher versions.
+FROM dunglas/frankenphp:1-php8.4-trixie
 
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 
