@@ -13,12 +13,12 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-      "neos/flow-development-collection": "9.1.x-dev as 9.1",
+      "neos/flow-development-collection": "9.2.x-dev as 9.2",
 
-      "neos/neos-development-collection": "9.1.x-dev as 9.1",
+      "neos/neos-development-collection": "9.2.x-dev as 9.2",
 
-      "neos/neos-ui": "9.1.x-dev as 9.1",
-      "neos/neos-ui-compiled": "9.1.x-dev as 9.1",
+      "neos/neos-ui": "9.2.x-dev as 9.2",
+      "neos/neos-ui-compiled": "9.2.x-dev as 9.2",
 
       "neos/test-onedimension": "@dev",
       "neos/test-twodimensions": "@dev",
