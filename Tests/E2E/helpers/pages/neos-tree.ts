@@ -51,6 +51,22 @@ export class NeosTree {
     }
 
     /**
+     * Ensures the content tree panel is closed before page-tree drag operations.
+     * In Neos 9.1 the content tree is open by default. Navigating to a node causes it
+     * to appear in both trees; the active content-tree DnD context can intercept or
+     * confuse drop events intended for the page tree. Closing it removes that interference.
+     */
+    async ensureContentTreeClosed() {
+        const contentTreeItems = this.page.locator(
+            'a[data-neos-integrational-test="tree__item__nodeHeader__itemLabel"][id^="content-treeitem-"]',
+        );
+        if (await contentTreeItems.count() > 0) {
+            await this.contentToggleButton().click();
+            await contentTreeItems.first().waitFor({state: "hidden"});
+        }
+    }
+
+    /**
      * The OUTER container <div role="treeitem"> for a tree node, identified by the unique
      * label inside it. The inner label <a> also carries role="treeitem"; we restrict to <div>
      * so we get the parent container that holds both the header and any nested children.

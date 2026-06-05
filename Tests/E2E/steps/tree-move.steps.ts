@@ -43,6 +43,10 @@ When(
     "I drag the {string} tree node onto the {string} tree node",
     async ({page}, source: string, target: string) => {
         const tree = new NeosTree(page);
+        // The content tree is open by default in Neos 9.1. Navigating to a node (step 1)
+        // makes it appear in both trees, activating a second DnD context that intercepts
+        // drop events meant for the page tree. Close it so only the page tree is live.
+        await tree.ensureContentTreeClosed();
         await tree.pageNodeLabel(source).dragTo(tree.pageNodeLabel(target));
     },
 );
