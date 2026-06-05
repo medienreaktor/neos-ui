@@ -48,7 +48,7 @@ When("I delete the selected page tree node", async ({page}) => {
 
 When("I open the content tree and select {string}", async ({page}, name: string) => {
     const tree = new NeosTree(page);
-    await tree.contentToggleButton().click();
+    await tree.ensureContentTreeOpen();
     await tree.nodeLabel(name).click();
 });
 
@@ -97,7 +97,7 @@ async function openPublishDropDown(toolbar: NeosToolbar): Promise<void> {
 
 Then("the {string} tree node should be visible", async ({page}, name: string) => {
     const tree = new NeosTree(page);
-    await expect(tree.nodeLabel(name)).toBeVisible();
+    await expect(tree.nodeLabel(name).first()).toBeVisible();
 });
 
 Then("no tree node {string} should be visible", async ({page}, name: string) => {

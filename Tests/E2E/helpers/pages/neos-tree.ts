@@ -9,13 +9,45 @@ export class NeosTree {
     }
 
     /**
-     * Tree node label by exact text. The tree__item__nodeHeader__itemLabel attribute is rendered
-     * by the react-ui-components Tree component on the <a> wrapping the label.
+     * Tree node label by exact text. Matches nodes in BOTH the page tree and the content tree.
+     * Use pageNodeLabel() when navigating document nodes to avoid strict-mode violations
+     * when the content tree is open (the current document appears in both trees with the
+     * same label but different id prefixes: "treeitem-*" vs "content-treeitem-*").
      */
     nodeLabel(name: string) {
         return this.page
             .locator('a[data-neos-integrational-test="tree__item__nodeHeader__itemLabel"]')
             .getByText(name, {exact: true});
+    }
+
+    /**
+     * Page (document) tree node label scoped to the page tree only.
+     * Page tree nodes use id="treeitem-*"; content tree nodes use id="content-treeitem-*".
+     * Avoids strict-mode violations when the content tree is open and shows the current
+     * document node alongside the same node in the page tree.
+     */
+    pageNodeLabel(name: string) {
+        return this.page
+            .locator('a[data-neos-integrational-test="tree__item__nodeHeader__itemLabel"][id^="treeitem-"]')
+            .getByText(name, {exact: true});
+    }
+
+    /**
+     * Ensures the content tree panel is open without toggling blindly.
+     * In Neos 9.1 the content tree defaults to open, so a blind toggle click closes it.
+     * This checks the button icon state first: chevron-circle-up means closed, click to open.
+     */
+    async ensureContentTreeOpen() {
+        const closedIcon = this.page.locator(
+            '#neos-ContentTree-ToggleContentTree svg[data-icon="chevron-circle-up"]',
+        );
+        if (await closedIcon.count() > 0) {
+            await this.contentToggleButton().click();
+            await this.page
+                .locator('a[data-neos-integrational-test="tree__item__nodeHeader__itemLabel"][id^="content-treeitem-"]')
+                .first()
+                .waitFor();
+        }
     }
 
     /**
@@ -28,6 +60,13 @@ export class NeosTree {
      */
     nodeContainer(name: string) {
         return this.nodeLabel(name).locator(
+            'xpath=ancestor::div[@role="treeitem"][1]',
+        );
+    }
+
+    /** Same as nodeContainer() but scoped to the page tree (id^="treeitem-"). */
+    pageNodeContainer(name: string) {
+        return this.pageNodeLabel(name).locator(
             'xpath=ancestor::div[@role="treeitem"][1]',
         );
     }

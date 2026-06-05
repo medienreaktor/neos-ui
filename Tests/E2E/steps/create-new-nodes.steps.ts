@@ -63,7 +63,6 @@ When("I add a(n) {string} node via the content tree", async ({page}, label: stri
     // clicking the iframe collection directly is unreliable because the click typically
     // lands on an existing child instead of the collection itself, which leaves
     // `into` mode disabled in the SelectNodeType dialog.
-    await tree.contentToggleButton().click();
     await tree.nodeLabel("Content Collection (main)").click();
     await tree.contentAddButton().click();
     // The SelectNodeType dialog renders an InsertModeSelector with the `into` button
@@ -144,7 +143,6 @@ When("I open the inline content creation dialog", async ({page}) => {
     // toolbar. Clicking ".neos-contentcollection" directly is unreliable because the
     // click typically lands on an existing child (e.g. the demo Headline) instead of
     // the collection itself — that focuses a leaf node and disables `into` mode.
-    await tree.contentToggleButton().click();
     await tree.nodeLabel("Content Collection (main)").click();
     await toolbar.inlineAddNodeButton().click();
     await dialogs.insertModeIntoInline().click();
@@ -178,7 +176,6 @@ When(
     async ({page}, nodeTypeLabel: string) => {
         const tree = new NeosTree(page);
         const dialogs = new NeosDialogs(page);
-        await tree.contentToggleButton().click();
         await tree.nodeLabel("Content Collection (main)").click();
         await tree.contentAddButton().click();
         await dialogs.insertModeIntoInline().click();

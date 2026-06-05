@@ -6,7 +6,7 @@ const {When} = createBdd();
 
 When("I navigate to the {string} page", async ({page}, pageTitle: string) => {
     const tree = new NeosTree(page);
-    await tree.nodeLabel(pageTitle).click();
+    await tree.pageNodeLabel(pageTitle).click();
 
     // Wait for the focused tree node to reflect the navigation. Using DOM observation
     // (no Redux store access): when a tree node becomes the current document, its

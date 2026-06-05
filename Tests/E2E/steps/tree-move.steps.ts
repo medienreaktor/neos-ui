@@ -8,19 +8,19 @@ const {When, Then} = createBdd();
 
 When("I select the {string} tree node", async ({page}, name: string) => {
     const tree = new NeosTree(page);
-    await tree.nodeLabel(name).click();
+    await tree.pageNodeLabel(name).click();
 });
 
 When("I also select the {string} tree node via ctrl-click", async ({page}, name: string) => {
     const tree = new NeosTree(page);
     // Use ControlOrMeta so the test works on both Linux (Control) and macOS (Meta).
     // The Tree's multi-select handler accepts metaKey || ctrlKey (see Node/index.js).
-    await tree.nodeLabel(name).click({modifiers: ["ControlOrMeta"]});
+    await tree.pageNodeLabel(name).click({modifiers: ["ControlOrMeta"]});
 });
 
 When("I also select the {string} tree node via shift-click", async ({page}, name: string) => {
     const tree = new NeosTree(page);
-    await tree.nodeLabel(name).click({modifiers: ["Shift"]});
+    await tree.pageNodeLabel(name).click({modifiers: ["Shift"]});
 });
 
 // ── When: clipboard / drag-drop actions ───────────────────────────────────────
@@ -43,7 +43,7 @@ When(
     "I drag the {string} tree node onto the {string} tree node",
     async ({page}, source: string, target: string) => {
         const tree = new NeosTree(page);
-        await tree.nodeLabel(source).dragTo(tree.nodeLabel(target));
+        await tree.pageNodeLabel(source).dragTo(tree.pageNodeLabel(target));
     },
 );
 
@@ -56,7 +56,7 @@ Then(
         // The child's label must be visible inside the parent's outer treeitem container.
         // (substring match via filter is safe here since "MultiA" doesn't contain "MultiB" etc.)
         const childLabelInsideParent = tree
-            .nodeContainer(parent)
+            .pageNodeContainer(parent)
             .locator('a[data-neos-integrational-test="tree__item__nodeHeader__itemLabel"]')
             .filter({hasText: child});
         await expect(childLabelInsideParent).toHaveCount(1);
