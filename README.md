@@ -167,7 +167,6 @@ git checkout 9.0 && git fetch && git reset --hard origin/9.0 && git merge --no-f
 | `make lint-js`  | Runs test in all subpackages. |
 | `make lint-editorconfig`  | Tests if all files respect the `.editorconfig`. |
 | `make test`  | Executes the test on all source files. |
-| `make test-e2e`  | Executes integration tests. |
 
 #### Writing unit tests
 The unit tests are executed with [jest](https://facebook.github.io/jest/).
@@ -177,36 +176,34 @@ Adding unit tests is fairly simple, just create a file on the same tree level as
 
 Use `it.only(() => {})` and `describe.only(() => {})` if you want to run a specific test and not the whole test suite.
 
-#### Integration tests
+#### E2E tests with Playwright & Docker
 
-To setup end-to-end tests locally you have got to do the same things described in [CircleCI workflow](https://github.com/neos/neos-ui/blob/8.3/.circleci/config.yml), namely take the [test disribution](https://github.com/neos/neos-ui/blob/8.3/Tests/IntegrationTests/TestDistribution/composer.json) and `composer install` in it, put the right branch into Neos.Neos.Ui folder and run webserver and mysql server with the same config as described in the test distribution's [Settings.yaml](https://github.com/neos/neos-ui/blob/8.3/Tests/IntegrationTests/TestDistribution/Configuration/Settings.yaml) (or adjust it).
+E2E tests use [Playwright](https://playwright.dev) with [playwright-bdd](https://vitalets.github.io/playwright-bdd/) for Gherkin scenarios and run against a Dockerised Neos instance — no local Neos installation needed. See [`Tests/E2E/README.md`](./Tests/E2E/README.md) for full details.
 
-For executing the end to end tests on a Mac with catalina or higher you need to permit screen recording. Open 'System Preferences > Security & Privacy > Privacy > Screen Recording' and check 'TestCafe Browser Tools' in the application list.
+**Prerequisites:** Docker, Node.js ≥ 24, make
 
+**Quick start:**
 ```bash
-make test-e2e-docker
+cd Tests/E2E
+make setup                   # build SUT image, install deps, generate test files
+make test                    # run all tests (auto-starts and tears down the SUT)
 ```
 
-#### Local Development with e2e-tests & docker
+**During development** — keep the SUT running for a faster feedback loop:
+```bash
+make start-sut               # start SUT in the background (localhost:8081)
+REUSE_EXISTING_SUT=1 npm run test -- --grep "My feature"   # run without rebooting
+make test-ui                 # interactive Playwright UI
+make enter-sut               # bash shell inside the SUT container
+make log-sut                 # stream SUT logs
+make sut-down                # stop containers and delete volumes
+```
 
-To speed up the e2e-test workflow/feedback loop you can start the system under test in a docker setup and run the tests against that:
-* `make start-neos-dev-instance` (starts a docker setup with the system under test and keep it running - in the `1Dimension` scenario)
-* The neos dev instance is available at `localhost:8081`
-* To enter the container run `docker compose -f Tests/IntegrationTests/docker-compose.neos-dev-instance.yaml exec php bash`
-* `yarn run testcafe <browser> <testFile> <optional flags>`
-  * for example, this runs all tests in chrome:
-  `yarn run testcafe chrome Tests/IntegrationTests/Fixtures/1Dimension`
-  * some helpful optional flags are
-    * `-T 'sidebars'` - grep tests by pattern and only execute those
-    * `--selector-timeout=10000` - if you work on async pieces of the UI then this might help to prevent race conditions 
-    * `--assertion-timeout=30000` - see above
-    * `--debug-on-fail` - you can debug the state of the app at the moment an assertion failed
+**Writing tests:** add a `.feature` file under `Tests/E2E/features/` and a matching `*.steps.ts` under `Tests/E2E/steps/`. After editing feature files run `make generate-bdd-files` (done automatically by `make setup` and `make test`).
 
 ##### Debugging integration tests
 
-* View the recording via Sauce Labs. You can find the url in the beginning of the test output.
-* Observe Flow exceptions and logs in build artifacts.
-* You can trigger a SSH enabled build via the CircleCI interface and then login.
+* The GitHub action is uploading artefacts that can be downloaded as a zip file, e.g. Artifact download URL: https://github.com/neos/neos-ui/actions/runs/26954395116/artifacts/7413021306
 
 #### Releasing
 
