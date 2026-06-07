@@ -19,7 +19,8 @@ import {getConfiguration} from '@neos-project/neos-ui-configuration';
     backgroundColor: state?.ui?.contentCanvas?.backgroundColor,
     src: state?.ui?.contentCanvas?.src,
     baseNodeType: state?.ui?.pageTree?.filterNodeType,
-    currentEditPreviewMode: selectors.UI.EditPreviewMode.currentEditPreviewMode(state)
+    currentEditPreviewMode: selectors.UI.EditPreviewMode.currentEditPreviewMode(state),
+    isWorkspaceReadOnly: selectors.CR.Workspaces.isWorkspaceReadOnlySelector(state)
 }), {
     startLoading: actions.UI.ContentCanvas.startLoading,
     stopLoading: actions.UI.ContentCanvas.stopLoading,
@@ -42,6 +43,7 @@ export default class ContentCanvas extends PureComponent {
         requestLogin: PropTypes.func.isRequired,
         currentEditPreviewMode: PropTypes.string.isRequired,
         baseNodeType: PropTypes.string,
+        isWorkspaceReadOnly: PropTypes.bool.isRequired,
 
         guestFrameRegistry: PropTypes.object.isRequired
     };
@@ -72,7 +74,8 @@ export default class ContentCanvas extends PureComponent {
             src,
             currentEditPreviewMode,
             guestFrameRegistry,
-            backgroundColor
+            backgroundColor,
+            isWorkspaceReadOnly
         } = this.props;
 
         const editPreviewModes = getConfiguration(configuration => configuration.editPreviewModes);
@@ -86,7 +89,7 @@ export default class ContentCanvas extends PureComponent {
         });
         const InlineUI = guestFrameRegistry.get('InlineUIComponent');
         const currentEditPreviewModeConfiguration = editPreviewModes[currentEditPreviewMode] || editPreviewModes[Object.keys(editPreviewModes)[0]];
-        const isPreviewMode = currentEditPreviewModeConfiguration?.isPreviewMode && !currentEditPreviewModeConfiguration?.isEditingMode;
+        const isPreviewMode = isWorkspaceReadOnly || (currentEditPreviewModeConfiguration?.isPreviewMode && !currentEditPreviewModeConfiguration?.isEditingMode);
         const shouldShowInlineUi =
             typeof currentEditPreviewModeConfiguration === 'object' &&
             currentEditPreviewModeConfiguration.isEditingMode &&
