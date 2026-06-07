@@ -66,7 +66,7 @@ const WorkspaceSelector: React.FC<WorkspaceSelectorProps> = ({
                 label: workspaceName,
                 value: workspaceName,
                 group: '',
-                icon: 'x-mark',
+                icon: 'x-mark'
             };
         }
         const group = workspace.readonly ? readOnlyWorkspaceGroupLabel : workspace.name === 'live' ? publicWorkspaceGroupLabel : internalWorkspaceGroupLabel;
@@ -90,7 +90,7 @@ const WorkspaceSelector: React.FC<WorkspaceSelectorProps> = ({
     const classNames = mergeClassNames({
         [style.workspaceSelector]: true,
         [style['workspaceSelector--isDirty']]: hasUnpublishedNodes,
-        [style['workspaceSelector--isPreviewMode']]: isWorkspaceReadOnly
+        [style['workspaceSelector--isReadOnly']]: isWorkspaceReadOnly
     });
 
     return (<div className={classNames}>
