@@ -5,6 +5,7 @@ import mergeClassNames from 'classnames';
 
 import {translate} from '@neos-project/neos-ui-i18n';
 import {actions, selectors} from '@neos-project/neos-ui-redux-store';
+import {searchOptions} from '@neos-project/neos-ui-editors/src/Editors/SelectBox/selectBoxHelpers.js';
 
 const {
     publishableNodesSelector,
@@ -38,6 +39,14 @@ export default class WorkspaceSelector extends PureComponent {
         changeBaseWorkspaceAction: PropTypes.func.isRequired,
         changingWorkspaceAllowed: PropTypes.bool
     };
+
+    state = {
+        filterTerm: ''
+    };
+
+    handleFilterTermChange = filterTerm => {
+        this.setState({filterTerm});
+    }
 
     render() {
         const {
@@ -84,8 +93,14 @@ export default class WorkspaceSelector extends PureComponent {
         return (<div className={classNames}>
             {anyWorkspacesAvailable ? (
                 <SelectBox
+                    displaySearchBox
+                    searchTerm={this.state.filterTerm}
+                    onSearchTermChange={this.handleFilterTermChange}
+                    threshold={0}
+                    noMatchesFoundLabel={translate('Neos.Neos:Main:noMatchesFound')}
+                    searchBoxLeftToTypeLabel={translate('Neos.Neos:Main:searchBoxLeftToType')}
                     className={style.selectBox}
-                    options={workspacesOptions}
+                    options={searchOptions(this.state.filterTerm, workspacesOptions)}
                     value={baseWorkspace}
                     onValueChange={onWorkspaceSelect}
                     disabled={!changingWorkspaceAllowed}
