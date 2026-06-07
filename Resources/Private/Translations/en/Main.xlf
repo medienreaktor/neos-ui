@@ -319,6 +319,15 @@
                 In order to switch to a different target workspace you need to either publish or discard pending changes first.
                 </source>
             </trans-unit>
+            <trans-unit id="publicWorkspaceGroupLabel" xml:space="preserve">
+                <source>Public</source>
+            </trans-unit>
+            <trans-unit id="internalWorkspaceGroupLabel" xml:space="preserve">
+                <source>Internal</source>
+            </trans-unit>
+            <trans-unit id="readOnlyWorkspaceGroupLabel" xml:space="preserve">
+                <source>Read-only</source>
+            </trans-unit>
             <trans-unit id="syncUriPathSegment" xml:space="preserve">
                 <source>Syncronize with the title property</source>
             </trans-unit>

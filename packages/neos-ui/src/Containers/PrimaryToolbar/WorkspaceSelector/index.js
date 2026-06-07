@@ -54,13 +54,21 @@ export default class WorkspaceSelector extends PureComponent {
 
         const publicWorkspaceGroupLabel = translate('Neos.Neos.Ui:Main:publicWorkspaceGroupLabel', 'Public');
         const internalWorkspaceGroupLabel = translate('Neos.Neos.Ui:Main:internalWorkspaceGroupLabel', 'Internal');
+        const readOnlyWorkspaceGroupLabel = translate('Neos.Neos.Ui:Main:readOnlyWorkspaceGroupLabel', 'Read-only');
 
-        const workspacesOptions = Object.keys(allowedWorkspaces).map(i => ({
-            label: allowedWorkspaces[i]?.title,
-            value: allowedWorkspaces[i]?.name,
-            group: allowedWorkspaces[i]?.name === 'live' ? publicWorkspaceGroupLabel : internalWorkspaceGroupLabel,
-            icon: allowedWorkspaces[i]?.readonly ? 'eye' : null
-        })).sort((a, b) => {
+        const workspacesOptions = Object.keys(allowedWorkspaces).map(i => {
+            const workspace = allowedWorkspaces[i];
+            if (!workspace) {
+                return null;
+            }
+            const group = workspace.readonly ? readOnlyWorkspaceGroupLabel : workspace.name === 'live' ? publicWorkspaceGroupLabel : internalWorkspaceGroupLabel;
+            return {
+                label: workspace.title,
+                value: workspace.name,
+                group,
+                icon: workspace.readonly ? 'eye' : null
+            };
+        }).filter(w => w !== null).sort((a, b) => {
             return a.label.localeCompare(b.label);
         });
         const onWorkspaceSelect = workspaceName => {
