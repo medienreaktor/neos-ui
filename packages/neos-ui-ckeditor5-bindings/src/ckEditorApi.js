@@ -165,12 +165,17 @@ export const createEditor = () => async options => {
         }
     }
 
+    const {placeholder, label, initialData, ...rest} = ckEditorConfig;
+
     return NeosEditor
         .create({
+            ...rest,
             root: {
-                element: propertyDomNode
-            },
-            ...ckEditorConfig
+                element: propertyDomNode,
+                placeholder,
+                label,
+                initialData
+            }
         })
         .then(editor => {
             const debouncedOnChange = debounce(() => onChange(cleanupContentBeforeCommit(editor.getData())), 1500, {maxWait: 5000});
