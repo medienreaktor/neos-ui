@@ -77,12 +77,8 @@ abstract class AbstractChange implements ChangeInterface
     protected function updateWorkspaceInfo()
     {
         $nodeService = new NodeService();
-        $updateWorkspaceInfo = new UpdateWorkspaceInfo();
         $documentNode = $nodeService->getClosestDocument($this->getSubject());
-        $updateWorkspaceInfo->setWorkspace(
-            $documentNode->getContext()->getWorkspace()
-        );
-
+        $updateWorkspaceInfo = new UpdateWorkspaceInfo($documentNode->getContext()->getWorkspace());
         $this->feedbackCollection->add($updateWorkspaceInfo);
     }
 
