@@ -80,7 +80,7 @@ setup: check-requirements install build ## Run a clean setup
 
 # Builds the subpackages for standalone use.
 build-subpackages:
-	yarn workspaces foreach --parallel run build
+	yarn workspaces foreach --all --parallel run build
 
 ## Runs the development build.
 build:

@@ -1,0 +1,13 @@
+diff --git a/dist/index.js b/dist/index.js
+index 6e5661264b118115a5d9e3f7471a54bca41ab4ce..c26442f32ad63bc0e32c2830812ab3ed3c3337a2 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -1732,7 +1732,7 @@ const toPx = /* #__PURE__ */ toUnit('px');
+         });
+         // Handler for moving dragged content over the target area.
+         this.listenTo(viewDocument, 'dragging', (evt, data)=>{
+-            if (!this.isEnabled) {
++            if (!this.isEnabled || data.dataTransfer.types.includes('application/neos-ui')) {
+                 data.dataTransfer.dropEffect = 'none';
+                 return;
+             }

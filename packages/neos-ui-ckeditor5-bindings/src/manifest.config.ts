@@ -34,7 +34,7 @@ import {List} from '@ckeditor/ckeditor5-list';
 import {Paragraph, ParagraphButtonUI} from '@ckeditor/ckeditor5-paragraph';
 import {RemoveFormat} from '@ckeditor/ckeditor5-remove-format';
 import {Style} from '@ckeditor/ckeditor5-style';
-import {Table, TableCaption, TableToolbar} from '@ckeditor/ckeditor5-table';
+import {Table, TableCaption, TableCellProperties, TableColumnResize, TableProperties, TableToolbar} from '@ckeditor/ckeditor5-table';
 import {Undo} from '@ckeditor/ckeditor5-undo';
 import {PluginConstructor} from '@ckeditor/ckeditor5-core';
 
@@ -81,6 +81,32 @@ const hasBlockFormat = (editorOptions: any) => {
         || formatting.blockquote
     );
 }
+
+// Just enabling the table as formatting option will activate certain default features.
+// Layout features for the cells and the table itself require opt-in.
+const tableFeatureDefaults: Record<string, boolean> = {
+    tableColumn: true,
+    tableRow: true,
+    mergeTableCells: true,
+    toggleTableCaption: true,
+    tableProperties: false,
+    tableCellProperties: false
+}
+const isTableFeatureEnabled = (editorOptions: any, name?: string): boolean => {
+    const tableEnabled = editorOptions?.formatting?.table === true;
+    if (!tableEnabled) {
+        return false;
+    }
+    if (!name) {
+        return true;
+    }
+
+    const features = editorOptions?.table;
+    if (typeof (features) === 'object' && Object.prototype.hasOwnProperty.call(features, name)) {
+        return Boolean(features[name]);
+    }
+    return tableFeatureDefaults[name] ?? false;
+};
 
 //
 // Create richtext editing toolbar registry
@@ -171,9 +197,12 @@ export default (ckEditorRegistry: SynchronousMetaRegistry<unknown>) => {
     config.set('balloonToolbar', addPlugin(BalloonToolbar));
 
     // Table related plugins
-    config.set('table', addPlugin(Table, editorOptions => editorOptions?.formatting?.table));
-    config.set('tableCaption', addPlugin(TableCaption, editorOptions => editorOptions?.formatting?.table));
-    config.set('tableToolbar', addPlugin(TableToolbar, editorOptions => editorOptions?.formatting?.table));
+    config.set('table', addPlugin(Table, editorOptions => isTableFeatureEnabled(editorOptions)));
+    config.set('tableCaption', addPlugin(TableCaption, editorOptions => isTableFeatureEnabled(editorOptions, 'toggleTableCaption')));
+    config.set('tableToolbar', addPlugin(TableToolbar, editorOptions => isTableFeatureEnabled(editorOptions)));
+    config.set('tableProperties', addPlugin(TableProperties, editorOptions => isTableFeatureEnabled(editorOptions, 'tableProperties')));
+    config.set('tableCellProperties', addPlugin(TableCellProperties, editorOptions => isTableFeatureEnabled(editorOptions, 'tableCellProperties')));
+    config.set('tableColumnResize', addPlugin(TableColumnResize, editorOptions => isTableFeatureEnabled(editorOptions, 'tableColumnResize')));
 
     // List related plugins
     config.set('list', addPlugin(List, editorOptions => (
@@ -284,7 +313,7 @@ export default (ckEditorRegistry: SynchronousMetaRegistry<unknown>) => {
 
         // Items in the "More" dropdown of the main toolbar
         const moreToolbarItems = [];
-        if (formatting.table) {
+        if (isTableFeatureEnabled(editorOptions)) {
             moreToolbarItems.push('insertTable');
         }
         if (formatting.horizontalLine) {
@@ -320,12 +349,15 @@ export default (ckEditorRegistry: SynchronousMetaRegistry<unknown>) => {
         if (formatting.code) {
             balloonToolbarItems.push('code');
         }
-        const tableItems = formatting.table ? [
-            'tableColumn',
-            'tableRow',
-            'mergeTableCells',
-            'toggleTableCaption'
-        ] : [];
+        const tableEnabled = isTableFeatureEnabled(editorOptions);
+        const tableItems = tableEnabled ? [
+            isTableFeatureEnabled(editorOptions, 'tableColumn') && 'tableColumn',
+            isTableFeatureEnabled(editorOptions, 'tableRow') && 'tableRow',
+            isTableFeatureEnabled(editorOptions, 'mergeTableCells') && 'mergeTableCells',
+            isTableFeatureEnabled(editorOptions, 'toggleTableCaption') && 'toggleTableCaption',
+            isTableFeatureEnabled(editorOptions, 'tableProperties') && 'tableProperties',
+            isTableFeatureEnabled(editorOptions, 'tableCellProperties') && 'tableCellProperties'
+        ].filter(Boolean) : [];
         return Object.assign(config, {
             alignment: {
                 options: [

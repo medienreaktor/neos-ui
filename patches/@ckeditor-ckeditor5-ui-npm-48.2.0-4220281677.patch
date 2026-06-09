@@ -1,0 +1,77 @@
+diff --git a/dist/index.css b/dist/index.css
+index 1a21c67bc4ebb3e9454c428a8cb5d4a084cc9101..b2c9ae3c547127e2d995183f9449b39b5dff4597 100644
+--- a/dist/index.css
++++ b/dist/index.css
+@@ -1632,27 +1632,9 @@
+ }
+ 
+ .ck.ck-editor__editable_inline {
+-  padding: 0 var(--ck-spacing-standard);
+-  border: 1px solid #0000;
+   overflow: auto;
+ }
+ 
+-.ck.ck-editor__editable_inline[dir="ltr"] {
+-  text-align: left;
+-}
+-
+-.ck.ck-editor__editable_inline[dir="rtl"] {
+-  text-align: right;
+-}
+-
+-.ck.ck-editor__editable_inline > :first-child {
+-  margin-top: var(--ck-spacing-large);
+-}
+-
+-.ck.ck-editor__editable_inline > :last-child {
+-  margin-bottom: var(--ck-spacing-large);
+-}
+-
+ .ck.ck-editor__editable_inline.ck-blurred ::selection {
+   background: var(--ck-color-editable-blur-selection);
+ }
+diff --git a/dist/index.js b/dist/index.js
+index ebcfcf4457bbe12cdabc4d4898178d0f5d955c20..74dbd845af498dc20032c636f7f5dad8b9cdd6e6 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -12123,24 +12123,22 @@ const BALLOON_CLASS = 'ck-tooltip';
+         });
+         this._pinTooltipDebounced = debounce(this._pinTooltip, 600);
+         this._unpinTooltipDebounced = debounce(this._unpinTooltip, 400);
+-        this.listenTo(global.document, 'keydown', this._onKeyDown.bind(this), {
+-            useCapture: true
+-        });
+-        this.listenTo(global.document, 'mouseenter', this._onEnterOrFocus.bind(this), {
+-            useCapture: true
+-        });
+-        this.listenTo(global.document, 'mouseleave', this._onLeaveOrBlur.bind(this), {
+-            useCapture: true
+-        });
+-        this.listenTo(global.document, 'focus', this._onEnterOrFocus.bind(this), {
+-            useCapture: true
+-        });
+-        this.listenTo(global.document, 'blur', this._onLeaveOrBlur.bind(this), {
+-            useCapture: true
+-        });
+-        this.listenTo(global.document, 'scroll', this._onScroll.bind(this), {
+-            useCapture: true
+-        });
++        /**
++         * Neos patch, we need to track the mouse position IN the iframe where the CKEditor is mounted as the document itself is the host frame.
++         * This patch fully opts in to only support the iframe. CKEditor mounted in the host frame - for example the RTE Editor will not show tooltips.
++         * That is the bargain. To fix both cases we need to actually boot and load CKEditor in the iframe by using code sharing.
++         */
++        const neosIframe = document.querySelector('iframe[name="neos-content-main"]')?.contentDocument;
++        if (!neosIframe) {
++            console.error('CKEditor Neos patch could not be applied missing iframe.');
++        }
++        this.listenTo(neosIframe, 'keydown', this._onKeyDown.bind(this), { useCapture: true });
++        this.listenTo(neosIframe, 'mouseenter', this._onEnterOrFocus.bind(this), { useCapture: true });
++        this.listenTo(neosIframe, 'mouseleave', this._onLeaveOrBlur.bind(this), { useCapture: true });
++        this.listenTo(neosIframe, 'focus', this._onEnterOrFocus.bind(this), { useCapture: true });
++        this.listenTo(neosIframe, 'blur', this._onLeaveOrBlur.bind(this), { useCapture: true });
++        this.listenTo(neosIframe, 'scroll', this._onScroll.bind(this), { useCapture: true });
++
+         // Because this class is a singleton, its only instance is shared across all editors and connects them through the reference.
+         // This causes issues with the ContextWatchdog. When an error is thrown in one editor, the watchdog traverses the references
+         // and (because of shared tooltip manager) figures that the error affects all editors and restarts them all.
