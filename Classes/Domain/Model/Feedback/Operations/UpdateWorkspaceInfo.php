@@ -38,14 +38,11 @@ class UpdateWorkspaceInfo extends AbstractFeedback
      */
     protected $domainUserService;
 
-    /**
-     * Set the workspace
-     *
-     * @param Workspace $workspace
-     * @return void
-     */
-    public function setWorkspace(Workspace $workspace)
+    public function __construct(Workspace $workspace)
     {
+        if ($workspace->getBaseWorkspace() === null) {
+            throw new \RuntimeException('Cannot update Workspace info for a base workspace. Got: %s' . $workspace->getName(), 1780994923);
+        }
         $this->workspace = $workspace;
     }
 

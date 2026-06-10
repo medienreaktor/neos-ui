@@ -15,7 +15,9 @@ namespace Neos\Neos\Ui\Controller;
 
 use Exception;
 use Neos\ContentRepository\Domain\Model\NodeInterface;
+use Neos\ContentRepository\Domain\Model\Workspace;
 use Neos\ContentRepository\Domain\Repository\WorkspaceRepository;
+use Neos\ContentRepository\Domain\Utility\NodePaths;
 use Neos\Eel\FlowQuery\FlowQuery;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\I18n\Exception\InvalidLocaleIdentifierException;
@@ -181,26 +183,14 @@ class BackendServiceController extends ActionController
     /**
      * Helper method to inform the client, that new workspace information is available
      *
-     * @param string $documentNodeContextPath
+     * @param Workspace $sourceWorkspace
      * @return void
      * @throws IllegalObjectTypeException
      */
-    protected function updateWorkspaceInfo(string $documentNodeContextPath): void
+    protected function updateWorkspaceInfo(Workspace $sourceWorkspace): void
     {
-        $updateWorkspaceInfo = new UpdateWorkspaceInfo();
-        $documentNode = $this->nodeService->getNodeFromContextPath($documentNodeContextPath, null, null, true);
-        if ($documentNode === null) {
-            $error = new Error();
-            $error->setMessage(sprintf('Could not find node for document node context path "%s"', $documentNodeContextPath));
-
-            $this->feedbackCollection->add($error);
-        } else {
-            $updateWorkspaceInfo->setWorkspace(
-                $documentNode->getContext()->getWorkspace()
-            );
-
-            $this->feedbackCollection->add($updateWorkspaceInfo);
-        }
+        $updateWorkspaceInfo = new UpdateWorkspaceInfo($sourceWorkspace);
+        $this->feedbackCollection->add($updateWorkspaceInfo);
     }
 
     /**
@@ -266,7 +256,10 @@ class BackendServiceController extends ActionController
             $success = new Success();
             $success->setMessage($this->translator->translateById('changesPublished', [$count, $targetWorkspace->getTitle()], $count, null, 'Main', 'Neos.Neos.Ui'));
 
-            $this->updateWorkspaceInfo($nodeContextPaths[0]);
+            $sourceWorkspaceName = $this->extractUserWorkspaceNameFromContextPaths($nodeContextPaths);
+            if ($sourceWorkspaceName !== '') {
+                $this->updateWorkspaceInfo($this->workspaceRepository->findByIdentifier($sourceWorkspaceName));
+            }
             $this->feedbackCollection->add($success);
 
             $this->persistenceManager->persistAll();
@@ -347,7 +340,10 @@ class BackendServiceController extends ActionController
             $success = new Success();
             $success->setMessage($this->translator->translateById('changesDiscarded', [$count], $count, null, 'Main', 'Neos.Neos.Ui'));
 
-            $this->updateWorkspaceInfo($nodeContextPaths[0]);
+            $sourceWorkspaceName = $this->extractUserWorkspaceNameFromContextPaths($nodeContextPaths);
+            if ($sourceWorkspaceName !== '') {
+                $this->updateWorkspaceInfo($this->workspaceRepository->findByIdentifier($sourceWorkspaceName));
+            }
             $this->feedbackCollection->add($success);
 
             $this->persistenceManager->persistAll();
@@ -390,8 +386,7 @@ class BackendServiceController extends ActionController
             $success->setMessage(sprintf('Switched base workspace to %s.', $targetWorkspaceName));
             $this->feedbackCollection->add($success);
 
-            $updateWorkspaceInfo = new UpdateWorkspaceInfo();
-            $updateWorkspaceInfo->setWorkspace($userWorkspace);
+            $updateWorkspaceInfo = new UpdateWorkspaceInfo($userWorkspace);
             $this->feedbackCollection->add($updateWorkspaceInfo);
 
             // If current document node doesn't exist in the base workspace, traverse its parents to find the one that exists
@@ -603,5 +598,32 @@ class BackendServiceController extends ActionController
     {
         $slug = $this->nodeUriPathSegmentGenerator->generateUriPathSegment($contextNode, $text);
         $this->view->assign('value', $slug);
+    }
+
+    /**
+     * Extract which workspace we are operating on in publish and discard requests. This should be a user workspace so
+     * we limit the results to that. There shouldn't be more than a single result, for now though we do not throw an
+     * exception if that happens but use the first.
+     * Empty string return means no user workspace was found.
+     *
+     * @param array<int,string> $contextPaths
+     */
+    protected function extractUserWorkspaceNameFromContextPaths(array $contextPaths): string
+    {
+        $workspaceNames = [];
+        foreach ($contextPaths as $contextPath) {
+            $nodeInfo = NodePaths::explodeContextPath($contextPath);
+            if (isset($nodeInfo['workspaceName']) && str_starts_with($nodeInfo['workspaceName'], 'user-')) {
+                $workspaceNames[$nodeInfo['workspaceName']] = $nodeInfo['workspaceName'];
+            }
+        }
+
+        /*
+        if (count($workspaceNames) > 1) {
+            This should not happen, but we will gracefully ignore it and use the first one for now.
+        }
+        */
+
+        return reset($workspaceNames) ?? '';
     }
 }
