@@ -12,7 +12,8 @@ export const baseWorkspaceSelector = (state: GlobalState) => state?.cr?.workspac
 export const allowedTargetWorkspacesSelector = defaultMemoize((state: GlobalState) => state?.cr?.workspaces?.personalWorkspace?.allowedTargetWorkspaces);
 
 export const isWorkspaceReadOnlySelector = (state: GlobalState) => {
-    return state?.cr?.workspaces?.personalWorkspace?.readOnly || false
+    const personalWorkspace = state?.cr?.workspaces?.personalWorkspace;
+    return !personalWorkspace || personalWorkspace.readOnly;
 };
 
 export const publishableNodesSelector = (state: GlobalState) => state?.cr?.workspaces?.personalWorkspace?.publishableNodes;

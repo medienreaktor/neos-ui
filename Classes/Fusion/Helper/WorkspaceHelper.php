@@ -77,14 +77,19 @@ class WorkspaceHelper implements ProtectedContextAwareInterface
         $personalWorkspace = $this->workspaceService->getPersonalWorkspaceForUser($contentRepositoryId, $currentUser->getId());
         $personalWorkspacePermissions = $this->contentRepositoryAuthorizationService->getWorkspacePermissions($contentRepositoryId, $personalWorkspace->workspaceName, $this->securityContext->getRoles(), $currentUser->getId());
         $publishableNodes = $this->uiWorkspaceService->getPublishableNodeInfo($personalWorkspace->workspaceName, $contentRepository->id);
+        $allowedTargetWorkspaces = $this->getAllowedTargetWorkspaces($contentRepository);
+        $baseWorkspace = $personalWorkspace->baseWorkspaceName ? $allowedTargetWorkspaces[$personalWorkspace->baseWorkspaceName->value] : null;
+
         return [
             'name' => $personalWorkspace->workspaceName->value,
             'totalNumberOfChanges' => count($publishableNodes),
             'publishableNodes' => $publishableNodes,
             'baseWorkspace' => $personalWorkspace->baseWorkspaceName?->value,
-            'readOnly' => !($personalWorkspace->baseWorkspaceName !== null && $personalWorkspacePermissions->write),
+            'readOnly' => !$baseWorkspace
+                || $baseWorkspace['readonly']
+                || !$personalWorkspacePermissions->write,
             'status' => $personalWorkspace->status->value,
-            'allowedTargetWorkspaces' => $this->getAllowedTargetWorkspaces($contentRepository)
+            'allowedTargetWorkspaces' => $allowedTargetWorkspaces,
         ];
     }
 
