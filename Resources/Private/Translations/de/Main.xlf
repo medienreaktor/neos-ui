@@ -609,17 +609,9 @@
         <source>Publish</source>
         <target state="final">Veröffentlichen</target>
       </trans-unit>
-      <trans-unit id="publishing" xml:space="preserve">
-        <source>Publishing…</source>
-        <target state="final">Veröffentlichen…</target>
-      </trans-unit>
       <trans-unit id="published" xml:space="preserve">
         <source>Published</source>
         <target state="final">Veröffentlicht</target>
-      </trans-unit>
-      <trans-unit id="saving" xml:space="preserve">
-        <source>Saving…</source>
-        <target state="final">Speichert</target>
       </trans-unit>
       <trans-unit id="propertyScope.node" xml:space="preserve">
         <source>Changes to this property scope will affect only the current variant.</source>

@@ -185,20 +185,8 @@ export default class PublishDropDown extends PureComponent {
     }
 
     getTranslatedMainButton() {
-        const {
-            publishableNodesInDocument,
-            isSaving,
-            isPublishing
-        } = this.props;
+        const {publishableNodesInDocument} = this.props;
         const canPublishLocally = publishableNodesInDocument && (publishableNodesInDocument.length > 0);
-
-        if (isSaving) {
-            return translate('Neos.Neos.Ui:Main:saving', 'Saving…');
-        }
-
-        if (isPublishing) {
-            return translate('Neos.Neos.Ui:Main:publishing', 'Publishing…');
-        }
 
         if (canPublishLocally) {
             return translate('Neos.Neos.Ui:Main:publish', 'Publish');

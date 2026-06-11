@@ -406,14 +406,8 @@
             <trans-unit id="publish" xml:space="preserve">
                 <source>Publish</source>
             </trans-unit>
-            <trans-unit id="publishing" xml:space="preserve">
-                <source>Publishing…</source>
-            </trans-unit>
             <trans-unit id="published" xml:space="preserve">
                 <source>Published</source>
-            </trans-unit>
-            <trans-unit id="saving" xml:space="preserve">
-                <source>Saving…</source>
             </trans-unit>
             <trans-unit id="propertyScope.node" xml:space="preserve">
                 <source>Changes to this property will affect only the current variant.</source>
