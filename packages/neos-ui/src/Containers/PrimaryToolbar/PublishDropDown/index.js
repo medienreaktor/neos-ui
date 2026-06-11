@@ -173,7 +173,7 @@ export default class PublishDropDown extends PureComponent {
                         <li className={style.dropDown__item}>
                             <a id="neos-PublishDropDown-Workspaces" href={workspaceModuleUri}>
                                 <div className={style.dropDown__iconWrapper}>
-                                    <Icon icon="th-large"/>
+                                    <Icon icon="layer-group"/>
                                 </div>
                                 {translate('Neos.Neos:Main:workspaces', 'Workspaces')}
                             </a>
