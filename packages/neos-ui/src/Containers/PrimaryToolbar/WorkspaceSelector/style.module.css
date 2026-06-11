@@ -10,6 +10,8 @@
 .workspaceSelector {
     display: flex;
     align-items: center;
+    /** Make sure that we keep the width when opening the dropdown, as the filter and list have a min-width */
+    min-width: 255px;
 }
 .workspaceSelector--isDirty {
     border-top: 2px solid var(--colors-Warn);
