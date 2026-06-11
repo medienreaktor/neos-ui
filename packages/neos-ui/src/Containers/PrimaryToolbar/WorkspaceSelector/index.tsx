@@ -53,7 +53,7 @@ const WorkspaceSelector: React.FC<WorkspaceSelectorProps> = ({
 
     const hasUnpublishedNodes = publishableNodes?.length > 0;
     const canPublishGlobally = !isSaving && !isPublishing && hasUnpublishedNodes;
-    const changingWorkspaceAllowed = !canPublishGlobally;
+    const changingWorkspaceAllowed = !isSaving && !isPublishing && !hasUnpublishedNodes;
 
     const publicWorkspaceGroupLabel = translate('Neos.Neos.Ui:Main:publicWorkspaceGroupLabel', 'Public');
     const internalWorkspaceGroupLabel = translate('Neos.Neos.Ui:Main:internalWorkspaceGroupLabel', 'Internal');
