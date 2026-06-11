@@ -52,7 +52,6 @@ const WorkspaceSelector: React.FC<WorkspaceSelectorProps> = ({
     const [filterTerm, setFilterTerm] = useState('');
 
     const hasUnpublishedNodes = publishableNodes?.length > 0;
-    const canPublishGlobally = !isSaving && !isPublishing && hasUnpublishedNodes;
     const changingWorkspaceAllowed = !isSaving && !isPublishing && !hasUnpublishedNodes;
 
     const publicWorkspaceGroupLabel = translate('Neos.Neos.Ui:Main:publicWorkspaceGroupLabel', 'Public');
