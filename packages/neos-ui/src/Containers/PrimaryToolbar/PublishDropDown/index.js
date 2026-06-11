@@ -193,17 +193,17 @@ export default class PublishDropDown extends PureComponent {
         const canPublishLocally = publishableNodesInDocument && (publishableNodesInDocument.length > 0);
 
         if (isSaving) {
-            return translate('Neos.Neos:Main:saving', 'saving');
+            return translate('Neos.Neos.Ui:Main:saving', 'Saving…');
         }
 
         if (isPublishing) {
-            return translate('Neos.Neos.Ui:Main:publishing', 'Publishing');
+            return translate('Neos.Neos.Ui:Main:publishing', 'Publishing…');
         }
 
         if (canPublishLocally) {
             return translate('Neos.Neos.Ui:Main:publish', 'Publish');
         }
 
-        return translate('Neos.Neos:Main:published', 'Published');
+        return translate('Neos.Neos.Ui:Main:published', 'Published');
     }
 }
