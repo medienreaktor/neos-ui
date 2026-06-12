@@ -92,7 +92,11 @@ const WorkspaceSelector: React.FC<WorkspaceSelectorProps> = ({
         [style['workspaceSelector--isReadOnly']]: isWorkspaceReadOnly
     });
 
-    return (<div className={classNames}>
+    const title = changingWorkspaceAllowed ?
+        translate('Neos.Neos.Ui:Main:workspaceSelectorTitle', 'Select target workspace') :
+        translate('Neos.Neos.Ui:Main:workspaceSelectorTitleDisabled', 'Cannot change target workspace while there are unpublished changes');
+
+    return (<div className={classNames} title={title}>
         {anyWorkspacesAvailable ? (
             <SelectBox
                 placeholder={translate('Neos.Neos:Main:filter', 'Filter')}
@@ -103,12 +107,12 @@ const WorkspaceSelector: React.FC<WorkspaceSelectorProps> = ({
                 threshold={0}
                 noMatchesFoundLabel={translate('Neos.Neos:Main:noMatchesFound')}
                 searchBoxLeftToTypeLabel={translate('Neos.Neos:Main:searchBoxLeftToType')}
-                className={style.selectBox}
                 options={searchOptions(filterTerm, workspacesOptions)}
                 value={baseWorkspace}
                 onValueChange={onWorkspaceSelect}
                 disabled={!changingWorkspaceAllowed}
                 headerIcon="layer-group"
+                theme={style}
             />
         ) : ''}
     </div>);

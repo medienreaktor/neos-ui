@@ -1,12 +1,3 @@
-.selectBox {
-    border-radius: 0;
-}
-.notAllowed {
-    padding: 0 var(--spacing-Full);
-    cursor: not-allowed;
-    opacity: .5;
-}
-
 .workspaceSelector {
     display: flex;
     align-items: center;
@@ -18,4 +9,15 @@
 }
 .workspaceSelector--isReadOnly {
     border-top: 2px solid var(--colors-PrimaryBlue);
+}
+
+/* Theme overrides for the selectBox and nested components */
+.selectBox__btn {
+    background-color: transparent;
+}
+.selectBox__btn:has(> .selectBoxHeaderWithSearchInput) {
+    background-color: var(--colors-ContrastNeutral);
+}
+.listPreviewElement--isDisabled {
+    color: var(--colors-ContrastBrightest);
 }
