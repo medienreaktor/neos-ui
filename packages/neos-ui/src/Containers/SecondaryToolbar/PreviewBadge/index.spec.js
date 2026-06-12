@@ -12,7 +12,7 @@ beforeAll(() => {
 test('PreviewBadge > is visible in preview mode', () => {
     const store = createStore(state => state, {
         ui: {editPreviewMode: 'previewMode'},
-        CR: {workspaces:{personalWorkspace: {readOnly: false}}}
+        CR: {workspaces: {personalWorkspace: {readOnly: false}}}
     });
 
     const component = mount(
@@ -27,7 +27,7 @@ test('PreviewBadge > is visible in preview mode', () => {
 test('PreviewBadge > is visible in readonly workspace', () => {
     const store = createStore(state => state, {
         ui: {editPreviewMode: 'inPlace'},
-        cr: {workspaces:{personalWorkspace: {readOnly: true}}}
+        cr: {workspaces: {personalWorkspace: {readOnly: true}}}
     });
 
     const component = mount(
