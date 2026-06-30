@@ -8,12 +8,12 @@ import {getConfiguration} from '@neos-project/neos-ui-configuration';
 
 import style from '../style.module.css';
 
-const PreviewBadge = ({currentEditPreviewMode}) => {
+const PreviewBadge = ({currentEditPreviewMode, isWorkspaceReadOnly}) => {
     const editPreviewModes = getConfiguration(c => c.editPreviewModes);
     const currentMode = editPreviewModes[currentEditPreviewMode];
     const isPreviewMode = currentMode?.isPreviewMode === true;
 
-    if (!isPreviewMode) {
+    if (!isPreviewMode && !isWorkspaceReadOnly) {
         return null;
     }
 
@@ -25,9 +25,11 @@ const PreviewBadge = ({currentEditPreviewMode}) => {
 };
 
 PreviewBadge.propTypes = {
-    currentEditPreviewMode: PropTypes.string.isRequired
+    currentEditPreviewMode: PropTypes.string.isRequired,
+    isWorkspaceReadOnly: PropTypes.bool.isRequired
 };
 
 export default connect(state => ({
-    currentEditPreviewMode: selectors.UI.EditPreviewMode.currentEditPreviewMode(state)
+    currentEditPreviewMode: selectors.UI.EditPreviewMode.currentEditPreviewMode(state),
+    isWorkspaceReadOnly: selectors.CR.Workspaces.isWorkspaceReadOnlySelector(state)
 }))(PreviewBadge);

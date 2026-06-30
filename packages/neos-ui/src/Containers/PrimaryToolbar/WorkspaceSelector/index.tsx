@@ -1,0 +1,121 @@
+import React, {useState, useMemo, useCallback} from 'react';
+import {connect} from 'react-redux';
+import mergeClassNames from 'classnames';
+
+import {translate} from '@neos-project/neos-ui-i18n';
+import {actions, GlobalState, selectors} from '@neos-project/neos-ui-redux-store';
+import {searchOptions} from '@neos-project/neos-ui-editors/src/Editors/SelectBox/selectBoxHelpers.js';
+import {SelectBox} from '@neos-project/react-ui-components';
+import {PublishingMode} from '@neos-project/neos-ui-redux-store/src/CR/Publishing';
+import {Node, Workspace, WorkspaceName} from '@neos-project/neos-ts-interfaces';
+
+const {
+    publishableNodesSelector,
+    baseWorkspaceSelector,
+    allowedTargetWorkspacesSelector
+} = selectors.CR.Workspaces;
+
+import style from './style.module.css';
+
+const withReduxState = connect((state: GlobalState) => ({
+    isSaving: state?.ui?.remote?.isSaving,
+    isPublishing: state?.cr?.publishing?.mode === PublishingMode.PUBLISH,
+    publishableNodes: publishableNodesSelector(state),
+    baseWorkspace: baseWorkspaceSelector(state),
+    allowedWorkspaces: allowedTargetWorkspacesSelector(state),
+    isWorkspaceReadOnly: selectors.CR.Workspaces.isWorkspaceReadOnlySelector(state)
+}), {
+    changeBaseWorkspaceAction: actions.CR.Workspaces.changeBaseWorkspace,
+    start: actions.CR.Publishing.start
+});
+
+type WorkspaceSelectorProps = {
+    isSaving: boolean,
+    isPublishing: boolean,
+    publishableNodes: Node[],
+    baseWorkspace: WorkspaceName,
+    allowedWorkspaces: Record<string, Workspace>,
+    changeBaseWorkspaceAction: (workspaceName: string) => void,
+    changingWorkspaceAllowed: boolean,
+    isWorkspaceReadOnly: boolean
+}
+
+const WorkspaceSelector: React.FC<WorkspaceSelectorProps> = ({
+                                                                 allowedWorkspaces,
+                                                                 baseWorkspace,
+                                                                 changeBaseWorkspaceAction,
+                                                                 isSaving,
+                                                                 isPublishing,
+                                                                 publishableNodes,
+                                                                 isWorkspaceReadOnly
+                                                             }) => {
+    const [filterTerm, setFilterTerm] = useState('');
+
+    const hasUnpublishedNodes = publishableNodes?.length > 0;
+    const changingWorkspaceAllowed = !isSaving && !isPublishing && !hasUnpublishedNodes;
+
+    const publicWorkspaceGroupLabel = translate('Neos.Neos.Ui:Main:publicWorkspaceGroupLabel', 'Public');
+    const internalWorkspaceGroupLabel = translate('Neos.Neos.Ui:Main:internalWorkspaceGroupLabel', 'Internal');
+    const readOnlyWorkspaceGroupLabel = translate('Neos.Neos.Ui:Main:readOnlyWorkspaceGroupLabel', 'Read-only');
+
+    const workspacesOptions = useMemo(() => Object.keys(allowedWorkspaces).map((workspaceName) => {
+        const workspace = allowedWorkspaces[workspaceName];
+        if (!workspace) {
+            return {
+                label: workspaceName,
+                value: workspaceName,
+                group: '',
+                icon: 'x-mark'
+            };
+        }
+        const group = workspace.readonly ? readOnlyWorkspaceGroupLabel : workspace.name === 'live' ? publicWorkspaceGroupLabel : internalWorkspaceGroupLabel;
+        return {
+            label: workspace.title,
+            value: workspace.name,
+            group,
+            icon: workspace.readonly ? 'eye' : ''
+        };
+    }).sort((a, b) => {
+        return a.label.localeCompare(b.label);
+    }), [allowedWorkspaces]);
+
+    const onWorkspaceSelect = useCallback((workspaceName: string) => {
+        if (workspaceName !== baseWorkspace) {
+            changeBaseWorkspaceAction(workspaceName);
+        }
+    }, [baseWorkspace, changeBaseWorkspaceAction]);
+    const anyWorkspacesAvailable = Object.keys(allowedWorkspaces).length > 1;
+
+    const classNames = mergeClassNames({
+        [style.workspaceSelector]: true,
+        [style['workspaceSelector--isDirty']]: hasUnpublishedNodes,
+        [style['workspaceSelector--isReadOnly']]: isWorkspaceReadOnly
+    });
+
+    const title = changingWorkspaceAllowed ?
+        translate('Neos.Neos.Ui:Main:workspaceSelectorTitle', 'Select target workspace') :
+        translate('Neos.Neos.Ui:Main:workspaceSelectorTitleDisabled', 'Cannot change target workspace while there are unpublished changes');
+
+    return (<div className={classNames} title={title}>
+        {anyWorkspacesAvailable ? (
+            <SelectBox
+                placeholder={translate('Neos.Neos:Main:filter', 'Filter')}
+                placeholderIcon={'filter'}
+                displaySearchBox
+                searchTerm={filterTerm}
+                onSearchTermChange={setFilterTerm}
+                threshold={0}
+                noMatchesFoundLabel={translate('Neos.Neos:Main:noMatchesFound')}
+                searchBoxLeftToTypeLabel={translate('Neos.Neos:Main:searchBoxLeftToType')}
+                options={searchOptions(filterTerm, workspacesOptions)}
+                value={baseWorkspace}
+                onValueChange={onWorkspaceSelect}
+                disabled={!changingWorkspaceAllowed}
+                headerIcon="layer-group"
+                theme={style}
+            />
+        ) : ''}
+    </div>);
+}
+
+export default withReduxState(WorkspaceSelector as any);
