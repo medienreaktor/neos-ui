@@ -135,11 +135,11 @@ ifeq ($(VERSION),)
 endif
 
 bump-version: called-with-version
-	yarn workspaces foreach version $(VERSION) --deferred
+	yarn workspaces foreach --all version $(VERSION) --deferred
 	yarn version apply --all
 
 publish-npm: called-with-version
-	yarn workspaces foreach --no-private npm publish --access public
+	yarn workspaces foreach --all --no-private npm publish --access public
 
 ################################################################################
 # Misc
