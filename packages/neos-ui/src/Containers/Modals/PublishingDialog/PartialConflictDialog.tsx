@@ -10,7 +10,7 @@
 import React from 'react';
 
 import {Button, Dialog, Icon} from '@neos-project/react-ui-components';
-import I18n from '@neos-project/neos-ui-i18n';
+import {translate} from '@neos-project/neos-ui-i18n';
 import {PublishingMode, PublishingPhase, PublishingScope} from '@neos-project/neos-ui-redux-store/src/CR/Publishing';
 
 import {Diagram} from './Diagram';
@@ -27,13 +27,11 @@ const PartialConfictDialogVariants = {
     label: {
         title: {
             id: 'Neos.Neos.Ui:PublishingDialog:partialConflict.document.confirmation.title',
-            fallback: (props: { scopeTitle: string; }) =>
-                `Could not publish changes in document "${props.scopeTitle}"`
+            fallback: 'Could not publish changes in document "{scopeTitle}"'
         },
         message: {
             id: 'Neos.Neos.Ui:PublishingDialog:partialConflict.document.confirmation.message',
-            fallback: (props: { scopeTitle: string; sourceWorkspaceName: string; targetWorkspaceName: null | string; }) =>
-                `There seem to be dependencies to other documents. Do you want to instead publish all changes in site to workspace "${props.targetWorkspaceName}"?`
+            fallback: 'There seem to be dependencies to other documents. Do you want to instead publish all changes in site to workspace "{targetWorkspaceName}"?'
         },
         cancel: {
             id: 'Neos.Neos.Ui:PublishingDialog:partialConflict.document.confirmation.cancel',
@@ -71,7 +69,7 @@ export const PartialConflictDialog: React.FC<PartialConflictDialogProps> = (prop
                     hoverStyle="brand"
                     onClick={props.onAbort}
                 >
-                    <I18n {...variant.label.cancel} />
+                    {translate(variant.label.cancel.id, variant.label.cancel.fallback)}
                 </Button>,
                 <Button
                     id={`${variant.id}-Confirm`}
@@ -81,17 +79,13 @@ export const PartialConflictDialog: React.FC<PartialConflictDialogProps> = (prop
                     onClick={props.onConfirm}
                 >
                     <Icon icon={variant.icon.confirm} className={style.buttonIcon} />
-                    <I18n {...variant.label.confirm} />
+                    {translate(variant.label.confirm.id, variant.label.confirm.fallback)}
                 </Button>
             ]}
             title={<div>
                 <Icon icon={variant.icon.title} />
                 <span className={style.modalTitle}>
-                    <I18n
-                        id={variant.label.title.id}
-                        params={props}
-                        fallback={variant.label.title.fallback(props)}
-                    />
+                    {translate(variant.label.title.id, variant.label.title.fallback, props as any)}
                 </span>
             </div>}
             onRequestClose={props.onAbort}
@@ -108,11 +102,7 @@ export const PartialConflictDialog: React.FC<PartialConflictDialogProps> = (prop
                     targetWorkspaceName={props.targetWorkspaceName}
                     numberOfChanges={props.numberOfSiteChanges}
                 />
-                <I18n
-                    id={variant.label.message.id}
-                    params={props}
-                    fallback={variant.label.message.fallback(props)}
-                />
+                {translate(variant.label.message.id, variant.label.message.fallback, props as any)}
             </div>
         </Dialog>
     );
